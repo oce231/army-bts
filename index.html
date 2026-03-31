@@ -1,0 +1,3391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>BTS Archive 방탄소년단</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+
+
+
+:root {
+  --bg: #09090e;
+  --bg2: #101018;
+  --bg3: #18181f;
+  --surface: #1c1c28;
+  --surface2: #222232;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.14);
+  --text: #eaeaf4;
+  --text2: #8888a8;
+  --text3: #4a4a62;
+  --accent: #c9a96e;
+  --accent2: #7b5fd4;
+  --accent3: #4dbfa8;
+  --accent4: #e06878;
+  --sidebar-w: 210px;
+  --header-h: 56px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Space Mono',monospace;
+  font-size:12px;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+
+/* ─── HEADER ─── */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:var(--header-h);
+  background:rgba(9,9,14,0.96);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  padding:0 1rem;
+  gap:1rem;
+}
+
+.hamburger{
+  display:none;
+  flex-direction:column;gap:4px;cursor:pointer;
+  padding:6px;border:none;background:none;
+}
+.hamburger span{
+  display:block;width:20px;height:1.5px;
+  background:var(--text2);transition:all .3s;
+}
+
+.logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;font-weight:300;
+  letter-spacing:.35em;color:var(--accent);
+}
+.logo small{
+  font-size:10px;letter-spacing:.08em;
+  color:var(--text3);margin-left:10px;
+  font-style:italic;
+}
+
+/* ─── SIDEBAR ─── */
+.sidebar{
+  position:fixed;left:0;top:var(--header-h);bottom:0;
+  width:var(--sidebar-w);
+  background:var(--bg2);
+  border-right:1px solid var(--border);
+  overflow-y:auto;overflow-x:hidden;
+  z-index:100;
+  padding:1.2rem 0;
+  transition:transform .3s;
+}
+.sidebar::-webkit-scrollbar{width:2px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border2)}
+
+.sidebar-label{
+  padding:.5rem 1rem .6rem;
+  font-size:8px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--text3);
+}
+
+.era-btn{
+  display:flex;align-items:flex-start;
+  width:100%;padding:.65rem 1rem;
+  background:none;border:none;border-left:2px solid transparent;
+  cursor:pointer;
+  font-family:'Space Mono',monospace;font-size:10px;
+  color:var(--text2);text-align:left;
+  transition:all .18s;gap:.6rem;
+}
+.era-btn:hover{color:var(--text);background:rgba(255,255,255,0.03)}
+.era-btn.active{color:var(--accent);border-left-color:var(--accent);background:rgba(201,169,110,.08)}
+
+.era-btn .era-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+.era-btn .era-text{}
+.era-btn .era-name{display:block;font-size:10px;line-height:1.3}
+.era-btn .era-years{display:block;font-size:8px;color:var(--text3);margin-top:2px}
+
+/* ─── MAIN ─── */
+.main{
+  margin-left:var(--sidebar-w);
+  padding-top:var(--header-h);
+  min-height:100vh;
+}
+
+/* ─── ERA SECTIONS ─── */
+.era-section{display:none}
+.era-section.active{display:block}
+
+/* ─── HERO ─── */
+.hero{
+  padding:2.5rem 2rem 2rem;
+  border-bottom:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 10% 50%, rgba(201,169,110,.1) 0%, transparent 65%);
+  pointer-events:none;
+}
+
+.hero-num{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:.8rem}
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,5vw,60px);font-weight:300;line-height:1;
+  color:var(--text);margin-bottom:.4rem;
+}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--text2);margin-bottom:1rem}
+.hero-meta{display:flex;flex-wrap:wrap;gap:1rem .5rem;margin-bottom:1.2rem}
+.meta-chip{
+  font-size:8px;letter-spacing:.12em;text-transform:uppercase;
+  padding:3px 8px;border-radius:2px;
+  background:var(--surface);border:1px solid var(--border2);
+  color:var(--text2);
+}
+.meta-chip strong{color:var(--accent);font-weight:700}
+
+.hero-desc{
+  max-width:640px;
+  font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--text2);line-height:1.85;
+  margin-bottom:1rem;
+}
+
+.anecdote-box{
+  max-width:640px;
+  background:var(--surface);
+  border-left:3px solid var(--accent);
+  padding:.9rem 1rem;margin-bottom:.7rem;
+  border-radius:0 4px 4px 0;
+}
+.anecdote-lbl{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.4rem}
+.anecdote-box p{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:13px;color:var(--text2);line-height:1.75;
+}
+
+/* ─── TABS ─── */
+.tabs-bar{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  display:flex;overflow-x:auto;
+  padding:0 1rem;
+  position:sticky;top:var(--header-h);z-index:50;
+}
+.tabs-bar::-webkit-scrollbar{display:none}
+
+.tab-btn{
+  flex-shrink:0;padding:.85rem 1.1rem;
+  background:none;border:none;border-bottom:2px solid transparent;
+  cursor:pointer;
+  font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text3);transition:all .18s;white-space:nowrap;
+}
+.tab-btn:hover{color:var(--text2)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* ─── TAB CONTENT ─── */
+.tab-pane{display:none;padding:1.8rem 2rem 3rem}
+.tab-pane.active{display:block}
+
+/* ─── SECTION HEADER ─── */
+.sec-hd{
+  display:flex;align-items:center;gap:.8rem;
+  margin-bottom:1.2rem;padding-bottom:.5rem;
+  border-bottom:1px solid var(--border);
+}
+.sec-hd-title{font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:var(--text3)}
+.sec-hd-count{font-size:8px;color:var(--accent)}
+
+/* ─── VIDEO GRID ─── */
+.v-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:.85rem;margin-bottom:2.5rem;
+}
+
+.v-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:6px;overflow:hidden;cursor:pointer;
+  transition:border-color .2s,transform .2s;
+  text-decoration:none;display:block;color:inherit;
+}
+.v-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+
+.v-thumb{
+  width:100%;aspect-ratio:16/9;
+  background:var(--bg3);position:relative;overflow:hidden;
+}
+.v-thumb img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .3s;display:block;
+}
+.v-card:hover .v-thumb img{transform:scale(1.04)}
+
+.v-thumb-fallback{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:32px;background:var(--bg3);
+}
+
+.play-overlay{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,0);transition:background .2s;
+}
+.v-card:hover .play-overlay{background:rgba(0,0,0,.3)}
+
+.play-circle{
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(201,169,110,.9);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .2s, transform .2s;
+}
+.v-card:hover .play-circle{opacity:1;transform:scale(1.1)}
+.play-tri{
+  width:0;height:0;border-style:solid;
+  border-width:6px 0 6px 10px;
+  border-color:transparent transparent transparent #09090e;
+  margin-left:2px;
+}
+
+.v-badge{
+  position:absolute;top:6px;right:6px;
+  font-size:7px;letter-spacing:.08em;text-transform:uppercase;
+  padding:2px 5px;border-radius:2px;font-family:'Space Mono',monospace;
+}
+.badge-mv{background:#e06878;color:#fff}
+.badge-live{background:#e07840;color:#fff}
+.badge-off{background:#7b5fd4;color:#fff}
+.badge-rare{background:#4dbfa8;color:#09090e;font-weight:700}
+.badge-show{background:#4080d4;color:#fff}
+.badge-solo{background:#b87fcf;color:#fff}
+.badge-kiss{background:#d44040;color:#fff}
+.badge-yt{background:#c9a96e;color:#09090e;font-weight:700}
+.badge-doc{background:#40a078;color:#fff}
+
+.source-icon{
+  position:absolute;bottom:6px;left:6px;
+  font-size:8px;padding:2px 6px;border-radius:2px;
+  background:rgba(0,0,0,.7);color:#fff;
+  letter-spacing:.05em;
+}
+
+.v-info{padding:.7rem .8rem}
+.v-title{font-size:10px;color:var(--text);line-height:1.4;margin-bottom:.35rem}
+.v-foot{display:flex;justify-content:space-between;align-items:center}
+.v-date{font-size:9px;color:var(--text3)}
+.v-link{
+  font-size:8px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;
+  text-decoration:none;padding:2px 6px;border:1px solid rgba(201,169,110,.3);
+  border-radius:2px;transition:all .15s;
+}
+.v-link:hover{background:rgba(201,169,110,.1)}
+
+/* ─── ALBUM LIST ─── */
+.album-list{margin-bottom:2rem}
+.album-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:6px;padding:1rem;
+  display:flex;gap:1rem;margin-bottom:.7rem;
+  transition:border-color .2s;
+}
+.album-card:hover{border-color:var(--border2)}
+.album-art{
+  width:72px;height:72px;border-radius:4px;
+  background:var(--bg3);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;overflow:hidden;
+}
+.album-art img{width:100%;height:100%;object-fit:cover}
+.album-info{flex:1;min-width:0}
+.album-name{
+  font-family:'Cormorant Garamond',serif;font-size:15px;
+  color:var(--text);margin-bottom:2px;
+}
+.album-detail{font-size:9px;color:var(--text3);margin-bottom:.5rem;letter-spacing:.05em}
+.tracks{display:flex;flex-wrap:wrap;gap:4px}
+.track{
+  background:var(--bg3);border:1px solid var(--border);
+  padding:2px 7px;border-radius:2px;font-size:8px;color:var(--text2);
+}
+.track.title{border-color:var(--accent);color:var(--accent)}
+
+/* ─── TIMELINE ─── */
+.timeline{position:relative;padding-left:1.5rem;margin-bottom:2rem}
+.timeline::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:1px;background:var(--border2);
+}
+.tl-item{position:relative;margin-bottom:1.5rem;padding-left:1.2rem}
+.tl-item::before{
+  content:'';position:absolute;left:-1.5rem;top:5px;
+  width:7px;height:7px;border-radius:50%;
+  background:var(--accent);transform:translateX(50%);
+}
+.tl-date{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:3px}
+.tl-title{font-size:11px;color:var(--text);margin-bottom:3px}
+.tl-desc{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--text2);line-height:1.65}
+
+/* ─── FACTS GRID ─── */
+.facts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.85rem;margin-bottom:2rem}
+.fact-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:6px;padding:1rem;transition:border-color .2s;
+}
+.fact-card:hover{border-color:var(--border2)}
+.fact-title{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
+.fact-text{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--text2);line-height:1.7}
+
+/* ─── INTRO SCREEN ─── */
+#intro{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;
+  transition:opacity .8s,visibility .8s;
+}
+#intro.gone{opacity:0;visibility:hidden;pointer-events:none}
+.intro-bts{
+  font-family:'Cormorant Garamond',serif;
+  font-size:min(20vw,100px);font-weight:300;
+  letter-spacing:.5em;color:var(--accent);
+}
+.intro-kr{font-size:16px;color:var(--text3);letter-spacing:.3em;margin-bottom:.5rem}
+.intro-sub{font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--text3)}
+.intro-btn{
+  margin-top:1.5rem;padding:.7rem 2rem;
+  background:none;border:1px solid var(--accent);
+  color:var(--accent);font-family:'Space Mono',monospace;
+  font-size:9px;letter-spacing:.3em;text-transform:uppercase;
+  cursor:pointer;transition:background .2s;border-radius:2px;
+}
+.intro-btn:hover{background:rgba(201,169,110,.1)}
+
+/* ─── SOURCE BADGE ─── */
+.src-label{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:8px;padding:2px 6px;border-radius:2px;
+  margin-bottom:1rem;
+}
+.src-yt{background:rgba(255,70,70,.15);color:#ff7070;border:1px solid rgba(255,70,70,.2)}
+.src-kiss{background:rgba(212,64,64,.15);color:#f08080;border:1px solid rgba(212,64,64,.2)}
+.src-weverse{background:rgba(123,95,212,.15);color:#a084e8;border:1px solid rgba(123,95,212,.2)}
+
+/* ─── MOBILE ─── */
+@media(max-width:768px){
+  :root{--sidebar-w:0px}
+
+  .hamburger{display:flex}
+
+  .sidebar{
+    transform:translateX(-100%);
+    width:260px;z-index:300;
+    box-shadow:4px 0 20px rgba(0,0,0,.5);
+  }
+  .sidebar.open{transform:translateX(0)}
+
+  .sidebar-overlay{
+    display:none;position:fixed;inset:0;z-index:250;
+    background:rgba(0,0,0,.5);
+  }
+  .sidebar-overlay.open{display:block}
+
+  .main{margin-left:0}
+
+  .hero{padding:1.5rem 1rem 1.2rem}
+  .hero-title{font-size:clamp(26px,8vw,44px)}
+  .tab-pane{padding:1.2rem 1rem 2.5rem}
+  .v-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.6rem}
+  .album-card{flex-direction:column;align-items:flex-start}
+  .album-art{width:60px;height:60px}
+  .facts-grid{grid-template-columns:1fr}
+}
+
+@media(max-width:400px){
+  .v-grid{grid-template-columns:1fr 1fr}
+}
+/* ███ ROUE ALÉATOIRE ███ */
+#era-8 {
+  display: none;
+  padding: 2rem;
+}
+#era-8.active { display: block; }
+
+.wheel-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; color: var(--accent);
+  margin-bottom: .5rem; text-align: center;
+}
+.wheel-subtitle {
+  font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--text3); text-align: center; margin-bottom: 2rem;
+}
+.wheel-select {
+  display: flex; align-items: center; justify-content: center; gap: 1rem;
+  margin-bottom: 1.5rem; flex-wrap: wrap;
+}
+.wheel-select label {
+  font-size: 9px; letter-spacing: .15em; text-transform: uppercase; color: var(--text2);
+}
+.wheel-select select {
+  background: var(--surface); border: 1px solid var(--border2);
+  color: var(--text); font-family: 'Space Mono', monospace; font-size: 10px;
+  padding: .4rem .8rem; border-radius: 3px; cursor: pointer; outline: none;
+}
+.wheel-wrap {
+  display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+}
+#wheel {
+  width: 260px; height: 260px; border-radius: 50%;
+  border: 3px solid var(--border2);
+  position: relative; overflow: hidden;
+  box-shadow: 0 0 40px rgba(201,169,110,.15);
+}
+#wheel-inner {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  transition: transform 4s cubic-bezier(.17,.67,.12,1.1);
+  position: relative;
+}
+/* Curseur triangle */
+#wheel::after {
+  content: '';
+  position: absolute; top: 50%; right: -2px;
+  transform: translateY(-50%);
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 10px 0 10px 16px;
+  border-color: transparent transparent transparent var(--accent);
+  z-index: 10;
+  filter: drop-shadow(-2px 0 4px rgba(0,0,0,.5));
+}
+#wheel-center {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--bg2); border: 2px solid var(--accent);
+  z-index: 5;
+}
+#spin-btn {
+  padding: .75rem 2rem;
+  background: var(--accent); border: none;
+  color: #09090e; font-family: 'Space Mono', monospace;
+  font-size: 10px; letter-spacing: .15em; text-transform: uppercase;
+  cursor: pointer; border-radius: 3px; transition: background .2s;
+}
+#spin-btn:hover { background: #e6c88f; }
+#spin-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+/* Résultat tiré */
+#wheel-result {
+  display: none;
+  background: var(--surface); border: 1px solid var(--border2);
+  border-radius: 6px; padding: 1rem 1.5rem;
+  text-align: center; max-width: 340px; width: 100%;
+}
+#wheel-result.visible { display: block; }
+#result-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; color: var(--text); margin-bottom: .3rem;
+}
+#result-badge {
+  font-size: 8px; letter-spacing: .15em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 2px; display: inline-block;
+  margin-bottom: .8rem;
+}
+#result-play {
+  display: inline-block; padding: .5rem 1.2rem;
+  background: var(--accent); color: #09090e;
+  border-radius: 3px; font-size: 9px; letter-spacing: .1em;
+  text-transform: uppercase; cursor: pointer; border: none;
+  font-family: 'Space Mono', monospace; transition: background .2s;
+}
+#result-play:hover { background: #e6c88f; }
+
+/* ─── POPUP VIDÉO (vidéos locales uniquement) ─── */
+#video-popup {
+  display: none;
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,.88);
+  align-items: center; justify-content: center;
+  padding: 1rem;
+}
+#video-popup.open { display: flex; }
+#video-content {
+  background: var(--surface2);
+  border-radius: 8px; overflow: hidden;
+  width: 100%; max-width: 860px;
+  display: flex; flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0,0,0,.8);
+}
+#video-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .6rem 1rem;
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+  gap: 1rem;
+}
+#video-popup-title {
+  font-size: 10px; color: var(--text2);
+  font-family: 'Space Mono',monospace; letter-spacing: .05em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+#close-video {
+  flex-shrink: 0;
+  background: rgba(255,255,255,.08); border: 1px solid var(--border2);
+  color: var(--text); font-family: 'Space Mono',monospace;
+  font-size: 9px; letter-spacing: .1em; padding: 4px 10px;
+  border-radius: 3px; cursor: pointer; transition: background .15s;
+}
+#close-video:hover { background: rgba(255,255,255,.15); }
+#video-body { width: 100%; background: #000; }
+#video-player {
+  display: block; width: 100%; aspect-ratio: 16/9;
+  background: #000;
+}
+
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+  <div class="intro-bts">BTS</div>
+  <div class="intro-kr">방탄소년단</div>
+  <div class="intro-sub">Archive complète · 2010 — présent</div>
+  <button class="intro-btn" onclick="document.getElementById('intro').classList.add('gone')">Entrer →</button>
+</div>
+
+<!-- SIDEBAR OVERLAY (mobile) -->
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- HEADER -->
+<header>
+  <button class="hamburger" id="ham" onclick="toggleSidebar()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="logo">BTS <small>방탄소년단 Archive</small></div>
+</header>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-label">Les Eras</div>
+  <button class="era-btn active" onclick="showEra(0);closeSidebar()">
+    <span class="era-icon">🌱</span>
+    <span class="era-text">
+      <span class="era-name">Pre-Debut — Origines</span>
+      <span class="era-years">2010 – 2013</span>
+    </span>
+  </button>
+  <button class="era-btn" onclick="showEra(1);closeSidebar()">
+    <span class="era-icon">🌑</span>
+    <span class="era-text">
+      <span class="era-name">Dark &amp; Wild</span>
+      <span class="era-years">2013 – 2014</span>
+    </span>
+  </button>
+  <button class="era-btn" onclick="showEra(2);closeSidebar()">
+    <span class="era-icon">🌸</span>
+    <span class="era-text">
+      <span class="era-name">화양연화 HYYH</span>
+      <span class="era-years">2015 – 2016</span>
+    </span>
+  </button>
+  <button class="era-btn" onclick="showEra(3);closeSidebar()">
+    <span class="era-icon">🪶</span>
+    <span class="era-text">
+      <span class="era-name">WINGS</span>
+      <span class="era-years">2016 – 2017</span>
+    </span>
+  </button>
+  <button class="era-btn" onclick="showEra(4);closeSidebar()">
+    <span class="era-icon">💜</span>
+    <span class="era-text">
+      <span class="era-name">Love Yourself</span>
+      <span class="era-years">2017 – 2018</span>
+    </span>
+  </button>
+  <button class="era-btn" onclick="showEra(5);closeSidebar()">
+    <span class="era-icon">🗺</span>
+    <span class="era-text">
+      <span class="era-name">Map of the Soul</span>
+      <span class="era-years">2019 – 2020</span>
+    </span>
+  </button>
+  <button class="era-btn" onclick="showEra(6);closeSidebar()">
+    <span class="era-icon">💥</span>
+    <span class="era-text">
+      <span class="era-name">Butter &amp; Dynamite</span>
+      <span class="era-years">2020 – 2021</span>
+    </span>
+  </button>
+  <button class="era-btn" onclick="showEra(7);closeSidebar()">
+    <span class="era-icon">🌟</span>
+    <span class="era-text">
+      <span class="era-name">Solos &amp; Retour</span>
+      <span class="era-years">2022 – présent</span>
+    </span>
+  </button>
+  <button class="era-btn" onclick="showEra(8);closeSidebar()">
+    <span class="era-icon">🎡</span>
+    <span class="era-text">
+      <span class="era-name">Roue aléatoire</span>
+      <span class="era-years">Découverte surprise</span>
+    </span>
+  </button>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- ██ ERA 0 : PRE-DEBUT ██ -->
+<div class="era-section active" id="era-0">
+
+  <!-- ─── HERO ─── -->
+  <div class="hero">
+    <div class="hero-num">Era 01 / 08</div>
+    <div class="hero-title">Pre-Debut</div>
+    <div class="hero-sub">연습생 — Les années d'entraînement</div>
+
+    <div class="hero-meta">
+      <span class="meta-chip"><strong>2010 – 2013</strong></span>
+      <span class="meta-chip">Big Hit Entertainment</span>
+      <span class="meta-chip">Trainees → Debut</span>
+    </div>
+
+    <div class="hero-desc">
+      Avant BTS, il y avait sept adolescents qui rêvaient. RM est le premier trainee, suivi de Suga, rappeur underground de Daegu, puis J-Hope, danseur reconnu à Ulsan. Jin est repéré dans la rue, Jimin arrive de Busan, V est un trainee secret, et Jungkook rejoint Big Hit après avoir refusé 7 labels.
+    </div>
+
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">✦ Anecdote rare</div>
+      <p>V était un trainee secret : même les membres ne savaient pas qu’il ferait partie du groupe jusqu’à quelques jours avant les débuts.</p>
+    </div>
+
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">✦ Le choix de Jungkook</div>
+      <p>Jungkook a choisi Big Hit uniquement parce qu’il avait vu RM rapper. Il voulait apprendre de lui — un choix qui a changé l’histoire.</p>
+    </div>
+  </div>
+
+  <!-- ─── TABS ─── -->
+  <div class="tabs-bar" id="tb-0">
+    <button class="tab-btn active" onclick="showTab(0,'music')">🎵 Musiques</button>
+    <button class="tab-btn" onclick="showTab(0,'albums')">💿 Albums</button>
+    <button class="tab-btn" onclick="showTab(0,'variety')">🎬 Divertissement</button>
+    <button class="tab-btn" onclick="showTab(0,'interview')">🎙 Interviews</button>
+    <button class="tab-btn" onclick="showTab(0,'concerts')">🎟 Concerts</button>
+    <button class="tab-btn" onclick="showTab(0,'timeline')">📅 Timeline</button>
+    <button class="tab-btn" onclick="showTab(0,'facts')">✨ Anecdotes</button>
+  </div>
+
+  <!-- ─── TAB : MUSIQUES ─── -->
+  <div class="tab-pane active" id="tp-0-music">
+
+    <!-- MV -->
+    <div class="sec-hd"><span class="sec-hd-title">MV Officiels</span></div>
+    <div class="v-grid">
+
+<a class="v-card" href="https://www.youtube.com/watch?v=rBG5L7UsUxA" target="_blank" rel="noopener" target="_blank">
+  <div class="v-thumb">
+    <img src="./no-more-dream.jpg">
+    <div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div>
+    <span class="v-badge badge-mv">MV</span>
+  </div>
+  <div class="v-info">
+    <div class="v-title">No More Dream — MV</div>
+    <div class="v-foot"><span class="v-date">2013</span><span class="v-link">Voir →</span></div>
+  </div>
+</a>
+
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=lE9lkSdtZeQ" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src=".\we-are-buttleproof.jpg">
+          <div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div>
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">We Are Bulletproof Pt.2 — MV</div>
+          <div class="v-foot"><span class="v-date">2013</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=sctrgmZ_JNM" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src=".\graduation-song.jpg">
+          <div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div>
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">Graduate song — MV</div>
+          <div class="v-foot"><span class="v-date">2013</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Dance Practices -->
+    <div class="sec-hd"><span class="sec-hd-title">Dance Practices</span></div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=EBzr2udonZI" target="_blank" rel="noopener" target="_blank">
+      <div class="v-thumb">
+      <img src=".\no-more-dream-dance-practice.jpg">
+        <span class="v-badge badge-yt">Practice</span></div>
+        <div class="v-info">
+          <div class="v-title">No More Dream — Dance Practice</div>
+          <div class="v-foot"><span class="v-date">2013</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=bV9Svms-LYY" target="_blank" rel="noopener" target="_blank">
+      <div class="v-thumb">
+      <img src=".\we-are-bulletproof-dance-practice.jpg">
+        <span class="v-badge badge-yt">Practice</span></div>
+        <div class="v-info">
+          <div class="v-title">We are bulletproof — Dance Practice</div>
+          <div class="v-foot"><span class="v-date">2013</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : ALBUMS ─── -->
+  <div class="tab-pane" id="tp-0-albums">
+    <div class="sec-hd"><span class="sec-hd-title">Albums</span></div>
+
+    <div class="album-list">
+
+      <!-- Album 1 -->
+      <a href ="https://youtube.com/playlist?list=OLAK5uy_mYZiyTIq2Q61uOe98_rtIAh5WRtkjpg7k&si=9G_-XMbx24RRhjNF" target="_blank">
+      <div class="album-card" onclick="toggleAlbum(this)">
+        <div class="album-art"><img src=".\orul82.png"></div>
+        <div class="album-info">
+          <div class="album-name">O!RUL8,2?</div>
+          <div class="album-detail">2013 · Mini Album</div>
+        </div>
+        </a>
+      </div>
+
+      <div class="album-tracks hidden">
+        <div class="tracks">
+          <span class="track title">No More Dream ★</span>
+          <span class="track">We Are Bulletproof Pt.2</span>
+          <span class="track">Skit : On the Start Line</span>
+          <span class="track">Path</span>
+        </div>
+      </div>
+
+      <!-- Album 2 -->
+      <div class="album-card" onclick="toggleAlbum(this)">
+        <div class="album-art"><img src="https://upload.wikimedia.org/wikipedia/en/b/b2/ORUL82_Cover.png"></div>
+        <div class="album-info">
+          <div class="album-name">2 Cool 4 Skool</div>
+          <div class="album-detail">2013 · Single Album</div>
+        </div>
+      </div>
+
+      <div class="album-tracks hidden">
+        <div class="tracks">
+          <span class="track title">N.O ★</span>
+          <span class="track">We On</span>
+          <span class="track">If I Ruled The World</span>
+          <span class="track">Cypher Pt.1</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : VARIETY ─── -->
+  <div class="tab-pane" id="tp-0-variety">
+    <div class="sec-hd"><span class="sec-hd-title">Divertissement</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Rookie+King+2013+full" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">📺</div><span class="v-badge badge-show">SHOW</span></div>
+        <div class="v-info">
+          <div class="v-title">Rookie King : Channel Bangtan</div>
+          <div class="v-foot"><span class="v-date">2013</span><span class="v-link">Playlist →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://kisskh.co/Drama/BTS-American-Hustle-Life?id=3572" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🇺🇸</div><span class="v-badge badge-kiss">KissKH</span></div>
+        <div class="v-info">
+          <div class="v-title">American Hustle Life</div>
+          <div class="v-foot"><span class="v-date">2014</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : INTERVIEWS ─── -->
+  <div class="tab-pane" id="tp-0-interview">
+    <div class="sec-hd"><span class="sec-hd-title">Interviews</span></div>
+
+    <div class="v-grid">
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+debut+interview+2013" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
+        <div class="v-info">
+          <div class="v-title">Premières interviews BTS</div>
+          <div class="v-foot"><span class="v-date">2013</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ─── TAB : CONCERTS ─── -->
+  <div class="tab-pane" id="tp-0-concerts">
+    <div class="sec-hd"><span class="sec-hd-title">Concerts & Rediffusions</span></div>
+
+    <div class="v-grid">
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Debut+Showcase+2013" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎟</div></div>
+        <div class="v-info">
+          <div class="v-title">Debut Showcase — 2013</div>
+          <div class="v-foot"><span class="v-date">2013</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ─── TAB : TIMELINE ─── -->
+  <div class="tab-pane" id="tp-0-timeline">
+    <div class="sec-hd"><span class="sec-hd-title">Chronologie</span></div>
+
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-date">2010</div>
+        <div class="tl-title">RM rejoint Big Hit (13 ans)</div>
+        <div class="tl-desc">Kim Namjoon, repéré dans la scène underground de Daegu, est le premier à signer chez Big Hit. À l'époque, le label est minuscule et presque inconnu.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">2011</div>
+        <div class="tl-title">Suga & J-Hope intègrent le groupe</div>
+        <div class="tl-desc">Min Yoongi (ex-membre de D-Town) et Jung Hoseok (champion de danse d'Ulsan) rejoignent le label. Le concept hip-hop prend forme.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">2012</div>
+        <div class="tl-title">Jin, Jimin, V, Jungkook — la formation complète</div>
+        <div class="tl-desc">Kim Seokjin est recruté dans la rue. Park Jimin quitte Busan pour rejoindre. Kim Taehyung (V) est gardé secret. Jeon Jungkook (15 ans) choisit Big Hit contre 7 autres labels — pour RM.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">12 Juin 2013</div>
+        <div class="tl-title">DEBUT OFFICIEL — "No More Dream"</div>
+        <div class="tl-desc">BTS fait ses débuts sur M Countdown. 7 jeunes hommes, un label quasi-inconnu, un budget serré — et une détermination sans faille.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : FACTS ─── -->
+  <div class="tab-pane" id="tp-0-facts">
+    <div class="sec-hd"><span class="sec-hd-title">Anecdotes</span></div>
+
+    <div class="facts-grid">
+
+      <div class="fact-card">
+        <div class="fact-title">Le sens de BTS</div>
+        <div class="fact-text">방탄소년단 (Bangtan Sonyeondan) = "Scouts à l'épreuve des balles". Le nom symbolise la résistance aux critiques sociales. En 2017, ils y ont ajouté "Beyond The Scene".</div>
+      </div>
+
+      <div class="fact-card">
+        <div class="fact-title">La chambre partagée</div>
+        <div class="fact-text">Pendant les années trainee, les 7 membres vivaient dans un appartement de 3 pièces à Séoul. Ils mangeaient des ramyeons tous les jours et dormaient à même le sol. Suga a raconté avoir parfois pleuré la nuit en se demandant si ça en valait la peine.</div>
+      </div>
+
+      <div class="fact-card">
+        <div class="fact-title">Jin recruté dans la rue</div>
+        <div class="fact-text">Jin était étudiant en art dramatique à Seoul Arts High School quand un scout Big Hit l'a abordé dans la rue. Il n'avait aucune formation musicale. Il a tout appris en tant que trainee.</div>
+      </div>
+
+      <div class="fact-card">
+        <div class="fact-title">Suga & son épaule</div>
+        <div class="fact-text">Suga s'est blessé à l'épaule pendant l'entraînement et l'a caché à Big Hit pour ne pas être écarté. Une blessure qui reviendra le hanter des années plus tard.</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ██ ERA 1 : DARK & WILD ██ -->
+<div class="era-section" id="era-1">
+  <div class="hero">
+    <div class="hero-num">Era 02 / 08</div>
+    <div class="hero-title">Dark &amp; Wild</div>
+    <div class="hero-sub">Skool Luv Affair · Danger · War of Hormone</div>
+    <div class="hero-meta">
+      <span class="meta-chip"><strong>2013 – 2014</strong></span>
+      <span class="meta-chip">Hip-hop / rebelle</span>
+      <span class="meta-chip">1er album studio</span>
+    </div>
+    <div class="hero-desc">Après un debut prometteur, BTS affirme son identité hip-hop avec Danger et War of Hormone. American Hustle Life les envoie à Compton — une expérience marquante. C'est l'époque des performances brutes, de l'énergie scénique pure, et de la construction progressive du fandom ARMY.</div>
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">✦ War of Hormone — la controverse</div>
+      <p>"War of Hormone" a failli ne pas sortir. Big Hit avait des doutes sur les paroles jugées trop provocatrices. Le groupe a dû défendre leur concept lors d'une réunion tendue avec les directeurs du label. La chanson est devenue l'un de leurs plus grands hits de cette période.</p>
+    </div>
+  </div>
+
+  <!-- ─── TABS ─── -->
+  <div class="tabs-bar" id="tb-1">
+    <button class="tab-btn active" onclick="showTab(1,'music')">🎵 Musiques</button>
+    <button class="tab-btn" onclick="showTab(1,'albums')">💿 Albums</button>
+    <button class="tab-btn" onclick="showTab(1,'variety')">🎬 Divertissement</button>
+    <button class="tab-btn" onclick="showTab(1,'interview')">🎙 Interviews</button>
+    <button class="tab-btn" onclick="showTab(1,'concerts')">🎟 Concerts</button>
+    <button class="tab-btn" onclick="showTab(1,'timeline')">📅 Timeline</button>
+    <button class="tab-btn" onclick="showTab(1,'facts')">✨ Anecdotes</button>
+  </div>
+
+  <!-- ─── TAB : MUSIQUES ─── -->
+  <div class="tab-pane active" id="tp-1-music">
+
+    <!-- MV -->
+    <div class="sec-hd">
+      <span class="sec-hd-title">MV Officiels</span>
+    </div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=bagj78IQ3l0" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src="https://img.youtube.com/vi/bagj78IQ3l0/maxresdefault.jpg">
+          <div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div>
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">BTS — Danger</div>
+          <div class="v-foot"><span class="v-date">2014</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=XQmpVHUi-0A" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src="https://img.youtube.com/vi/XQmpVHUi-0A/maxresdefault.jpg">
+          <div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div>
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">BTS — War of Hormone</div>
+          <div class="v-foot"><span class="v-date">2014</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Dance Practices -->
+    <div class="sec-hd">
+      <span class="sec-hd-title">Dance Practices</span>
+    </div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Danger+dance+practice" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🕺</div><span class="v-badge badge-yt">Practice</span></div>
+        <div class="v-info">
+          <div class="v-title">Danger — Dance Practice</div>
+          <div class="v-foot"><span class="v-date">2014</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+War+of+Hormone+dance+practice" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🕺</div><span class="v-badge badge-yt">Practice</span></div>
+        <div class="v-info">
+          <div class="v-title">War of Hormone — Dance Practice</div>
+          <div class="v-foot"><span class="v-date">2014</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Autres vidéos musicales -->
+    <div class="sec-hd">
+      <span class="sec-hd-title">Performances & Archives</span>
+    </div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Danger+live+stage+2014" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎤</div></div>
+        <div class="v-info">
+          <div class="v-title">Danger — Stages music shows</div>
+          <div class="v-foot"><span class="v-date">2014</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Let+Me+Know+live+2014" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💔</div></div>
+        <div class="v-info">
+          <div class="v-title">Let Me Know — Live performances</div>
+          <div class="v-foot"><span class="v-date">2014</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : ALBUMS ─── -->
+  <div class="tab-pane" id="tp-1-albums">
+    <div class="sec-hd"><span class="sec-hd-title">Albums</span></div>
+
+    <div class="album-list">
+
+      <!-- Dark & Wild -->
+      <div class="album-card" onclick="toggleAlbum(this)">
+        <div class="album-art">
+          <img src="https://upload.wikimedia.org/wikipedia/en/8/8e/BTS_Dark_%26_Wild.jpg">
+        </div>
+        <div class="album-info">
+          <div class="album-name">Dark & Wild</div>
+          <div class="album-detail">Août 2014 · 1er full album</div>
+        </div>
+      </div>
+      <div class="album-tracks hidden">
+        <div class="tracks">
+          <span class="track title">Danger ★</span>
+          <span class="track">War of Hormone</span>
+          <span class="track">Let Me Know</span>
+          <span class="track">Rain</span>
+          <span class="track">24/7=Heaven</span>
+          <span class="track">Cypher Pt.3</span>
+          <span class="track">Hip Hop Lover</span>
+        </div>
+      </div>
+
+      <!-- Lien playlist globale -->
+      <div class="album-card" onclick="window.open('https://www.youtube.com/results?search_query=BTS+Dark+and+Wild+full+album+playlist','_blank')">
+        <div class="album-art"><div class="v-thumb-fallback">▶</div></div>
+        <div class="album-info">
+          <div class="album-name">Playlist Dark & Wild</div>
+          <div class="album-detail">YouTube · Playlist non-officielle / compilations</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : VARIETY ─── -->
+  <div class="tab-pane" id="tp-1-variety">
+    <div class="sec-hd"><span class="sec-hd-title">Shows & Divertissement</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+American+Hustle+Life+full" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🇺🇸</div><span class="v-badge badge-show">SHOW</span></div>
+        <div class="v-info">
+          <div class="v-title">American Hustle Life</div>
+          <div class="v-foot"><span class="v-date">2014</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Bangtan+Bomb+2014" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div></div>
+        <div class="v-info">
+          <div class="v-title">Bangtan Bombs — 2014</div>
+          <div class="v-foot"><span class="v-date">2014</span><span class="v-link">Playlist →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : INTERVIEWS ─── -->
+  <div class="tab-pane" id="tp-1-interview">
+    <div class="sec-hd"><span class="sec-hd-title">Interviews</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Danger+era+interview+2014" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
+        <div class="v-info">
+          <div class="v-title">Interviews promotion Danger</div>
+          <div class="v-foot"><span class="v-date">2014</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+War+of+Hormone+interview" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">📰</div></div>
+        <div class="v-info">
+          <div class="v-title">Interviews War of Hormone</div>
+          <div class="v-foot"><span class="v-date">2014</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : CONCERTS ─── -->
+  <div class="tab-pane" id="tp-1-concerts">
+    <div class="sec-hd"><span class="sec-hd-title">Concerts & Rediffusions</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+The+Red+Bullet+concert+2014" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎟</div></div>
+        <div class="v-info">
+          <div class="v-title">The Red Bullet Tour — 2014</div>
+          <div class="v-foot"><span class="v-date">2014</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : TIMELINE ─── -->
+  <div class="tab-pane" id="tp-1-timeline">
+    <div class="sec-hd"><span class="sec-hd-title">Chronologie</span></div>
+
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-date">Août 2014</div>
+        <div class="tl-title">Sortie de Dark & Wild</div>
+        <div class="tl-desc">Premier full album de BTS, avec un son plus sombre et plus mature.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">2014</div>
+        <div class="tl-title">Danger promotions</div>
+        <div class="tl-desc">BTS enchaîne les stages avec une chorégraphie intense et une image plus agressive.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">Fin 2014</div>
+        <div class="tl-title">War of Hormone</div>
+        <div class="tl-desc">Un MV plus fun mais toujours énergique, qui devient un classique des concerts.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : FACTS ─── -->
+  <div class="tab-pane" id="tp-1-facts">
+    <div class="sec-hd"><span class="sec-hd-title">Anecdotes</span></div>
+
+    <div class="facts-grid">
+
+      <div class="fact-card">
+        <div class="fact-title">Un album sous-estimé</div>
+        <div class="fact-text">Dark & Wild est souvent considéré comme l’un des albums les plus “bruts” de BTS,
+        avec des sons très hip-hop et R&B.</div>
+      </div>
+
+      <div class="fact-card">
+        <div class="fact-title">Let Me Know</div>
+        <div class="fact-text">Cette chanson est l’une des préférées des fans pour ses performances live émotionnelles.</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-title">Compton & Warren G</div>
+        <div class="fact-text">Durant American Hustle Life, RM a freestylé devant Warren G qui en a été stupéfait. Cette expérience à Compton a profondément marqué les membres et influencé leur rap pendant des années.</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-title">Jungkook & sa cheville</div>
+        <div class="fact-text">Lors des répétitions de Danger, Jungkook s'est foulé la cheville mais a quand même performé au stage de lancement sans en parler à personne jusqu'à après le show.</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-title">Danger — la prise de risque</div>
+        <div class="fact-text">La chorégraphie de "Danger" incluait une prise de cou entre membres — Big Hit avait des craintes sur la sécurité. Elle est devenue leur marque de fabrique de cette période et a établi leur réputation de performers hors norme.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <div class="tab-pane" id="tp-1-facts">
+    <div class="sec-hd"><span class="sec-hd-title">Anecdotes</span></div>
+    <div class="facts-grid">
+      <div class="fact-card">
+        <div class="fact-title">Compton & Warren G</div>
+        <div class="fact-text">Durant American Hustle Life, RM a freestylé devant Warren G qui en a été stupéfait. Cette expérience à Compton a profondément marqué les membres et influencé leur rap pendant des années.</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-title">Jungkook & sa cheville</div>
+        <div class="fact-text">Lors des répétitions de Danger, Jungkook s'est foulé la cheville mais a quand même performé au stage de lancement sans en parler à personne jusqu'à après le show.</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-title">Danger — la prise de risque</div>
+        <div class="fact-text">La chorégraphie de "Danger" incluait une prise de cou entre membres — Big Hit avait des craintes sur la sécurité. Elle est devenue leur marque de fabrique de cette période et a établi leur réputation de performers hors norme.</div>
+      </div>
+    </div>
+  </div>
+
+<!-- ██ ERA 2 : HYYH ██ -->
+<div class="era-section" id="era-2">
+  <div class="hero">
+    <div class="hero-num">Era 03 / 08</div>
+    <div class="hero-title">화양연화</div>
+    <div class="hero-sub">The Most Beautiful Moment — I Need U · Run · Save Me</div>
+    <div class="hero-meta">
+      <span class="meta-chip"><strong>2015 – 2016</strong></span>
+      <span class="meta-chip">HYYH Pt.1 · Pt.2 · Young Forever</span>
+      <span class="meta-chip">Concept : Jeunesse, chaos, liberté</span>
+    </div>
+    <div class="hero-desc">
+      L’ère HYYH est considérée comme l’une des plus importantes de BTS.
+      Elle explore la jeunesse dans toute sa beauté et sa douleur : l’amitié, la fuite, la perte, la liberté, les erreurs, les rêves.
+      C’est aussi l’ère où BTS commence à attirer une attention mondiale.
+    </div>
+       <div class="anecdote-box">
+      <div class="anecdote-lbl">✦ I Need U — Version censurée</div>
+      <p>Le MV original contenait des scènes de mort jugées trop intenses par Mnet. BigHit a sorti une version censurée pour la TV et gardé la version intégrale (6 min) sur YouTube — un précédent rare dans la K-pop qui a fasciné l'ARMY mondiale et lancé des milliers de théories.</p>
+    </div>
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">✦ Univers HYYH</div>
+      <p>Les clips de HYYH forment un univers narratif complexe (BU — BTS Universe),
+      avec des symboles, des timelines alternatives et des histoires croisées entre les membres.</p>
+    </div>
+  </div>
+
+  <!-- ─── TABS ─── -->
+  <div class="tabs-bar" id="tb-2">
+    <button class="tab-btn active" onclick="showTab(2,'music')">🎵 Musiques</button>
+    <button class="tab-btn" onclick="showTab(2,'albums')">💿 Albums</button>
+    <button class="tab-btn" onclick="showTab(2,'variety')">🎬 Divertissement</button>
+    <button class="tab-btn" onclick="showTab(2,'interview')">🎙 Interviews</button>
+    <button class="tab-btn" onclick="showTab(2,'concerts')">🎟 Concerts</button>
+    <button class="tab-btn" onclick="showTab(2,'timeline')">📅 Timeline</button>
+    <button class="tab-btn" onclick="showTab(2,'facts')">✨ Anecdotes</button>
+  </div>
+
+  <!-- ─── TAB : MUSIQUES ─── -->
+  <div class="tab-pane active" id="tp-2-music">
+
+    <!-- MV -->
+    <div class="sec-hd"><span class="sec-hd-title">MV Officiels</span></div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=NMdTd9e-LEI" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src="https://img.youtube.com/vi/NMdTd9e-LEI/maxresdefault.jpg">
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">I Need U — MV</div>
+          <div class="v-foot"><span class="v-date">2015</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=wKysONrSmew" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src="https://img.youtube.com/vi/wKysONrSmew/maxresdefault.jpg">
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">Dope — MV</div>
+          <div class="v-foot"><span class="v-date">2015</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=5Wn85Ge22FQ" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src="https://img.youtube.com/vi/5Wn85Ge22FQ/maxresdefault.jpg">
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">Run — MV</div>
+          <div class="v-foot"><span class="v-date">2015</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=ALj5MKjy2BU" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src="https://img.youtube.com/vi/ALj5MKjy2BU/maxresdefault.jpg">
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">Fire — MV</div>
+          <div class="v-foot"><span class="v-date">2016</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=GZjt_sA2eso" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src="https://img.youtube.com/vi/GZjt_sA2eso/maxresdefault.jpg">
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">Save Me — MV</div>
+          <div class="v-foot"><span class="v-date">2016</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Dance Practices -->
+    <div class="sec-hd"><span class="sec-hd-title">Dance Practices</span></div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+I+Need+U+dance+practice" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🕺</div></div>
+        <div class="v-info">
+          <div class="v-title">I Need U — Dance Practice</div>
+          <div class="v-foot"><span class="v-date">2015</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Dope+dance+practice" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🕺</div></div>
+        <div class="v-info">
+          <div class="v-title">Dope — Dance Practice</div>
+          <div class="v-foot"><span class="v-date">2015</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Autres vidéos -->
+    <div class="sec-hd"><span class="sec-hd-title">Performances & Archives</span></div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+I+Need+U+live+stage" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎤</div></div>
+        <div class="v-info">
+          <div class="v-title">I Need U — Stages music shows</div>
+          <div class="v-foot"><span class="v-date">2015</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Fire+live+stage" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🔥</div></div>
+        <div class="v-info">
+          <div class="v-title">Fire — Live performances</div>
+          <div class="v-foot"><span class="v-date">2016</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : ALBUMS ─── -->
+  <div class="tab-pane" id="tp-2-albums">
+    <div class="sec-hd"><span class="sec-hd-title">Albums</span></div>
+
+    <div class="album-list">
+
+      <!-- HYYH Pt.1 -->
+      <div class="album-card" onclick="toggleAlbum(this)">
+        <div class="album-art"><img src="https://upload.wikimedia.org/wikipedia/en/5/5e/BTS_The_Most_Beautiful_Moment_in_Life_Part_1.jpg"></div>
+        <div class="album-info">
+          <div class="album-name">HYYH Pt.1</div>
+          <div class="album-detail">2015 · Mini Album</div>
+        </div>
+      </div>
+      <div class="album-tracks hidden">
+        <div class="tracks">
+          <span class="track title">I Need U ★</span>
+          <span class="track">Dope</span>
+          <span class="track">Hold Me Tight</span>
+          <span class="track">Converse High</span>
+        </div>
+      </div>
+
+      <!-- HYYH Pt.2 -->
+      <div class="album-card" onclick="toggleAlbum(this)">
+        <div class="album-art"><img src="https://upload.wikimedia.org/wikipedia/en/0/0d/BTS_The_Most_Beautiful_Moment_in_Life_Part_2.jpg"></div>
+        <div class="album-info">
+          <div class="album-name">HYYH Pt.2</div>
+          <div class="album-detail">2015 · Mini Album</div>
+        </div>
+      </div>
+      <div class="album-tracks hidden">
+        <div class="tracks">
+          <span class="track title">Run ★</span>
+          <span class="track">Butterfly</span>
+          <span class="track">Whalien 52</span>
+          <span class="track">Ma City</span>
+        </div>
+      </div>
+
+      <!-- Young Forever -->
+      <div class="album-card" onclick="toggleAlbum(this)">
+        <div class="album-art"><img src="https://upload.wikimedia.org/wikipedia/en/4/4e/BTS_Young_Forever_album_cover.jpg"></div>
+        <div class="album-info">
+          <div class="album-name">Young Forever</div>
+          <div class="album-detail">2016 · Compilation Album</div>
+        </div>
+      </div>
+      <div class="album-tracks hidden">
+        <div class="tracks">
+          <span class="track title">Fire ★</span>
+          <span class="track">Save Me</span>
+          <span class="track">Epilogue : Young Forever</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : VARIETY ─── -->
+  <div class="tab-pane" id="tp-2-variety">
+    <div class="sec-hd"><span class="sec-hd-title">Divertissement</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Run+BTS+2015" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏃‍♂️</div></div>
+        <div class="v-info">
+          <div class="v-title">Run BTS — Début de l’émission</div>
+          <div class="v-foot"><span class="v-date">2015</span><span class="v-link">Playlist →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Bon+Voyage+Season+1" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">✈️</div></div>
+        <div class="v-info">
+          <div class="v-title">Bon Voyage — Saison 1</div>
+          <div class="v-foot"><span class="v-date">2016</span><span class="v-link">Playlist →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : INTERVIEWS ─── -->
+  <div class="tab-pane" id="tp-2-interview">
+    <div class="sec-hd"><span class="sec-hd-title">Interviews</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+I+Need+U+interview" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
+        <div class="v-info">
+          <div class="v-title">Interviews I Need U</div>
+          <div class="v-foot"><span class="v-date">2015</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Fire+interview" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🔥</div></div>
+        <div class="v-info">
+          <div class="v-title">Interviews Fire</div>
+          <div class="v-foot"><span class="v-date">2016</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : CONCERTS ─── -->
+  <div class="tab-pane" id="tp-2-concerts">
+    <div class="sec-hd"><span class="sec-hd-title">Concerts & Rediffusions</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+HYYH+On+Stage+concert" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎟</div></div>
+        <div class="v-info">
+          <div class="v-title">HYYH On Stage — 2015</div>
+          <div class="v-foot"><span class="v-date">2015</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+HYYH+On+Stage+Epilogue" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎤</div></div>
+        <div class="v-info">
+          <div class="v-title">HYYH On Stage : Epilogue — 2016</div>
+          <div class="v-foot"><span class="v-date">2016</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : TIMELINE ─── -->
+  <div class="tab-pane" id="tp-2-timeline">
+    <div class="sec-hd"><span class="sec-hd-title">Chronologie</span></div>
+
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-date">Avril 2015</div>
+        <div class="tl-title">Sortie de HYYH Pt.1</div>
+        <div class="tl-desc">L’ère HYYH commence avec “I Need U”.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">Novembre 2015</div>
+        <div class="tl-title">Sortie de HYYH Pt.2</div>
+        <div class="tl-desc">“Run” continue l’histoire de l’univers HYYH.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">Mai 2016</div>
+        <div class="tl-title">Young Forever</div>
+        <div class="tl-desc">Compilation qui conclut l’ère HYYH avec “Fire” et “Save Me”.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : FACTS ─── -->
+  <div class="tab-pane" id="tp-2-facts">
+    <div class="sec-hd"><span class="sec-hd-title">Anecdotes HYYH</span></div>
+    <div class="facts-grid">
+      <div class="fact-card">
+        <div class="fact-title">Dope — une nuit entière</div>
+        <div class="fact-text">"Dope" a été tourné en une seule nuit avec un budget minimal. La chorégraphie a été apprise en quelques jours. Malgré tout, c'est ce MV qui les propulse réellement sur la scène internationale — plus de 300M de vues.</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-title">Le BTS Universe commence</div>
+        <div class="fact-text">Le Prologue HYYH introduit les 7 personnages de l'univers BU. Chaque membre a un destin tragique lié aux autres. La "Timeline Theory" compilée par les fans occupe des milliers de pages sur Reddit, Tumblr et Twitter.</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-title">Naissance de l'ARMY mondiale</div>
+        <div class="fact-text">C'est pendant l'ère HYYH que l'ARMY explose aux USA, au Brésil et en Europe, portée par les réseaux sociaux. Les fans organisent des campagnes mondiales pour faire monter BTS dans les charts — une stratégie pionnière dans la K-pop.</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-title">Whalien 52</div>
+        <div class="fact-text">"Whalien 52" (baleine 52 Hz) est basée sur la vraie histoire d'une baleine qui chante sur une fréquence si haute que les autres baleines ne peuvent pas l'entendre — une métaphore de la solitude et de l'incompréhension que les membres ressentaient à cette époque.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ██ ERA 3 : WINGS ██ -->
+<div class="era-section" id="era-3">
+  <div class="hero">
+    <div class="hero-num">Era 04 / 08</div>
+    <div class="hero-title">WINGS</div>
+    <div class="hero-sub">Blood Sweat &amp; Tears · Spring Day · Not Today</div>
+    <div class="hero-meta">
+      <span class="meta-chip"><strong>2016 – 2017</strong></span>
+      <span class="meta-chip">WINGS . You Never Walk Alone</span>
+      <span class="meta-chip">1ers BBMAs · Discours ONU</span>
+    </div>
+    <div class="hero-desc">L'ère WINGS est leur tournant artistique le plus profond. "Spring Day" devient une des chansons coréennes les plus streamées de l'histoire. Les BBMAs 2017 marquent leur entrée officielle sur la scène américaine.</div>
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">✦ Spring Day — Le sens caché</div>
+      <p>"Spring Day" est interprété par beaucoup comme un hommage aux victimes du naufrage du Sewol (2014, 304 morts dont 250 lycéens). Le train dans le MV, les vêtements suspendus, la référence au roman "The Ones Who Walk Away from Omelas"... BigHit n'a jamais confirmé, mais n'a jamais démenti non plus.</p>
+    </div>
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">✦ Anecdote</div>
+      <p>Le MV “Blood Sweat & Tears” est l’un des plus analysés de BTS : références à Nietzsche, à la Bible, à l’art classique et à Demian.</p>
+    </div>
+
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">✦ Solos</div>
+      <p>Chaque membre a reçu un solo reflétant sa personnalité et son histoire : “Lie”, “Stigma”, “First Love”, “Awake”, “Mama”, “Reflection”, “Begin”.</p>
+    </div>
+  </div>
+
+  <!-- ─── TABS ─── -->
+  <div class="tabs-bar" id="tb-3">
+    <button class="tab-btn active" onclick="showTab(3,'music')">🎵 Musiques</button>
+    <button class="tab-btn" onclick="showTab(3,'albums')">💿 Albums</button>
+    <button class="tab-btn" onclick="showTab(3,'variety')">🎬 Divertissement</button>
+    <button class="tab-btn" onclick="showTab(3,'interview')">🎙 Interviews</button>
+    <button class="tab-btn" onclick="showTab(3,'concerts')">🎟 Concerts</button>
+    <button class="tab-btn" onclick="showTab(3,'timeline')">📅 Timeline</button>
+    <button class="tab-btn" onclick="showTab(3,'facts')">✨ Anecdotes</button>
+  </div>
+
+  <!-- ─── TAB : MUSIQUES ─── -->
+  <div class="tab-pane active" id="tp-3-music">
+
+    <!-- MV -->
+    <div class="sec-hd"><span class="sec-hd-title">MV Officiels</span></div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=hmE9f-TEutc" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src="https://img.youtube.com/vi/hmE9f-TEutc/maxresdefault.jpg">
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">Blood Sweat & Tears — MV</div>
+          <div class="v-foot"><span class="v-date">2016</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=xEeFrLSkMm8" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src="https://img.youtube.com/vi/xEeFrLSkMm8/maxresdefault.jpg">
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">Spring Day — MV</div>
+          <div class="v-foot"><span class="v-date">2017</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=9DwzBICPhdM" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src="https://img.youtube.com/vi/9DwzBICPhdM/maxresdefault.jpg">
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">Not Today — MV</div>
+          <div class="v-foot"><span class="v-date">2017</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Dance Practices -->
+    <div class="sec-hd"><span class="sec-hd-title">Dance Practices</span></div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Blood+Sweat+and+Tears+dance+practice" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🕺</div></div>
+        <div class="v-info">
+          <div class="v-title">Blood Sweat & Tears — Dance Practice</div>
+          <div class="v-foot"><span class="v-date">2016</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Not+Today+dance+practice" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🔥</div></div>
+        <div class="v-info">
+          <div class="v-title">Not Today — Dance Practice</div>
+          <div class="v-foot"><span class="v-date">2017</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Autres vidéos -->
+    <div class="sec-hd"><span class="sec-hd-title">Performances & Archives</span></div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Blood+Sweat+and+Tears+live+stage" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎤</div></div>
+        <div class="v-info">
+          <div class="v-title">Blood Sweat & Tears — Stages music shows</div>
+          <div class="v-foot"><span class="v-date">2016</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Spring+Day+live+stage" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">❄️</div></div>
+        <div class="v-info">
+          <div class="v-title">Spring Day — Live performances</div>
+          <div class="v-foot"><span class="v-date">2017</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : ALBUMS ─── -->
+  <div class="tab-pane" id="tp-3-albums">
+    <div class="sec-hd"><span class="sec-hd-title">Albums</span></div>
+
+    <div class="album-list">
+
+      <!-- WINGS -->
+      <div class="album-card" onclick="toggleAlbum(this)">
+        <div class="album-art"><img src="https://upload.wikimedia.org/wikipedia/en/7/72/Wings_cover.jpg"></div>
+        <div class="album-info">
+          <div class="album-name">WINGS</div>
+          <div class="album-detail">2016 · 2e Full Album</div>
+        </div>
+      </div>
+      <div class="album-tracks hidden">
+        <div class="tracks">
+          <span class="track title">Blood Sweat & Tears ★</span>
+          <span class="track">Begin (Jungkook)</span>
+          <span class="track">Lie (Jimin)</span>
+          <span class="track">Stigma (V)</span>
+          <span class="track">First Love (Suga)</span>
+          <span class="track">Reflection (RM)</span>
+          <span class="track">Mama (J-Hope)</span>
+          <span class="track">Awake (Jin)</span>
+        </div>
+      </div>
+
+      <!-- You Never Walk Alone -->
+      <div class="album-card" onclick="toggleAlbum(this)">
+        <div class="album-art"><img src="https://upload.wikimedia.org/wikipedia/en/0/09/BTS_You_Never_Walk_Alone_cover.jpg"></div>
+        <div class="album-info">
+          <div class="album-name">You Never Walk Alone</div>
+          <div class="album-detail">2017 · Repackage Album</div>
+        </div>
+      </div>
+      <div class="album-tracks hidden">
+        <div class="tracks">
+          <span class="track title">Spring Day ★</span>
+          <span class="track">Not Today</span>
+          <span class="track">A Supplementary Story : You Never Walk Alone</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : VARIETY ─── -->
+  <div class="tab-pane" id="tp-3-variety">
+    <div class="sec-hd"><span class="sec-hd-title">Divertissement</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Run+BTS+2016" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏃‍♂️</div></div>
+        <div class="v-info">
+          <div class="v-title">Run BTS — Épisodes 2016–2017</div>
+          <div class="v-foot"><span class="v-date">2016–2017</span><span class="v-link">Playlist →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Bon+Voyage+Season+2" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">✈️</div></div>
+        <div class="v-info">
+          <div class="v-title">Bon Voyage — Saison 2 (Hawaï)</div>
+          <div class="v-foot"><span class="v-date">2017</span><span class="v-link">Playlist →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : INTERVIEWS ─── -->
+  <div class="tab-pane" id="tp-3-interview">
+    <div class="sec-hd"><span class="sec-hd-title">Interviews</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Blood+Sweat+and+Tears+interview" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
+        <div class="v-info">
+          <div class="v-title">Interviews Blood Sweat & Tears</div>
+          <div class="v-foot"><span class="v-date">2016</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Spring+Day+interview" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">❄️</div></div>
+        <div class="v-info">
+          <div class="v-title">Interviews Spring Day</div>
+          <div class="v-foot"><span class="v-date">2017</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : CONCERTS ─── -->
+  <div class="tab-pane" id="tp-3-concerts">
+    <div class="sec-hd"><span class="sec-hd-title">Concerts & Rediffusions</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Wings+Tour+2017" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎟</div></div>
+        <div class="v-info">
+          <div class="v-title">WINGS Tour — 2017</div>
+          <div class="v-foot"><span class="v-date">2017</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Wings+Tour+The+Final" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🔥</div></div>
+        <div class="v-info">
+          <div class="v-title">WINGS Tour : The Final</div>
+          <div class="v-foot"><span class="v-date">2017</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : TIMELINE ─── -->
+  <div class="tab-pane" id="tp-3-timeline">
+    <div class="sec-hd"><span class="sec-hd-title">Chronologie</span></div>
+
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-date">Octobre 2016</div>
+        <div class="tl-title">Sortie de WINGS</div>
+        <div class="tl-desc">Un album mature, introspectif et symbolique.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">Février 2017</div>
+        <div class="tl-title">You Never Walk Alone</div>
+        <div class="tl-desc">Repackage qui ajoute “Spring Day” et “Not Today”.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">2017</div>
+        <div class="tl-title">WINGS Tour</div>
+        <div class="tl-desc">Première tournée mondiale majeure de BTS.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : FACTS ─── -->
+  <div class="tab-pane" id="tp-3-facts">
+    <div class="sec-hd"><span class="sec-hd-title">Anecdotes WINGS</span></div>
+    <div class="facts-grid">
+      <div class="fact-card"><div class="fact-title">Le livre de référence</div><div class="fact-text">"Demian" de Hermann Hesse (1919) a été remis par Bang Si-hyuk à chaque membre. La phrase d'ouverture — "Je voulais uniquement vivre selon ce qui montait spontanément de moi" — est citée dans les notes de l'album.</div></div>
+      <div class="fact-card"><div class="fact-title">BBMAs — bat Justin Bieber</div><div class="fact-text">BTS remporte le prix "Top Social Artist" après 6 années de domination par Justin Bieber. L'annonce en direct est l'un des moments les plus partagés de l'histoire des BBMAs.</div></div>
+      <div class="fact-card"><div class="fact-title">Jungkook — artiste plasticien</div><div class="fact-text">Jungkook a dessiné personnellement les illustrations du livret de WINGS. Il est aussi le photographe officieux du groupe — il photographie ses membres depuis ses débuts.</div></div>
+      <div class="fact-card"><div class="fact-title">RM apprend l'anglais</div><div class="fact-text">RM a appris l'anglais quasi-exclusivement en regardant la série Friends. Son discours à l'ONU, écrit entièrement par lui, était son premier grand discours public en anglais.</div></div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ██ ERA 4 : LOVE YOURSELF ██ -->
+<div class="era-section" id="era-4">
+  <div class="hero">
+    <div class="hero-num">Era 05 / 08</div>
+    <div class="hero-title">Love Yourself</div>
+    <div class="hero-sub">자기 자신을 사랑하라 — Une trilogie sur l’amour, la perte et la guérison</div>
+    <div class="hero-meta">
+      <span class="meta-chip"><strong>2017 – 2018</strong></span>
+      <span class="meta-chip">Her · Tear · Answer</span>
+      <span class="meta-chip">Concept : Amour, rupture, introspection</span>
+    </div>
+    <div class="hero-desc">
+          La trilogie Love Yourself explore les différentes étapes de l’amour : l’éblouissement, la douleur de la rupture, puis la guérison par l’acceptation de soi.
+      C’est l’ère qui propulse BTS sur la scène mondiale, avec des performances historiques aux AMAs, Billboard et Grammys.</div>
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">✦ Discours ONU — Sept. 2018</div>
+      <p>Le discours de RM à l'Assemblée générale de l'ONU est devenu viral à l'échelle mondiale. Sa phrase "Tell me your story. I want to hear your voice." a été entendue par des millions. Le clip de "IDOL" sorti le même jour pulvérise le record YouTube avec 45M de vues en 24h.</p>
+    </div>
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">✦ Succès historique</div>
+      <p>"DNA" les place dans le Top 100 du Billboard Hot 100 pour la première fois. “Fake Love” devient le premier single coréen à entrer dans le Top 10 du Billboard Hot 100. Ils remplissent le Citi Field de New York (40 000 places en 5 minutes).</p>
+    </div>
+  </div>
+
+  <!-- ─── TABS ─── -->
+  <div class="tabs-bar" id="tb-4">
+    <button class="tab-btn active" onclick="showTab(4,'music')">🎵 Musiques</button>
+    <button class="tab-btn" onclick="showTab(4,'albums')">💿 Albums</button>
+    <button class="tab-btn" onclick="showTab(4,'variety')">🎬 Divertissement</button>
+    <button class="tab-btn" onclick="showTab(4,'interview')">🎙 Interviews</button>
+    <button class="tab-btn" onclick="showTab(4,'concerts')">🎟 Concerts</button>
+    <button class="tab-btn" onclick="showTab(4,'timeline')">📅 Timeline</button>
+    <button class="tab-btn" onclick="showTab(4,'facts')">✨ Anecdotes</button>
+  </div>
+
+  <!-- ─── TAB : MUSIQUES ─── -->
+  <div class="tab-pane active" id="tp-4-music">
+
+    <!-- MV -->
+    <div class="sec-hd"><span class="sec-hd-title">MV Officiels</span></div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=MBdVXkSdhwU" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src="https://img.youtube.com/vi/MBdVXkSdhwU/maxresdefault.jpg">
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">DNA — MV</div>
+          <div class="v-foot"><span class="v-date">2017</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=7C2z4GqqS5E" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src="https://img.youtube.com/vi/7C2z4GqqS5E/maxresdefault.jpg">
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">Fake Love — MV</div>
+          <div class="v-foot"><span class="v-date">2018</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=pBuZEGYXA6E" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src="https://img.youtube.com/vi/pBuZEGYXA6E/maxresdefault.jpg">
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">IDOL — MV</div>
+          <div class="v-foot"><span class="v-date">2018</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Dance Practices -->
+    <div class="sec-hd"><span class="sec-hd-title">Dance Practices</span></div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+DNA+dance+practice" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🧬</div></div>
+        <div class="v-info">
+          <div class="v-title">DNA — Dance Practice</div>
+          <div class="v-foot"><span class="v-date">2017</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Fake+Love+dance+practice" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💔</div></div>
+        <div class="v-info">
+          <div class="v-title">Fake Love — Dance Practice</div>
+          <div class="v-foot"><span class="v-date">2018</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Autres vidéos -->
+    <div class="sec-hd"><span class="sec-hd-title">Performances & Archives</span></div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+DNA+live+stage" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎤</div></div>
+        <div class="v-info">
+          <div class="v-title">DNA — Stages music shows</div>
+          <div class="v-foot"><span class="v-date">2017</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+IDOL+live+stage" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🦁</div></div>
+        <div class="v-info">
+          <div class="v-title">IDOL — Live performances</div>
+          <div class="v-foot"><span class="v-date">2018</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : ALBUMS ─── -->
+  <div class="tab-pane" id="tp-4-albums">
+    <div class="sec-hd"><span class="sec-hd-title">Albums</span></div>
+
+    <div class="album-list">
+
+      <!-- Her -->
+      <div class="album-card" onclick="toggleAlbum(this)">
+        <div class="album-art"><img src="https://upload.wikimedia.org/wikipedia/en/6/6e/Love_Yourself_Her.jpg"></div>
+        <div class="album-info">
+          <div class="album-name">Love Yourself : Her</div>
+          <div class="album-detail">2017 · Mini Album</div>
+        </div>
+      </div>
+      <div class="album-tracks hidden">
+        <div class="tracks">
+          <span class="track title">DNA ★</span>
+          <span class="track">Best of Me</span>
+          <span class="track">Pied Piper</span>
+          <span class="track">Serendipity (Intro)</span>
+        </div>
+      </div>
+
+      <!-- Tear -->
+      <div class="album-card" onclick="toggleAlbum(this)">
+        <div class="album-art"><img src="https://upload.wikimedia.org/wikipedia/en/4/4e/Love_Yourself_Tear.png"></div>
+        <div class="album-info">
+          <div class="album-name">Love Yourself : Tear</div>
+          <div class="album-detail">2018 · Full Album</div>
+        </div>
+      </div>
+      <div class="album-tracks hidden">
+        <div class="tracks">
+          <span class="track title">Fake Love ★</span>
+          <span class="track">Singularity (Intro)</span>
+          <span class="track">The Truth Untold</span>
+          <span class="track">Airplane Pt.2</span>
+        </div>
+      </div>
+
+      <!-- Answer -->
+      <div class="album-card" onclick="toggleAlbum(this)">
+        <div class="album-art"><img src="https://upload.wikimedia.org/wikipedia/en/0/0a/Love_Yourself_Answer.png"></div>
+        <div class="album-info">
+          <div class="album-name">Love Yourself : Answer</div>
+          <div class="album-detail">2018 · Compilation Album</div>
+        </div>
+      </div>
+      <div class="album-tracks hidden">
+        <div class="tracks">
+          <span class="track title">IDOL ★</span>
+          <span class="track">Euphoria</span>
+          <span class="track">Epiphany</span>
+          <span class="track">I'm Fine</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : VARIETY ─── -->
+  <div class="tab-pane" id="tp-4-variety">
+    <div class="sec-hd"><span class="sec-hd-title">Divertissement</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=Run+BTS+2017+2018" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏃‍♂️</div></div>
+        <div class="v-info">
+          <div class="v-title">Run BTS — Épisodes 2017–2018</div>
+          <div class="v-foot"><span class="v-date">2017–2018</span><span class="v-link">Playlist →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Burn+the+Stage" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🔥</div></div>
+        <div class="v-info">
+          <div class="v-title">Burn the Stage — Documentaire</div>
+          <div class="v-foot"><span class="v-date">2018</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Bring+the+Soul" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🌙</div></div>
+        <div class="v-info">
+          <div class="v-title">Bring the Soul — Documentaire</div>
+          <div class="v-foot"><span class="v-date">2019</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : INTERVIEWS ─── -->
+  <div class="tab-pane" id="tp-4-interview">
+    <div class="sec-hd"><span class="sec-hd-title">Interviews</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+DNA+interview" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
+        <div class="v-info">
+          <div class="v-title">Interviews DNA</div>
+          <div class="v-foot"><span class="v-date">2017</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Fake+Love+interview" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💔</div></div>
+        <div class="v-info">
+          <div class="v-title">Interviews Fake Love</div>
+          <div class="v-foot"><span class="v-date">2018</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+IDOL+interview" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🦁</div></div>
+        <div class="v-info">
+          <div class="v-title">Interviews IDOL</div>
+          <div class="v-foot"><span class="v-date">2018</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : CONCERTS ─── -->
+  <div class="tab-pane" id="tp-4-concerts">
+    <div class="sec-hd"><span class="sec-hd-title">Concerts & Rediffusions</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Love+Yourself+Tour+2018" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎟</div></div>
+        <div class="v-info">
+          <div class="v-title">Love Yourself Tour — 2018</div>
+          <div class="v-foot"><span class="v-date">2018</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Love+Yourself+Speak+Yourself+Tour" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🌍</div></div>
+        <div class="v-info">
+          <div class="v-title">Love Yourself : Speak Yourself — 2019</div>
+          <div class="v-foot"><span class="v-date">2019</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : TIMELINE ─── -->
+  <div class="tab-pane" id="tp-4-timeline">
+    <div class="sec-hd"><span class="sec-hd-title">Chronologie</span></div>
+
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-date">Septembre 2017</div>
+        <div class="tl-title">Sortie de Love Yourself : Her</div>
+        <div class="tl-desc">“DNA” devient un succès mondial et marque l’entrée de BTS aux AMAs.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">Mai 2018</div>
+        <div class="tl-title">Sortie de Love Yourself : Tear</div>
+        <div class="tl-desc">“Fake Love” entre dans le Top 10 du Billboard Hot 100.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">Août 2018</div>
+        <div class="tl-title">Sortie de Love Yourself : Answer</div>
+        <div class="tl-desc">Compilation qui conclut la trilogie avec “IDOL”.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">2018–2019</div>
+        <div class="tl-title">Love Yourself World Tour</div>
+        <div class="tl-desc">Première tournée mondiale dans des stades pour BTS.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : FACTS ─── -->
+   <div class="tab-pane" id="tp-4-facts">
+    <div class="sec-hd"><span class="sec-hd-title">Anecdotes Love Yourself</span></div>
+    <div class="facts-grid">
+      <div class="fact-card"><div class="fact-title">DNA — premier Top 100</div><div class="fact-text">"DNA" atteint le Top 100 du Billboard Hot 100 — une première pour un groupe K-pop en 20+ ans. La vidéo obtient 100M de vues plus vite que tout autre MV K-pop avant lui.</div></div>
+      <div class="fact-card"><div class="fact-title">Fake Love — les mains de Jimin</div><div class="fact-text">Les mains du mystérieux personnage au début du MV sont celles de Jimin. L'ARMY a mis des semaines à le découvrir, déclenchant une vague de théories sur l'identité du personnage.</div></div>
+      <div class="fact-card"><div class="fact-title">IDOL x Nicki en 3 jours</div><div class="fact-text">La collaboration avec Nicki Minaj a été arrangée en 3 jours. Nicki a enregistré son couplet depuis New York pendant que BTS était à Séoul — les deux équipes ne se sont jamais rencontrées en studio.</div></div>
+      <div class="fact-card"><div class="fact-title">Magic Shop — pour l'ARMY</div><div class="fact-text">"Magic Shop" a été écrit par Jungkook. Le titre est inspiré d'une technique de psychothérapie. Lors des concerts, Jungkook dit "the place you come to when you're afraid and you miss me" face au public — un des moments les plus émouvants de leurs shows.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ██ ERA 5 : MOTS ██ -->
+<div class="era-section" id="era-5">
+  <div class="hero">
+    <div class="hero-num">Era 06 / 08</div>
+    <div class="hero-title">Map of the Soul</div>
+    <div class="hero-sub">영혼의 지도 — Persona, Shadow, Ego · COVID stoppe tout</div>
+    <div class="hero-meta">
+      <span class="meta-chip"><strong>2019 – 2020</strong></span>
+      <span class="meta-chip">Persona · 7 · BE</span>
+      <span class="meta-chip">Concept : Identité, ombre, introspection</span>
+    </div>
+    <div class="hero-desc">
+      Inspirée des travaux du psychologue Carl Jung, l’ère Map of the Soul explore les différentes facettes de l’identité :
+      la persona (le masque social), l’ombre (les peurs et failles), et l’ego (l’acceptation de soi).
+      C’est aussi l’ère où BTS atteint des sommets mondiaux, avec des performances historiques et des records de ventes.
+    </div>
+        <div class="anecdote-box">
+      <div class="anecdote-lbl">✦ Grand Central Station — histoire</div>
+      <p>La performance de "ON" filmée à Grand Central Station pour le Tonight Show de Jimmy Fallon (Fév. 2020) est considérée comme l'une des plus spectaculaires de l'histoire du show. La station a fermé ses portes spécialement pour BTS — une première en 100 ans d'histoire de l'édifice.</p>
+    </div>
+
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">✦ Persona</div>
+      <p>Le comeback “Boy With Luv” devient l’un des clips les plus vus en 24h de l’histoire de YouTube.</p>
+    </div>
+
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">✦ Shadow & Ego</div>
+      <p>Les solos “Shadow” (Suga) et “Ego” (J-Hope) représentent deux pôles opposés : la peur de la lumière et la joie de l’accepter.</p>
+    </div>
+  </div>
+
+  <!-- ─── TABS ─── -->
+  <div class="tabs-bar" id="tb-5">
+    <button class="tab-btn active" onclick="showTab(5,'music')">🎵 Musiques</button>
+    <button class="tab-btn" onclick="showTab(5,'albums')">💿 Albums</button>
+    <button class="tab-btn" onclick="showTab(5,'variety')">🎬 Divertissement</button>
+    <button class="tab-btn" onclick="showTab(5,'interview')">🎙 Interviews</button>
+    <button class="tab-btn" onclick="showTab(5,'concerts')">🎟 Concerts</button>
+    <button class="tab-btn" onclick="showTab(5,'timeline')">📅 Timeline</button>
+    <button class="tab-btn" onclick="showTab(5,'facts')">✨ Anecdotes</button>
+  </div>
+
+  <!-- ─── TAB : MUSIQUES ─── -->
+  <div class="tab-pane active" id="tp-5-music">
+
+    <!-- MV -->
+    <div class="sec-hd"><span class="sec-hd-title">MV Officiels</span></div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=XsX3ATc3FbA" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src="https://img.youtube.com/vi/XsX3ATc3FbA/maxresdefault.jpg">
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">Boy With Luv (feat. Halsey)</div>
+          <div class="v-foot"><span class="v-date">2019</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=mPVDGOVjRQ0" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src="https://img.youtube.com/vi/mPVDGOVjRQ0/maxresdefault.jpg">
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">Black Swan — Art Film</div>
+          <div class="v-foot"><span class="v-date">2020</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=gdZLi9oWNZg" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src="https://img.youtube.com/vi/gdZLi9oWNZg/maxresdefault.jpg">
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">ON — MV</div>
+          <div class="v-foot"><span class="v-date">2020</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/watch?v=-5q5mZbe3V8" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src="https://img.youtube.com/vi/-5q5mZbe3V8/maxresdefault.jpg">
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">Life Goes On — MV</div>
+          <div class="v-foot"><span class="v-date">2020</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Dance Practices -->
+    <div class="sec-hd"><span class="sec-hd-title">Dance Practices</span></div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Boy+With+Luv+dance+practice" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💗</div></div>
+        <div class="v-info">
+          <div class="v-title">Boy With Luv — Dance Practice</div>
+          <div class="v-foot"><span class="v-date">2019</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+ON+dance+practice" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">⚔️</div></div>
+        <div class="v-info">
+          <div class="v-title">ON — Dance Practice</div>
+          <div class="v-foot"><span class="v-date">2020</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Autres vidéos -->
+    <div class="sec-hd"><span class="sec-hd-title">Performances & Archives</span></div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Black+Swan+live+stage" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🖤</div></div>
+        <div class="v-info">
+          <div class="v-title">Black Swan — Live performances</div>
+          <div class="v-foot"><span class="v-date">2020</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Life+Goes+On+live+stage" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🌙</div></div>
+        <div class="v-info">
+          <div class="v-title">Life Goes On — Live performances</div>
+          <div class="v-foot"><span class="v-date">2020</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : ALBUMS ─── -->
+  <div class="tab-pane" id="tp-5-albums">
+    <div class="sec-hd"><span class="sec-hd-title">Albums</span></div>
+
+    <div class="album-list">
+
+      <!-- Persona -->
+      <div class="album-card" onclick="toggleAlbum(this)">
+        <div class="album-art"><img src="https://upload.wikimedia.org/wikipedia/en/0/0e/BTS_-_Map_of_the_Soul_Persona.png"></div>
+        <div class="album-info">
+          <div class="album-name">Map of the Soul : Persona</div>
+          <div class="album-detail">2019 · Mini Album</div>
+        </div>
+      </div>
+      <div class="album-tracks hidden">
+        <div class="tracks">
+          <span class="track title">Boy With Luv ★</span>
+          <span class="track">Intro : Persona</span>
+          <span class="track">Mikrokosmos</span>
+          <span class="track">Make It Right</span>
+        </div>
+      </div>
+
+      <!-- 7 -->
+      <div class="album-card" onclick="toggleAlbum(this)">
+        <div class="album-art"><img src="https://upload.wikimedia.org/wikipedia/en/3/3a/BTS_-_Map_of_the_Soul_7.png"></div>
+        <div class="album-info">
+          <div class="album-name">Map of the Soul : 7</div>
+          <div class="album-detail">2020 · Full Album</div>
+        </div>
+      </div>
+      <div class="album-tracks hidden">
+        <div class="tracks">
+          <span class="track title">ON ★</span>
+          <span class="track">Black Swan</span>
+          <span class="track">Shadow (Suga)</span>
+          <span class="track">Ego (J-Hope)</span>
+          <span class="track">Filter (Jimin)</span>
+          <span class="track">Inner Child (V)</span>
+        </div>
+      </div>
+
+      <!-- BE -->
+      <div class="album-card" onclick="toggleAlbum(this)">
+        <div class="album-art"><img src="https://upload.wikimedia.org/wikipedia/en/9/9e/BTS_-_Be.png"></div>
+        <div class="album-info">
+          <div class="album-name">BE</div>
+          <div class="album-detail">2020 · Special Album</div>
+        </div>
+      </div>
+      <div class="album-tracks hidden">
+        <div class="tracks">
+          <span class="track title">Life Goes On ★</span>
+          <span class="track">Blue & Grey</span>
+          <span class="track">Telepathy</span>
+          <span class="track">Stay</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : VARIETY ─── -->
+  <div class="tab-pane" id="tp-5-variety">
+    <div class="sec-hd"><span class="sec-hd-title">Divertissement</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=Run+BTS+2019+2020" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏃‍♂️</div></div>
+        <div class="v-info">
+          <div class="v-title">Run BTS — Épisodes 2019–2020</div>
+          <div class="v-foot"><span class="v-date">2019–2020</span><span class="v-link">Playlist →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+In+the+SOOP+Season+1" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🌲</div></div>
+        <div class="v-info">
+          <div class="v-title">In the SOOP — Saison 1</div>
+          <div class="v-foot"><span class="v-date">2020</span><span class="v-link">Playlist →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : INTERVIEWS ─── -->
+  <div class="tab-pane" id="tp-5-interview">
+    <div class="sec-hd"><span class="sec-hd-title">Interviews</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Boy+With+Luv+interview" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
+        <div class="v-info">
+          <div class="v-title">Interviews Boy With Luv</div>
+          <div class="v-foot"><span class="v-date">2019</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+ON+interview" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">⚔️</div></div>
+        <div class="v-info">
+          <div class="v-title">Interviews ON</div>
+          <div class="v-foot"><span class="v-date">2020</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Life+Goes+On+interview" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🌙</div></div>
+        <div class="v-info">
+          <div class="v-title">Interviews Life Goes On</div>
+          <div class="v-foot"><span class="v-date">2020</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : CONCERTS ─── -->
+  <div class="tab-pane" id="tp-5-concerts">
+    <div class="sec-hd"><span class="sec-hd-title">Concerts & Rediffusions</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Speak+Yourself+The+Final" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏟</div></div>
+        <div class="v-info">
+          <div class="v-title">Speak Yourself : The Final</div>
+          <div class="v-foot"><span class="v-date">2019</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+MOTS+ON:E+concert" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎥</div></div>
+        <div class="v-info">
+          <div class="v-title">Map of the Soul ON:E</div>
+          <div class="v-foot"><span class="v-date">2020</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : TIMELINE ─── -->
+  <div class="tab-pane" id="tp-5-timeline">
+    <div class="sec-hd"><span class="sec-hd-title">Chronologie</span></div>
+
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-date">Avril 2019</div>
+        <div class="tl-title">Sortie de Persona</div>
+        <div class="tl-desc">“Boy With Luv” explose les records mondiaux.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">Février 2020</div>
+        <div class="tl-title">Sortie de Map of the Soul : 7</div>
+        <div class="tl-desc">Album introspectif sur les 7 ans de carrière du groupe.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">Novembre 2020</div>
+        <div class="tl-title">Sortie de BE</div>
+        <div class="tl-desc">Album créé pendant la pandémie, centré sur la guérison.</div>
+      </div>
+   </div>
+   </div>
+  <!-- ─── TAB : FACTS ─── -->
+    <div class="tab-pane" id="tp-4-facts">
+    <div class="sec-hd"><span class="sec-hd-title">Annecdotes</span></div>
+      <div class="facts-grid">
+      <div class="fact-card">
+      <div class="fact-title">Boy With Luv — les données</div>
+      <div class="fact-text">"Boy With Luv" a obtenu 74,6 millions de vues en 24h à sa sortie, battant le record mondial YouTube à l'époque. La collaboration avec Halsey a eu lieu après que la chanteuse ait ouvertement exprimé son soutien à BTS sur Twitter pendant des années.</div>
+        </div>
+      <div class="fact-card">
+      <div class="fact-title">COVID : le tour annulé</div>
+      <div class="fact-text">Le "Map of the Soul" World Tour 2020 devait être leur plus grand tour — 39 villes, des stades de 50.000+ places. Annulé en mars 2020 à cause du COVID-19. Les pertes pour BigHit sont estimées à plusieurs centaines de millions de dollars. Les billets de certaines villes n'ont jamais été remboursés.</div>
+        </div>
+      <div class="fact-card">
+      <div class="fact-title">ON — Grand Central Station</div>
+      <div class="fact-text">La performance de "ON" filmée à Grand Central Station, New York pour le Tonight Show de Jimmy Fallon (Fév. 2020) est considérée comme l'une des plus spectaculaires de l'histoire de l'émission. La station a fermé ses portes pour BTS — une première en 100 ans d'histoire.</div>
+        </div>
+      <div class="fact-card">
+      <div class="fact-title">Dionysus — 7 minutes d'enfer</div>
+      <div class="fact-text">La performance de "Dionysus" aux BBMAs 2019, de 7 minutes, incluait des acrobaties, effets pyrotechniques et plus de 30 danseurs. Les membres ont répété cette performance pendant 3 semaines consécutives sans jour off.</div>
+        </div>
+    </div>
+  </div>
+  </div>
+
+
+<!-- ██ ERA 6 : BUTTER ██ -->
+<div class="era-section" id="era-6">
+  <div class="hero">
+    <div class="hero-num">Era 07 / 08</div>
+    <div class="hero-title">Butter &amp; Dynamite</div>
+    <div class="hero-sub">빛나는 시대 — La lumière dans l’obscurité</div>
+    <div class="hero-meta">
+      <span class="meta-chip"><strong>2020 – 2022</strong></span>
+      <span class="meta-chip">Singles mondiaux</span>
+      <span class="meta-chip">Grammy nommés</span>
+    </div>
+    <div class="hero-desc">
+      En pleine pandémie mondiale, BTS choisit d’apporter de la lumière avec des singles entièrement en anglais.
+      “Dynamite”, “Butter” et “Permission to Dance” deviennent des phénomènes planétaires, battant des records historiques
+      et offrant un peu de joie à un monde en pause.
+    </div>
+        <div class="anecdote-box">
+      <div class="anecdote-lbl">✦ Dynamite — tournage en chambre</div>
+      <p>Jungkook a chanté ses parties de "Dynamite" depuis sa chambre personnelle à Séoul, les 7 membres enregistrant séparément à cause des restrictions sanitaires. La MV a quand même été tournée en 2 jours — une prouesse logistique.</p>
+    </div>
+
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">✦ Dynamite</div>
+      <p>“Dynamite” est le premier single de BTS entièrement en anglais et leur premier n°1 au Billboard Hot 100.</p>
+    </div>
+
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">✦ Butter</div>
+      <p>“Butter” reste 10 semaines n°1 au Billboard Hot 100, un record pour un groupe asiatique.</p>
+    </div>
+  </div>
+
+  <!-- ─── TABS ─── -->
+  <div class="tabs-bar" id="tb-6">
+    <button class="tab-btn active" onclick="showTab(6,'music')">🎵 Musiques</button>
+    <button class="tab-btn" onclick="showTab(6,'albums')">💿 Singles</button>
+    <button class="tab-btn" onclick="showTab(6,'variety')">🎬 Divertissement</button>
+    <button class="tab-btn" onclick="showTab(6,'interview')">🎙 Interviews</button>
+    <button class="tab-btn" onclick="showTab(6,'concerts')">🎟 Concerts</button>
+    <button class="tab-btn" onclick="showTab(6,'timeline')">📅 Timeline</button>
+    <button class="tab-btn" onclick="showTab(6,'facts')">✨ Anecdotes</button>
+  </div>
+
+  <!-- ─── TAB : MUSIQUES ─── -->
+  <div class="tab-pane active" id="tp-6-music">
+
+    <!-- MV -->
+    <div class="sec-hd"><span class="sec-hd-title">MV Officiels</span></div>
+    <div class="v-grid">
+
+      <!-- Dynamite -->
+      <a class="v-card" href="https://www.youtube.com/watch?v=gdZLi9oWNZg" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src="https://img.youtube.com/vi/gdZLi9oWNZg/maxresdefault.jpg">
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">Dynamite — MV</div>
+          <div class="v-foot"><span class="v-date">2020</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+      <!-- Butter -->
+<a class="v-card" data-local="./Butter__Official_MV.mp4" href="https://www.youtube.com/watch?v=WMweEpGlu_U" target="_blank" rel="noopener">
+  <div class="v-thumb">
+    <img src="https://img.youtube.com/vi/WMweEpGlu_U/maxresdefault.jpg">
+    <span class="v-badge badge-mv">MV</span>
+  </div>
+  <div class="v-info">
+    <div class="v-title">Butter — MV</div>
+    <div class="v-foot"><span class="v-date">2021</span><span class="v-link">Voir →</span></div>
+  </div>
+</a>
+
+      <!-- PTD -->
+      <a class="v-card" href="https://www.youtube.com/watch?v=CuklIb9d3fI" target="_blank" rel="noopener" target="_blank">
+        <div class="v-thumb">
+          <img src="https://img.youtube.com/vi/CuklIb9d3fI/maxresdefault.jpg">
+          <span class="v-badge badge-mv">MV</span>
+        </div>
+        <div class="v-info">
+          <div class="v-title">Permission to Dance — MV</div>
+          <div class="v-foot"><span class="v-date">2021</span><span class="v-link">Voir →</span></div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Dance Practices -->
+    <div class="sec-hd"><span class="sec-hd-title">Dance Practices</span></div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Dynamite+dance+practice" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">✨</div></div>
+        <div class="v-info">
+          <div class="v-title">Dynamite — Dance Practice</div>
+          <div class="v-foot"><span class="v-date">2020</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Butter+dance+practice" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🧈</div></div>
+        <div class="v-info">
+          <div class="v-title">Butter — Dance Practice</div>
+          <div class="v-foot"><span class="v-date">2021</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Permission+to+Dance+dance+practice" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🟣</div></div>
+        <div class="v-info">
+          <div class="v-title">Permission to Dance — Dance Practice</div>
+          <div class="v-foot"><span class="v-date">2021</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Performances -->
+    <div class="sec-hd"><span class="sec-hd-title">Performances & Archives</span></div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Dynamite+live+stage" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎤</div></div>
+        <div class="v-info">
+          <div class="v-title">Dynamite — Live performances</div>
+          <div class="v-foot"><span class="v-date">2020</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Butter+live+stage" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🔥</div></div>
+        <div class="v-info">
+          <div class="v-title">Butter — Live performances</div>
+          <div class="v-foot"><span class="v-date">2021</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : ALBUMS / SINGLES ─── -->
+  <div class="tab-pane" id="tp-6-albums">
+    <div class="sec-hd"><span class="sec-hd-title">Singles</span></div>
+
+    <div class="album-list">
+
+      <!-- Dynamite -->
+      <div class="album-card" onclick="toggleAlbum(this)">
+        <div class="album-art"><img src="https://upload.wikimedia.org/wikipedia/en/1/1e/BTS_-_Dynamite.png"></div>
+        <div class="album-info">
+          <div class="album-name">Dynamite</div>
+          <div class="album-detail">2020 · Single</div>
+        </div>
+      </div>
+      <div class="album-tracks hidden">
+        <div class="tracks">
+          <span class="track title">Dynamite ★</span>
+          <span class="track">Acoustic Remix</span>
+          <span class="track">Tropical Remix</span>
+          <span class="track">Bedroom Remix</span>
+        </div>
+      </div>
+
+      <!-- Butter -->
+      <div class="album-card" onclick="toggleAlbum(this)">
+        <div class="album-art"><img src="https://upload.wikimedia.org/wikipedia/en/6/61/BTS_-_Butter.png"></div>
+        <div class="album-info">
+          <div class="album-name">Butter</div>
+          <div class="album-detail">2021 · Single</div>
+        </div>
+      </div>
+      <div class="album-tracks hidden">
+        <div class="tracks">
+          <span class="track title">Butter ★</span>
+          <span class="track">Hotter Remix</span>
+          <span class="track">Cooler Remix</span>
+          <span class="track">Sweeter Remix</span>
+        </div>
+      </div>
+
+      <!-- Permission to Dance -->
+      <div class="album-card" onclick="toggleAlbum(this)">
+        <div class="album-art"><img src="https://upload.wikimedia.org/wikipedia/en/4/4e/BTS_-_Permission_to_Dance.png"></div>
+        <div class="album-info">
+          <div class="album-name">Permission to Dance</div>
+          <div class="album-detail">2021 · Single</div>
+        </div>
+      </div>
+      <div class="album-tracks hidden">
+        <div class="tracks">
+          <span class="track title">Permission to Dance ★</span>
+          <span class="track">Instrumental</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : VARIETY ─── -->
+  <div class="tab-pane" id="tp-6-variety">
+    <div class="sec-hd"><span class="sec-hd-title">Divertissement</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=Run+BTS+2020+2021" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏃‍♂️</div></div>
+        <div class="v-info">
+          <div class="v-title">Run BTS — Épisodes 2020–2021</div>
+          <div class="v-foot"><span class="v-date">2020–2021</span><span class="v-link">Playlist →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+In+the+SOOP+Season+2" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🌲</div></div>
+        <div class="v-info">
+          <div class="v-title">In the SOOP — Saison 2</div>
+          <div class="v-foot"><span class="v-date">2021</span><span class="v-link">Playlist →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : INTERVIEWS ─── -->
+  <div class="tab-pane" id="tp-6-interview">
+    <div class="sec-hd"><span class="sec-hd-title">Interviews</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Dynamite+interview" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">✨</div></div>
+        <div class="v-info">
+          <div class="v-title">Interviews Dynamite</div>
+          <div class="v-foot"><span class="v-date">2020</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Butter+interview" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🧈</div></div>
+        <div class="v-info">
+          <div class="v-title">Interviews Butter</div>
+          <div class="v-foot"><span class="v-date">2021</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Permission+to+Dance+interview" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🟣</div></div>
+        <div class="v-info">
+          <div class="v-title">Interviews PTD</div>
+          <div class="v-foot"><span class="v-date">2021</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : CONCERTS ─── -->
+  <div class="tab-pane" id="tp-6-concerts">
+    <div class="sec-hd"><span class="sec-hd-title">Concerts & Rediffusions</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Permission+to+Dance+On+Stage+LA" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏟</div></div>
+        <div class="v-info">
+          <div class="v-title">PTD On Stage — LA</div>
+          <div class="v-foot"><span class="v-date">2021</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Permission+to+Dance+On+Stage+Seoul" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎤</div></div>
+        <div class="v-info">
+          <div class="v-title">PTD On Stage — Seoul</div>
+          <div class="v-foot"><span class="v-date">2022</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : TIMELINE ─── -->
+  <div class="tab-pane" id="tp-6-timeline">
+    <div class="sec-hd"><span class="sec-hd-title">Chronologie</span></div>
+
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-date">Août 2020</div>
+        <div class="tl-title">Sortie de Dynamite</div>
+        <div class="tl-desc">Premier n°1 de BTS au Billboard Hot 100.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">Mai 2021</div>
+        <div class="tl-title">Sortie de Butter</div>
+        <div class="tl-desc">10 semaines n°1 au Billboard Hot 100.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">Juillet 2021</div>
+        <div class="tl-title">Sortie de Permission to Dance</div>
+        <div class="tl-desc">Un message d’espoir et de liberté.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">2021–2022</div>
+        <div class="tl-title">PTD On Stage</div>
+        <div class="tl-desc">Premiers concerts post-pandémie.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="tab-pane" id="tp-6-facts">
+    <div class="sec-hd"><span class="sec-hd-title">Anecdotes</span></div>
+
+    <div class="facts-grid">
+        <div class="fact-card">
+          <div class="fact-title">Dynamite — les records</div>
+          <div class="fact-text">"Dynamite" = 101,1 millions de vues en 24h (record mondial à l'époque), #1 Billboard Hot 100 la première semaine, 1ère chanson d'un groupe coréen à dépasser 200M streams en une semaine sur Spotify. La MV a été tournée en deux jours à Séoul.</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-title">Butter x Megan Thee Stallion</div>
+          <div class="fact-text">Le remix de "Butter" avec Megan Thee Stallion a été le single le plus demandé par l'ARMY pendant des semaines. Megan et BTS se sont rencontrés virtuellement via Zoom pour la première fois — une collaboration 100% à distance.</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-title">BE — l'album fait à la maison</div>
+          <div class="fact-text">"BE" est le premier album où chaque membre a eu un rôle créatif officiel — J-Hope dirigeait la photographie, Jin la direction artistique, Jimin le merchandising, etc. L'album a été fait entièrement depuis la Corée pendant le confinement.</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-title">La Maison Blanche</div>
+          <div class="fact-text">En mai 2022, BTS rencontre le Président Biden à la Maison Blanche pour parler des violences anti-asiatiques. C'est la première fois qu'un groupe de K-pop est reçu par un président américain en exercice. Le briefing de presse a été regardé par des millions de personnes.</div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end era-6 -->
+
+
+<!-- ██ ERA 7 : ARIRANG / RETOUR OT7 / SPECIAL CONTENT ██ -->
+<div class="era-section" id="era-7">
+
+  <!-- ─── HERO ─── -->
+  <div class="hero">
+    <div class="hero-num">Era 08 / 08</div>
+    <div class="hero-title">Arirang · Retour OT7</div>
+    <div class="hero-sub">다시 함께 — Le retour, la fierté, l’unité</div>
+
+    <div class="hero-meta">
+      <span class="meta-chip"><strong>2022 – 2025</strong></span>
+      <span class="meta-chip">Arirang · Festa · OT7 Reunion</span>
+      <span class="meta-chip">Concept : Retrouvailles, maturité, héritage</span>
+    </div>
+
+    <div class="hero-desc">
+      Après une période de projets solo et de service militaire, BTS revient progressivement ensemble.
+      Cette ère est marquée par des contenus spéciaux, des interviews profondes, des performances symboliques
+      comme “Arirang”, et des moments de réunion très attendus par les ARMY.
+    </div>
+
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">✦ Arirang</div>
+      <p>“Arirang” est un chant traditionnel coréen. Leur interprétation est devenue un symbole d’unité, de fierté nationale et de maturité artistique.</p>
+    </div>
+
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">✦ OT7</div>
+      <p>Chaque apparition OT7 après 2022 est devenue un événement mondial, célébré par des millions de fans.</p>
+    </div>
+  </div>
+
+  <!-- ─── TABS ─── -->
+  <div class="tabs-bar" id="tb-7">
+    <button class="tab-btn active" onclick="showTab(7,'music')">🎵 Performances</button>
+    <button class="tab-btn" onclick="showTab(7,'albums')">💿 Projets OT7</button>
+    <button class="tab-btn" onclick="showTab(7,'variety')">🎬 Divertissement</button>
+    <button class="tab-btn" onclick="showTab(7,'interview')">🎙 Interviews</button>
+    <button class="tab-btn" onclick="showTab(7,'concerts')">🎟 Événements</button>
+    <button class="tab-btn" onclick="showTab(7,'timeline')">📅 Timeline</button>
+    <button class="tab-btn" onclick="showTab(7,'facts')">✨ Anecdotes</button>
+  </div>
+
+  <!-- ─── TAB : PERFORMANCES / MUSIQUES ─── -->
+  <div class="tab-pane active" id="tp-7-music">
+
+    <!-- Performances OT7 -->
+    <div class="sec-hd"><span class="sec-hd-title">Performances OT7</span></div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Arirang+performance" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🇰🇷</div><span class="v-badge badge-live">LIVE</span></div>
+        <div class="v-info">
+          <div class="v-title">Arirang — Performance spéciale</div>
+          <div class="v-foot"><span class="v-date">2023–2024</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+OT7+reunion+performance" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💜</div><span class="v-badge badge-live">OT7</span></div>
+        <div class="v-info">
+          <div class="v-title">Performances OT7 (post-service)</div>
+          <div class="v-foot"><span class="v-date">2024–2025</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Solos liés au retour -->
+    <div class="sec-hd"><span class="sec-hd-title">Performances Solo (pré-retour)</span></div>
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=Jungkook+Seven+live" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">7️⃣</div></div>
+        <div class="v-info">
+          <div class="v-title">Jungkook — Seven (Live)</div>
+          <div class="v-foot"><span class="v-date">2023</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=Jimin+Like+Crazy+live" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🌙</div></div>
+        <div class="v-info">
+          <div class="v-title">Jimin — Like Crazy (Live)</div>
+          <div class="v-foot"><span class="v-date">2023</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : PROJETS OT7 ─── -->
+  <div class="tab-pane" id="tp-7-albums">
+    <div class="sec-hd"><span class="sec-hd-title">Projets OT7</span></div>
+
+    <div class="album-list">
+
+      <div class="album-card" onclick="toggleAlbum(this)">
+        <div class="album-art"><div class="v-thumb-fallback">💜</div></div>
+        <div class="album-info">
+          <div class="album-name">Festa OT7</div>
+          <div class="album-detail">2022–2025 · Contenus spéciaux</div>
+        </div>
+      </div>
+
+      <div class="album-tracks hidden">
+        <div class="tracks">
+          <span class="track title">Festa Dinners</span>
+          <span class="track">Messages OT7</span>
+          <span class="track">Photoshoots</span>
+          <span class="track">Bangtan Bombs OT7</span>
+        </div>
+      </div>
+
+      <div class="album-card" onclick="toggleAlbum(this)">
+        <div class="album-art"><div class="v-thumb-fallback">🎤</div></div>
+        <div class="album-info">
+          <div class="album-name">Arirang Project</div>
+          <div class="album-detail">Performances & contenus culturels</div>
+        </div>
+      </div>
+
+      <div class="album-tracks hidden">
+        <div class="tracks">
+          <span class="track title">Arirang — Performance</span>
+          <span class="track">Behind the Scenes</span>
+          <span class="track">Interviews culturelles</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : VARIETY ─── -->
+  <div class="tab-pane" id="tp-7-variety">
+    <div class="sec-hd"><span class="sec-hd-title">Divertissement</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Festa+2023+2024" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎉</div></div>
+        <div class="v-info">
+          <div class="v-title">Festa — OT7 Moments</div>
+          <div class="v-foot"><span class="v-date">2023–2025</span><span class="v-link">Playlist →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Bangtan+Bomb+2023+2024" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div></div>
+        <div class="v-info">
+          <div class="v-title">Bangtan Bombs — OT7</div>
+          <div class="v-foot"><span class="v-date">2023–2025</span><span class="v-link">Playlist →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : INTERVIEWS ─── -->
+  <div class="tab-pane" id="tp-7-interview">
+    <div class="sec-hd"><span class="sec-hd-title">Interviews</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Arirang+interview" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🇰🇷</div></div>
+        <div class="v-info">
+          <div class="v-title">Interviews Arirang</div>
+          <div class="v-foot"><span class="v-date">2023–2024</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+OT7+interview+2024" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💜</div></div>
+        <div class="v-info">
+          <div class="v-title">Interviews OT7 (post-service)</div>
+          <div class="v-foot"><span class="v-date">2024–2025</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : ÉVÉNEMENTS ─── -->
+  <div class="tab-pane" id="tp-7-concerts">
+    <div class="sec-hd"><span class="sec-hd-title">Événements & Réunions</span></div>
+
+    <div class="v-grid">
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+OT7+reunion+2025" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎤</div></div>
+        <div class="v-info">
+          <div class="v-title">OT7 Reunion — Performances & Messages</div>
+          <div class="v-foot"><span class="v-date">2024–2025</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Festa+2025" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎉</div></div>
+        <div class="v-info">
+          <div class="v-title">Festa — OT7 Special</div>
+          <div class="v-foot"><span class="v-date">2025</span><span class="v-link">Chercher →</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : TIMELINE ─── -->
+  <div class="tab-pane" id="tp-7-timeline">
+    <div class="sec-hd"><span class="sec-hd-title">Chronologie</span></div>
+
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-date">2022</div>
+        <div class="tl-title">Début des projets solo</div>
+        <div class="tl-desc">Chaque membre explore son univers artistique.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">2023–2024</div>
+        <div class="tl-title">Performances Arirang</div>
+        <div class="tl-desc">BTS met en avant la culture coréenne.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">2024–2025</div>
+        <div class="tl-title">Retour progressif OT7</div>
+        <div class="tl-desc">Réunions, messages, contenus spéciaux.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB : FACTS ─── -->
+  <div class="tab-pane" id="tp-7-facts">
+    <div class="sec-hd"><span class="sec-hd-title">Anecdotes</span></div>
+
+    <div class="facts-grid">
+
+      <div class="fact-card">
+        <div class="fact-title">Arirang</div>
+        <div class="fact-text">Leur interprétation est devenue un symbole national et un moment très fort pour les fans.</div>
+      </div>
+
+      <div class="fact-card">
+        <div class="fact-title">OT7 Moments</div>
+        <div class="fact-text">Chaque apparition ensemble après 2022 a fait exploser les réseaux sociaux.</div>
+      </div>
+
+      <div class="fact-card">
+        <div class="fact-title">Festa</div>
+        <div class="fact-text">Les Festa post‑2023 sont devenus des moments de retrouvailles très émouvants.</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<!-- ███ ROUE ALÉATOIRE ███ -->
+<div class="era-section" id="era-8">
+  <h2 class="wheel-title">🎡 Roue aléatoire BTS</h2>
+  <p class="wheel-subtitle">Tourne la roue · découvre une vidéo au hasard</p>
+
+  <div class="wheel-select">
+    <label>Catégorie :</label>
+    <select id="wheel-category">
+      <option value="mv">MV Officiels</option>
+      <option value="practice">Dance Practice</option>
+      <option value="variety">Divertissement</option>
+      <option value="concerts">Concerts</option>
+      <option value="interview">Interviews</option>
+      <option value="all">Tout mélangé</option>
+    </select>
+  </div>
+
+  <div class="wheel-wrap">
+    <div id="wheel">
+      <canvas id="wheel-canvas" width="260" height="260"></canvas>
+      <div id="wheel-center"></div>
+    </div>
+
+    <button id="spin-btn">🎯 Lancer la roue</button>
+
+    <div id="wheel-result">
+      <div id="result-title">—</div>
+      <div id="result-badge"></div>
+      <button id="result-play">▶ Regarder</button>
+    </div>
+  </div>
+</div><!-- /era-8 -->
+
+<!-- Fenêtre vidéo locale (s'ouvre uniquement si data-local est défini sur la carte) -->
+<div id="video-popup" role="dialog" aria-modal="true">
+  <div id="video-content">
+    <div id="video-topbar">
+      <span id="video-popup-title"></span>
+      <button id="close-video">✕ Fermer</button>
+    </div>
+    <div id="video-body">
+      <video id="video-player" controls></video>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// ============================================================
+// UTILITAIRE YouTube
+// ============================================================
+function getYouTubeId(url) {
+  if (!url) return null;
+  let m = url.match(/youtube\.com\/embed\/([A-Za-z0-9_\-]+)/);
+  if (m) return m[1];
+  m = url.match(/youtu\.be\/([A-Za-z0-9_\-]+)/);
+  if (m) return m[1];
+  m = url.match(/youtube\.com\/watch\?v=([A-Za-z0-9_\-]+)/);
+  if (m) return m[1];
+  return null;
+}
+
+// ============================================================
+// POPUP VIDÉO — ouverture / fermeture
+
+// ============================================================
+// POPUP VIDÉO — vidéos locales uniquement (data-local)
+// ============================================================
+function openLocalVideo(src, title) {
+  const popup  = document.getElementById("video-popup");
+  const player = document.getElementById("video-player");
+  const titleEl = document.getElementById("video-popup-title");
+  if (!popup || !player) return;
+  player.src = src;
+  if (titleEl) titleEl.textContent = title || "";
+  popup.classList.add("open");
+  document.body.style.overflow = "hidden";
+  player.play();
+}
+
+function closeVideo() {
+  const popup  = document.getElementById("video-popup");
+  const player = document.getElementById("video-player");
+  if (!popup || !player) return;
+  player.pause();
+  player.src = "";
+  popup.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+const closeBtn = document.getElementById("close-video");
+if (closeBtn) closeBtn.addEventListener("click", closeVideo);
+
+const popupEl = document.getElementById("video-popup");
+if (popupEl) popupEl.addEventListener("click", function(e) {
+  if (e.target === this) closeVideo();
+});
+
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") closeVideo();
+});
+
+// Cartes avec data-local → popup
+document.querySelectorAll(".v-card").forEach(card => {
+  const localSrc = card.dataset.local;
+  if (!localSrc) return;
+  card.addEventListener("click", function(e) {
+    e.preventDefault();
+    const titleEl = this.querySelector(".v-title");
+    openLocalVideo(localSrc, titleEl ? titleEl.textContent.trim() : "");
+  });
+});
+
+// ============================================================
+// NAVIGATION — ERAS
+// ============================================================
+function showEra(idx) {
+  document.querySelectorAll(".era-section").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll(".era-btn").forEach(b => b.classList.remove("active"));
+  const section = document.getElementById("era-" + idx);
+  if (section) section.classList.add("active");
+  const btns = document.querySelectorAll(".era-btn");
+  if (btns[idx]) btns[idx].classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// ============================================================
+// NAVIGATION — TABS
+// ============================================================
+function showTab(eraIdx, tabId) {
+  const era = document.getElementById("era-" + eraIdx);
+  if (!era) return;
+  era.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
+  era.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  const pane = document.getElementById("tp-" + eraIdx + "-" + tabId);
+  if (pane) pane.classList.add("active");
+  era.querySelectorAll(".tab-btn").forEach(btn => {
+    if (btn.getAttribute("onclick") === "showTab(" + eraIdx + ",\'" + tabId + "\')") {
+      btn.classList.add("active");
+    }
+  });
+}
+
+// ============================================================
+// SIDEBAR MOBILE
+// ============================================================
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("open");
+  document.getElementById("overlay").classList.toggle("open");
+}
+
+function closeSidebar() {
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("overlay").classList.remove("open");
+}
+
+// ============================================================
+// ROUE ALÉATOIRE
+// ============================================================
+(function() {
+  const PALETTE = [
+    "#c9a96e","#7b5fd4","#4dbfa8","#e06878","#4080d4","#b87fcf",
+    "#d44040","#40a078","#e07840","#6080c8","#a8c840","#d480a0",
+    "#60b8d8","#c8a040","#8060c8","#50c878","#e09060","#7090d0",
+    "#c87060","#50a890","#d4a870","#9070c0","#70c098","#d07080"
+  ];
+  const BADGE_COLORS = {
+    mv:   {bg:"#e06878",text:"#fff",label:"MV"},
+    yt:   {bg:"#c9a96e",text:"#09090e",label:"Practice"},
+    live: {bg:"#e07840",text:"#fff",label:"Live"},
+    show: {bg:"#4080d4",text:"#fff",label:"Show"},
+    solo: {bg:"#b87fcf",text:"#fff",label:"Solo"},
+    kiss: {bg:"#d44040",text:"#fff",label:"KissKH"},
+    doc:  {bg:"#40a078",text:"#fff",label:"Doc"},
+    off:  {bg:"#7b5fd4",text:"#fff",label:"Off"},
+    rare: {bg:"#4dbfa8",text:"#09090e",label:"Rare"},
+    none: {bg:"#555577",text:"#fff",label:"Vidéo"},
+  };
+
+  const canvas = document.getElementById("wheel-canvas");
+  const ctx    = canvas ? canvas.getContext("2d") : null;
+  let segments = [], spinning = false, currentAngle = 0;
+
+  function getBadgeType(card) {
+    const badge = card.querySelector("[class*=badge-]");
+    if (!badge) return "none";
+    const cls = [...badge.classList].find(c => c.startsWith("badge-"));
+    return cls ? cls.replace("badge-","") : "none";
+  }
+  function getTitle(card) {
+    const el = card.querySelector(".v-title");
+    return el ? el.textContent.trim() : "Vidéo";
+  }
+  function getCardLink(card) {
+    return card.dataset.local || card.getAttribute("href") || null;
+  }
+  function buildSegments(cards) {
+    segments = cards.map((card, i) => ({
+      card, title: getTitle(card), badge: getBadgeType(card),
+      link: getCardLink(card), isLocal: !!card.dataset.local,
+      color: PALETTE[i % PALETTE.length],
+    }));
+  }
+  function drawWheel() {
+    if (!ctx || segments.length === 0) return;
+    const cx = canvas.width/2, cy = canvas.height/2, r = cx-2;
+    const step = (2*Math.PI)/segments.length;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    segments.forEach((seg,i) => {
+      const sa = currentAngle+i*step, ea = sa+step;
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,sa,ea); ctx.closePath();
+      ctx.fillStyle = seg.color; ctx.fill();
+      ctx.strokeStyle = "rgba(0,0,0,.25)"; ctx.lineWidth=1; ctx.stroke();
+      ctx.save(); ctx.translate(cx,cy); ctx.rotate(sa+step/2);
+      ctx.textAlign="right"; ctx.fillStyle="rgba(0,0,0,.8)";
+      ctx.font="bold "+Math.max(8,Math.min(11,140/segments.length))+"px monospace";
+      const lbl = seg.title.length>14 ? seg.title.slice(0,13)+"…" : seg.title;
+      ctx.fillText(lbl,r-8,4); ctx.restore();
+    });
+  }
+  function loadCategory() {
+    const cat = document.getElementById("wheel-category");
+    if (!cat) return;
+    const category = cat.value;
+    let cards;
+    if (category==="all") {
+      cards = [...document.querySelectorAll(".v-card")];
+    } else {
+      let sel="";
+      if (category==="mv")       sel=".badge-mv";
+      if (category==="practice") sel=".badge-yt";
+      if (category==="variety")  sel=".badge-show,.badge-kiss";
+      if (category==="concerts") sel=".badge-live";
+      if (category==="interview") sel=".v-title";
+      cards = sel ? [...document.querySelectorAll(sel)].map(el=>el.closest(".v-card")).filter(Boolean) : [];
+    }
+    const seen=new Set();
+    cards = cards.filter(c=>{if(!c||seen.has(c))return false;seen.add(c);return getCardLink(c);});
+    buildSegments(cards); currentAngle=0; drawWheel();
+    const res = document.getElementById("wheel-result");
+    if (res) res.classList.remove("visible");
+  }
+
+  const catSel = document.getElementById("wheel-category");
+  if (catSel) catSel.addEventListener("change", loadCategory);
+
+  const spinBtn = document.getElementById("spin-btn");
+  if (spinBtn) spinBtn.addEventListener("click", function() {
+    if (spinning||segments.length===0){if(!segments.length)alert("Aucune vidéo !");return;}
+    spinning=true; this.disabled=true;
+    const res=document.getElementById("wheel-result");
+    if(res)res.classList.remove("visible");
+    const total=(Math.PI*2*8)+Math.random()*Math.PI*2, dur=4000;
+    const start=performance.now(), startAngle=currentAngle;
+    function animate(now){
+      const p=Math.min((now-start)/dur,1), ease=1-Math.pow(1-p,3);
+      currentAngle=startAngle+total*ease; drawWheel();
+      if(p<1){requestAnimationFrame(animate);}
+      else{spinning=false;spinBtn.disabled=false;showResult();}
+    }
+    requestAnimationFrame(animate);
+  });
+
+  function showResult() {
+    if(!segments.length)return;
+    const step=(2*Math.PI)/segments.length;
+    const norm=(((-currentAngle)%(2*Math.PI))+(2*Math.PI))%(2*Math.PI);
+    const idx=Math.floor(norm/step)%segments.length;
+    const seg=segments[idx];
+    const bi=BADGE_COLORS[seg.badge]||BADGE_COLORS.none;
+    const rt=document.getElementById("result-title");
+    const rb=document.getElementById("result-badge");
+    const rp=document.getElementById("result-play");
+    const wr=document.getElementById("wheel-result");
+    if(rt)rt.textContent=seg.title;
+    if(rb){rb.textContent=bi.label;rb.style.background=bi.bg;rb.style.color=bi.text;}
+    if(rp){
+      if(seg.isLocal){rp.textContent="▶ Regarder";rp.onclick=()=>openLocalVideo(seg.link,seg.title);}
+      else{rp.textContent="▶ Ouvrir sur YouTube";rp.onclick=()=>window.open(seg.link,"_blank","noopener");}
+    }
+    if(wr)wr.classList.add("visible");
+  }
+
+  window.addEventListener("load", loadCategory);
+  const era8=document.getElementById("era-8");
+  if(era8){
+    new MutationObserver(()=>{if(era8.classList.contains("active"))loadCategory();})
+      .observe(era8,{attributes:true,attributeFilter:["class"]});
+  }
+})();
+
+</script>
+
+
+
+</body>
+</html>
