@@ -1,0 +1,124 @@
+/* ══════════════════════════════════════════════
+   ARMY LOUNGE — STYLES SPÉCIFIQUES
+   (réutilise les variables, le header et .hub-switch de style.css)
+══════════════════════════════════════════════ */
+
+/* Conteneur principal */
+.hub-main {
+  margin-left: var(--sidebar-w, 0);
+  padding-top: var(--header-h);
+  min-height: 100vh;
+  background: var(--bg);
+}
+@media(max-width:768px){
+  .hub-main { margin-left: 0; }
+}
+
+/* ── HERO ── */
+.hub-hero {
+  position: relative;
+  min-height: 38vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding: 3rem 1.5rem;
+  background: linear-gradient(135deg, #0a0812 0%, #1a0a30 45%, #2a1040 100%);
+  border-bottom: 1px solid var(--border);
+}
+.hub-hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 25% 30%, rgba(123,95,212,.28) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 70%, rgba(201,169,110,.12) 0%, transparent 55%);
+  pointer-events: none;
+}
+.hub-hero-content { position: relative; z-index: 1; max-width: 560px; }
+.hub-pretitle {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; letter-spacing: .3em; text-transform: uppercase;
+  color: #b09ae8; margin-bottom: .6rem;
+}
+.hub-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 8vw, 64px); font-weight: 600;
+  color: #f5f0ff;
+  text-shadow: 0 0 40px rgba(123,95,212,.4);
+  margin: 0 0 .8rem;
+  letter-spacing: .04em;
+}
+.hub-subtitle {
+  font-size: clamp(11px, 1.8vw, 14px);
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+/* ── GRILLE D'ESPACES ── */
+.hub-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.1rem;
+  padding: 2rem 1.5rem 4rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.hub-card {
+  display: flex; flex-direction: column;
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.4rem 1.3rem;
+  text-decoration: none;
+  transition: transform .25s ease, border-color .25s ease, background .25s ease;
+  position: relative;
+  overflow: hidden;
+}
+.hub-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 30% 0%, rgba(123,95,212,.12) 0%, transparent 60%);
+  opacity: 0; transition: opacity .3s;
+}
+.hub-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(123,95,212,.4);
+  background: rgba(255,255,255,.05);
+}
+.hub-card:hover::before { opacity: 1; }
+
+.hub-card-icon {
+  font-size: 32px;
+  margin-bottom: .8rem;
+  position: relative; z-index: 1;
+}
+.hub-card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px; font-weight: 500;
+  color: var(--text);
+  margin-bottom: .5rem;
+  position: relative; z-index: 1;
+}
+.hub-card-desc {
+  font-size: 11px; line-height: 1.65;
+  color: var(--text3);
+  flex: 1;
+  position: relative; z-index: 1;
+}
+.hub-card-status {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; letter-spacing: .18em; text-transform: uppercase;
+  color: rgba(201,169,110,.55);
+  margin-top: 1rem;
+  position: relative; z-index: 1;
+}
+.hub-card-status.available,
+.hub-card[href]:not([href="#"]) .hub-card-status {
+  color: #6fcf8e;
+}
+
+.hub-card-wide {
+  grid-column: span 2;
+}
+@media(max-width:600px){
+  .hub-card-wide { grid-column: span 1; }
+}

@@ -1,0 +1,232 @@
+/* ══════════════════════════════════════════════
+   ÉTUDIER AVEC BTS — STYLES
+══════════════════════════════════════════════ */
+
+.study-hero {
+  position: relative;
+  min-height: 28vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding: 2.5rem 1.5rem;
+  background: linear-gradient(135deg, #0a0812 0%, #1a1530 45%, #1a2a30 100%);
+  border-bottom: 1px solid var(--border);
+}
+.study-back {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--text3);
+  text-decoration: none;
+  margin-bottom: 1rem;
+  transition: color .2s;
+}
+.study-back:hover { color: #b09ae8; }
+
+.study-section {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+.study-section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(20px, 3.5vw, 28px); font-weight: 400;
+  color: #c9a96e;
+  margin-bottom: .6rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid rgba(201,169,110,.2);
+}
+.study-intro {
+  font-size: 11px; color: var(--text3); line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+/* ── POMODORO ── */
+.pomo-card {
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 1.2rem;
+}
+.pomo-modes {
+  display: flex; gap: 6px; flex-wrap: wrap; justify-content: center;
+}
+.pomo-mode {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: .1em; text-transform: uppercase;
+  background: none;
+  border: 1px solid var(--border2);
+  color: var(--text3);
+  padding: 6px 14px; border-radius: 16px;
+  cursor: pointer; transition: all .2s;
+}
+.pomo-mode:hover { color: var(--text); border-color: rgba(123,95,212,.4); }
+.pomo-mode.active {
+  background: rgba(123,95,212,.15);
+  border-color: rgba(123,95,212,.5);
+  color: #b09ae8;
+}
+
+.pomo-ring-wrap {
+  position: relative;
+  width: clamp(160px, 40vw, 220px);
+  height: clamp(160px, 40vw, 220px);
+}
+.pomo-ring { width: 100%; height: 100%; transform: rotate(-90deg); }
+.pomo-ring-bg {
+  fill: none; stroke: rgba(255,255,255,.06); stroke-width: 8;
+}
+.pomo-ring-fg {
+  fill: none; stroke: #7b5fd4; stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+  filter: drop-shadow(0 0 6px rgba(123,95,212,.6));
+}
+.pomo-time {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(32px, 8vw, 48px);
+  color: var(--text);
+  letter-spacing: .05em;
+}
+
+.pomo-controls { display: flex; gap: .6rem; }
+.pomo-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+  padding: 10px 22px; border-radius: 20px;
+  border: 1px solid var(--border2);
+  background: none; color: var(--text2);
+  cursor: pointer; transition: all .2s;
+}
+.pomo-btn:hover { border-color: rgba(255,255,255,.3); color: var(--text); }
+.pomo-btn-main {
+  border-color: rgba(123,95,212,.5);
+  background: rgba(123,95,212,.15);
+  color: #b09ae8;
+}
+.pomo-btn-main:hover { background: rgba(123,95,212,.25); }
+
+.pomo-cycles {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; letter-spacing: .1em;
+  color: var(--text3);
+}
+.pomo-cycles span { color: #c9a96e; font-weight: 700; }
+
+.pomo-message {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13px; color: rgba(232,224,208,.75);
+  text-align: center; min-height: 1.2em;
+  max-width: 380px;
+}
+
+/* ── GRILLE PLAYLISTS ── */
+.study-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+.study-card {
+  display: flex; flex-direction: column;
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.1rem 1.2rem;
+  text-decoration: none;
+  transition: transform .2s, border-color .2s, background .2s;
+}
+.study-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(201,169,110,.35);
+  background: rgba(255,255,255,.05);
+}
+.study-card-icon { font-size: 24px; margin-bottom: .5rem; }
+.study-card-title {
+  font-size: 12px; font-weight: 600; color: var(--text);
+  margin-bottom: .3rem; line-height: 1.4;
+}
+.study-card-desc {
+  font-size: 10px; line-height: 1.6; color: var(--text3);
+  flex: 1; margin-bottom: .6rem;
+}
+.study-card-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; letter-spacing: .15em; text-transform: uppercase;
+  color: rgba(201,169,110,.6);
+}
+
+/* ── DISCOURS ── */
+.speech-card {
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-left: 3px solid #7b5fd4;
+  border-radius: 12px;
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1.2rem;
+}
+.speech-header { display: flex; gap: .8rem; align-items: center; margin-bottom: .8rem; }
+.speech-icon { font-size: 24px; flex-shrink: 0; }
+.speech-title { font-size: 12px; font-weight: 600; color: var(--text); }
+.speech-sub { font-size: 9px; color: var(--text3); letter-spacing: .08em; margin-top: 2px; }
+.speech-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 12px; line-height: 1.75;
+  color: rgba(232,224,208,.85);
+  margin: 0 0 .8rem;
+}
+.speech-link {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: .12em; text-transform: uppercase;
+  color: #b09ae8;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(176,154,232,.3);
+  padding-bottom: 2px;
+  transition: color .2s, border-color .2s;
+}
+.speech-link:hover { color: #d0c0ff; border-color: rgba(208,192,255,.6); }
+
+/* ── ROTATEUR DE CITATIONS ── */
+.quote-rotator-wrap {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+.quote-rotator {
+  background: rgba(201,169,110,.05);
+  border: 1px solid rgba(201,169,110,.2);
+  border-radius: 12px;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: .8rem;
+}
+@keyframes quoteFade {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.quote-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(13px, 2.5vw, 16px);
+  line-height: 1.7;
+  color: rgba(232,224,208,.9);
+  margin-bottom: .6rem;
+}
+.quote-member {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: .15em;
+  color: #c9a96e;
+}
+.quote-next-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: .15em; text-transform: uppercase;
+  background: none;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  padding: 7px 16px; border-radius: 18px;
+  cursor: pointer; transition: all .2s;
+}
+.quote-next-btn:hover { border-color: rgba(201,169,110,.4); color: #c9a96e; }
