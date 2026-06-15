@@ -9,7 +9,97 @@
   <script defer src="https://cloud.umami.is/script.js" data-website-id="05ed87e3-dc67-44d8-a5b7-133005178a72"></script>
 </head>
 <body>
+<html><head></head><body><div id="onboarding-overlay" class="active">
+  <button id="onb-skip" onclick="onbSkip()">Passer ✕</button>
 
+  <div class="onb-slides" id="onb-slides">
+
+    <!-- Slide 1 — Bienvenue -->
+    <div class="onb-slide active" data-slide="0">
+      <div class="onb-visual onb-visual-1">
+        <div class="onb-glow"></div>
+        <div class="onb-logo-demo">BTS <small>방탄소년단 Archive</small></div>
+      </div>
+      <div class="onb-pretitle">Bienvenue 💜</div>
+      <h2 class="onb-title">L'archive complète de BTS</h2>
+      <p class="onb-text">Toutes les eras, tous les membres, toute l'histoire — réunis dans un seul endroit. Fais une visite rapide pour découvrir comment naviguer.</p>
+    </div>
+
+    <!-- Slide 2 — Les Eras -->
+    <div class="onb-slide" data-slide="1">
+      <div class="onb-visual onb-visual-2">
+        <div class="onb-era-demo">
+          <div class="onb-era-card" style="--c:#c45a3a">2013</div>
+          <div class="onb-era-card" style="--c:#3a78c4">HYYH</div>
+          <div class="onb-era-card" style="--c:#8b5fd4">Wings</div>
+          <div class="onb-era-card" style="--c:#c9a96e">2026</div>
+        </div>
+      </div>
+      <div class="onb-pretitle">📖 16 eras</div>
+      <h2 class="onb-title">Explore chaque ère de BTS</h2>
+      <p class="onb-text">Ouvre le menu (en haut à gauche) pour naviguer entre les 16 eras du groupe — des débuts en 2013 jusqu'à aujourd'hui. Chaque era contient clips, albums, lives, anecdotes et plus.</p>
+    </div>
+
+    <!-- Slide 3 — Recherche -->
+    <div class="onb-slide" data-slide="2">
+      <div class="onb-visual onb-visual-3">
+        <div class="onb-search-demo">
+          <span class="onb-search-icon">🔍</span>
+          <span class="onb-search-text">Dynamite</span>
+        </div>
+        <div class="onb-search-results">
+          <div class="onb-search-result">🎵 Dynamite — MV</div>
+          <div class="onb-search-result">💿 Dynamite — Single</div>
+        </div>
+      </div>
+      <div class="onb-pretitle">🔍 Recherche instantanée</div>
+      <h2 class="onb-title">Trouve n'importe quel contenu</h2>
+      <p class="onb-text">La barre de recherche en haut te permet de trouver directement un titre, un album ou un épisode — et te ramène pile à l'endroit concerné.</p>
+    </div>
+
+    <!-- Slide 4 — Quiz, Blind Test, Lore -->
+    <div class="onb-slide" data-slide="3">
+      <div class="onb-visual onb-visual-4">
+        <div class="onb-tool-demo">✨ Quiz</div>
+        <div class="onb-tool-demo">🎵 Blind Test</div>
+        <div class="onb-tool-demo">📖 Lore &amp; Théories</div>
+      </div>
+      <div class="onb-pretitle">🎮 Espaces interactifs</div>
+      <h2 class="onb-title">Joue et apprends</h2>
+      <p class="onb-text">Découvre quelle era te correspond avec le Quiz, teste tes connaissances musicales avec le Blind Test, et plonge dans l'univers narratif de BTS avec la section Lore &amp; Théories.</p>
+    </div>
+
+    <!-- Slide 5 — ARMY Lounge -->
+    <div class="onb-slide" data-slide="4">
+      <div class="onb-visual onb-visual-5">
+        <div class="onb-lounge-demo">
+          <div class="onb-lounge-icon">💜</div>
+          <div class="onb-lounge-name">ARMY Lounge</div>
+        </div>
+      </div>
+      <div class="onb-pretitle">✦ Et ce n'est pas tout</div>
+      <h2 class="onb-title">Découvre l'ARMY Lounge</h2>
+      <p class="onb-text">En plus de l'archive, un espace communautaire t'attend : playlists d'étude, Pomodoro, karaoké, et un chat pour discuter avec d'autres ARMY. Accessible via le bouton "💜 Lounge" dans le header.</p>
+      <a href="hub.html" class="onb-lounge-btn">Découvrir l'ARMY Lounge →</a>
+    </div>
+
+  </div>
+
+  <!-- Navigation -->
+  <div class="onb-nav">
+    <div class="onb-dots" id="onb-dots">
+      <span class="onb-dot active" onclick="onbGoTo(0)"></span>
+      <span class="onb-dot" onclick="onbGoTo(1)"></span>
+      <span class="onb-dot" onclick="onbGoTo(2)"></span>
+      <span class="onb-dot" onclick="onbGoTo(3)"></span>
+      <span class="onb-dot" onclick="onbGoTo(4)"></span>
+    </div>
+    <div class="onb-buttons">
+      <button class="onb-btn onb-btn-prev" id="onb-prev" onclick="onbPrev()" style="visibility:hidden">← Précédent</button>
+      <button class="onb-btn onb-btn-next" id="onb-next" onclick="onbNext()">Suivant →</button>
+    </div>
+  </div>
+</div>
 <!-- INTRO -->
 <div id="intro">
   <canvas id="intro-canvas"></canvas>
@@ -7351,6 +7441,80 @@ window.showRandomFact = function() {
   card.style.animation = 'factIn .35s ease';
 };
 </script>
+<script>
+(function(){
+  const TOTAL_SLIDES = 5;
+  let current = 0;
 
+  function shouldShow() {
+    try { return !localStorage.getItem('bts_onboarding_seen'); }
+    catch(e) { return true; }
+  }
+
+  function markSeen() {
+    try { localStorage.setItem('bts_onboarding_seen', '1'); } catch(e) {}
+  }
+
+  function updateSlide() {
+    document.querySelectorAll('.onb-slide').forEach((s, i) => {
+      s.classList.toggle('active', i === current);
+    });
+    document.querySelectorAll('.onb-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+    document.getElementById('onb-prev').style.visibility = current === 0 ? 'hidden' : 'visible';
+    document.getElementById('onb-next').textContent = current === TOTAL_SLIDES - 1 ? 'Terminer ✓' : 'Suivant →';
+  }
+
+  window.onbNext = function() {
+    if (current < TOTAL_SLIDES - 1) {
+      current++;
+      updateSlide();
+    } else {
+      onbClose();
+    }
+  };
+
+  window.onbPrev = function() {
+    if (current > 0) {
+      current--;
+      updateSlide();
+    }
+  };
+
+  window.onbGoTo = function(idx) {
+    current = idx;
+    updateSlide();
+  };
+
+  window.onbSkip = function() {
+    onbClose();
+  };
+
+  function onbClose() {
+    markSeen();
+    const overlay = document.getElementById('onboarding-overlay');
+    overlay.classList.add('onb-closing');
+    setTimeout(() => { overlay.style.display = 'none'; }, 400);
+  }
+
+  if (shouldShow()) {
+    document.getElementById('onboarding-overlay').classList.add('active');
+  } else {
+    document.getElementById('onboarding-overlay').style.display = 'none';
+  }
+
+  // Pour relancer la visite plus tard depuis un bouton :
+  // onclick="onbRestart()"
+  window.onbRestart = function() {
+    current = 0;
+    updateSlide();
+    const overlay = document.getElementById('onboarding-overlay');
+    overlay.style.display = 'flex';
+    overlay.classList.remove('onb-closing');
+    overlay.classList.add('active');
+  };
+})();
+</script>
 </body>
 </html>
