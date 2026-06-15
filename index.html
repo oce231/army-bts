@@ -9,7 +9,7 @@
   <script defer src="https://cloud.umami.is/script.js" data-website-id="05ed87e3-dc67-44d8-a5b7-133005178a72"></script>
 </head>
 <body>
-<div id="onboarding-overlay" class="active">
+<div id="onboarding-overlay">
   <button id="onb-skip" onclick="onbSkip()">Passer ✕</button>
 
   <div class="onb-slides" id="onb-slides">
@@ -62,11 +62,11 @@
       <div class="onb-visual onb-visual-4">
         <div class="onb-tool-demo">✨ Quiz</div>
         <div class="onb-tool-demo">🎵 Blind Test</div>
-        <div class="onb-tool-demo">📖 Lore &amp; Théories</div>
+        <div class="onb-tool-demo">📖 Lore & Théories</div>
       </div>
       <div class="onb-pretitle">🎮 Espaces interactifs</div>
       <h2 class="onb-title">Joue et apprends</h2>
-      <p class="onb-text">Découvre quelle era te correspond avec le Quiz, teste tes connaissances musicales avec le Blind Test, et plonge dans l'univers narratif de BTS avec la section Lore &amp; Théories.</p>
+      <p class="onb-text">Découvre quelle era te correspond avec le Quiz, teste tes connaissances musicales avec le Blind Test, et plonge dans l'univers narratif de BTS avec la section Lore & Théories.</p>
     </div>
 
     <!-- Slide 5 — ARMY Lounge -->
@@ -100,6 +100,8 @@
     </div>
   </div>
 </div>
+
+  
 <!-- INTRO -->
 <div id="intro">
   <canvas id="intro-canvas"></canvas>
@@ -7441,6 +7443,7 @@ window.showRandomFact = function() {
   card.style.animation = 'factIn .35s ease';
 };
 </script>
+  
 <script>
 (function(){
   const TOTAL_SLIDES = 5;
@@ -7516,5 +7519,6 @@ window.showRandomFact = function() {
   };
 })();
 </script>
+  
 </body>
 </html>
