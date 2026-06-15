@@ -1707,8 +1707,13 @@ body:has(#spotify-bar.visible) #dyk-card {
   font-size: 9px; letter-spacing: .15em; text-transform: uppercase;
   border-radius: 4px; cursor: pointer;
   transition: background .15s, color .15s;
+  margin: 6px;
 }
 .quiz-btn:hover { background: var(--accent); color: var(--bg); }
+.quiz-btn-share {
+  border-color: #b09ae8; color: #b09ae8;
+}
+.quiz-btn-share:hover { background: #b09ae8; color: #0a0812; }
 
 @keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
 
