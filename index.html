@@ -9,7 +9,97 @@
   <script defer src="https://cloud.umami.is/script.js" data-website-id="05ed87e3-dc67-44d8-a5b7-133005178a72"></script>
 </head>
 <body>
+<div id="onboarding-overlay">
+  <button id="onb-skip" onclick="onbSkip()">Passer ✕</button>
 
+  <div class="onb-slides" id="onb-slides">
+
+    <!-- Slide 1 — Bienvenue -->
+    <div class="onb-slide active" data-slide="0">
+      <div class="onb-visual onb-visual-1">
+        <div class="onb-glow"></div>
+        <div class="onb-logo-demo">BTS <small>방탄소년단 Archive</small></div>
+      </div>
+      <div class="onb-pretitle">Bienvenue 💜</div>
+      <h2 class="onb-title">L'archive complète de BTS</h2>
+      <p class="onb-text">Toutes les eras, tous les membres, toute l'histoire — réunis dans un seul endroit. Fais une visite rapide pour découvrir comment naviguer.</p>
+    </div>
+
+    <!-- Slide 2 — Les Eras -->
+    <div class="onb-slide" data-slide="1">
+      <div class="onb-visual onb-visual-2">
+        <div class="onb-era-demo">
+          <div class="onb-era-card" style="--c:#c45a3a">2013</div>
+          <div class="onb-era-card" style="--c:#3a78c4">HYYH</div>
+          <div class="onb-era-card" style="--c:#8b5fd4">Wings</div>
+          <div class="onb-era-card" style="--c:#c9a96e">2026</div>
+        </div>
+      </div>
+      <div class="onb-pretitle">📖 16 eras</div>
+      <h2 class="onb-title">Explore chaque ère de BTS</h2>
+      <p class="onb-text">Ouvre le menu (en haut à gauche) pour naviguer entre les 16 eras du groupe — des débuts en 2013 jusqu'à aujourd'hui. Chaque era contient clips, albums, lives, anecdotes et plus.</p>
+    </div>
+
+    <!-- Slide 3 — Recherche -->
+    <div class="onb-slide" data-slide="2">
+      <div class="onb-visual onb-visual-3">
+        <div class="onb-search-demo">
+          <span class="onb-search-icon">🔍</span>
+          <span class="onb-search-text">Dynamite</span>
+        </div>
+        <div class="onb-search-results">
+          <div class="onb-search-result">🎵 Dynamite — MV</div>
+          <div class="onb-search-result">💿 Dynamite — Single</div>
+        </div>
+      </div>
+      <div class="onb-pretitle">🔍 Recherche instantanée</div>
+      <h2 class="onb-title">Trouve n'importe quel contenu</h2>
+      <p class="onb-text">La barre de recherche en haut te permet de trouver directement un titre, un album ou un épisode — et te ramène pile à l'endroit concerné.</p>
+    </div>
+
+    <!-- Slide 4 — Quiz, Blind Test, Lore -->
+    <div class="onb-slide" data-slide="3">
+      <div class="onb-visual onb-visual-4">
+        <div class="onb-tool-demo">✨ Quiz</div>
+        <div class="onb-tool-demo">🎵 Blind Test</div>
+        <div class="onb-tool-demo">📖 Lore & Théories</div>
+      </div>
+      <div class="onb-pretitle">🎮 Espaces interactifs</div>
+      <h2 class="onb-title">Joue et apprends</h2>
+      <p class="onb-text">Découvre quelle era te correspond avec le Quiz, teste tes connaissances musicales avec le Blind Test, et plonge dans l'univers narratif de BTS avec la section Lore & Théories.</p>
+    </div>
+
+    <!-- Slide 5 — ARMY Lounge -->
+    <div class="onb-slide" data-slide="4">
+      <div class="onb-visual onb-visual-5">
+        <div class="onb-lounge-demo">
+          <div class="onb-lounge-icon">💜</div>
+          <div class="onb-lounge-name">ARMY Lounge</div>
+        </div>
+      </div>
+      <div class="onb-pretitle">✦ Et ce n'est pas tout</div>
+      <h2 class="onb-title">Découvre l'ARMY Lounge</h2>
+      <p class="onb-text">En plus de l'archive, un espace communautaire t'attend : playlists d'étude, Pomodoro, karaoké, et un chat pour discuter avec d'autres ARMY. Accessible via le bouton "💜 Lounge" dans le header.</p>
+      <a href="hub.html" class="onb-lounge-btn">Découvrir l'ARMY Lounge →</a>
+    </div>
+
+  </div>
+
+  <!-- Navigation -->
+  <div class="onb-nav">
+    <div class="onb-dots" id="onb-dots">
+      <span class="onb-dot active" onclick="onbGoTo(0)"></span>
+      <span class="onb-dot" onclick="onbGoTo(1)"></span>
+      <span class="onb-dot" onclick="onbGoTo(2)"></span>
+      <span class="onb-dot" onclick="onbGoTo(3)"></span>
+      <span class="onb-dot" onclick="onbGoTo(4)"></span>
+    </div>
+    <div class="onb-buttons">
+      <button class="onb-btn onb-btn-prev" id="onb-prev" onclick="onbPrev()" style="visibility:hidden">← Précédent</button>
+      <button class="onb-btn onb-btn-next" id="onb-next" onclick="onbNext()">Suivant →</button>
+    </div>
+  </div>
+</div>
 <!-- INTRO -->
 <div id="intro">
   <canvas id="intro-canvas"></canvas>
@@ -66,22 +156,22 @@
     <div class="hp-carousel-wrap">
       <button class="hp-carousel-arrow" onclick="document.getElementById('hp-carousel').scrollBy({left:-480,behavior:'smooth'})">‹</button>
       <div class="hp-carousel" id="hp-carousel">
-        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(0)" style="--ec:#d4603a"><div class="hp-era-card-cover"><img src="https://upload.wikimedia.org/wikipedia/en/5/56/BTS_2_Cool_4_Skool.jpg" onerror="this.src='https://img.youtube.com/vi/HkHDMLZOFME/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">01</div><div class="hp-era-card-name">Pre-Debut</div><div class="hp-era-card-date">2010–2013</div></div></div>
-        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(1)" style="--ec:#d48030"><div class="hp-era-card-cover"><img src="https://upload.wikimedia.org/wikipedia/en/4/41/BTS_Skool_Luv_Affair.jpg" onerror="this.src='https://img.youtube.com/vi/jTSFBCzFKuc/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">02</div><div class="hp-era-card-name">School Trilogy</div><div class="hp-era-card-date">2013–2014</div></div></div>
-        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(2)" style="--ec:#cc6888"><div class="hp-era-card-cover"><img src="https://upload.wikimedia.org/wikipedia/en/8/8e/BTS_Dark_%26_Wild.jpg" onerror="this.src='https://img.youtube.com/vi/bagj78IQ3l0/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">03</div><div class="hp-era-card-name">Dark &amp; Wild</div><div class="hp-era-card-date">2014</div></div></div>
-        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(3)" style="--ec:#4a90e8"><div class="hp-era-card-cover"><img src="https://upload.wikimedia.org/wikipedia/en/5/5e/BTS_The_Most_Beautiful_Moment_in_Life_Part_1.jpg" onerror="this.src='https://img.youtube.com/vi/NMdTd9e-LEI/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">04</div><div class="hp-era-card-name">HYYH Pt.1</div><div class="hp-era-card-date">2015</div></div></div>
-        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(4)" style="--ec:#e05878"><div class="hp-era-card-cover"><img src="https://upload.wikimedia.org/wikipedia/en/0/0d/BTS_The_Most_Beautiful_Moment_in_Life_Part_2.jpg" onerror="this.src='https://img.youtube.com/vi/5Wn85Ge22FQ/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">05</div><div class="hp-era-card-name">HYYH Pt.2</div><div class="hp-era-card-date">2015</div></div></div>
-        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(5)" style="--ec:#d4a830"><div class="hp-era-card-cover"><img src="https://upload.wikimedia.org/wikipedia/en/4/4e/BTS_Young_Forever_album_cover.jpg" onerror="this.src='https://img.youtube.com/vi/ALj5MKjy2BU/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">06</div><div class="hp-era-card-name">Young Forever</div><div class="hp-era-card-date">2016</div></div></div>
-        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(6)" style="--ec:#d4c820"><div class="hp-era-card-cover"><img src="https://upload.wikimedia.org/wikipedia/en/7/72/Wings_cover.jpg" onerror="this.src='https://img.youtube.com/vi/hmE9f-TEutc/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">07</div><div class="hp-era-card-name">Wings</div><div class="hp-era-card-date">2016–2017</div></div></div>
-        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(7)" style="--ec:#9060e0"><div class="hp-era-card-cover"><img src="https://upload.wikimedia.org/wikipedia/en/0/09/BTS_You_Never_Walk_Alone_cover.jpg" onerror="this.src='https://img.youtube.com/vi/xEeFrLSkMm8/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">08</div><div class="hp-era-card-name">YNWA</div><div class="hp-era-card-date">2017</div></div></div>
-        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(8)" style="--ec:#b050a0"><div class="hp-era-card-cover"><img src="https://upload.wikimedia.org/wikipedia/en/6/6e/Love_Yourself_Her.jpg" onerror="this.src='https://img.youtube.com/vi/MBdVXkSdhwU/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">09</div><div class="hp-era-card-name">Her</div><div class="hp-era-card-date">2017</div></div></div>
-        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(9)" style="--ec:#e04060"><div class="hp-era-card-cover"><img src="https://upload.wikimedia.org/wikipedia/en/4/4e/Love_Yourself_Tear.png" onerror="this.src='https://img.youtube.com/vi/7-x3uD5z1bQ/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">10</div><div class="hp-era-card-name">Tear</div><div class="hp-era-card-date">2018</div></div></div>
-        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(10)" style="--ec:#d06830"><div class="hp-era-card-cover"><img src="https://upload.wikimedia.org/wikipedia/en/0/0a/Love_Yourself_Answer.png" onerror="this.src='https://img.youtube.com/vi/pBuZEGYXA6E/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">11</div><div class="hp-era-card-name">Answer</div><div class="hp-era-card-date">2018</div></div></div>
-        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(11)" style="--ec:#6850e0"><div class="hp-era-card-cover"><img src="https://upload.wikimedia.org/wikipedia/en/3/39/Map_of_the_Soul_Persona.png" onerror="this.src='https://img.youtube.com/vi/XsX3ATc3FbA/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">12</div><div class="hp-era-card-name">Persona</div><div class="hp-era-card-date">2019</div></div></div>
-        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(12)" style="--ec:#4868d8"><div class="hp-era-card-cover"><img src="https://upload.wikimedia.org/wikipedia/en/7/73/Map_of_the_Soul_7_cover.png" onerror="this.src='https://img.youtube.com/vi/gwMa6gpoE9Y/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">13</div><div class="hp-era-card-name">7</div><div class="hp-era-card-date">2020</div></div></div>
-        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(13)" style="--ec:#52a060"><div class="hp-era-card-cover"><img src="https://upload.wikimedia.org/wikipedia/en/6/6e/BTS_BE_album_cover.png" onerror="this.src='https://img.youtube.com/vi/WbaRpBbX5fo/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">14</div><div class="hp-era-card-name">BE</div><div class="hp-era-card-date">2020</div></div></div>
-        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(14)" style="--ec:#d8b828"><div class="hp-era-card-cover"><img src="https://upload.wikimedia.org/wikipedia/en/4/40/BTS_Proof_album_cover.jpg" onerror="this.src='https://img.youtube.com/vi/WMweEpGlu_U/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">15</div><div class="hp-era-card-name">Butter</div><div class="hp-era-card-date">2021</div></div></div>
-        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(15)" style="--ec:#c9a96e"><div class="hp-era-card-cover"><img src="https://upload.wikimedia.org/wikipedia/en/4/40/BTS_Proof_album_cover.jpg" onerror="this.src='https://img.youtube.com/vi/vHjOQaZXlFQ/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">16</div><div class="hp-era-card-name">Arirang</div><div class="hp-era-card-date">2026</div></div></div>
+        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(0)" style="--ec:#d4603a"><div class="hp-era-card-cover"><img src="Photo/Pre-debut.jpg" onerror="this.src='https://img.youtube.com/vi/HkHDMLZOFME/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">01</div><div class="hp-era-card-name">Pre-Debut</div><div class="hp-era-card-date">2010–2013</div></div></div>
+        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(1)" style="--ec:#d48030"><div class="hp-era-card-cover"><img src="Photo/School.Trilogy.jpg" onerror="this.src='https://img.youtube.com/vi/jTSFBCzFKuc/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">02</div><div class="hp-era-card-name">School Trilogy</div><div class="hp-era-card-date">2013–2014</div></div></div>
+        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(2)" style="--ec:#cc6888"><div class="hp-era-card-cover"><img src="Photo/Dark-and-wild.jpg" onerror="this.src='https://img.youtube.com/vi/bagj78IQ3l0/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">03</div><div class="hp-era-card-name">Dark &amp; Wild</div><div class="hp-era-card-date">2014</div></div></div>
+        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(3)" style="--ec:#4a90e8"><div class="hp-era-card-cover"><img src="Photo/The-most-beautiful-moment-in-live.jpg" onerror="this.src='https://img.youtube.com/vi/NMdTd9e-LEI/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">04</div><div class="hp-era-card-name">HYYH Pt.1</div><div class="hp-era-card-date">2015</div></div></div>
+        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(4)" style="--ec:#e05878"><div class="hp-era-card-cover"><img src="Photo/The-most-beautiful-moment-in-live-2.jpg" onerror="this.src='https://img.youtube.com/vi/5Wn85Ge22FQ/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">05</div><div class="hp-era-card-name">HYYH Pt.2</div><div class="hp-era-card-date">2015</div></div></div>
+        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(5)" style="--ec:#d4a830"><div class="hp-era-card-cover"><img src="Photo/Young-forever.jpg" onerror="this.src='https://img.youtube.com/vi/ALj5MKjy2BU/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">06</div><div class="hp-era-card-name">Young Forever</div><div class="hp-era-card-date">2016</div></div></div>
+        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(6)" style="--ec:#d4c820"><div class="hp-era-card-cover"><img src="Photo/Wings.jpg" onerror="this.src='https://img.youtube.com/vi/hmE9f-TEutc/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">07</div><div class="hp-era-card-name">Wings</div><div class="hp-era-card-date">2016–2017</div></div></div>
+        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(7)" style="--ec:#9060e0"><div class="hp-era-card-cover"><img src="Photo/YNWA.jpg" onerror="this.src='https://img.youtube.com/vi/xEeFrLSkMm8/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">08</div><div class="hp-era-card-name">YNWA</div><div class="hp-era-card-date">2017</div></div></div>
+        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(8)" style="--ec:#b050a0"><div class="hp-era-card-cover"><img src="Photo/Love-Yourself-Her.jpg" onerror="this.src='https://img.youtube.com/vi/MBdVXkSdhwU/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">09</div><div class="hp-era-card-name">Her</div><div class="hp-era-card-date">2017</div></div></div>
+        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(9)" style="--ec:#e04060"><div class="hp-era-card-cover"><img src="Photo/Love-Yourself-Tear.jpg" onerror="this.src='https://img.youtube.com/vi/7-x3uD5z1bQ/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">10</div><div class="hp-era-card-name">Tear</div><div class="hp-era-card-date">2018</div></div></div>
+        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(10)" style="--ec:#d06830"><div class="hp-era-card-cover"><img src="Photo/Love-Yourself-Answer.jpg" onerror="this.src='https://img.youtube.com/vi/pBuZEGYXA6E/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">11</div><div class="hp-era-card-name">Answer</div><div class="hp-era-card-date">2018</div></div></div>
+        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(11)" style="--ec:#6850e0"><div class="hp-era-card-cover"><img src="Photo/Map-of-the-soul-persona.jpg" onerror="this.src='https://img.youtube.com/vi/XsX3ATc3FbA/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">12</div><div class="hp-era-card-name">Persona</div><div class="hp-era-card-date">2019</div></div></div>
+        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(12)" style="--ec:#4868d8"><div class="hp-era-card-cover"><img src="Photo/Map-of-the-soul-seven.jpg" onerror="this.src='https://img.youtube.com/vi/gwMa6gpoE9Y/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">13</div><div class="hp-era-card-name">7</div><div class="hp-era-card-date">2020</div></div></div>
+        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(13)" style="--ec:#52a060"><div class="hp-era-card-cover"><img src="Photo/Be/jpg" onerror="this.src='https://img.youtube.com/vi/WbaRpBbX5fo/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">14</div><div class="hp-era-card-name">BE</div><div class="hp-era-card-date">2020</div></div></div>
+        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(14)" style="--ec:#d8b828"><div class="hp-era-card-cover"><img src="Photo/Butter.jpg" onerror="this.src='https://img.youtube.com/vi/WMweEpGlu_U/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">15</div><div class="hp-era-card-name">Butter</div><div class="hp-era-card-date">2021</div></div></div>
+        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(15)" style="--ec:#c9a96e"><div class="hp-era-card-cover"><img src="Photo/Arirang.jpg" onerror="this.src='https://img.youtube.com/vi/vHjOQaZXlFQ/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">16</div><div class="hp-era-card-name">Arirang</div><div class="hp-era-card-date">2026</div></div></div>
       </div>
       <button class="hp-carousel-arrow" onclick="document.getElementById('hp-carousel').scrollBy({left:480,behavior:'smooth'})">›</button>
     </div>
@@ -93,13 +183,13 @@
       <div class="hp-section-title">방탄소년단</div>
     </div>
     <div class="hp-members-grid">
-      <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('rm')" style="--mc:#4a90e8"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="https://img.youtube.com/vi/6ttHJFnT870/maxresdefault.jpg" onerror="this.parentNode.innerHTML='🌿'"></div><div class="hp-member-name">RM</div><div class="hp-member-kr">김남준</div></div>
-      <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('jin')" style="--mc:#e05878"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="https://img.youtube.com/vi/qGjAarih-64/maxresdefault.jpg" onerror="this.parentNode.innerHTML='🚀'"></div><div class="hp-member-name">Jin</div><div class="hp-member-kr">김석진</div></div>
-      <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('suga')" style="--mc:#9060e0"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="https://img.youtube.com/vi/xIKJSoGFhTk/maxresdefault.jpg" onerror="this.parentNode.innerHTML='🎸'"></div><div class="hp-member-name">SUGA</div><div class="hp-member-kr">민윤기</div></div>
-      <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('jhope')" style="--mc:#d4a830"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="https://img.youtube.com/vi/GNBGrK-mHMU/maxresdefault.jpg" onerror="this.parentNode.innerHTML='☀️'"></div><div class="hp-member-name">j-hope</div><div class="hp-member-kr">정호석</div></div>
-      <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('jimin')" style="--mc:#cc6888"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="https://img.youtube.com/vi/nRppi4f5380/maxresdefault.jpg" onerror="this.parentNode.innerHTML='🍊'"></div><div class="hp-member-name">Jimin</div><div class="hp-member-kr">박지민</div></div>
-      <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('v')" style="--mc:#4dbfa8"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="https://img.youtube.com/vi/U7f-3IYMSRQ/maxresdefault.jpg" onerror="this.parentNode.innerHTML='🎨'"></div><div class="hp-member-name">V</div><div class="hp-member-kr">김태형</div></div>
-      <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('jk')" style="--mc:#c9a96e"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="https://img.youtube.com/vi/lVH5MolJvzM/maxresdefault.jpg" onerror="this.parentNode.innerHTML='✨'"></div><div class="hp-member-name">Jung Kook</div><div class="hp-member-kr">전정국</div></div>
+      <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('rm')" style="--mc:#4a90e8"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="Photo/Rm.jpg" onerror="this.parentNode.innerHTML='🌿'"></div><div class="hp-member-name">RM</div><div class="hp-member-kr">김남준</div></div>
+      <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('jin')" style="--mc:#e05878"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="Photo/Jin.jpg" onerror="this.parentNode.innerHTML='🚀'"></div><div class="hp-member-name">Jin</div><div class="hp-member-kr">김석진</div></div>
+      <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('suga')" style="--mc:#9060e0"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="Photo/Suga.jpg" onerror="this.parentNode.innerHTML='🎸'"></div><div class="hp-member-name">SUGA</div><div class="hp-member-kr">민윤기</div></div>
+      <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('jhope')" style="--mc:#d4a830"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="Photo/Jhope.jpg" onerror="this.parentNode.innerHTML='☀️'"></div><div class="hp-member-name">j-hope</div><div class="hp-member-kr">정호석</div></div>
+      <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('jimin')" style="--mc:#cc6888"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="Photo/Jimin.jpg" onerror="this.parentNode.innerHTML='🍊'"></div><div class="hp-member-name">Jimin</div><div class="hp-member-kr">박지민</div></div>
+      <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('v')" style="--mc:#4dbfa8"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="Photo/V.jpg" onerror="this.parentNode.innerHTML='🎨'"></div><div class="hp-member-name">V</div><div class="hp-member-kr">김태형</div></div>
+      <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('jk')" style="--mc:#c9a96e"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="Photo/Jk.cover.jpg" onerror="this.parentNode.innerHTML='✨'"></div><div class="hp-member-name">Jung Kook</div><div class="hp-member-kr">전정국</div></div>
     </div>
   </div>
 
@@ -7467,5 +7557,81 @@ window.showRandomFact = function() {
 };
 </script>
 
+  <script>
+(function(){
+  const TOTAL_SLIDES = 5;
+  let current = 0;
+
+  function shouldShow() {
+    try { return !localStorage.getItem('bts_onboarding_seen'); }
+    catch(e) { return true; }
+  }
+
+  function markSeen() {
+    try { localStorage.setItem('bts_onboarding_seen', '1'); } catch(e) {}
+  }
+
+  function updateSlide() {
+    document.querySelectorAll('.onb-slide').forEach((s, i) => {
+      s.classList.toggle('active', i === current);
+    });
+    document.querySelectorAll('.onb-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+    document.getElementById('onb-prev').style.visibility = current === 0 ? 'hidden' : 'visible';
+    document.getElementById('onb-next').textContent = current === TOTAL_SLIDES - 1 ? 'Terminer ✓' : 'Suivant →';
+  }
+
+  window.onbNext = function() {
+    if (current < TOTAL_SLIDES - 1) {
+      current++;
+      updateSlide();
+    } else {
+      onbClose();
+    }
+  };
+
+  window.onbPrev = function() {
+    if (current > 0) {
+      current--;
+      updateSlide();
+    }
+  };
+
+  window.onbGoTo = function(idx) {
+    current = idx;
+    updateSlide();
+  };
+
+  window.onbSkip = function() {
+    onbClose();
+  };
+
+  function onbClose() {
+    markSeen();
+    const overlay = document.getElementById('onboarding-overlay');
+    overlay.classList.add('onb-closing');
+    setTimeout(() => { overlay.style.display = 'none'; }, 400);
+  }
+
+  if (shouldShow()) {
+    document.getElementById('onboarding-overlay').classList.add('active');
+  } else {
+    document.getElementById('onboarding-overlay').style.display = 'none';
+  }
+
+  // Pour relancer la visite plus tard depuis un bouton :
+  // onclick="onbRestart()"
+  window.onbRestart = function() {
+    current = 0;
+    updateSlide();
+    const overlay = document.getElementById('onboarding-overlay');
+    overlay.style.display = 'flex';
+    overlay.classList.remove('onb-closing');
+    overlay.classList.add('active');
+  };
+})();
+</script>
+  
 </body>
 </html>
