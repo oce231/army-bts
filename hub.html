@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ARMY Lounge 💜 BTS Archive</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="hub.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="05ed87e3-dc67-44d8-a5b7-133005178a72"></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <button class="hamburger" id="ham" style="visibility:hidden" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a class="logo" href="index.html" style="text-decoration:none">BTS <small>방탄소년단 Archive</small></a>
+  <div style="flex:1"></div>
+  <a class="hub-switch" href="index.html">📖 Archive</a>
+</header>
+
+<!-- ══════════════════════════════════════════════
+     HERO ARMY LOUNGE
+══════════════════════════════════════════════ -->
+<div class="hub-main">
+  <div class="hub-hero">
+    <div class="hub-hero-bg"></div>
+    <div class="hub-hero-content">
+      <div class="hub-pretitle">💜 Espace communautaire</div>
+      <h1 class="hub-title">ARMY Lounge</h1>
+      <p class="hub-subtitle">Étudie, chante, danse et connecte-toi avec d'autres ARMY — un espace pensé pour toi, par une ARMY.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       GRILLE DES ESPACES
+  ══════════════════════════════════════════════ -->
+  <div class="hub-grid">
+
+    <a class="hub-card" href="study.html" data-space="study">
+      <div class="hub-card-icon">📚</div>
+      <div class="hub-card-title">Étudier avec BTS</div>
+      <div class="hub-card-desc">Playlists de concentration, messages d'encouragement, discours inspirants.</div>
+      <div class="hub-card-status">✓ Disponible</div>
+    </a>
+
+    <a class="hub-card" href="#" data-space="karaoke">
+      <div class="hub-card-icon">🎤</div>
+      <div class="hub-card-title">Karaoké</div>
+      <div class="hub-card-desc">Paroles coréennes, romanisation, traduction et vidéos karaoké.</div>
+      <div class="hub-card-status">Bientôt disponible</div>
+    </a>
+
+    <a class="hub-card" href="#" data-space="dance">
+      <div class="hub-card-icon">💃</div>
+      <div class="hub-card-title">Dance Academy</div>
+      <div class="hub-card-desc">Dance practices, tutoriels, classement par difficulté et défis.</div>
+      <div class="hub-card-status">Bientôt disponible</div>
+    </a>
+
+    <a class="hub-card" href="#" data-space="playlists">
+      <div class="hub-card-icon">🎧</div>
+      <div class="hub-card-title">Playlists</div>
+      <div class="hub-card-desc">Par humeur, pour étudier, voyager, te motiver ou te détendre.</div>
+      <div class="hub-card-status">Bientôt disponible</div>
+    </a>
+
+    <a class="hub-card" href="#" data-space="games">
+      <div class="hub-card-icon">🎮</div>
+      <div class="hub-card-title">Quiz & Jeux</div>
+      <div class="hub-card-desc">Quiz BTS, deviner la chanson, l'era ou le membre.</div>
+      <div class="hub-card-status">Bientôt disponible</div>
+    </a>
+
+    <a class="hub-card" href="#" data-space="creative">
+      <div class="hub-card-icon">🎨</div>
+      <div class="hub-card-title">Espace Créatif</div>
+      <div class="hub-card-desc">Wallpapers, ressources artistiques et inspirations pour ARMY créatives.</div>
+      <div class="hub-card-status">Bientôt disponible</div>
+    </a>
+
+    <a class="hub-card hub-card-wide" href="community.html" data-space="community">
+      <div class="hub-card-icon">💬</div>
+      <div class="hub-card-title">Espace Collaboratif</div>
+      <div class="hub-card-desc">Discute avec d'autres ARMY, partage des conseils, fais de nouvelles rencontres.</div>
+      <div class="hub-card-status">✓ Disponible</div>
+    </a>
+
+  </div>
+</div>
+
+<!-- CURSEUR PICKER -->
+<div id="cursor-picker">
+  <div id="cursor-picker-title">✨ Choisis ton curseur</div>
+  <div class="cursor-option active" data-emoji="" data-color="#c9a96e" onclick="selectCursor(this)"><span class="cursor-option-emoji">⭐</span><span class="cursor-option-label">Défaut (doré)</span><span class="cursor-option-dot" style="--co-color:#c9a96e"></span></div>
+  <div class="cursor-option" data-emoji="🐨" data-color="#4a90e8" onclick="selectCursor(this)"><span class="cursor-option-emoji">🐨</span><span class="cursor-option-label">RM — Namjoon</span><span class="cursor-option-dot" style="--co-color:#4a90e8"></span></div>
+  <div class="cursor-option" data-emoji="🐹" data-color="#e05878" onclick="selectCursor(this)"><span class="cursor-option-emoji">🐹</span><span class="cursor-option-label">Jin — Seokjin</span><span class="cursor-option-dot" style="--co-color:#e05878"></span></div>
+  <div class="cursor-option" data-emoji="🐱" data-color="#9060e0" onclick="selectCursor(this)"><span class="cursor-option-emoji">🐱</span><span class="cursor-option-label">SUGA — Yoongi</span><span class="cursor-option-dot" style="--co-color:#9060e0"></span></div>
+  <div class="cursor-option" data-emoji="🐿️" data-color="#d4a830" onclick="selectCursor(this)"><span class="cursor-option-emoji">🐿️</span><span class="cursor-option-label">j-hope — Hoseok</span><span class="cursor-option-dot" style="--co-color:#d4a830"></span></div>
+  <div class="cursor-option" data-emoji="🐥" data-color="#cc6888" onclick="selectCursor(this)"><span class="cursor-option-emoji">🐥</span><span class="cursor-option-label">Jimin</span><span class="cursor-option-dot" style="--co-color:#cc6888"></span></div>
+  <div class="cursor-option" data-emoji="🐯" data-color="#4dbfa8" onclick="selectCursor(this)"><span class="cursor-option-emoji">🐯</span><span class="cursor-option-label">V — Taehyung</span><span class="cursor-option-dot" style="--co-color:#4dbfa8"></span></div>
+  <div class="cursor-option" data-emoji="🐰" data-color="#c9a96e" onclick="selectCursor(this)"><span class="cursor-option-emoji">🐰</span><span class="cursor-option-label">Jung Kook</span><span class="cursor-option-dot" style="--co-color:#c9a96e"></span></div>
+  <div class="cursor-option" data-emoji="💜" data-color="#7b5fd4" onclick="selectCursor(this)"><span class="cursor-option-emoji">💜</span><span class="cursor-option-label">ARMY — Violet</span><span class="cursor-option-dot" style="--co-color:#7b5fd4"></span></div>
+</div>
+
+<!-- ── Traînée emoji curseur (réutilise le même système que l'Archive) ── -->
+<script>
+(function initCursor(){
+  let currentEmoji = null;
+  let lastX = -999, lastY = -999;
+  let throttle = false;
+
+  document.addEventListener('mousemove', function(e) {
+    if (!currentEmoji) return;
+    if (throttle) return;
+    throttle = true;
+    setTimeout(function(){ throttle = false; }, 40);
+
+    const dx = e.clientX - lastX;
+    const dy = e.clientY - lastY;
+    if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+    lastX = e.clientX; lastY = e.clientY;
+
+    const el = document.createElement('span');
+    el.className = 'cursor-trail-emoji';
+    el.textContent = currentEmoji;
+    el.style.left = e.clientX + 'px';
+    el.style.top  = e.clientY + 'px';
+    document.body.appendChild(el);
+    setTimeout(function(){ el.remove(); }, 820);
+  });
+
+  window.selectCursor = function(el) {
+    document.querySelectorAll('.cursor-option').forEach(o => o.classList.remove('active'));
+    el.classList.add('active');
+    const emoji = el.dataset.emoji || null;
+    const color = el.dataset.color || '#c9a96e';
+    currentEmoji = emoji || null;
+    try { localStorage.setItem('bts_cursor', JSON.stringify({ emoji, color })); } catch(e) {}
+    document.getElementById('cursor-picker').classList.remove('open');
+  };
+
+  try {
+    const saved = JSON.parse(localStorage.getItem('bts_cursor'));
+    if (saved) {
+      currentEmoji = saved.emoji || null;
+      const match = document.querySelector(`.cursor-option[data-color="${saved.color}"]`);
+      if (match) {
+        document.querySelectorAll('.cursor-option').forEach(o => o.classList.remove('active'));
+        match.classList.add('active');
+      }
+    }
+  } catch(e) {}
+})();
+</script>
+
+<!-- Bouton picker dans header -->
+<script>
+document.querySelector('header').insertAdjacentHTML('beforeend',
+  '<button id="cursor-toggle-btn" onclick="document.getElementById(\'cursor-picker\').classList.toggle(\'open\')" title="Choisir mon curseur">🖱️</button>'
+);
+</script>
+
+</body>
+</html>

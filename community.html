@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Espace Collaboratif · ARMY Lounge</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="hub.css">
+<link rel="stylesheet" href="community.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="05ed87e3-dc67-44d8-a5b7-133005178a72"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <button class="hamburger" id="ham" style="visibility:hidden" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a class="logo" href="index.html" style="text-decoration:none">BTS <small>방탄소년단 Archive</small></a>
+  <div style="flex:1"></div>
+  <a class="hub-switch" href="hub.html">💜 Lounge</a>
+</header>
+
+<div class="hub-main">
+
+  <!-- ── HERO ── -->
+  <div class="comm-hero">
+    <div class="hub-hero-bg"></div>
+    <div class="hub-hero-content">
+      <a href="hub.html" class="comm-back">← ARMY Lounge</a>
+      <div class="hub-pretitle">💬 Espace communautaire</div>
+      <h1 class="hub-title" style="font-size:clamp(30px,7vw,52px)">Espace Collaboratif</h1>
+      <p class="hub-subtitle">Discute, partage et connecte-toi avec d'autres ARMY — choisis un salon et lance-toi.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       SETUP PSEUDO (première visite)
+  ══════════════════════════════════════════════ -->
+  <div class="comm-setup" id="comm-setup">
+    <div class="comm-setup-card">
+      <div class="comm-setup-title">✦ Choisis ton identité ARMY</div>
+      <p class="comm-setup-sub">Ce pseudo et cet avatar resteront sauvegardés sur cet appareil.</p>
+
+      <input type="text" id="setup-pseudo" class="comm-input" placeholder="Ton pseudo (max 20 caractères)" maxlength="20">
+
+      <div class="comm-setup-label">Choisis ton avatar BT21</div>
+      <div class="avatar-grid" id="avatar-grid">
+        <button class="avatar-opt active" data-emoji="🐨" onclick="selectAvatar(this)">🐨</button>
+        <button class="avatar-opt" data-emoji="🐹" onclick="selectAvatar(this)">🐹</button>
+        <button class="avatar-opt" data-emoji="🐱" onclick="selectAvatar(this)">🐱</button>
+        <button class="avatar-opt" data-emoji="🐿️" onclick="selectAvatar(this)">🐿️</button>
+        <button class="avatar-opt" data-emoji="🐥" onclick="selectAvatar(this)">🐥</button>
+        <button class="avatar-opt" data-emoji="🐯" onclick="selectAvatar(this)">🐯</button>
+        <button class="avatar-opt" data-emoji="🐰" onclick="selectAvatar(this)">🐰</button>
+        <button class="avatar-opt" data-emoji="💜" onclick="selectAvatar(this)">💜</button>
+      </div>
+
+      <button class="comm-setup-btn" onclick="saveIdentity()">Entrer dans le Lounge 💜</button>
+      <div class="comm-setup-error" id="setup-error"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       CHAT
+  ══════════════════════════════════════════════ -->
+  <div class="comm-app" id="comm-app" style="display:none">
+
+    <!-- Profil actuel -->
+    <div class="comm-profile-bar">
+      <div class="comm-profile">
+        <span class="comm-profile-avatar" id="profile-avatar"></span>
+        <span class="comm-profile-name" id="profile-name"></span>
+      </div>
+      <button class="comm-profile-edit" onclick="editIdentity()">✎ Modifier</button>
+    </div>
+
+    <!-- Sélecteur de salons -->
+    <div class="room-tabs" id="room-tabs">
+      <button class="room-tab active" data-room="general" onclick="switchRoom('general',this)">
+        <span class="room-emoji">💬</span> Général
+      </button>
+      <button class="room-tab" data-room="theories" onclick="switchRoom('theories',this)">
+        <span class="room-emoji">🔍</span> Théories & Lore
+      </button>
+      <button class="room-tab" data-room="study" onclick="switchRoom('study',this)">
+        <span class="room-emoji">📚</span> Entraide & Études
+      </button>
+      <button class="room-tab" data-room="creative" onclick="switchRoom('creative',this)">
+        <span class="room-emoji">🎨</span> Créations
+      </button>
+      <button class="room-tab" data-room="music" onclick="switchRoom('music',this)">
+        <span class="room-emoji">🎵</span> Découvertes musicales
+      </button>
+      <button class="room-tab" data-room="wellbeing" onclick="switchRoom('wellbeing',this)">
+        <span class="room-emoji">💜</span> Bien-être
+      </button>
+    </div>
+
+    <!-- Description du salon actif -->
+    <div class="room-desc" id="room-desc"></div>
+
+    <!-- Messages -->
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-loading" id="chat-loading">Chargement des messages…</div>
+    </div>
+
+    <!-- Input -->
+    <div class="chat-input-bar">
+      <input type="text" id="chat-input" class="comm-input" placeholder="Écris ton message…" maxlength="500" onkeydown="if(event.key==='Enter')sendMessage()">
+      <button class="chat-send-btn" onclick="sendMessage()">Envoyer</button>
+    </div>
+    <div class="chat-error" id="chat-error"></div>
+  </div>
+
+</div>
+
+<!-- Modal signalement -->
+<div class="report-modal" id="report-modal">
+  <div class="report-modal-card">
+    <div class="report-modal-title">Signaler ce message</div>
+    <p class="report-modal-text">Pourquoi signales-tu ce message ? Ton signalement sera examiné.</p>
+    <select id="report-reason" class="comm-input">
+      <option value="Contenu inapproprié">Contenu inapproprié</option>
+      <option value="Harcèlement">Harcèlement</option>
+      <option value="Spam">Spam</option>
+      <option value="Autre">Autre</option>
+    </select>
+    <div class="report-modal-actions">
+      <button class="report-cancel" onclick="closeReportModal()">Annuler</button>
+      <button class="report-confirm" onclick="confirmReport()">Signaler</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   CONFIG SUPABASE
+══════════════════════════════════════════════ */
+const SUPABASE_URL = 'https://hutkkaubvjpmsjqhqfzi.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1dGtrYXVidmpwbXNqcWhxZnppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0MTE3MzUsImV4cCI6MjA5Njk4NzczNX0.hw6xnZ0PdnWqW-aTbOnpFOBwLjSNYYlwvt7cb-AZY3Q';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const ROOM_DESCRIPTIONS = {
+  general:   "Discussion libre entre ARMY — dis bonjour, partage ta journée, parle de tout et de rien 💜",
+  theories:  "Discute des théories du BU, des connexions entre les MVs, du lore et des Easter Eggs cachés.",
+  study:     "Motive-toi, partage tes méthodes de révision, trouve un·e binôme de Pomodoro ou juste viens te motiver.",
+  creative:  "Partage tes fanarts, edits, idées créatives — donne et reçois des retours bienveillants.",
+  music:     "Partage tes covers préférées, des artistes coréens à découvrir, des playlists, des découvertes.",
+  wellbeing: "Un espace plus doux pour parler de comment tu vas. Sois gentil·le avec toi-même et les autres.",
+};
+
+let currentRoom = 'general';
+let currentChannel = null;
+let reportTargetId = null;
+
+/* ══════════════════════════════════════════════
+   IDENTITÉ (pseudo + avatar)
+══════════════════════════════════════════════ */
+function getIdentity() {
+  try { return JSON.parse(localStorage.getItem('army_identity')); }
+  catch(e) { return null; }
+}
+
+window.selectAvatar = function(btn) {
+  document.querySelectorAll('.avatar-opt').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+};
+
+window.saveIdentity = function() {
+  const pseudo = document.getElementById('setup-pseudo').value.trim();
+  const errorEl = document.getElementById('setup-error');
+  if (!pseudo) {
+    errorEl.textContent = 'Choisis un pseudo pour continuer.';
+    return;
+  }
+  if (pseudo.length > 20) {
+    errorEl.textContent = 'Le pseudo doit faire moins de 20 caractères.';
+    return;
+  }
+  errorEl.textContent = '';
+  const avatar = document.querySelector('.avatar-opt.active').dataset.emoji;
+  localStorage.setItem('army_identity', JSON.stringify({ pseudo, avatar }));
+  initApp();
+};
+
+window.editIdentity = function() {
+  const identity = getIdentity();
+  document.getElementById('comm-app').style.display = 'none';
+  document.getElementById('comm-setup').style.display = 'flex';
+  if (identity) {
+    document.getElementById('setup-pseudo').value = identity.pseudo;
+    document.querySelectorAll('.avatar-opt').forEach(b => {
+      b.classList.toggle('active', b.dataset.emoji === identity.avatar);
+    });
+  }
+  if (currentChannel) sb.removeChannel(currentChannel);
+};
+
+/* ══════════════════════════════════════════════
+   INITIALISATION
+══════════════════════════════════════════════ */
+function initApp() {
+  const identity = getIdentity();
+  if (!identity) return;
+
+  document.getElementById('comm-setup').style.display = 'none';
+  document.getElementById('comm-app').style.display = 'block';
+  document.getElementById('profile-avatar').textContent = identity.avatar;
+  document.getElementById('profile-name').textContent = identity.pseudo;
+
+  switchRoom('general', document.querySelector('.room-tab[data-room="general"]'));
+}
+
+/* ══════════════════════════════════════════════
+   SALONS
+══════════════════════════════════════════════ */
+window.switchRoom = function(room, btn) {
+  currentRoom = room;
+  document.querySelectorAll('.room-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('room-desc').textContent = ROOM_DESCRIPTIONS[room];
+  loadMessages(room);
+};
+
+/* ══════════════════════════════════════════════
+   MESSAGES
+══════════════════════════════════════════════ */
+async function loadMessages(room) {
+  const container = document.getElementById('chat-messages');
+  container.innerHTML = '<div class="chat-loading">Chargement des messages…</div>';
+
+  if (currentChannel) {
+    sb.removeChannel(currentChannel);
+    currentChannel = null;
+  }
+
+  try {
+    const { data, error } = await sb
+      .from('lounge_messages')
+      .select('*')
+      .eq('room', room)
+      .order('created_at', { ascending: true })
+      .limit(100);
+
+    if (error) throw error;
+
+    container.innerHTML = '';
+    if (!data || data.length === 0) {
+      container.innerHTML = '<div class="chat-empty">Aucun message pour le moment — sois la première ARMY à écrire ici ! 💜</div>';
+    } else {
+      data.forEach(renderMessage);
+      scrollToBottom();
+    }
+
+    subscribeToRoom(room);
+  } catch(e) {
+    container.innerHTML = '<div class="chat-error-msg">Impossible de charger les messages. Vérifie ta connexion.</div>';
+    console.error(e);
+  }
+}
+
+function subscribeToRoom(room) {
+  currentChannel = sb
+    .channel('room-' + room)
+    .on('postgres_changes', {
+      event: 'INSERT', schema: 'public', table: 'lounge_messages', filter: `room=eq.${room}`
+    }, (payload) => {
+      const container = document.getElementById('chat-messages');
+      const empty = container.querySelector('.chat-empty');
+      if (empty) empty.remove();
+      renderMessage(payload.new);
+      scrollToBottom();
+    })
+    .subscribe();
+}
+
+function renderMessage(msg) {
+  const container = document.getElementById('chat-messages');
+  const identity = getIdentity();
+  const isMine = identity && msg.pseudo === identity.pseudo && msg.avatar === identity.avatar;
+
+  const div = document.createElement('div');
+  div.className = 'chat-msg' + (isMine ? ' chat-msg-mine' : '');
+  div.dataset.id = msg.id;
+
+  const time = new Date(msg.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+  div.innerHTML = `
+    <span class="chat-msg-avatar">${escapeHtml(msg.avatar || '💜')}</span>
+    <div class="chat-msg-body">
+      <div class="chat-msg-head">
+        <span class="chat-msg-pseudo">${escapeHtml(msg.pseudo)}</span>
+        <span class="chat-msg-time">${time}</span>
+      </div>
+      <div class="chat-msg-text">${escapeHtml(msg.content)}</div>
+    </div>
+    <button class="chat-msg-report" onclick="openReportModal(${msg.id})" title="Signaler">⚑</button>
+  `;
+  container.appendChild(div);
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function scrollToBottom() {
+  const container = document.getElementById('chat-messages');
+  container.scrollTop = container.scrollHeight;
+}
+
+/* ══════════════════════════════════════════════
+   ENVOI
+══════════════════════════════════════════════ */
+window.sendMessage = async function() {
+  const input = document.getElementById('chat-input');
+  const content = input.value.trim();
+  const errorEl = document.getElementById('chat-error');
+  errorEl.textContent = '';
+
+  if (!content) return;
+  if (content.length > 500) {
+    errorEl.textContent = 'Message trop long (500 caractères max).';
+    return;
+  }
+
+  const identity = getIdentity();
+  if (!identity) return;
+
+  input.disabled = true;
+  try {
+    const { error } = await sb.from('lounge_messages').insert({
+      room: currentRoom,
+      pseudo: identity.pseudo,
+      avatar: identity.avatar,
+      content: content
+    });
+    if (error) throw error;
+    input.value = '';
+  } catch(e) {
+    errorEl.textContent = 'Erreur lors de l\'envoi. Réessaie.';
+    console.error(e);
+  } finally {
+    input.disabled = false;
+    input.focus();
+  }
+};
+
+/* ══════════════════════════════════════════════
+   SIGNALEMENT
+══════════════════════════════════════════════ */
+window.openReportModal = function(id) {
+  reportTargetId = id;
+  document.getElementById('report-modal').classList.add('open');
+};
+window.closeReportModal = function() {
+  document.getElementById('report-modal').classList.remove('open');
+  reportTargetId = null;
+};
+window.confirmReport = async function() {
+  if (!reportTargetId) return;
+  const reason = document.getElementById('report-reason').value;
+  try {
+    await sb.from('lounge_reports').insert({ message_id: reportTargetId, reason });
+  } catch(e) { console.error(e); }
+  closeReportModal();
+  alert('Merci, ton signalement a été envoyé.');
+};
+
+/* ══════════════════════════════════════════════
+   DÉMARRAGE
+══════════════════════════════════════════════ */
+(function(){
+  const identity = getIdentity();
+  if (identity) {
+    document.querySelectorAll('.avatar-opt').forEach(b => {
+      b.classList.toggle('active', b.dataset.emoji === identity.avatar);
+    });
+    initApp();
+  } else {
+    document.getElementById('comm-setup').style.display = 'flex';
+  }
+})();
+</script>
+
+<!-- Curseur emoji (réutilise le système de l'Archive) -->
+<script>
+(function initCursor(){
+  let currentEmoji = null;
+  let lastX = -999, lastY = -999;
+  let throttle = false;
+  document.addEventListener('mousemove', function(e) {
+    if (!currentEmoji) return;
+    if (throttle) return;
+    throttle = true;
+    setTimeout(function(){ throttle = false; }, 40);
+    const dx = e.clientX - lastX, dy = e.clientY - lastY;
+    if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+    lastX = e.clientX; lastY = e.clientY;
+    const el = document.createElement('span');
+    el.className = 'cursor-trail-emoji';
+    el.textContent = currentEmoji;
+    el.style.left = e.clientX + 'px';
+    el.style.top  = e.clientY + 'px';
+    document.body.appendChild(el);
+    setTimeout(function(){ el.remove(); }, 820);
+  });
+  try {
+    const saved = JSON.parse(localStorage.getItem('bts_cursor'));
+    if (saved) currentEmoji = saved.emoji || null;
+  } catch(e) {}
+})();
+</script>
+
+</body>
+</html>
