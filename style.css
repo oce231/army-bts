@@ -32,7 +32,7 @@
   border-radius: 3px;
   object-fit: cover;
   flex-shrink: 0;
-  opacity: .55;
+  opacity: .4;
   transition: opacity .2s, box-shadow .2s;
   display: block;
   align-self: center;
