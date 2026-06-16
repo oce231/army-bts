@@ -21,7 +21,19 @@
   --era-glow:  rgba(201,169,110,.15);
   --era-glow2: rgba(201,169,110,.06);
 }
-
+.era-btn .era-thumb {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
+  opacity: .75;
+  transition: opacity .2s;
+}
+.era-btn:hover .era-thumb,
+.era-btn.active .era-thumb {
+  opacity: 1;
+}
 /* ── Couleurs par era ── */
 body[data-era="0"]{ --era-c:#c45a3a; --era-glow:rgba(196,90,58,.18); --era-glow2:rgba(196,90,58,.07); }
 body[data-era="1"]{ --era-c:#c47830; --era-glow:rgba(196,120,48,.18); --era-glow2:rgba(196,120,48,.07); }
