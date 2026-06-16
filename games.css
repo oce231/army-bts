@@ -1,0 +1,392 @@
+/* ══════════════════════════════════════════════
+   QUIZ & JEUX — STYLES
+══════════════════════════════════════════════ */
+
+.games-hero {
+  position: relative;
+  min-height: 26vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding: 2.5rem 1.5rem;
+  background: linear-gradient(135deg, #0a0812 0%, #1a1030 45%, #2a1540 100%);
+  border-bottom: 1px solid var(--border);
+}
+.games-back {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--text3);
+  text-decoration: none;
+  margin-bottom: 1rem;
+  transition: color .2s;
+}
+.games-back:hover { color: #b09ae8; }
+
+.games-section {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.gq-card {
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem 1.6rem;
+  text-align: center;
+}
+
+/* Intro */
+.gq-intro-emoji { font-size: 48px; margin-bottom: .8rem; }
+.gq-intro-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(22px, 4vw, 28px); font-weight: 500;
+  color: #c9a96e; margin: 0 0 .8rem;
+}
+.gq-intro-desc {
+  font-size: 12px; line-height: 1.75; color: var(--text2);
+  max-width: 420px; margin: 0 auto 1.6rem;
+}
+
+/* Boutons */
+.gq-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+  padding: 11px 26px; border-radius: 22px;
+  border: 1px solid var(--accent, #c9a96e);
+  background: none; color: var(--accent, #c9a96e);
+  cursor: pointer; transition: all .2s;
+  margin: 4px;
+}
+.gq-btn:hover { background: var(--accent, #c9a96e); color: var(--bg, #09090e); }
+.gq-btn-main {
+  border-color: rgba(123,95,212,.5);
+  background: rgba(123,95,212,.15);
+  color: #d0c0ff;
+}
+.gq-btn-main:hover { background: rgba(123,95,212,.3); color: #fff; }
+.gq-btn-share {
+  border-color: #b09ae8; color: #b09ae8;
+}
+.gq-btn-share:hover { background: #b09ae8; color: #0a0812; }
+
+/* Progress */
+.gq-progress-wrap { margin-bottom: 1.4rem; }
+.gq-progress-info {
+  display: flex; justify-content: space-between;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: .1em;
+  color: var(--text3); margin-bottom: .5rem;
+}
+.gq-progress-bar {
+  height: 4px; border-radius: 2px;
+  background: rgba(255,255,255,.08);
+  overflow: hidden;
+}
+.gq-progress-fill {
+  height: 100%; background: linear-gradient(90deg, #7b5fd4, #c9a96e);
+  width: 0%; transition: width .4s ease;
+}
+
+/* Question */
+.gq-question {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(16px, 3.5vw, 21px); font-weight: 500;
+  color: var(--text); line-height: 1.5;
+  margin-bottom: 1.4rem;
+  min-height: 60px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Réponses */
+.gq-answers {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.gq-answer {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; text-align: left;
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  padding: 12px 16px; border-radius: 10px;
+  cursor: pointer; transition: all .15s;
+}
+.gq-answer:hover:not(.disabled) {
+  border-color: rgba(123,95,212,.4);
+  background: rgba(123,95,212,.08);
+  color: var(--text);
+}
+.gq-answer.disabled { cursor: default; }
+.gq-answer.correct {
+  border-color: rgba(110,200,140,.6);
+  background: rgba(110,200,140,.12);
+  color: #8ee0a8;
+}
+.gq-answer.wrong {
+  border-color: rgba(224,128,128,.6);
+  background: rgba(224,128,128,.12);
+  color: #f0a0a0;
+}
+
+/* Résultat */
+.gq-result-emoji { font-size: 56px; display: block; margin-bottom: .6rem; }
+.gq-result-score {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(36px, 8vw, 52px); font-weight: 700;
+  color: #b09ae8; margin-bottom: .3rem;
+}
+.gq-result-max { font-size: 20px; color: var(--text3); }
+.gq-result-level {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(20px, 4vw, 26px); font-weight: 600;
+  color: var(--text); margin-bottom: .8rem;
+}
+.gq-result-desc {
+  font-size: 12px; line-height: 1.75; color: var(--text2);
+  max-width: 420px; margin: 0 auto 1.6rem;
+}
+.gq-result-actions {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+}
+
+/* ══════════════════════════════════════════════
+   QUEL ERA BTS ES-TU + BLIND TEST (déplacés de l'Archive)
+══════════════════════════════════════════════ */
+#quiz-section {
+  display: block;
+  padding: 2rem 1.5rem;
+  max-width: 680px;
+  margin: 0 auto;
+}
+#quiz-section.gq-hidden { display: none; }
+
+.quiz-header { text-align: center; margin-bottom: 2.5rem; }
+.quiz-header-label {
+  font-size: 8px; letter-spacing: .25em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: .6rem;
+}
+.quiz-header-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 4vw, 34px);
+  color: var(--text); margin-bottom: .5rem;
+}
+.quiz-header-sub { font-size: 11px; color: var(--text2); }
+
+/* Barre de progression */
+.quiz-progress-wrap { margin-bottom: 2rem; }
+.quiz-progress-label {
+  font-size: 9px; color: var(--text3); letter-spacing: .1em;
+  margin-bottom: 6px; display: flex; justify-content: space-between;
+}
+.quiz-progress-track {
+  height: 3px; background: var(--border2); border-radius: 2px; overflow: hidden;
+}
+.quiz-progress-fill {
+  height: 100%; background: var(--accent);
+  border-radius: 2px; transition: width .4s ease;
+}
+
+/* Question */
+.quiz-question-wrap { margin-bottom: 1.8rem; }
+.quiz-question-num {
+  font-size: 8px; letter-spacing: .2em; color: var(--accent);
+  text-transform: uppercase; margin-bottom: .6rem;
+}
+.quiz-question-text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(13px, 2.5vw, 16px);
+  color: var(--text); line-height: 1.55;
+}
+
+/* Réponses */
+.quiz-answers { display: flex; flex-direction: column; gap: 10px; }
+.quiz-answer {
+  padding: 12px 16px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 12px; color: var(--text2);
+  cursor: pointer; text-align: left;
+  transition: border-color .15s, background .15s, color .15s, transform .1s;
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.4;
+}
+.quiz-answer:hover {
+  border-color: var(--accent);
+  background: rgba(201,169,110,.06);
+  color: var(--text);
+  transform: translateX(4px);
+}
+.quiz-answer.selected {
+  border-color: var(--accent);
+  background: rgba(201,169,110,.12);
+  color: var(--accent);
+}
+
+/* Résultat */
+#quiz-result { display: none; text-align: center; padding: 1rem 0 2rem; }
+#quiz-result.show { display: block; animation: fadeIn .6s ease; }
+.quiz-result-label {
+  font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--text3); margin-bottom: 1rem;
+}
+.quiz-result-era {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 5vw, 42px);
+  margin-bottom: .4rem;
+  background: linear-gradient(135deg, var(--quiz-c1, #c9a96e), var(--quiz-c2, #fff));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.quiz-result-years { font-size: 10px; color: var(--text3); margin-bottom: 1.4rem; letter-spacing: .1em; }
+.quiz-result-desc {
+  font-size: 12px; color: var(--text2); line-height: 1.7;
+  max-width: 500px; margin: 0 auto 1.6rem;
+  font-family: 'DM Sans', sans-serif;
+}
+.quiz-result-songs {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  justify-content: center; margin-bottom: 2rem;
+}
+.quiz-result-song {
+  padding: 5px 12px;
+  border: 1px solid var(--quiz-c1, var(--accent));
+  border-radius: 20px;
+  font-size: 10px; color: var(--quiz-c1, var(--accent));
+  font-family: 'Space Mono', monospace;
+}
+.quiz-result-emoji { font-size: 48px; margin-bottom: 1rem; display: block; }
+.quiz-btn {
+  padding: 10px 24px;
+  background: none;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: .15em; text-transform: uppercase;
+  border-radius: 4px; cursor: pointer;
+  transition: background .15s, color .15s;
+  margin: 6px;
+}
+.quiz-btn:hover { background: var(--accent); color: var(--bg); }
+.quiz-btn-share {
+  border-color: #b09ae8; color: #b09ae8;
+}
+.quiz-btn-share:hover { background: #b09ae8; color: #0a0812; }
+
+@keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+
+/* ══════════════════════════════════════════════
+   BLIND TEST
+══════════════════════════════════════════════ */
+#blindtest-section {
+  display: block;
+  padding: 2rem 1.5rem 4rem;
+  max-width: 680px;
+  margin: 0 auto;
+}
+#blindtest-section.gq-hidden { display: none; }
+
+.bt-header { text-align: center; margin-bottom: 2rem; }
+.bt-label { font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: var(--accent); margin-bottom: .5rem; }
+.bt-title { font-family: 'Playfair Display', serif; font-size: clamp(22px,4vw,32px); color: var(--text); margin-bottom: .4rem; }
+.bt-sub { font-size: 11px; color: var(--text2); }
+
+/* Score bar */
+.bt-scorebar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.8rem; padding: .8rem 1rem; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; }
+.bt-score-item { text-align: center; }
+.bt-score-num { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--accent); }
+.bt-score-lbl { font-size: 8px; color: var(--text3); letter-spacing: .1em; text-transform: uppercase; }
+
+/* Player zone */
+.bt-player-zone { margin-bottom: 1.5rem; background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.bt-player-top { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
+.bt-player-icon { font-size: 28px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: rgba(29,185,84,.1); border-radius: 50%; border: 1px solid rgba(29,185,84,.3); flex-shrink: 0; }
+.bt-player-info { flex: 1; }
+.bt-player-title { font-size: 11px; color: var(--text2); margin-bottom: 2px; }
+.bt-player-hint { font-size: 9px; color: var(--text3); }
+/* Iframe visible — le joueur Spotify s'affiche normalement */
+.bt-player-embed { display: block; }
+/* Bouton play custom */
+.bt-play-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; padding: 13px;
+  background: rgba(29,185,84,.12);
+  border: 1px solid rgba(29,185,84,.35);
+  border-radius: 0 0 12px 12px;
+  color: #1DB954; font-family: 'Space Mono', monospace;
+  font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+  cursor: pointer; transition: background .15s;
+}
+.bt-play-btn:hover { background: rgba(29,185,84,.22); }
+.bt-play-btn.playing { background: rgba(29,185,84,.2); border-color: #1DB954; }
+.bt-timer-bar { height: 3px; background: rgba(29,185,84,.15); border-radius: 0; overflow: hidden; }
+.bt-timer-fill { height: 100%; background: #1DB954; width: 0%; transition: none; }
+
+/* Réponses */
+.bt-answers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.2rem; }
+@media(max-width:480px) { .bt-answers { grid-template-columns: 1fr; } }
+.bt-answer {
+  padding: 12px 14px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 11px; color: var(--text2);
+  cursor: pointer; text-align: left;
+  transition: border-color .15s, background .15s, color .15s;
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.4;
+}
+.bt-answer:hover { border-color: #1DB954; background: rgba(29,185,84,.06); color: var(--text); }
+.bt-answer.correct { border-color: #1DB954 !important; background: rgba(29,185,84,.15) !important; color: #1DB954 !important; font-weight: 600; }
+.bt-answer.wrong { border-color: #e05878 !important; background: rgba(224,88,120,.1) !important; color: #e05878 !important; }
+.bt-answer.reveal { border-color: #1DB954; background: rgba(29,185,84,.08); color: #1DB954; }
+
+/* Feedback */
+.bt-feedback { text-align: center; padding: .8rem; border-radius: 8px; margin-bottom: 1rem; font-size: 12px; font-family: 'DM Sans', sans-serif; display: none; }
+.bt-feedback.show { display: block; }
+.bt-feedback.good { background: rgba(29,185,84,.1); color: #1DB954; border: 1px solid rgba(29,185,84,.3); }
+.bt-feedback.bad  { background: rgba(224,88,120,.1); color: #e05878; border: 1px solid rgba(224,88,120,.3); }
+
+.bt-next-btn { width: 100%; padding: 11px; background: none; border: 1px solid var(--accent); color: var(--accent); font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: .15em; text-transform: uppercase; border-radius: 4px; cursor: pointer; transition: background .15s, color .15s; display: none; }
+.bt-next-btn.show { display: block; }
+.bt-next-btn:hover { background: var(--accent); color: var(--bg); }
+
+/* Résultat final */
+#bt-result { display: none; text-align: center; padding: 2rem 0; }
+#bt-result.show { display: block; animation: fadeIn .5s ease; }
+.bt-result-emoji { font-size: 52px; display: block; margin-bottom: 1rem; }
+.bt-result-score { font-family: 'Playfair Display', serif; font-size: clamp(36px,8vw,56px); color: var(--accent); margin-bottom: .3rem; }
+.bt-result-max { font-size: 12px; color: var(--text3); margin-bottom: 1rem; }
+.bt-result-level { font-size: 14px; color: var(--text); font-weight: 600; margin-bottom: .5rem; font-family: 'DM Sans', sans-serif; }
+.bt-result-desc { font-size: 11px; color: var(--text2); margin-bottom: 1.8rem; font-family: 'DM Sans', sans-serif; line-height: 1.65; }
+.bt-restart-btn { padding: 10px 28px; background: none; border: 1px solid var(--accent); color: var(--accent); font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: .15em; text-transform: uppercase; border-radius: 4px; cursor: pointer; transition: background .15s, color .15s; }
+.bt-restart-btn:hover { background: var(--accent); color: var(--bg); }
+
+/* ── Sélecteur de jeu (3 onglets) ── */
+.gq-hidden { display: none !important; }
+
+.games-selector {
+  display: flex; gap: 6px; flex-wrap: wrap; justify-content: center;
+  margin-bottom: 1.5rem;
+}
+.games-tab {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; letter-spacing: .1em;
+  background: none;
+  border: 1px solid var(--border2);
+  color: var(--text3);
+  padding: 9px 16px; border-radius: 20px;
+  cursor: pointer; transition: all .2s;
+}
+.games-tab:hover { color: var(--text); border-color: rgba(255,255,255,.25); }
+.games-tab.active {
+  background: rgba(123,95,212,.15);
+  border-color: rgba(123,95,212,.5);
+  color: #d0c0ff;
+}
+
+/* Les sections Era/Blind doivent prendre toute la largeur */
+#game-era, #game-blind {
+  max-width: 680px;
+  margin: 0 auto;
+}
