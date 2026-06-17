@@ -51,7 +51,7 @@
     <button class="games-tab" onclick="gamesSwitch('vraifaux', this)">❓ Vrai ou Faux</button>
     <button class="games-tab" onclick="gamesSwitch('paroles', this)">🎤 Paroles</button>
     <button class="games-tab" onclick="gamesSwitch('chrono', this)">📅 Chrono</button>
-    <button class="games-tab" onclick="gamesSwitch('memory', this)">🃏 Memory</button>
+    <button class="games-tab" onclick="gamesSwitch('', this)">🃏 </button>
     <button class="games-tab" onclick="gamesSwitch('devine', this)">🔍 Devine le membre</button>
     <button class="games-tab" onclick="gamesSwitch('wordle', this)">🟩 Wordle</button>
   </div>
@@ -349,13 +349,13 @@
 </div>
 
 <!-- ══════════════════════════════════════════
-     MEMORY
+     
 ══════════════════════════════════════════ -->
-<div class="gq-hidden" id="game-memory" style="padding:1.5rem">
+<div class="gq-hidden" id="game-" style="padding:1.5rem">
   <div class="gq-card" style="max-width:560px;margin:0 auto;">
     <div id="mm-intro">
       <div class="gq-intro-emoji">🃏</div>
-      <div class="gq-intro-title">Memory BTS</div>
+      <div class="gq-intro-title"> BTS</div>
       <p class="gq-intro-desc">Retrouve les paires d'emojis BTS cachées. Mémorise les positions et fais le moins de coups possible !</p>
       <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
         <button class="gq-btn" onclick="mmStart(4)">🟢 Facile (4×4)</button>
@@ -687,7 +687,7 @@ window.gamesSwitch = function(game, btn) {
   document.getElementById('game-general').classList.toggle('gq-hidden', game !== 'general');
   document.getElementById('game-era').classList.toggle('gq-hidden', game !== 'era');
   document.getElementById('game-blind').classList.toggle('gq-hidden', game !== 'blind');
-  ['taquin','vraifaux','paroles','chrono','memory','devine','wordle'].forEach(function(id){
+  ['taquin','vraifaux','paroles','chrono','','devine','wordle'].forEach(function(id){
     var el=document.getElementById('game-'+id);
     if(el) el.classList.toggle('gq-hidden', game !== id);
   });
@@ -1750,7 +1750,7 @@ var _mmTimerInt = null, _mmSeconds = 0, _mmLocked = false, _mmResData = {};
 function mmStart(cols) {
   _mmCols = cols;
   _mmTotalPairs = (cols * 4) / 2;
-  var chosen = MM_EMOJIS.slice(0, _mmTotalPairs);
+  var chosen = MM_EMOJIS.slice(0, Math.min(_mmTotalPairs, MM_EMOJIS.length));
   _mmCards = [...chosen, ...chosen].sort(function(){ return Math.random() - 0.5; });
   _mmFlipped = []; _mmMatched = []; _mmMoves = 0; _mmLocked = false;
 
