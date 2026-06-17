@@ -1491,72 +1491,132 @@ function vfShare(){
 /* ══════════════════════════════════════
    COMPLÈTE LES PAROLES  (fonctions globales)
 ══════════════════════════════════════ */
-const rounds = [
-  {
-    text: ["Cause", "I,", "I,", "I'm", "in", "the", "stars", "tonight"],
-    blanks: [1, 3, 6],
-    answers: ["I,", "I'm", "stars"]
-  }
+var _plExtraits=[],_plCurrent=0,_plScore=0,_plTotal=5,_plFilled=[],_plAnswered=false,_plResData={};
+var PL_ALL=[
+  {song:"Dynamite (2020)",diff:"easy",words:["Cause","I,","I,","I'm","in","the","stars","tonight"],blanks:[6],expl:"Dynamite — leur premier single 100% en anglais."},
+  {song:"Butter (2021)",diff:"easy",words:["Smooth","like","butter,","like","a","criminal","undercover"],blanks:[5],expl:"Butter — 'criminal undercover' pour décrire leur charme irrésistible."},
+  {song:"Boy With Luv (2019)",diff:"easy",words:["Oh","my","my","my,","I've","waited","all","my","life"],blanks:[2],expl:"Boy With Luv feat. Halsey — une déclaration d'amour aux ARMY."},
+  {song:"Swim (2026)",diff:"easy",words:["Swim","Swim","Water","falling","off","your","skin"],blanks:[9],expl:"Swim, leur nouveau single sortie de leurs album 2026 Arirang"},
+  {song:"Life Goes On (2020)",diff:"easy",words:["Like","an","echo","in","the","forest"],blanks:[2],expl:"Life Goes On — écrite pendant le COVID, une promesse que la vie continue."},
+  {song:"No More Dream (2013)",diff:"hard",words:["야","너의","꿈은","뭐야","니","꿈은","겨우","그거야"],blanks:[2,5],expl:"No More Dream — leur titre de débuts, un message aux jeunes qui n'osent pas rêver."},
+  {song:"Fire (2016)",diff:"hard",words:["We","were","born","to","be","free"],blanks:[2,4],expl:"Fire — 'born to be free', le message de liberté de l'era YNWA."},
+  {song:"Fake Love (2018)",diff:"hard",words:["I","was","wrong,","I'm","sorry,","I","don't","deserve","you"],blanks:[3,7],expl:"Fake Love — une des performances live les plus émotionnelles de BTS."},
+  {song:"Black Swan (2020)",diff:"hard",words:["죽어도","살아도","music","이어","나의","전부야"],blanks:[0,4],expl:"Black Swan — sur la peur de perdre sa passion pour la musique."},
+  {song:"DNA (2017)",diff:"hard",words:["우주가","생기기","전부터","우린","서로가","필요했어"],blanks:[3,5],expl:"DNA — 'Avant même que l'univers n'existe, nous avions besoin l'un de l'autre'."},
 ];
-
-let current = 0;
-
-function startGame() {
-  document.getElementById("fl-intro").classList.add("hidden");
-  document.getElementById("fl-result").classList.add("hidden");
-  document.getElementById("fl-game").classList.remove("hidden");
-
-  current = 0;
-  loadRound();
+function plStart(mode){
+  var pool=mode==='easy'?PL_ALL.filter(function(e){return e.diff==='easy';}):PL_ALL;
+  _plExtraits=[...pool].sort(function(){return Math.random()-.5;}).slice(0,mode==='easy'?5:8);
+  _plTotal=_plExtraits.length;_plCurrent=0;_plScore=0;_plAnswered=false;
+  document.getElementById('pl-intro').style.display='none';
+  document.getElementById('pl-result').style.display='none';
+  document.getElementById('pl-game').style.display='block';
+  _plRender();
 }
-
-function loadRound() {
-  const r = rounds[current];
-  const lyrics = document.getElementById("fl-lyrics");
-  const inputZone = document.getElementById("fl-input-zone");
-
-  lyrics.innerHTML = "";
-  inputZone.innerHTML = "";
-
-  r.text.forEach((word, i) => {
-    if (r.blanks.includes(i)) {
-      lyrics.innerHTML += `<span class="fl-blank" id="blank-${i}">_____</span> `;
-      inputZone.innerHTML += `<input id="input-${i}" placeholder="Mot">`;
+function _plRender(){
+  var ex=_plExtraits[_plCurrent];
+  _plFilled=new Array(ex.blanks.length).fill(null);
+  _plAnswered=false;
+  document.getElementById('pl-q-num').textContent='Extrait '+(_plCurrent+1)+'/'+_plTotal;
+  document.getElementById('pl-score-live').textContent='⭐ '+_plScore;
+  document.getElementById('pl-progress').style.width=(_plCurrent/_plTotal*100)+'%';
+  document.getElementById('pl-song-label').textContent='🎵 '+ex.song;
+  document.getElementById('pl-feedback').style.display='none';
+  document.getElementById('pl-next').style.display='none';
+  _plRenderLyrics();_plRenderChoices();
+}
+function _plRenderLyrics(){
+  var ex=_plExtraits[_plCurrent];
+  var c=document.getElementById('pl-lyrics');c.innerHTML='';
+  ex.words.forEach(function(word,i){
+    var bi=ex.blanks.indexOf(i);
+    if(bi!==-1){
+      var span=document.createElement('span');
+      span.className='pl-blank'+(_plFilled[bi]?' pl-blank-filled':'');
+      span.dataset.bi=bi;
+      span.textContent=_plFilled[bi]||'___';
+      if(_plFilled[bi]&&!_plAnswered){
+        span.addEventListener('click',function(){
+          var w=_plFilled[bi];_plFilled[bi]=null;_plRenderLyrics();_plAddChoice(w);
+        });
+      }
+      c.appendChild(span);
     } else {
-      lyrics.innerHTML += word + " ";
+      c.appendChild(document.createTextNode(' '+word+' '));
     }
   });
 }
-
-function validateAnswer() {
-  const r = rounds[current];
-  let score = 0;
-
-  r.blanks.forEach((pos, index) => {
-    const input = document.getElementById(`input-${pos}`).value.trim();
-    const blank = document.getElementById(`blank-${pos}`);
-
-    if (input.toLowerCase() === r.answers[index].toLowerCase()) {
-      blank.textContent = r.answers[index];
-      blank.classList.add("correct");
-      score++;
-    } else {
-      blank.textContent = r.answers[index];
-      blank.classList.add("wrong");
-    }
+function _plRenderChoices(){
+  var ex=_plExtraits[_plCurrent];
+  var c=document.getElementById('pl-choices');c.innerHTML='';
+  var correct=ex.options&&ex.options[0]?ex.options[0]:ex.words[ex.blanks[0]];
+  var all=ex.options?[...ex.options]:[correct];
+  all=all.sort(function(){return Math.random()-.5;});
+  all.forEach(function(w){ _plAddChoice(w); });
+}
+function _plAddChoice(word){
+  var c=document.getElementById('pl-choices');
+  var btn=document.createElement('button');
+  btn.className='pl-choice-btn';btn.textContent=word;
+  btn.addEventListener('click',function(){
+    if(_plAnswered)return;
+    var next=_plFilled.indexOf(null);if(next===-1)return;
+    _plFilled[next]=word;
+    document.querySelectorAll('.pl-choice-btn').forEach(function(b){b.disabled=true;});
+    _plRenderLyrics();
+    _plValidate();
   });
-
-  setTimeout(() => showResult(score), 1500);
+  c.appendChild(btn);
 }
-
-function showResult(score) {
-  document.getElementById("fl-game").classList.add("hidden");
-  document.getElementById("fl-result").classList.remove("hidden");
-
-  document.getElementById("fl-final-score").textContent =
-    `Tu as trouvé ${score} mot(s) sur ${rounds[0].answers.length}`;
+function _plValidate(){
+  _plAnswered=true;
+  var ex=_plExtraits[_plCurrent];
+  var correctWord=ex.options?ex.options[0]:ex.words[ex.blanks[0]];
+  var allOk=_plFilled[0]===correctWord;
+  if(allOk)_plScore++;
+  document.querySelectorAll('.pl-blank').forEach(function(s,i){
+    var ok=_plFilled[i]===correctWord;
+    s.classList.add(ok?'pl-blank-correct':'pl-blank-wrong');
+    if(!ok)s.textContent=correctWord+' ✓';
+  });
+  document.querySelectorAll('.pl-choice-btn').forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('pl-feedback');fb.style.display='block';
+  if(allOk){fb.style.background='rgba(110,200,140,.1)';fb.style.border='1px solid rgba(110,200,140,.4)';fb.style.color='#8ee0a8';fb.innerHTML='✅ Parfait ! '+ex.expl;}
+  else{fb.style.background='rgba(224,88,120,.1)';fb.style.border='1px solid rgba(224,88,120,.4)';fb.style.color='#f0a0a0';fb.innerHTML='❌ Presque ! Le bon mot apparaît en vert. '+ex.expl;}
+  document.getElementById('pl-score-live').textContent='⭐ '+_plScore;
+  document.getElementById('pl-next').style.display='block';
 }
-
+function plNext(){_plCurrent++;if(_plCurrent>=_plTotal){_plShowResult();}else{_plRender();}}
+function _plShowResult(){
+  document.getElementById('pl-game').style.display='none';
+  document.getElementById('pl-result').style.display='block';
+  document.getElementById('pl-res-score').textContent=_plScore;
+  document.getElementById('pl-res-max').textContent='/'+_plTotal;
+  var pct=_plScore/_plTotal,emoji,level,desc;
+  if(pct===1){emoji='🎤';level='Paroles parfaites !';desc='Tu connais chaque syllabe par cœur. BTS serait fier de toi !';}
+  else if(pct>=.7){emoji='💜';level='Chanteur confirmé';desc='Très bon score ! Tu connais bien les paroles de tes chansons préférées.';}
+  else if(pct>=.5){emoji='🎵';level='Fan mélomane';desc='Pas mal ! Certains extraits t\'ont piégé mais tu t\'en sors bien.';}
+  else{emoji='🎧';level='Écoute encore...';desc='Les paroles ne sont pas encore gravées dans ta mémoire. Réécoute les albums !';}
+  document.getElementById('pl-res-emoji').textContent=emoji;
+  document.getElementById('pl-res-level').textContent=level;
+  document.getElementById('pl-res-desc').textContent=desc;
+  _plResData={emoji:emoji,level:level,score:_plScore,total:_plTotal};
+}
+function plRestart(){document.getElementById('pl-result').style.display='none';document.getElementById('pl-intro').style.display='block';}
+function plShare(){
+  var d=_plResData;if(!d.level)return;
+  var c=document.createElement('canvas'),W=800,H=1000;
+  c.width=W;c.height=H;var ctx=c.getContext('2d');
+  var g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#0a1a18');g.addColorStop(1,'#0a0812');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.textAlign='center';
+  ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='600 22px "Space Mono",monospace';ctx.fillText('✦ COMPLÈTE LES PAROLES ✦',W/2,130);
+  ctx.font='140px serif';ctx.fillText(d.emoji,W/2,340);
+  ctx.fillStyle='#ffffff';ctx.font='700 52px "Cormorant Garamond",serif';ctx.fillText(d.level,W/2,450);
+  ctx.fillStyle='#c9a96e';ctx.font='700 80px "Space Mono",monospace';ctx.fillText(d.score+' / '+d.total,W/2,570);
+  ctx.fillStyle='rgba(255,255,255,.6)';ctx.font='italic 24px "Cormorant Garamond",serif';ctx.fillText('BTS Archive Universe',W/2,900);
+  _shareCanvasImage(c, 'paroles-bts.png', 'Complète les paroles BTS', 'J\'ai obtenu '+d.score+'/'+d.total+' au jeu Complète les paroles sur BTS Archive Universe !');
+}
 
 
 
