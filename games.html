@@ -280,36 +280,68 @@
 <!-- ══════════════════════════════════════════
      COMPLÈTE LES PAROLES
 ══════════════════════════════════════════ -->
-<div id="finish-lyrics" class="fl-container">
-  <div class="fl-card">
+<div id="game-paroles" class="gq-hidden pl-container">
+  <div class="pl-card">
 
     <!-- INTRO -->
-    <section id="fl-intro" class="fl-intro">
-      <h1>🎤 Finish the Lyrics</h1>
-      <p>Complète les paroles avant la révélation !</p>
-      <button class="fl-btn" onclick="startGame()">Commencer</button>
+    <section id="pl-intro" class="pl-intro">
+      <div class="pl-intro-emoji">🎤</div>
+      <h2 class="pl-intro-title">Complète les paroles</h2>
+      <p class="pl-intro-desc">
+        Des extraits de chansons BTS avec des mots manquants. Clique sur le bon mot !
+      </p>
+
+      <div class="pl-intro-buttons">
+        <button class="gq-btn" onclick="plStart('easy')">🟢 Facile — 5 extraits</button>
+        <button class="gq-btn" onclick="plStart('hard')">🔴 Difficile — 8 extraits</button>
+      </div>
     </section>
 
-    <!-- JEU -->
-    <section id="fl-game" class="fl-game hidden">
-      <div class="fl-round">Round <span id="fl-round-num">1</span></div>
+    <!-- GAME -->
+    <section id="pl-game" class="pl-game">
+      <div class="pl-progress-wrap">
+        <div class="pl-progress-info">
+          <span id="pl-q-num">Extrait 1/5</span>
+          <span id="pl-score-live">⭐ 0</span>
+        </div>
+        <div class="pl-progress-bar">
+          <div id="pl-progress" class="pl-progress-fill"></div>
+        </div>
+      </div>
 
-      <div id="fl-lyrics" class="fl-lyrics"></div>
+      <div id="pl-song-label" class="pl-song-label"></div>
 
-      <div id="fl-input-zone" class="fl-input-zone"></div>
+      <div id="pl-lyrics" class="pl-lyrics"></div>
 
-      <button id="fl-validate" class="fl-btn" onclick="validateAnswer()">Valider</button>
+      <div class="pl-choices-label">Choisis les bons mots :</div>
+      <div id="pl-choices" class="pl-choices"></div>
+
+      <div id="pl-feedback" class="pl-feedback"></div>
+
+      <button id="pl-next" class="gq-btn pl-next" onclick="plNext()">Extrait suivant →</button>
     </section>
 
-    <!-- RÉSULTAT -->
-    <section id="fl-result" class="fl-result hidden">
-      <h2 id="fl-final-emoji">🎧</h2>
-      <p id="fl-final-score"></p>
-      <button class="fl-btn" onclick="startGame()">Rejouer</button>
+    <!-- RESULT -->
+    <section id="pl-result" class="pl-result">
+      <span id="pl-res-emoji" class="pl-res-emoji"></span>
+
+      <div class="pl-result-score">
+        <span id="pl-res-score">0</span>
+        <span id="pl-res-max"></span>
+      </div>
+
+      <div id="pl-res-level" class="pl-res-level"></div>
+      <p id="pl-res-desc" class="pl-res-desc"></p>
+
+      <div class="pl-result-buttons">
+        <button class="gq-btn" onclick="plRestart()">🔄 Rejouer</button>
+        <button class="gq-btn gq-btn-share" onclick="plShare()">📸 Partager</button>
+      </div>
     </section>
 
   </div>
 </div>
+
 
 
 <!-- ══════════════════════════════════════════
