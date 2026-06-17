@@ -1747,26 +1747,34 @@ function mmStart(cols) {
   _mmResetTimer(); _mmStartTimer();
   _mmRender();
 }
-
 function _mmRender() {
   var board = document.getElementById('mm-board');
   var size = _mmCols === 4 ? 64 : 56;
   board.style.gridTemplateColumns = 'repeat(' + _mmCols + ', ' + size + 'px)';
   board.innerHTML = '';
+
   _mmCards.forEach(function(emoji, i) {
     var card = document.createElement('div');
     var isFlipped = _mmFlipped.includes(i);
     var isMatched = _mmMatched.includes(i);
-    card.className = 'mm-card' + (isFlipped || isMatched ? ' mm-flipped' : '') + (isMatched ? ' mm-matched' : '');
-    card.style.width = size + 'px'; card.style.height = size + 'px';
-card.innerHTML = (isFlipped || isMatched)
-  ? '<img src="' + emoji + '" class="mm-img">'
-  : '';
+
+    card.className = 'mm-card' +
+      (isFlipped || isMatched ? ' mm-flipped' : '') +
+      (isMatched ? ' mm-matched' : '');
+
+    card.style.width = size + 'px';
+    card.style.height = size + 'px';
+
+    // 🔥 ICI : on remplace textContent par innerHTML
+    card.innerHTML = (isFlipped || isMatched)
+      ? '<img src="' + emoji + '" class="mm-img">'
+      : '';
 
     card.addEventListener('click', function() { _mmFlip(i); });
     board.appendChild(card);
   });
 }
+
 
 function _mmFlip(i) {
   if (_mmLocked || _mmFlipped.includes(i) || _mmMatched.includes(i)) return;
