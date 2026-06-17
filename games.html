@@ -313,16 +313,40 @@
   </div>
 </div>
 
+  
+<!-- ══════════════════════════════════════════
+     CHRONO DES ALBUMS
+══════════════════════════════════════════ -->
+<div class="gq-hidden" id="game-chrono" style="padding:1.5rem">
+  <div class="gq-card" style="max-width:560px;margin:0 auto;">
+    <div id="ch-intro">
+      <div class="gq-intro-emoji">📅</div>
+      <div class="gq-intro-title">Chrono des albums</div>
+      <p class="gq-intro-desc">Glisse-dépose les eras de BTS pour les remettre dans l'ordre chronologique, de la plus ancienne à la plus récente.</p>
+      <button class="gq-btn gq-btn-main" onclick="chStart()">Commencer</button>
+    </div>
 
+    <div id="ch-game" style="display:none;">
+      <p style="font-size:11px;color:var(--text2);text-align:center;margin-bottom:1.2rem;">Glisse les cartes pour les réordonner, puis valide ton classement.</p>
+      <div id="ch-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.4rem;"></div>
+      <button class="gq-btn gq-btn-main" id="ch-validate" onclick="chValidate()">✓ Valider l'ordre</button>
+    </div>
+
+    <div id="ch-result" style="display:none;text-align:center;">
+      <span id="ch-res-emoji" style="font-size:52px;display:block;margin-bottom:.8rem;"></span>
+      <div class="gq-result-score"><span id="ch-res-score">0</span><span class="gq-result-max" id="ch-res-max">/8</span></div>
+      <div id="ch-res-level" style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:.6rem;color:var(--text);"></div>
+      <p id="ch-res-desc" style="font-size:12px;color:var(--text2);line-height:1.7;max-width:420px;margin:0 auto 1rem;"></p>
+      <div id="ch-correction" style="text-align:left;margin-bottom:1.4rem;"></div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <button class="gq-btn" onclick="chRestart()">🔄 Rejouer</button>
+        <button class="gq-btn gq-btn-share" onclick="chShare()">📸 Partager</button>
+      </div>
+    </div>
+  </div>
 </div>
 
-
-
-
-
-
-
-  
+</div>
 <script>
 /* ══════════════════════════════════════════════
    QUIZ BTS GÉNÉRAL — 20 QUESTIONS
@@ -1416,39 +1440,6 @@ function plShare(){
   var a=document.createElement('a');a.download='paroles-bts.png';a.href=c.toDataURL('image/png');a.click();
 }
 </script>
-
-
-<!-- ══════════════════════════════════════════
-     CHRONO DES ALBUMS
-══════════════════════════════════════════ -->
-<div class="gq-hidden" id="game-chrono" style="padding:1.5rem">
-  <div class="gq-card" style="max-width:560px;margin:0 auto;">
-    <div id="ch-intro">
-      <div class="gq-intro-emoji">📅</div>
-      <div class="gq-intro-title">Chrono des albums</div>
-      <p class="gq-intro-desc">Glisse-dépose les eras de BTS pour les remettre dans l'ordre chronologique, de la plus ancienne à la plus récente.</p>
-      <button class="gq-btn gq-btn-main" onclick="chStart()">Commencer</button>
-    </div>
-
-    <div id="ch-game" style="display:none;">
-      <p style="font-size:11px;color:var(--text2);text-align:center;margin-bottom:1.2rem;">Glisse les cartes pour les réordonner, puis valide ton classement.</p>
-      <div id="ch-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.4rem;"></div>
-      <button class="gq-btn gq-btn-main" id="ch-validate" onclick="chValidate()">✓ Valider l'ordre</button>
-    </div>
-
-    <div id="ch-result" style="display:none;text-align:center;">
-      <span id="ch-res-emoji" style="font-size:52px;display:block;margin-bottom:.8rem;"></span>
-      <div class="gq-result-score"><span id="ch-res-score">0</span><span class="gq-result-max" id="ch-res-max">/8</span></div>
-      <div id="ch-res-level" style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:.6rem;color:var(--text);"></div>
-      <p id="ch-res-desc" style="font-size:12px;color:var(--text2);line-height:1.7;max-width:420px;margin:0 auto 1rem;"></p>
-      <div id="ch-correction" style="text-align:left;margin-bottom:1.4rem;"></div>
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
-        <button class="gq-btn" onclick="chRestart()">🔄 Rejouer</button>
-        <button class="gq-btn gq-btn-share" onclick="chShare()">📸 Partager</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script>
 /* ══════════════════════════════════════
