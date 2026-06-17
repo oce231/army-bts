@@ -349,13 +349,13 @@
 </div>
 
 <!-- ══════════════════════════════════════════
-    
+     MEMORY
 ══════════════════════════════════════════ -->
 <div class="gq-hidden" id="game-memory" style="padding:1.5rem">
   <div class="gq-card" style="max-width:560px;margin:0 auto;">
     <div id="mm-intro">
       <div class="gq-intro-emoji">🃏</div>
-      <div class="gq-intro-title"> BTS</div>
+      <div class="gq-intro-title">Memory BTS</div>
       <p class="gq-intro-desc">Retrouve les paires d'emojis BTS cachées. Mémorise les positions et fais le moins de coups possible !</p>
       <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
         <button class="gq-btn" onclick="mmStart(4)">🟢 Facile (4×4)</button>
@@ -687,7 +687,7 @@ window.gamesSwitch = function(game, btn) {
   document.getElementById('game-general').classList.toggle('gq-hidden', game !== 'general');
   document.getElementById('game-era').classList.toggle('gq-hidden', game !== 'era');
   document.getElementById('game-blind').classList.toggle('gq-hidden', game !== 'blind');
-  ['taquin','vraifaux','paroles','chrono','','devine','wordle'].forEach(function(id){
+  ['taquin','vraifaux','paroles','chrono','memory','devine','wordle'].forEach(function(id){
     var el=document.getElementById('game-'+id);
     if(el) el.classList.toggle('gq-hidden', game !== id);
   });
@@ -1726,22 +1726,7 @@ var MM_EMOJIS = [
   "Photo/Suga.jpg",
   "Photo/V.jpg",
   "Photo/Jk.cover.jpg",
-  "Photo/Arirang.jpg",
-  "Photo/Be.jpg",
-  "Photo/Butter.png",
-  "Photo/Dark-and-wild.jpg",
-  "Photo/Love-Yourself-Answer",
-  "Photo/Love-Yourself-Her.jpg",
-  "Photo/Love-Yourself-Tear.jpg",
-  "Photo/Map-of-the-soul-persona.jpg",
-  "Photo/Map-of-the-soul-seven.jpg",
-  "Photo/Pre-debut.jpg"
-  "Photo/School.Trilogy.jpg",
-  "Photo/The-most-beautiful-moment-in-live-2.jpg",
-  "Photo/The-most-beautiful-moment-in-live.jpg",
-  "Photo/Wings.png",
-  "Photo/YNWA.jpg",
-  "Photo/Young-forever.jpg"
+  "Photo/Arirang.jpg"
 ];
 
 var _mmCards = [], _mmFlipped = [], _mmMatched = [], _mmMoves = 0, _mmCols = 4, _mmTotalPairs = 8;
@@ -1750,7 +1735,7 @@ var _mmTimerInt = null, _mmSeconds = 0, _mmLocked = false, _mmResData = {};
 function mmStart(cols) {
   _mmCols = cols;
   _mmTotalPairs = (cols * 4) / 2;
-  var chosen = MM_EMOJIS.slice(0, Math.min(_mmTotalPairs, MM_EMOJIS.length));
+  var chosen = MM_EMOJIS.slice(0, _mmTotalPairs);
   _mmCards = [...chosen, ...chosen].sort(function(){ return Math.random() - 0.5; });
   _mmFlipped = []; _mmMatched = []; _mmMoves = 0; _mmLocked = false;
 
