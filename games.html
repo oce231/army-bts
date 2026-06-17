@@ -280,69 +280,41 @@
 <!-- ══════════════════════════════════════════
      COMPLÈTE LES PAROLES
 ══════════════════════════════════════════ -->
-<div id="game-paroles" class="gq-hidden pl-container">
-  <div class="pl-card">
-
-    <!-- INTRO -->
-    <section id="pl-intro" class="pl-intro">
-      <div class="pl-intro-emoji">🎤</div>
-      <h2 class="pl-intro-title">Complète les paroles</h2>
-      <p class="pl-intro-desc">
-        Des extraits de chansons BTS avec des mots manquants. Clique sur le bon mot !
-      </p>
-
-      <div class="pl-intro-buttons">
+<div class="gq-hidden" id="game-paroles" style="padding:1.5rem">
+  <div class="gq-card" style="max-width:640px;margin:0 auto;">
+    <div id="pl-intro">
+      <div class="gq-intro-emoji">🎤</div>
+      <div class="gq-intro-title">Complète les paroles</div>
+      <p class="gq-intro-desc">Des extraits de chansons BTS avec des mots manquants. Clique sur le bon mot et prouve que tu connais les paroles par cœur !</p>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
         <button class="gq-btn" onclick="plStart('easy')">🟢 Facile — 5 extraits</button>
         <button class="gq-btn" onclick="plStart('hard')">🔴 Difficile — 8 extraits</button>
       </div>
-    </section>
-
-    <!-- GAME -->
-    <section id="pl-game" class="pl-game">
-      <div class="pl-progress-wrap">
-        <div class="pl-progress-info">
-          <span id="pl-q-num">Extrait 1/5</span>
-          <span id="pl-score-live">⭐ 0</span>
-        </div>
-        <div class="pl-progress-bar">
-          <div id="pl-progress" class="pl-progress-fill"></div>
-        </div>
+    </div>
+    <div id="pl-game" style="display:none;">
+      <div class="gq-progress-wrap">
+        <div class="gq-progress-info"><span id="pl-q-num">Extrait 1/5</span><span id="pl-score-live">⭐ 0</span></div>
+        <div class="gq-progress-bar"><div class="gq-progress-fill" id="pl-progress"></div></div>
       </div>
-
-      <div id="pl-song-label" class="pl-song-label"></div>
-
-      <div id="pl-lyrics" class="pl-lyrics"></div>
-
-      <div class="pl-choices-label">Choisis les bons mots :</div>
-      <div id="pl-choices" class="pl-choices"></div>
-
-      <div id="pl-feedback" class="pl-feedback"></div>
-
-      <button id="pl-next" class="gq-btn pl-next" onclick="plNext()">Extrait suivant →</button>
-    </section>
-
-    <!-- RESULT -->
-    <section id="pl-result" class="pl-result">
-      <span id="pl-res-emoji" class="pl-res-emoji"></span>
-
-      <div class="pl-result-score">
-        <span id="pl-res-score">0</span>
-        <span id="pl-res-max"></span>
-      </div>
-
-      <div id="pl-res-level" class="pl-res-level"></div>
-      <p id="pl-res-desc" class="pl-res-desc"></p>
-
-      <div class="pl-result-buttons">
+      <div id="pl-song-label" style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.6rem;"></div>
+      <div id="pl-lyrics" style="font-family:'DM Sans',sans-serif;font-size:14px;line-height:2.4;color:var(--text2);text-align:center;margin-bottom:1.4rem;padding:1rem;background:rgba(255,255,255,.02);border-radius:8px;border:1px solid var(--border);min-height:80px;"></div>
+      <div style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:.6rem;">Choisis les bons mots :</div>
+      <div id="pl-choices" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:1.2rem;min-height:40px;"></div>
+      <div id="pl-feedback" style="display:none;padding:.9rem 1rem;border-radius:8px;margin-bottom:1rem;font-size:12px;font-family:'DM Sans',sans-serif;line-height:1.6;"></div>
+      <button class="gq-btn" id="pl-next" style="display:none;" onclick="plNext()">Extrait suivant →</button>
+    </div>
+    <div id="pl-result" style="display:none;text-align:center;">
+      <span id="pl-res-emoji" style="font-size:52px;display:block;margin-bottom:.8rem;"></span>
+      <div class="gq-result-score"><span id="pl-res-score">0</span><span class="gq-result-max" id="pl-res-max">/5</span></div>
+      <div id="pl-res-level" style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:.6rem;color:var(--text);"></div>
+      <p id="pl-res-desc" style="font-size:12px;color:var(--text2);line-height:1.7;max-width:420px;margin:0 auto 1.4rem;"></p>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
         <button class="gq-btn" onclick="plRestart()">🔄 Rejouer</button>
         <button class="gq-btn gq-btn-share" onclick="plShare()">📸 Partager</button>
       </div>
-    </section>
-
+    </div>
   </div>
 </div>
-
-
 
 <!-- ══════════════════════════════════════════
      CHRONO DES ALBUMS
@@ -1617,6 +1589,7 @@ function plShare(){
   ctx.fillStyle='rgba(255,255,255,.6)';ctx.font='italic 24px "Cormorant Garamond",serif';ctx.fillText('BTS Archive Universe',W/2,900);
   _shareCanvasImage(c, 'paroles-bts.png', 'Complète les paroles BTS', 'J\'ai obtenu '+d.score+'/'+d.total+' au jeu Complète les paroles sur BTS Archive Universe !');
 }
+</script>
 
 
 
