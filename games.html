@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Quiz & Jeux · ARMY Lounge</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="hub.css">
+<link rel="stylesheet" href="games.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="05ed87e3-dc67-44d8-a5b7-133005178a72"></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <button class="hamburger" id="ham" style="visibility:hidden" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a class="logo" href="index.html" style="text-decoration:none">BTS <small>방탄소년단 Archive</small></a>
+  <div style="flex:1"></div>
+  <a class="hub-switch" href="hub.html">💜 Lounge</a>
+</header>
+
+<div class="hub-main">
+
+  <!-- ── HERO ── -->
+  <div class="games-hero">
+    <div class="hub-hero-bg"></div>
+    <div class="hub-hero-content">
+      <a href="hub.html" class="games-back">← ARMY Lounge</a>
+      <div class="hub-pretitle">🎮 Espace jeux</div>
+      <h1 class="hub-title" style="font-size:clamp(30px,7vw,52px)">Quiz & Jeux</h1>
+      <p class="hub-subtitle">Teste tes connaissances ARMY et découvre ton niveau.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       SÉLECTEUR DE JEU
+  ══════════════════════════════════════════════ -->
+  <div class="games-selector">
+    <button class="games-tab active" onclick="gamesSwitch('general', this)">🧠 Quiz Général</button>
+    <button class="games-tab" onclick="gamesSwitch('era', this)">✨ Quelle Era es-tu ?</button>
+    <button class="games-tab" onclick="gamesSwitch('blind', this)">🎵 Blind Test</button>
+    <button class="games-tab" onclick="gamesSwitch('taquin', this)">🧩 Taquin</button>
+    <button class="games-tab" onclick="gamesSwitch('vraifaux', this)">❓ Vrai ou Faux</button>
+    <button class="games-tab" onclick="gamesSwitch('paroles', this)">🎤 Paroles</button>
+    <button class="games-tab" onclick="gamesSwitch('chrono', this)">📅 Chrono</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       QUIZ BTS GÉNÉRAL
+  ══════════════════════════════════════════════ -->
+  <div class="games-section" id="game-general">
+
+    <!-- Écran d'intro -->
+    <div id="gq-intro" class="gq-card">
+      <div class="gq-intro-emoji">🧠</div>
+      <h2 class="gq-intro-title">Quiz BTS Général</h2>
+      <p class="gq-intro-desc">20 questions sur l'histoire, les membres, la musique et les anecdotes de BTS. Découvre si tu es Casual ARMY, Vétéran·ne ou Expert·e !</p>
+      <button class="gq-btn gq-btn-main" onclick="gqStart()">Commencer le quiz</button>
+    </div>
+
+    <!-- Écran question -->
+    <div id="gq-quiz" class="gq-card" style="display:none">
+      <div class="gq-progress-wrap">
+        <div class="gq-progress-info">
+          <span id="gq-q-label">Question 1 / 20</span>
+          <span id="gq-q-pct">5%</span>
+        </div>
+        <div class="gq-progress-bar"><div class="gq-progress-fill" id="gq-progress-fill"></div></div>
+      </div>
+      <div class="gq-question" id="gq-question"></div>
+      <div class="gq-answers" id="gq-answers"></div>
+    </div>
+
+    <!-- Écran résultat -->
+    <div id="gq-result" class="gq-card" style="display:none">
+      <span class="gq-result-emoji" id="gq-r-emoji"></span>
+      <div class="gq-result-score"><span id="gq-r-score"></span><span class="gq-result-max">/ 20</span></div>
+      <div class="gq-result-level" id="gq-r-level"></div>
+      <div class="gq-result-desc" id="gq-r-desc"></div>
+      <div class="gq-result-actions">
+        <button class="gq-btn" onclick="gqRestart()">↺ Recommencer</button>
+        <button class="gq-btn gq-btn-share" onclick="gqShareResult()">📸 Partager mon résultat</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       QUELLE ERA BTS ES-TU (déplacé de l'Archive)
+  ══════════════════════════════════════════════ -->
+  <div id="game-era" class="gq-hidden">
+<div id="quiz-section">
+  <div class="quiz-header">
+    <div class="quiz-header-label">✨ BTS Archive Universe</div>
+    <div class="quiz-header-title">Quelle Era BTS es-tu ?</div>
+    <div class="quiz-header-sub">10 questions pour découvrir l'era qui te correspond le mieux</div>
+  </div>
+  <div class="quiz-progress-wrap">
+    <div class="quiz-progress-label">
+      <span id="quiz-q-label">Question 1 / 10</span>
+      <span id="quiz-q-pct">0%</span>
+    </div>
+    <div class="quiz-progress-track"><div class="quiz-progress-fill" id="quiz-progress-fill" style="width:0%"></div></div>
+  </div>
+  <div id="quiz-body">
+    <div class="quiz-question-wrap">
+      <div class="quiz-question-num" id="quiz-q-num">Question 1</div>
+      <div class="quiz-question-text" id="quiz-q-text"></div>
+    </div>
+    <div class="quiz-answers" id="quiz-answers"></div>
+  </div>
+  <div id="quiz-result">
+    <span class="quiz-result-emoji" id="quiz-r-emoji"></span>
+    <div class="quiz-result-label">Ton era BTS est…</div>
+    <div class="quiz-result-era" id="quiz-r-era"></div>
+    <div class="quiz-result-years" id="quiz-r-years"></div>
+    <div class="quiz-result-desc" id="quiz-r-desc"></div>
+    <div class="quiz-result-songs" id="quiz-r-songs"></div>
+    <button class="quiz-btn" onclick="quizRestart()">↺ Recommencer le quiz</button>
+    <button class="quiz-btn quiz-btn-share" onclick="quizShareResult()">📸 Partager mon résultat</button>
+  </div>
+</div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       BLIND TEST (déplacé de l'Archive)
+  ══════════════════════════════════════════════ -->
+  <div id="game-blind" class="gq-hidden">
+<div id="blindtest-section">
+  <div class="bt-header">
+    <div class="bt-label">🎵 BTS Archive Universe</div>
+    <div class="bt-title">Blind Test BTS</div>
+    <div class="bt-sub">Écoute 30 secondes et trouve le titre — 10 chansons</div>
+  </div>
+
+  <div class="bt-scorebar">
+    <div class="bt-score-item"><div class="bt-score-num" id="bt-score">0</div><div class="bt-score-lbl">Score</div></div>
+    <div class="bt-score-item"><div class="bt-score-num" id="bt-qnum">1</div><div class="bt-score-lbl">Question</div></div>
+    <div class="bt-score-item"><div class="bt-score-num" id="bt-streak">0</div><div class="bt-score-lbl">Série</div></div>
+  </div>
+
+  <div id="bt-game">
+    <div class="bt-player-zone">
+      <div class="bt-player-top">
+        <div class="bt-player-icon" id="bt-player-icon">🎵</div>
+        <div class="bt-player-info">
+          <div class="bt-player-title">Écoute et devine !</div>
+          <div class="bt-player-hint" id="bt-hint">Era : —</div>
+        </div>
+      </div>
+      <!-- Iframe cachée — le titre n'est pas visible -->
+      <div class="bt-player-embed" id="bt-embed"></div>
+      <!-- Barre de progression 30s -->
+      <div class="bt-timer-bar"><div class="bt-timer-fill" id="bt-timer-fill"></div></div>
+      <!-- Bouton play custom -->
+      <button class="bt-play-btn" id="bt-play-btn" onclick="btPlay()">
+        <span id="bt-play-icon">▶</span>
+        <span id="bt-play-label">Lancer l'extrait</span>
+      </button>
+    </div>
+
+    <div class="bt-answers" id="bt-answers"></div>
+    <div class="bt-feedback" id="bt-feedback"></div>
+    <button class="bt-next-btn" id="bt-next" onclick="btNext()">Question suivante →</button>
+  </div>
+
+  <div id="bt-result">
+    <span class="bt-result-emoji" id="bt-r-emoji"></span>
+    <div class="bt-result-score" id="bt-r-score"></div>
+    <div class="bt-result-max">/ 10</div>
+    <div class="bt-result-level" id="bt-r-level"></div>
+    <div class="bt-result-desc" id="bt-r-desc"></div>
+    <button class="bt-restart-btn" onclick="btRestart()">↺ Rejouer</button>
+  </div>
+</div>
+  </div>
+
+</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   QUIZ BTS GÉNÉRAL — 20 QUESTIONS
+══════════════════════════════════════════════ */
+const GQ_QUESTIONS = [
+  { q: "En quelle année BTS a-t-il officiellement débuté ?", a: ["2010","2013","2015","2012"], correct: 1 },
+  { q: "Que signifie l'acronyme BTS en coréen ?", a: ["Bangtan Sonyeondan","Big Top Star","Best Top Singers","Beyond The Scene seulement"], correct: 0 },
+  { q: "Quel membre est surnommé \"le leader\" du groupe ?", a: ["Jin","SUGA","RM","V"], correct: 2 },
+  { q: "Quel est le titre du premier single de BTS ?", a: ["No More Dream","We Are Bulletproof Pt.2","N.O","Boy in Luv"], correct: 1 },
+  { q: "Quel membre est le plus âgé ?", a: ["RM","Jin","SUGA","j-hope"], correct: 1 },
+  { q: "Quel membre est le plus jeune (le \"maknae\") ?", a: ["V","Jimin","Jung Kook","j-hope"], correct: 2 },
+  { q: "Quelle chanson a valu à BTS son premier Daesang (prix majeur) ?", a: ["DNA","Spring Day","Blood Sweat & Tears","Fire"], correct: 2 },
+  { q: "En quelle année BTS a-t-il parlé à l'Assemblée Générale de l'ONU pour la première fois ?", a: ["2017","2018","2019","2020"], correct: 1 },
+  { q: "Quel est le nom du fandom de BTS ?", a: ["BTS Family","ARMY","Bangtan Bombs","Purple Hearts"], correct: 1 },
+  { q: "Quel membre a pour nom de scène \"Agust D\" ?", a: ["RM","SUGA","j-hope","Jin"], correct: 1 },
+  { q: "Quelle agence gère BTS ?", a: ["SM Entertainment","JYP Entertainment","HYBE (Big Hit)","YG Entertainment"], correct: 2 },
+  { q: "Quel album a marqué le début de la série \"Map of the Soul\" ?", a: ["Persona","Wings","Love Yourself: Her","BE"], correct: 0 },
+  { q: "Quelle chanson de BTS a atteint la 1ère place du Billboard Hot 100 en 2020 ?", a: ["Boy With Luv","ON","Dynamite","Black Swan"], correct: 2 },
+  { q: "Quel membre est connu pour son surnom \"Worldwide Handsome\" ?", a: ["V","Jin","Jimin","Jung Kook"], correct: 1 },
+  { q: "Dans quelle ville coréenne BTS a-t-il été formé ?", a: ["Busan","Daegu","Séoul","Incheon"], correct: 2 },
+  { q: "Quel est le nom du personnage BT21 créé par Jimin ?", a: ["CHIMMY","COOKY","TATA","SHOOKY"], correct: 0 },
+  { q: "Quelle chanson parle du concept \"Love Yourself\" présenté à l'ONU ?", a: ["IDOL","Answer: Love Myself","Magic Shop","Epiphany"], correct: 1 },
+  { q: "Quel membre a sorti l'album solo \"D-2\" sous le nom Agust D ?", a: ["RM","j-hope","SUGA","Jung Kook"], correct: 2 },
+  { q: "En quelle année BTS a-t-il reçu une distinction honorifique du gouvernement sud-coréen (Ordre du Mérite Culturel) ?", a: ["2018","2019","2020","2021"], correct: 1 },
+  { q: "Quel single est sorti pour célébrer les 5 ans depuis les débuts de BTS, avant l'annonce d'une pause ?", a: ["Euphoria","Heartbeat","Dynamite","Save Me"], correct: 0 },
+];
+
+let gqIndex = 0;
+let gqScore = 0;
+let gqAnswered = false;
+
+window.gqStart = function() {
+  gqIndex = 0;
+  gqScore = 0;
+  document.getElementById('gq-intro').style.display = 'none';
+  document.getElementById('gq-result').style.display = 'none';
+  document.getElementById('gq-quiz').style.display = 'block';
+  gqShowQuestion();
+};
+
+function gqShowQuestion() {
+  gqAnswered = false;
+  const total = GQ_QUESTIONS.length;
+  const q = GQ_QUESTIONS[gqIndex];
+
+  document.getElementById('gq-q-label').textContent = `Question ${gqIndex + 1} / ${total}`;
+  document.getElementById('gq-q-pct').textContent = Math.round((gqIndex / total) * 100) + '%';
+  document.getElementById('gq-progress-fill').style.width = (gqIndex / total * 100) + '%';
+  document.getElementById('gq-question').textContent = q.q;
+
+  const answersEl = document.getElementById('gq-answers');
+  answersEl.innerHTML = '';
+  q.a.forEach((ans, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'gq-answer';
+    btn.textContent = ans;
+    btn.onclick = () => gqAnswer(i, btn);
+    answersEl.appendChild(btn);
+  });
+}
+
+function gqAnswer(idx, btn) {
+  if (gqAnswered) return;
+  gqAnswered = true;
+  const q = GQ_QUESTIONS[gqIndex];
+  const buttons = document.querySelectorAll('.gq-answer');
+
+  buttons.forEach((b, i) => {
+    b.classList.add('disabled');
+    if (i === q.correct) b.classList.add('correct');
+    else if (i === idx) b.classList.add('wrong');
+  });
+
+  if (idx === q.correct) gqScore++;
+
+  setTimeout(() => {
+    gqIndex++;
+    if (gqIndex < GQ_QUESTIONS.length) {
+      gqShowQuestion();
+    } else {
+      gqShowResult();
+    }
+  }, 900);
+}
+
+const GQ_LEVELS = [
+  { min: 0,  max: 6,  emoji: '🐣', level: 'Casual ARMY', desc: "Tu connais BTS mais il te reste encore beaucoup à découvrir ! Explore l'archive pour en apprendre plus sur leur histoire." },
+  { min: 7,  max: 12, emoji: '💜', level: 'ARMY confirmé·e', desc: "Tu suis BTS depuis un moment et tu connais bien les bases. Continue à creuser, il y a toujours plus à apprendre !" },
+  { min: 13, max: 17, emoji: '⭐', level: 'Vétéran·ne ARMY', desc: "Impressionnant ! Tu connais BTS sur le bout des doigts, leur histoire, leurs membres et leurs moments marquants." },
+  { min: 18, max: 20, emoji: '👑', level: 'Expert·e ARMY', desc: "Niveau légendaire ! Tu es une véritable encyclopédie BTS. Borahae, vrai·e fan depuis le début ! 💜" },
+];
+
+function gqShowResult() {
+  document.getElementById('gq-quiz').style.display = 'none';
+  document.getElementById('gq-result').style.display = 'block';
+
+  const level = GQ_LEVELS.find(l => gqScore >= l.min && gqScore <= l.max) || GQ_LEVELS[0];
+  window._gqResultLevel = level;
+  window._gqResultScore = gqScore;
+
+  document.getElementById('gq-r-emoji').textContent = level.emoji;
+  document.getElementById('gq-r-score').textContent = gqScore;
+  document.getElementById('gq-r-level').textContent = level.level;
+  document.getElementById('gq-r-desc').textContent = level.desc;
+}
+
+window.gqRestart = function() {
+  document.getElementById('gq-result').style.display = 'none';
+  document.getElementById('gq-intro').style.display = 'block';
+};
+
+/* ══════════════════════════════════════════════
+   PARTAGE RÉSULTAT — Génération d'image
+══════════════════════════════════════════════ */
+window.gqShareResult = function() {
+  const level = window._gqResultLevel;
+  const score = window._gqResultScore;
+  if (!level) return;
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => gqDrawShareCard(level, score));
+  } else {
+    gqDrawShareCard(level, score);
+  }
+};
+
+function gqDrawShareCard(level, score) {
+  const canvas = document.createElement('canvas');
+  const W = 800, H = 1000;
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  const grd = ctx.createLinearGradient(0, 0, W, H);
+  grd.addColorStop(0, '#1a1030');
+  grd.addColorStop(1, '#0a0812');
+  ctx.fillStyle = grd;
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.fillStyle = 'rgba(5,4,15,0.35)';
+  ctx.fillRect(0, 0, W, H);
+
+  const glow = ctx.createRadialGradient(W/2, 300, 0, W/2, 300, 340);
+  glow.addColorStop(0, 'rgba(176,154,232,0.22)');
+  glow.addColorStop(1, 'rgba(176,154,232,0)');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'rgba(255,255,255,0.6)';
+  ctx.font = '600 22px "Space Mono", monospace';
+  ctx.fillText('✦ QUIZ BTS GÉNÉRAL ✦', W/2, 130);
+
+  ctx.font = '160px serif';
+  ctx.fillText(level.emoji, W/2, 360);
+
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '700 56px "Cormorant Garamond", serif';
+  ctx.fillText(level.level, W/2, 470);
+
+  ctx.fillStyle = '#b09ae8';
+  ctx.font = '700 80px "Space Mono", monospace';
+  ctx.fillText(score + ' / 20', W/2, 580);
+
+  ctx.fillStyle = 'rgba(255,255,255,0.85)';
+  ctx.font = 'italic 26px "Cormorant Garamond", serif';
+  gqWrapText(ctx, level.desc, W/2, 700, W - 160, 36);
+
+  ctx.fillStyle = 'rgba(201,169,110,0.9)';
+  ctx.font = '600 26px "Cormorant Garamond", serif';
+  ctx.fillText('BTS 방탄소년단 Archive', W/2, 920);
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.font = '16px "Space Mono", monospace';
+  ctx.fillText('Teste ton niveau ARMY sur le site', W/2, 955);
+
+  canvas.toBlob(function(blob) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'quiz-bts-' + level.level.toLowerCase().replace(/[^a-z0-9]+/g,'-') + '.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+}
+
+function gqWrapText(ctx, text, x, y, maxWidth, lineHeight) {
+  const words = text.split(' ');
+  let line = '';
+  const lines = [];
+  for (let i = 0; i < words.length; i++) {
+    const test = line + words[i] + ' ';
+    if (ctx.measureText(test).width > maxWidth && line) {
+      lines.push(line.trim());
+      line = words[i] + ' ';
+    } else {
+      line = test;
+    }
+  }
+  lines.push(line.trim());
+  const startY = y - (lines.length - 1) * lineHeight / 2;
+  lines.forEach((l, i) => ctx.fillText(l, x, startY + i * lineHeight));
+}
+
+/* ══════════════════════════════════════════════
+   SÉLECTEUR DE JEU
+══════════════════════════════════════════════ */
+let _eraGameStarted = false;
+let _blindGameStarted = false;
+
+window.gamesSwitch = function(game, btn) {
+  document.querySelectorAll('.games-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.getElementById('game-general').classList.toggle('gq-hidden', game !== 'general');
+  document.getElementById('game-era').classList.toggle('gq-hidden', game !== 'era');
+  document.getElementById('game-blind').classList.toggle('gq-hidden', game !== 'blind');
+  ['taquin','vraifaux','paroles','chrono'].forEach(function(id){
+    var el=document.getElementById('game-'+id);
+    if(el) el.classList.toggle('gq-hidden', game !== id);
+  });
+
+  if (game === 'era' && !_eraGameStarted) {
+    _eraGameStarted = true;
+    showQuizEra();
+  }
+  if (game === 'blind' && !_blindGameStarted) {
+    _blindGameStarted = true;
+    showBlindTestGame();
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+/* ══════════════════════════════════════════════
+   QUELLE ERA BTS ES-TU (déplacé de l'Archive)
+══════════════════════════════════════════════ */
+const QUIZ_ERAS = [
+  { name:'HYYH', years:'2015', emoji:'🌸', c1:'#4a90e8', c2:'#a8d8ff',
+    desc:"Tu es l'era HYYH — The Most Beautiful Moment in Life. Tu vis intensément, tu ressens tout en profondeur, et tu trouves de la beauté dans les choses simples. Tu es nostalgique, créatif·ve, et tu gardes précieusement les souvenirs.",
+    songs:['I Need U','Run','Butterfly','Dope','Silver Spoon'], idx:3 },
+  { name:'Wings', years:'2016–2017', emoji:'🪶', c1:'#d4c820', c2:'#fff0a0',
+    desc:"Tu es l'era Wings. Introspectif·ve et profond·e, tu explores ta psyché sans peur. Tu acceptes tes contradictions et tu grandis à travers elles. Tu es quelqu'un de complexe et fascinant.",
+    songs:['Blood Sweat & Tears','Begin','Lie','Stigma','Awake'], idx:6 },
+  { name:'Love Yourself', years:'2017–2018', emoji:'💜', c1:'#b050a0', c2:'#ffb8e0',
+    desc:"Tu es l'era Love Yourself. Tu crois que s'aimer soi-même est la plus grande force. Empathique et bienveillant·e, tu rayonnes autour de toi et tu inspires les autres à s'accepter.",
+    songs:['DNA','Fake Love','IDOL','Serendipity','Epiphany'], idx:8 },
+  { name:'MAP OF THE SOUL', years:'2019–2020', emoji:'🌌', c1:'#6850d8', c2:'#c0a8ff',
+    desc:"Tu es l'era Map of the Soul. Philosophe et chercheur·se de sens, tu t'interroges sur ton identité et ta place dans le monde. Tu aimes comprendre ce qui te motive en profondeur.",
+    songs:['Boy With Luv','ON','Black Swan','Mikrokosmos','Filter'], idx:11 },
+  { name:'BE', years:'2020', emoji:'🏠', c1:'#508858', c2:'#a0d888',
+    desc:"Tu es l'era BE. Authentique et sincère, tu trouves du réconfort dans les petites choses du quotidien. Tu es celui·celle qui remonte le moral de tout le monde, même dans les moments difficiles.",
+    songs:['Life Goes On','Dynamite','Blue & Grey','Telepathy','Stay'], idx:13 },
+  { name:'Butter / PTD', years:'2021', emoji:'🧈', c1:'#c8b028', c2:'#fff060',
+    desc:"Tu es l'era Butter. Solaire et plein·e d'énergie, tu illumines les pièces que tu traverses. Tu aimes la fête, le fun et partager des moments joyeux. Ta bonne humeur est contagieuse !",
+    songs:['Butter','Permission to Dance','My Universe'], idx:14 },
+  { name:'Young Forever', years:'2016', emoji:'🌟', c1:'#d4a830', c2:'#ffe566',
+    desc:"Tu es l'era Young Forever. Tu vis pour la musique et les rêves. Tu es du genre à ne jamais abandonner, même quand c'est dur. Ta passion est ta plus grande force.",
+    songs:['Fire','Save Me','Epilogue: Young Forever'], idx:5 },
+  { name:'Proof', years:'2022', emoji:'💿', c1:'#9060e0', c2:'#d4b8ff',
+    desc:"Tu es l'era Proof. Tu es mature, conscient·e du chemin parcouru et fier·e de l'avoir fait. Tu regardes vers l'avenir avec sérénité tout en honorant le passé.",
+    songs:['Yet To Come','Run BTS','For Youth','Spring Day'], idx:15 },
+];
+
+const QUIZ_QUESTIONS = [
+  { q: "Quelle ambiance te correspond le mieux au quotidien ?",
+    a: [ { text:"Mélancolique et nostalgique — j'aime me perdre dans mes pensées", scores:[2,0,0,0,1,0,0,1] },
+         { text:"Intense et sombre — j'explore mes profondeurs", scores:[0,3,0,1,0,0,0,0] },
+         { text:"Lumineux et énergique — je vis à fond !", scores:[0,0,0,0,0,3,2,0] },
+         { text:"Calme et introspectif — je cherche le sens des choses", scores:[0,1,1,3,1,0,0,1] } ] },
+  { q: "Quelle activité te ressemble le plus ?",
+    a: [ { text:"Écrire dans mon journal intime ou composer des poèmes", scores:[2,1,0,0,1,0,0,2] },
+         { text:"Danser sans me soucier du regard des autres", scores:[0,0,1,0,0,3,0,0] },
+         { text:"Lire un livre de philosophie ou regarder un documentaire", scores:[0,1,0,3,0,0,0,1] },
+         { text:"Passer du temps avec mes proches, rire ensemble", scores:[1,0,1,0,3,1,1,0] } ] },
+  { q: "Face à une épreuve difficile, tu as tendance à…",
+    a: [ { text:"Ressentir intensément mais trouver de la beauté dans la douleur", scores:[3,1,0,0,0,0,1,0] },
+         { text:"Aller au fond de toi-même pour comprendre ce qui se passe", scores:[0,3,0,1,0,0,0,1] },
+         { text:"Te motiver et aller de l'avant malgré tout", scores:[0,0,0,0,0,2,3,0] },
+         { text:"T'entourer de tes proches et trouver du réconfort", scores:[0,0,1,0,3,1,0,1] } ] },
+  { q: "Quelle couleur te représente le mieux ?",
+    a: [ { text:"Bleu ciel ou rose poudré — doux et rêveur", scores:[3,0,1,0,0,0,1,0] },
+         { text:"Noir ou doré sombre — mystérieux et profond", scores:[0,3,0,1,0,0,0,1] },
+         { text:"Jaune ou orange vif — joyeux et solaire", scores:[0,0,0,0,1,3,1,0] },
+         { text:"Violet ou vert — unique et authentique", scores:[0,0,2,1,2,0,0,2] } ] },
+  { q: "Si tu pouvais vivre dans une saison en permanence, ce serait…",
+    a: [ { text:"Le printemps — tout renaît, l'espoir est partout", scores:[3,0,1,0,1,0,0,1] },
+         { text:"L'automne — mélancolique, les feuilles qui tombent", scores:[1,2,0,1,2,0,0,2] },
+         { text:"L'été — fêtes, soleil, insouciance totale", scores:[0,0,0,0,0,3,1,0] },
+         { text:"L'hiver — silence, introspection, nuits étoilées", scores:[0,2,1,2,0,0,0,1] } ] },
+  { q: "Quelle phrase résonne le plus en toi ?",
+    a: [ { text:"\"Je vis le plus beau moment de ma vie\"", scores:[3,0,0,0,0,1,1,0] },
+         { text:"\"J'ai appris à m'aimer tel·le que je suis\"", scores:[0,0,3,0,1,0,0,1] },
+         { text:"\"Je brûle de l'intérieur, je dois aller plus loin\"", scores:[0,2,0,2,0,0,2,0] },
+         { text:"\"La vie continue, même dans les moments sombres\"", scores:[0,0,0,1,3,0,0,2] } ] },
+  { q: "Quel type de musique t'attire le plus ?",
+    a: [ { text:"Des ballades émouvantes qui te font pleurer", scores:[2,1,1,0,1,0,0,2] },
+         { text:"Des sons expérimentaux et artistiques qui te déstabilisent", scores:[0,3,0,2,0,0,0,1] },
+         { text:"Des bangers qui donnent envie de danser sans s'arrêter", scores:[0,0,0,0,0,3,1,0] },
+         { text:"Des textes profonds avec un message universel", scores:[1,0,1,3,1,0,0,1] } ] },
+  { q: "Ton rêve ultime serait…",
+    a: [ { text:"Capturer un moment parfait — une photo, un souvenir, un instant", scores:[3,0,0,0,1,0,1,0] },
+         { text:"Créer une œuvre d'art qui touche les gens profondément", scores:[0,3,1,1,0,0,0,1] },
+         { text:"Faire le tour du monde en riant et en dansant", scores:[0,0,0,0,0,3,0,0] },
+         { text:"Comprendre qui tu es vraiment et vivre en accord avec toi-même", scores:[0,0,2,2,1,0,0,3] } ] },
+  { q: "Ton rapport à l'amour ressemble plutôt à…",
+    a: [ { text:"Intense et passionné — tu ressens tout très fort", scores:[2,1,1,0,0,0,1,0] },
+         { text:"Profond et complexe — l'amour te transforme", scores:[0,2,2,1,0,0,0,1] },
+         { text:"Joyeux et léger — l'amour c'est rire ensemble", scores:[0,0,0,0,2,3,0,0] },
+         { text:"Ancré et sincère — tu veux quelqu'un qui reste", scores:[1,0,1,1,2,0,0,2] } ] },
+  { q: "Un mot pour te décrire en une seconde ?",
+    a: [ { text:"Rêveur·se", scores:[3,0,0,1,1,0,1,0] },
+         { text:"Intense", scores:[1,3,0,1,0,0,1,0] },
+         { text:"Rayonnant·e", scores:[0,0,1,0,1,3,0,0] },
+         { text:"Authentique", scores:[0,0,2,1,1,0,0,3] } ] },
+];
+
+let quizScores = new Array(QUIZ_ERAS.length).fill(0);
+let quizCurrentQ = 0;
+
+function showQuizEra() {
+  quizRestart();
+}
+
+function quizRestart() {
+  quizScores = new Array(QUIZ_ERAS.length).fill(0);
+  quizCurrentQ = 0;
+  document.getElementById('quiz-result').classList.remove('show');
+  document.getElementById('quiz-body').style.display = 'block';
+  document.getElementById('quiz-progress-wrap') && (document.querySelector('.quiz-progress-wrap').style.display='block');
+  quizRenderQ();
+}
+
+function quizRenderQ() {
+  const q = QUIZ_QUESTIONS[quizCurrentQ];
+  const pct = Math.round((quizCurrentQ / QUIZ_QUESTIONS.length) * 100);
+
+  document.getElementById('quiz-q-num').textContent   = 'Question ' + (quizCurrentQ + 1);
+  document.getElementById('quiz-q-label').textContent = 'Question ' + (quizCurrentQ+1) + ' / ' + QUIZ_QUESTIONS.length;
+  document.getElementById('quiz-q-pct').textContent   = pct + '%';
+  document.getElementById('quiz-progress-fill').style.width = pct + '%';
+  document.getElementById('quiz-q-text').textContent  = q.q;
+
+  const container = document.getElementById('quiz-answers');
+  container.innerHTML = '';
+  q.a.forEach(function(ans, i) {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-answer';
+    btn.textContent = ans.text;
+    btn.onclick = function() { quizAnswer(i); };
+    container.appendChild(btn);
+  });
+
+  // Scroll vers le haut du quiz
+  document.getElementById('game-era').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function quizAnswer(ansIdx) {
+  const ans = QUIZ_QUESTIONS[quizCurrentQ].a[ansIdx];
+  // Highlight la réponse choisie
+  document.querySelectorAll('.quiz-answer').forEach((b,i) => {
+    if (i === ansIdx) b.classList.add('selected');
+    b.onclick = null;
+  });
+  // Ajoute les scores
+  ans.scores.forEach(function(s, i) { quizScores[i] += s; });
+
+  setTimeout(function() {
+    quizCurrentQ++;
+    if (quizCurrentQ < QUIZ_QUESTIONS.length) {
+      quizRenderQ();
+    } else {
+      quizShowResult();
+    }
+  }, 350);
+}
+
+function quizShowResult() {
+  // Trouve l'era avec le score le plus élevé
+  const maxScore = Math.max(...quizScores);
+  const bestIdx  = quizScores.indexOf(maxScore);
+  const era      = QUIZ_ERAS[bestIdx];
+  window._quizResultEra = era; // pour le partage
+
+  document.getElementById('quiz-body').style.display = 'none';
+  document.querySelector('.quiz-progress-wrap').style.display = 'none';
+
+  document.getElementById('quiz-r-emoji').textContent = era.emoji;
+  document.getElementById('quiz-r-era').textContent   = era.name;
+  document.getElementById('quiz-r-years').textContent = era.years;
+  document.getElementById('quiz-r-desc').textContent  = era.desc;
+
+  // Tags chansons
+  const songsEl = document.getElementById('quiz-r-songs');
+  songsEl.innerHTML = '';
+  era.songs.forEach(function(s) {
+    const span = document.createElement('span');
+    span.className = 'quiz-result-song';
+    span.textContent = s;
+    songsEl.appendChild(span);
+  });
+
+  // Couleurs du résultat
+  document.getElementById('quiz-result').style.setProperty('--quiz-c1', era.c1);
+  document.getElementById('quiz-result').style.setProperty('--quiz-c2', era.c2);
+
+  document.getElementById('quiz-progress-fill').style.width = '100%';
+  document.getElementById('quiz-q-label').textContent = 'Terminé !';
+  document.getElementById('quiz-q-pct').textContent   = '100%';
+
+  document.getElementById('quiz-result').classList.add('show');
+  document.getElementById('game-era').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ══════════════════════════════════════════════
+   PARTAGE RÉSULTAT QUIZ — Génération d'image
+══════════════════════════════════════════════ */
+function quizShareResult() {
+  const era = window._quizResultEra;
+  if (!era) return;
+
+  // Attend que les polices web soient chargées pour un rendu correct
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => drawQuizShareCard(era));
+  } else {
+    drawQuizShareCard(era);
+  }
+}
+
+function drawQuizShareCard(era) {
+
+  const canvas = document.createElement('canvas');
+  const W = 800, H = 1000;
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  // Fond dégradé avec les couleurs de l'era
+  const grd = ctx.createLinearGradient(0, 0, W, H);
+  grd.addColorStop(0, era.c1 || '#1a1a2e');
+  grd.addColorStop(1, era.c2 || '#0a0a12');
+  ctx.fillStyle = grd;
+  ctx.fillRect(0, 0, W, H);
+
+  // Overlay sombre pour la lisibilité
+  ctx.fillStyle = 'rgba(5,4,15,0.45)';
+  ctx.fillRect(0, 0, W, H);
+
+  // Cercle décoratif lumineux
+  const glow = ctx.createRadialGradient(W/2, 280, 0, W/2, 280, 320);
+  glow.addColorStop(0, 'rgba(255,255,255,0.18)');
+  glow.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, W, H);
+
+  // Pré-titre
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'rgba(255,255,255,0.6)';
+  ctx.font = '600 22px "Space Mono", monospace';
+  ctx.fillText('✦ MON ERA BTS EST ✦', W/2, 130);
+
+  // Emoji géant
+  ctx.font = '160px serif';
+  ctx.fillText(era.emoji || '💜', W/2, 340);
+
+  // Nom de l'era
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '700 64px "Cormorant Garamond", serif';
+  ctx.fillText(era.name, W/2, 460);
+
+  // Années
+  ctx.fillStyle = 'rgba(255,255,255,0.65)';
+  ctx.font = '24px "Space Mono", monospace';
+  ctx.fillText(era.years || '', W/2, 510);
+
+  // Description (multi-lignes)
+  ctx.fillStyle = 'rgba(255,255,255,0.85)';
+  ctx.font = 'italic 28px "Cormorant Garamond", serif';
+  wrapCanvasText(ctx, era.desc || '', W/2, 600, W - 160, 38);
+
+  // Chansons emblématiques
+  if (era.songs && era.songs.length) {
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.font = '18px "Space Mono", monospace';
+    ctx.fillText(era.songs.join('   ·   '), W/2, 800);
+  }
+
+  // Footer / branding
+  ctx.fillStyle = 'rgba(201,169,110,0.9)';
+  ctx.font = '600 26px "Cormorant Garamond", serif';
+  ctx.fillText('BTS 방탄소년단 Archive', W/2, 920);
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.font = '16px "Space Mono", monospace';
+  ctx.fillText('Découvre ton era sur le site', W/2, 955);
+
+  // Téléchargement
+  canvas.toBlob(function(blob) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'mon-era-bts-' + era.name.toLowerCase().replace(/[^a-z0-9]+/g,'-') + '.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+}
+
+// Découpe le texte en lignes selon une largeur max
+function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight) {
+  const words = text.split(' ');
+  let line = '';
+  const lines = [];
+  for (let i = 0; i < words.length; i++) {
+    const test = line + words[i] + ' ';
+    if (ctx.measureText(test).width > maxWidth && line) {
+      lines.push(line.trim());
+      line = words[i] + ' ';
+    } else {
+      line = test;
+    }
+  }
+  lines.push(line.trim());
+  // Centre verticalement si plusieurs lignes
+  const startY = y - (lines.length - 1) * lineHeight / 2;
+  lines.forEach((l, i) => ctx.fillText(l, x, startY + i * lineHeight));
+}
+
+/* ══════════════════════════════════════════════
+   BLIND TEST (déplacé de l'Archive)
+══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════
+   BLIND TEST
+══════════════════════════════════════════════ */
+const BT_TRACKS = [
+  { title:'No More Dream',    id:'089PFeXotzDLNQz9NCk6pF', era:'2 Cool 4 Skool' },
+  { title:'N.O',              id:'5uvYiTAVwWGfLaPGfIQWPn', era:'O!RUL8,2?' },
+  { title:'Boy in Luv',       id:'00b0FVWyvEjX2n70d6PhI1', era:'Skool Luv Affair' },
+  { title:'Danger',           id:'0zzRxtfO5FGxKdqq4OKmlw', era:'Dark & Wild' },
+  { title:'I Need U',         id:'3wQnyXNFXNUEOBt1pb4urq', era:'HYYH Pt.1' },
+  { title:'Dope',             id:'7jPCPDYoiaKeK7cgNGpIzq', era:'HYYH Pt.1' },
+  { title:'Run',              id:'3G1aAxWS2Nd17FQs4PWV6X', era:'HYYH Pt.2' },
+  { title:'Butterfly',        id:'3bjg5cbmuwDoS7e2dAWyRG', era:'HYYH Pt.2' },
+  { title:'Fire',             id:'5cQPIQAF2T1elxWs7EqB9W', era:'Young Forever' },
+  { title:'Save Me',          id:'6BskTMfDjXVzeqQHOau5Vi', era:'Young Forever' },
+  { title:'Blood Sweat & Tears', id:'2u54HNQamwFuOMLSuhSRom', era:'Wings' },
+  { title:'Begin',            id:'0bGJHUPR6ems9tzIljlPFR', era:'Wings' },
+  { title:'Lie',              id:'1nWB8isqs2tviWk20G5pow', era:'Wings' },
+  { title:'Spring Day',       id:'4upRoEWkMWhhMfEgPZMFRP', era:'Proof' },
+  { title:'Not Today',        id:'7w84cSHjwnX6dlnmD9BJLT', era:'HYYH Pt.2' },
+  { title:'DNA',              id:'3uRLwBjI2TahxslcMTvbFs', era:'Love Yourself: Her' },
+  { title:'MIC Drop',         id:'4gZGAVECoiutzp64KSHNjE', era:'Love Yourself: Her' },
+  { title:'Go Go',            id:'5vOT8VO87TAnUjh0oADwb1', era:'Love Yourself: Her' },
+  { title:'Fake Love',        id:'3YspylwDrs1LuzPONbKmAL', era:'Love Yourself: Tear' },
+  { title:'Singularity',      id:'5rqE7AhlUBEMNJsKwiyJOz', era:'Love Yourself: Tear' },
+  { title:'IDOL',             id:'0KCvsHmGvW2XcsxEWJvLPr', era:'Love Yourself: Answer' },
+  { title:'Epiphany',         id:'3m2eBXBuNvpNAOvSjVmX0M', era:'Love Yourself: Answer' },
+  { title:'Boy With Luv',     id:'4a9tbd947vo9K8Vti9JwcI', era:'Map of the Soul: Persona' },
+  { title:'Mikrokosmos',      id:'0jSccBRnhNU4KtACMQPvco', era:'Map of the Soul: Persona' },
+  { title:'ON',               id:'0fZRNhPJ4AGmwY7rkpdbqK', era:'Map of the Soul: 7' },
+  { title:'Black Swan',       id:'2EmcTFQ1rM11wp2ztsXTHa', era:'Map of the Soul: 7' },
+  { title:'Filter',           id:'4bZZVcgWWMWPBwzTTp642w', era:'Map of the Soul: 7' },
+  { title:'Life Goes On',     id:'5FVbvttjEvQ8r2BgUcJgNg', era:'BE' },
+  { title:'Dynamite',         id:'5QDLhrAOJJdNAmCTJ8xMyW', era:'BE' },
+  { title:'Blue & Grey',      id:'7Ki0hse0IfXEcXUlpyECbJ', era:'BE' },
+  { title:'Butter',           id:'6jjYDGxVJsWS0a5wlVF5vS', era:'Butter' },
+  { title:'Permission to Dance', id:'1oOXJiKGLGfAM7gC7IXUNs', era:'Butter' },
+  { title:'Yet To Come',      id:'10SRMwb9EuVS1K9rYsBfHQ', era:'Proof' },
+  { title:'Run BTS',          id:'69xohKu8C1fsflYAiSNbwM', era:'Proof' },
+];
+
+const BT_LEVELS = [
+  { min:0,  max:3,  emoji:'🐣', level:'Casual ARMY',         desc:'Tu connais BTS mais le blind test c\'est pas encore ton truc ! Réécoute quelques albums et reviens.' },
+  { min:4,  max:5,  emoji:'🐥', level:'ARMY en herbe',        desc:'Tu reconnais les grands classiques ! Continue à explorer la discographie.' },
+  { min:6,  max:7,  emoji:'🐰', level:'Vrai·e ARMY',          desc:'Belle performance ! Tu connais bien la discographie de BTS.' },
+  { min:8,  max:9,  emoji:'💜', level:'ARMY confirmé·e',       desc:'Impressionnant·e ! Tu connais BTS sur le bout des doigts.' },
+  { min:10, max:10, emoji:'👑', level:'ARMY ultime',           desc:'Score parfait ! Tu es un·e vrai·e expert·e de la discographie BTS. 방탄소년단 영원히 💜' },
+];
+
+let btScore = 0, btStreak = 0, btQnum = 0, btAnswered = false;
+let btPlaylist = [], btUsedIdx = [];
+
+function showBlindTestGame() {
+  btRestart();
+}
+
+function btRestart() {
+  btScore = 0; btStreak = 0; btQnum = 0; btAnswered = false;
+  btUsedIdx = [];
+  // Mélange aléatoire de 10 pistes
+  const shuffled = [...BT_TRACKS].sort(() => Math.random() - .5);
+  btPlaylist = shuffled.slice(0, 10);
+  document.getElementById('bt-result').classList.remove('show');
+  document.getElementById('bt-game').style.display = 'block';
+  btUpdateScore();
+  btLoadQuestion();
+}
+
+function btUpdateScore() {
+  document.getElementById('bt-score').textContent  = btScore;
+  document.getElementById('bt-qnum').textContent   = btQnum + 1;
+  document.getElementById('bt-streak').textContent = btStreak;
+}
+
+let btTimerInterval = null;
+
+function btLoadQuestion() {
+  if (btQnum >= btPlaylist.length) { btShowResult(); return; }
+  btAnswered = false;
+
+  const track = btPlaylist[btQnum];
+  document.getElementById('bt-hint').textContent = 'Era : ' + track.era;
+
+  // Remet le bouton play
+  document.getElementById('bt-play-btn').className = 'bt-play-btn';
+  document.getElementById('bt-play-icon').textContent = '▶';
+  document.getElementById('bt-play-label').textContent = 'Lancer l\'extrait';
+  document.getElementById('bt-timer-fill').style.width = '0%';
+  document.getElementById('bt-timer-fill').style.transition = 'none';
+  document.getElementById('bt-player-icon').textContent = '🎵';
+
+  // Iframe Spotify avec rectangle noir sur pochette + titre
+  const startSec = Math.floor(Math.random() * 30) + 5;
+  document.getElementById('bt-embed').innerHTML =
+    `<div style="position:relative;width:100%;height:80px;border-radius:8px;overflow:hidden;">
+      <iframe id="bt-iframe"
+        src="https://open.spotify.com/embed/track/${track.id}?utm_source=generator&theme=0&t=${startSec}"
+        width="100%" height="80" frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy" style="display:block;border-radius:8px;"></iframe>
+      <div style="position:absolute;top:0;left:0;width:calc(100% - 130px);height:80px;background:#121212;z-index:2;pointer-events:none;"></div>
+    </div>`;
+
+  // 4 choix
+  const others = BT_TRACKS.filter(t => t.id !== track.id)
+    .sort(() => Math.random() - .5).slice(0, 3);
+  const choices = [...others, track].sort(() => Math.random() - .5);
+
+  const container = document.getElementById('bt-answers');
+  container.innerHTML = '';
+  choices.forEach(function(ch) {
+    const btn = document.createElement('button');
+    btn.className = 'bt-answer';
+    btn.innerHTML = `<strong>${ch.title}</strong><br><span style="font-size:9px;opacity:.6">${ch.era}</span>`;
+    btn.onclick = function() { btAnswer(ch.id === track.id, btn, choices, track); };
+    container.appendChild(btn);
+  });
+
+  const fb = document.getElementById('bt-feedback');
+  fb.classList.remove('show','good','bad');
+  document.getElementById('bt-next').classList.remove('show');
+  btUpdateScore();
+}
+
+function btPlay() {
+  if (btAnswered) return;
+  clearInterval(btTimerInterval);
+
+  const btn = document.getElementById('bt-play-btn');
+  btn.classList.add('playing');
+  document.getElementById('bt-play-icon').textContent = '⏸';
+  document.getElementById('bt-play-label').textContent = '30 secondes…';
+  document.getElementById('bt-player-icon').textContent = '🎶';
+
+  // Recharge l'iframe avec autoplay au clic utilisateur
+  const iframe = document.getElementById('bt-iframe');
+  if (iframe) {
+    const src = iframe.src.replace('&autoplay=1','');
+    iframe.src = src + '&autoplay=1';
+  }
+
+  // Timer visuel 30s
+  const DURATION = 30000;
+  const fill = document.getElementById('bt-timer-fill');
+  fill.style.transition = `width ${DURATION}ms linear`;
+  fill.style.width = '100%';
+
+  let remaining = 30;
+  document.getElementById('bt-play-label').textContent = `${remaining}s…`;
+  btTimerInterval = setInterval(function() {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(btTimerInterval);
+      document.getElementById('bt-play-icon').textContent = '▶';
+      document.getElementById('bt-play-label').textContent = 'Réécouter';
+      btn.classList.remove('playing');
+      document.getElementById('bt-player-icon').textContent = '🎵';
+      const iframeEl = document.getElementById('bt-iframe');
+      if (iframeEl) iframeEl.src = iframeEl.src.replace('&autoplay=1','');
+    } else {
+      document.getElementById('bt-play-label').textContent = `${remaining}s…`;
+    }
+  }, 1000);
+}
+
+function btAnswer(correct, btn, choices, track) {
+  if (btAnswered) return;
+  btAnswered = true;
+
+  const fb = document.getElementById('bt-feedback');
+  const allBtns = document.querySelectorAll('.bt-answer');
+
+  if (correct) {
+    btn.classList.add('correct');
+    btScore++;
+    btStreak++;
+    fb.textContent = btStreak >= 3
+      ? `🔥 x${btStreak} — Bonne réponse ! C'est bien "${track.title}" !`
+      : `✅ Bonne réponse ! C'est bien "${track.title}" !`;
+    fb.className = 'bt-feedback show good';
+  } else {
+    btn.classList.add('wrong');
+    btStreak = 0;
+    // Révèle la bonne réponse
+    allBtns.forEach(function(b) {
+      const titleEl = b.querySelector('strong');
+      if (titleEl && titleEl.textContent === track.title) b.classList.add('reveal');
+    });
+    fb.textContent = `❌ Raté ! C'était "${track.title}"`;
+    fb.className = 'bt-feedback show bad';
+  }
+
+  // Désactive tous les boutons
+  allBtns.forEach(b => { b.onclick = null; });
+  btUpdateScore();
+
+  // Bouton suivant
+  const nextBtn = document.getElementById('bt-next');
+  nextBtn.textContent = btQnum < btPlaylist.length - 1 ? 'Question suivante →' : 'Voir mon score →';
+  nextBtn.classList.add('show');
+}
+
+function btNext() {
+  btQnum++;
+  btLoadQuestion();
+}
+
+function btShowResult() {
+  document.getElementById('bt-game').style.display = 'none';
+  const level = BT_LEVELS.find(l => btScore >= l.min && btScore <= l.max) || BT_LEVELS[0];
+  document.getElementById('bt-r-emoji').textContent = level.emoji;
+  document.getElementById('bt-r-score').textContent = btScore;
+  document.getElementById('bt-r-level').textContent = level.level;
+  document.getElementById('bt-r-desc').textContent  = level.desc;
+  document.getElementById('bt-result').classList.add('show');
+  document.getElementById('game-blind').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+</script>
+
+<!-- Curseur emoji (réutilise le système de l'Archive) -->
+<script>
+(function initCursor(){
+  let currentEmoji = null;
+  let lastX = -999, lastY = -999;
+  let throttle = false;
+  document.addEventListener('mousemove', function(e) {
+    if (!currentEmoji) return;
+    if (throttle) return;
+    throttle = true;
+    setTimeout(function(){ throttle = false; }, 40);
+    const dx = e.clientX - lastX, dy = e.clientY - lastY;
+    if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+    lastX = e.clientX; lastY = e.clientY;
+    const el = document.createElement('span');
+    el.className = 'cursor-trail-emoji';
+    el.textContent = currentEmoji;
+    el.style.left = e.clientX + 'px';
+    el.style.top  = e.clientY + 'px';
+    document.body.appendChild(el);
+    setTimeout(function(){ el.remove(); }, 820);
+  });
+  try {
+    const saved = JSON.parse(localStorage.getItem('bts_cursor'));
+    if (saved) currentEmoji = saved.emoji || null;
+  } catch(e) {}
+})();
+</script>
+
+
+
+<!-- ══════════════════════════════════════════
+     TAQUIN
+══════════════════════════════════════════ -->
+<div class="gq-hidden" id="game-taquin" style="padding:1.5rem">
+  <div class="gq-card" style="max-width:640px;margin:0 auto;">
+    <div class="gq-intro-emoji">🧩</div>
+    <div class="gq-intro-title">Taquin BTS</div>
+    <p class="gq-intro-desc">Charge une photo depuis ton appareil, choisis la taille de la grille et reconstitue l'image pièce par pièce.</p>
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin-bottom:1.4rem;">
+      <label class="tq-file-label" for="tq-file-input">📂 Choisir une photo
+        <input type="file" id="tq-file-input" accept="image/*" style="display:none">
+      </label>
+      <select id="tq-grid-size" class="tq-select">
+        <option value="3">3 × 3 (facile)</option>
+        <option value="4" selected>4 × 4 (normal)</option>
+        <option value="5">5 × 5 (difficile)</option>
+      </select>
+      <button class="gq-btn" id="tq-shuffle-btn" disabled>🔀 Mélanger</button>
+    </div>
+    <div id="tq-infos" style="display:none;justify-content:center;gap:2rem;margin-bottom:1rem;">
+      <div style="text-align:center">
+        <div id="tq-moves" style="font-family:'Space Mono',monospace;font-size:22px;color:#c9a96e">0</div>
+        <div style="font-size:9px;letter-spacing:.15em;color:var(--text3);text-transform:uppercase">Mouvements</div>
+      </div>
+      <div style="text-align:center">
+        <div id="tq-timer" style="font-family:'Space Mono',monospace;font-size:22px;color:#c9a96e">00:00</div>
+        <div style="font-size:9px;letter-spacing:.15em;color:var(--text3);text-transform:uppercase">Temps</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:1.5rem;justify-content:center;align-items:flex-start;">
+      <div style="position:relative;">
+        <div id="tq-board"></div>
+        <div id="tq-win-overlay" style="display:none;position:absolute;inset:0;background:rgba(9,9,14,.88);border-radius:8px;flex-direction:column;align-items:center;justify-content:center;gap:1rem;backdrop-filter:blur(4px);">
+          <div style="font-size:48px">🎉</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#c9a96e">Félicitations !</div>
+          <div id="tq-win-stats" style="font-size:11px;color:var(--text2);font-family:'Space Mono',monospace;text-align:center;line-height:1.8"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+            <button class="gq-btn" id="tq-download-btn">💾 Télécharger</button>
+            <button class="gq-btn" id="tq-replay-btn">🔀 Rejouer</button>
+          </div>
+        </div>
+      </div>
+      <div id="tq-preview-wrap" style="display:none;flex-direction:column;align-items:center;gap:.5rem;">
+        <div style="font-size:9px;letter-spacing:.15em;color:var(--text3);text-transform:uppercase;margin-bottom:.3rem">Aperçu</div>
+        <canvas id="tq-preview" style="border-radius:6px;border:1px solid var(--border);max-width:140px;"></canvas>
+      </div>
+    </div>
+    <div id="tq-placeholder" style="padding:2.5rem 0;color:var(--text3);font-size:11px;font-family:'Space Mono',monospace;letter-spacing:.1em;">← Charge une photo pour commencer</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     VRAI OU FAUX
+══════════════════════════════════════════ -->
+<div class="gq-hidden" id="game-vraifaux" style="padding:1.5rem">
+  <div class="gq-card" style="max-width:600px;margin:0 auto;">
+    <div id="vf-intro">
+      <div class="gq-intro-emoji">❓</div>
+      <div class="gq-intro-title">Vrai ou Faux ?</div>
+      <p class="gq-intro-desc">20 anecdotes sur BTS — certaines vraies, d'autres fausses. Sauras-tu faire la différence ?</p>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <button class="gq-btn" onclick="vfStart('easy')">🟢 Facile — 10 questions</button>
+        <button class="gq-btn" onclick="vfStart('hard')">🔴 Difficile — 15 questions</button>
+      </div>
+    </div>
+    <div id="vf-game" style="display:none;">
+      <div class="gq-progress-wrap">
+        <div class="gq-progress-info"><span id="vf-q-num">Question 1/10</span><span id="vf-score-live">⭐ 0</span></div>
+        <div class="gq-progress-bar"><div class="gq-progress-fill" id="vf-progress"></div></div>
+      </div>
+      <div class="gq-question" id="vf-question"></div>
+      <div style="display:flex;gap:12px;justify-content:center;margin-bottom:1.2rem;">
+        <button class="vf-btn vf-true" id="vf-btn-true" onclick="vfAnswer(true)">✅ VRAI</button>
+        <button class="vf-btn vf-false" id="vf-btn-false" onclick="vfAnswer(false)">❌ FAUX</button>
+      </div>
+      <div id="vf-feedback" style="display:none;padding:.9rem 1rem;border-radius:8px;margin-bottom:1rem;font-size:12px;font-family:'DM Sans',sans-serif;line-height:1.6;"></div>
+      <button class="gq-btn" id="vf-next" style="display:none;" onclick="vfNext()">Question suivante →</button>
+    </div>
+    <div id="vf-result" style="display:none;text-align:center;">
+      <span id="vf-res-emoji" style="font-size:52px;display:block;margin-bottom:.8rem;"></span>
+      <div class="gq-result-score"><span id="vf-res-score">0</span><span class="gq-result-max" id="vf-res-max">/10</span></div>
+      <div id="vf-res-level" style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:.6rem;color:var(--text);"></div>
+      <p id="vf-res-desc" style="font-size:12px;color:var(--text2);line-height:1.7;max-width:420px;margin:0 auto 1.4rem;"></p>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <button class="gq-btn" onclick="vfRestart()">🔄 Rejouer</button>
+        <button class="gq-btn gq-btn-share" onclick="vfShare()">📸 Partager</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     COMPLÈTE LES PAROLES
+══════════════════════════════════════════ -->
+<div class="gq-hidden" id="game-paroles" style="padding:1.5rem">
+  <div class="gq-card" style="max-width:640px;margin:0 auto;">
+    <div id="pl-intro">
+      <div class="gq-intro-emoji">🎤</div>
+      <div class="gq-intro-title">Complète les paroles</div>
+      <p class="gq-intro-desc">Des extraits de chansons BTS avec des mots manquants. Clique sur le bon mot et prouve que tu connais les paroles par cœur !</p>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <button class="gq-btn" onclick="plStart('easy')">🟢 Facile — 5 extraits</button>
+        <button class="gq-btn" onclick="plStart('hard')">🔴 Difficile — 8 extraits</button>
+      </div>
+    </div>
+    <div id="pl-game" style="display:none;">
+      <div class="gq-progress-wrap">
+        <div class="gq-progress-info"><span id="pl-q-num">Extrait 1/5</span><span id="pl-score-live">⭐ 0</span></div>
+        <div class="gq-progress-bar"><div class="gq-progress-fill" id="pl-progress"></div></div>
+      </div>
+      <div id="pl-song-label" style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.6rem;"></div>
+      <div id="pl-lyrics" style="font-family:'DM Sans',sans-serif;font-size:14px;line-height:2.4;color:var(--text2);text-align:center;margin-bottom:1.4rem;padding:1rem;background:rgba(255,255,255,.02);border-radius:8px;border:1px solid var(--border);min-height:80px;"></div>
+      <div style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:.6rem;">Choisis les bons mots :</div>
+      <div id="pl-choices" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:1.2rem;min-height:40px;"></div>
+      <div id="pl-feedback" style="display:none;padding:.9rem 1rem;border-radius:8px;margin-bottom:1rem;font-size:12px;font-family:'DM Sans',sans-serif;line-height:1.6;"></div>
+      <button class="gq-btn" id="pl-next" style="display:none;" onclick="plNext()">Extrait suivant →</button>
+    </div>
+    <div id="pl-result" style="display:none;text-align:center;">
+      <span id="pl-res-emoji" style="font-size:52px;display:block;margin-bottom:.8rem;"></span>
+      <div class="gq-result-score"><span id="pl-res-score">0</span><span class="gq-result-max" id="pl-res-max">/5</span></div>
+      <div id="pl-res-level" style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:.6rem;color:var(--text);"></div>
+      <p id="pl-res-desc" style="font-size:12px;color:var(--text2);line-height:1.7;max-width:420px;margin:0 auto 1.4rem;"></p>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <button class="gq-btn" onclick="plRestart()">🔄 Rejouer</button>
+        <button class="gq-btn gq-btn-share" onclick="plShare()">📸 Partager</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════
+   TAQUIN
+══════════════════════════════════════ */
+(function(){
+  var N=4,tiles=[],imgSrc=null,tileSize=0,moves=0,timerInterval=null,seconds=0,imgEl=null;
+  var BOARD_MAX=400;
+  function $(id){return document.getElementById(id);}
+  $('tq-file-input').addEventListener('change',function(){
+    var file=this.files[0]; if(!file)return;
+    var reader=new FileReader();
+    reader.onload=function(e){
+      imgSrc=e.target.result; imgEl=new Image();
+      imgEl.onload=function(){drawPreview();N=parseInt($('tq-grid-size').value);$('tq-shuffle-btn').disabled=false;buildBoard();shuffle();};
+      imgEl.src=imgSrc;
+    };
+    reader.readAsDataURL(file);
+  });
+  $('tq-grid-size').addEventListener('change',function(){if(!imgSrc)return;N=parseInt(this.value);buildBoard();shuffle();});
+  $('tq-shuffle-btn').addEventListener('click',function(){if(!imgSrc)return;N=parseInt($('tq-grid-size').value);buildBoard();shuffle();});
+  function drawPreview(){var s=140;$('tq-preview').width=s;$('tq-preview').height=s*(imgEl.naturalHeight/imgEl.naturalWidth);$('tq-preview').getContext('2d').drawImage(imgEl,0,0,$('tq-preview').width,$('tq-preview').height);}
+  function buildBoard(){
+    tileSize=Math.floor(Math.min(BOARD_MAX,window.innerWidth-80)/N);
+    var total=tileSize*N;
+    var b=$('tq-board');
+    b.style.cssText='width:'+total+'px;height:'+total+'px;display:grid;grid-template-columns:repeat('+N+','+tileSize+'px);gap:2px;background:var(--border);border-radius:8px;overflow:hidden;position:relative;user-select:none;';
+    tiles=Array.from({length:N*N},function(_,i){return i;});
+    render();
+    $('tq-placeholder').style.display='none';
+    $('tq-preview-wrap').style.display='flex';
+    $('tq-infos').style.display='flex';
+    $('tq-win-overlay').style.display='none';
+    moves=0;$('tq-moves').textContent='0';resetTimer();
+  }
+  function shuffle(){
+    var blank=tiles.indexOf(0),count=N*N*20;
+    for(var i=0;i<count;i++){var nb=getNeighbors(blank),pick=nb[Math.floor(Math.random()*nb.length)];tiles[blank]=tiles[pick];tiles[pick]=0;blank=pick;}
+    render();moves=0;$('tq-moves').textContent='0';resetTimer();startTimer();
+  }
+  function getNeighbors(idx){var r=Math.floor(idx/N),c=idx%N,n=[];if(r>0)n.push(idx-N);if(r<N-1)n.push(idx+N);if(c>0)n.push(idx-1);if(c<N-1)n.push(idx+1);return n;}
+  function render(){
+    var b=$('tq-board');b.innerHTML='';
+    tiles.forEach(function(val,pos){
+      var div=document.createElement('div');
+      div.style.width=tileSize+'px';div.style.height=tileSize+'px';div.style.borderRadius='2px';div.style.transition='box-shadow .15s';
+      if(val===0){div.style.background='#09090e';div.style.cursor='default';}
+      else{
+        var oR=Math.floor(val/N),oC=val%N,fs=tileSize*N;
+        div.style.background='url("'+imgSrc+'")';
+        div.style.backgroundSize=fs+'px '+fs+'px';
+        div.style.backgroundPosition='-'+(oC*tileSize)+'px -'+(oR*tileSize)+'px';
+        div.style.boxShadow='inset 0 0 0 1px rgba(255,255,255,.06)';
+        div.style.cursor='pointer';
+        div.addEventListener('click',function(){clickTile(pos);});
+        div.addEventListener('mouseenter',function(){if(getNeighbors(tiles.indexOf(0)).includes(pos))this.style.boxShadow='inset 0 0 0 2px #c9a96e';});
+        div.addEventListener('mouseleave',function(){this.style.boxShadow='inset 0 0 0 1px rgba(255,255,255,.06)';});
+      }
+      b.appendChild(div);
+    });
+  }
+  function clickTile(pos){
+    var blank=tiles.indexOf(0);
+    if(!getNeighbors(blank).includes(pos))return;
+    tiles[blank]=tiles[pos];tiles[pos]=0;moves++;$('tq-moves').textContent=moves;render();
+    if(tiles.every(function(v,i){return v===i;}))showWin();
+  }
+  function showWin(){
+    stopTimer();
+    var m=Math.floor(seconds/60),s=seconds%60;
+    $('tq-win-stats').innerHTML=moves+' mouvements · '+(m>0?m+' min ':'')+s+' sec';
+    $('tq-win-overlay').style.display='flex';
+  }
+  $('tq-download-btn').addEventListener('click',function(){
+    var c=document.createElement('canvas');c.width=imgEl.naturalWidth;c.height=imgEl.naturalHeight;
+    c.getContext('2d').drawImage(imgEl,0,0);
+    var a=document.createElement('a');a.download='bts-taquin.png';a.href=c.toDataURL('image/png');a.click();
+  });
+  $('tq-replay-btn').addEventListener('click',function(){$('tq-win-overlay').style.display='none';shuffle();});
+  function startTimer(){seconds=0;timerInterval=setInterval(function(){seconds++;var m=Math.floor(seconds/60).toString().padStart(2,'0'),s=(seconds%60).toString().padStart(2,'0');$('tq-timer').textContent=m+':'+s;},1000);}
+  function resetTimer(){clearInterval(timerInterval);seconds=0;$('tq-timer').textContent='00:00';}
+  function stopTimer(){clearInterval(timerInterval);}
+})();
+
+/* ══════════════════════════════════════
+   VRAI OU FAUX  (fonctions globales)
+══════════════════════════════════════ */
+var _vfQ=[],_vfCurrent=0,_vfScore=0,_vfTotal=10,_vfAnswered=false,_vfResData={};
+var VF_ALL=[
+  {q:"BTS est composé de 7 membres.",ans:true,expl:"RM, Jin, Suga, J-Hope, Jimin, V et Jungkook — les 7 depuis 2013."},
+  {q:"Le vrai prénom de Suga est Min Yoongi.",ans:true,expl:"Min Yoongi est son nom coréen. Suga est son nom de scène."},
+  {q:"Jungkook est le maknae (plus jeune) du groupe.",ans:true,expl:"Né le 1er septembre 1997, il est le plus jeune des 7."},
+  {q:"BTS vient de la ville de Busan.",ans:false,expl:"BTS est originaire de Séoul. Certains membres viennent d'autres villes."},
+  {q:"'Dynamite' est le premier titre entièrement en anglais de BTS.",ans:true,expl:"Sorti en août 2020, c'est leur premier single 100% en anglais."},
+  {q:"Le nom BTS signifie 'Behind The Scene'.",ans:false,expl:"BTS signifie 'Bangtan Sonyeondan', soit 'Bulletproof Boy Scouts'."},
+  {q:"RM est le leader officiel de BTS.",ans:true,expl:"Kim Namjoon (RM) est le leader du groupe depuis ses débuts."},
+  {q:"BTS a fait ses débuts en 2013.",ans:true,expl:"Leurs débuts officiels : le 13 juin 2013 avec 'No More Dream'."},
+  {q:"Jin est le plus vieux membre de BTS.",ans:true,expl:"Kim Seokjin est né le 4 décembre 1992, il est le plus âgé."},
+  {q:"J-Hope s'appelle Kim Taehyung dans la vraie vie.",ans:false,expl:"Kim Taehyung est le vrai nom de V. J-Hope s'appelle Jung Hoseok."},
+  {q:"Jimin est originaire de Busan.",ans:true,expl:"Park Jimin est né et a grandi à Busan, dans le sud de la Corée."},
+  {q:"BTS a été formé par SM Entertainment.",ans:false,expl:"BTS a été formé par BIGHIT Entertainment (devenu HYBE en 2021)."},
+  {q:"Le clip 'Butter' a battu le record du MV le plus vu en 24h à sa sortie.",ans:true,expl:"Butter a cumulé plus de 108 millions de vues en 24h en 2021."},
+  {q:"V (Taehyung) joue de la trompette.",ans:false,expl:"V joue du saxophone, pas de la trompette."},
+  {q:"'Spring Day' est une des chansons les plus streamées de BTS en Corée.",ans:true,expl:"Sortie en 2017, elle réapparaît chaque printemps dans les charts."},
+  {q:"Suga a sorti un album solo sous le nom 'Agust D'.",ans:true,expl:"Agust D est l'anagramme de 'DT Suga', son surnom."},
+  {q:"BTS a performé au Super Bowl en 2020.",ans:false,expl:"BTS n'a jamais performé au Super Bowl."},
+  {q:"RM a appris l'anglais principalement grâce à la série Friends.",ans:true,expl:"RM a confirmé avoir beaucoup appris en regardant Friends."},
+  {q:"Le fandom de BTS s'appelle 'ARMY' depuis 2013.",ans:true,expl:"ARMY (Adorable Representative MC for Youth) a été officialisé dès 2013."},
+  {q:"Jungkook est surnommé 'Golden Maknae' car il excelle dans tout.",ans:true,expl:"Chant, danse, rap, sport, art... Jungkook est réputé pour être doué en tout."},
+];
+function vfStart(mode){
+  _vfTotal=mode==='hard'?15:10;
+  _vfQ=[...VF_ALL].sort(function(){return Math.random()-.5;}).slice(0,_vfTotal);
+  _vfCurrent=0;_vfScore=0;_vfAnswered=false;
+  document.getElementById('vf-intro').style.display='none';
+  document.getElementById('vf-result').style.display='none';
+  document.getElementById('vf-game').style.display='block';
+  _vfRender();
+}
+function _vfRender(){
+  var q=_vfQ[_vfCurrent];
+  document.getElementById('vf-question').textContent=q.q;
+  document.getElementById('vf-q-num').textContent='Question '+(_vfCurrent+1)+'/'+_vfTotal;
+  document.getElementById('vf-score-live').textContent='⭐ '+_vfScore;
+  document.getElementById('vf-progress').style.width=(_vfCurrent/_vfTotal*100)+'%';
+  document.getElementById('vf-feedback').style.display='none';
+  document.getElementById('vf-next').style.display='none';
+  var bT=document.getElementById('vf-btn-true'),bF=document.getElementById('vf-btn-false');
+  bT.disabled=false;bT.className='vf-btn vf-true';
+  bF.disabled=false;bF.className='vf-btn vf-false';
+  _vfAnswered=false;
+}
+function vfAnswer(userAns){
+  if(_vfAnswered)return; _vfAnswered=true;
+  var q=_vfQ[_vfCurrent],correct=userAns===q.ans;
+  if(correct)_vfScore++;
+  var bT=document.getElementById('vf-btn-true'),bF=document.getElementById('vf-btn-false');
+  bT.disabled=true;bF.disabled=true;
+  if(q.ans===true)bT.classList.add('vf-correct'); else bF.classList.add('vf-correct');
+  if(userAns!==q.ans){if(userAns===true)bT.classList.add('vf-wrong');else bF.classList.add('vf-wrong');}
+  var fb=document.getElementById('vf-feedback');
+  fb.style.display='block';
+  fb.style.background=correct?'rgba(110,200,140,.1)':'rgba(224,88,120,.1)';
+  fb.style.border=correct?'1px solid rgba(110,200,140,.4)':'1px solid rgba(224,88,120,.4)';
+  fb.style.color=correct?'#8ee0a8':'#f0a0a0';
+  fb.innerHTML=(correct?'✅ Bonne réponse ! ':'❌ C\'était '+(q.ans?'VRAI':'FAUX')+'. ')+q.expl;
+  document.getElementById('vf-score-live').textContent='⭐ '+_vfScore;
+  document.getElementById('vf-next').style.display='block';
+}
+function vfNext(){_vfCurrent++;if(_vfCurrent>=_vfTotal){_vfShowResult();}else{_vfRender();}}
+function _vfShowResult(){
+  document.getElementById('vf-game').style.display='none';
+  document.getElementById('vf-result').style.display='block';
+  document.getElementById('vf-res-score').textContent=_vfScore;
+  document.getElementById('vf-res-max').textContent='/'+_vfTotal;
+  var pct=_vfScore/_vfTotal,emoji,level,desc;
+  if(pct===1){emoji='🏆';level='ARMY Expert !';desc='Parfait ! Tu connais BTS sur le bout des doigts.';}
+  else if(pct>=.8){emoji='💜';level='ARMY Confirmé';desc='Très bon score ! Tu maîtrises bien l\'histoire de BTS.';}
+  else if(pct>=.6){emoji='🎵';level='Fan sérieux';desc='Pas mal ! Certains détails t\'ont échappé.';}
+  else if(pct>=.4){emoji='🌱';level='ARMY en formation';desc='Tu débutes mais la passion est là !';}
+  else{emoji='😅';level='Débutant complet';desc='Ne te décourage pas, BTS a 10 ans de carrière à explorer !';}
+  document.getElementById('vf-res-emoji').textContent=emoji;
+  document.getElementById('vf-res-level').textContent=level;
+  document.getElementById('vf-res-desc').textContent=desc;
+  _vfResData={emoji:emoji,level:level,score:_vfScore,total:_vfTotal};
+}
+function vfRestart(){
+  document.getElementById('vf-result').style.display='none';
+  document.getElementById('vf-intro').style.display='block';
+}
+function vfShare(){
+  var d=_vfResData; if(!d.level)return;
+  var c=document.createElement('canvas'),W=800,H=1000;
+  c.width=W;c.height=H;var ctx=c.getContext('2d');
+  var g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#1a1030');g.addColorStop(1,'#0a0812');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.textAlign='center';
+  ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='600 22px "Space Mono",monospace';ctx.fillText('✦ VRAI OU FAUX BTS ✦',W/2,130);
+  ctx.font='140px serif';ctx.fillText(d.emoji,W/2,340);
+  ctx.fillStyle='#ffffff';ctx.font='700 52px "Cormorant Garamond",serif';ctx.fillText(d.level,W/2,450);
+  ctx.fillStyle='#c9a96e';ctx.font='700 80px "Space Mono",monospace';ctx.fillText(d.score+' / '+d.total,W/2,570);
+  ctx.fillStyle='rgba(255,255,255,.6)';ctx.font='italic 24px "Cormorant Garamond",serif';ctx.fillText('BTS Archive Universe',W/2,900);
+  var a=document.createElement('a');a.download='vraifaux-bts.png';a.href=c.toDataURL('image/png');a.click();
+}
+
+/* ══════════════════════════════════════
+   COMPLÈTE LES PAROLES  (fonctions globales)
+══════════════════════════════════════ */
+var _plExtraits=[],_plCurrent=0,_plScore=0,_plTotal=5,_plFilled=[],_plAnswered=false,_plResData={};
+var PL_ALL=[
+  {song:"Dynamite (2020)",diff:"easy",words:["Cause","I,","I,","I'm","in","the","stars","tonight"],blanks:[6],expl:"Dynamite — leur premier single 100% en anglais."},
+  {song:"Butter (2021)",diff:"easy",words:["Smooth","like","butter,","like","a","criminal","undercover"],blanks:[5],expl:"Butter — 'criminal undercover' pour décrire leur charme irrésistible."},
+  {song:"Boy With Luv (2019)",diff:"easy",words:["Oh","my","my","my,","I've","waited","all","my","life"],blanks:[2],expl:"Boy With Luv feat. Halsey — une déclaration d'amour aux ARMY."},
+  {song:"Spring Day (2017)",diff:"easy",words:["보고","싶다","이렇게","말하니까","더","보고","싶다"],blanks:[1],expl:"Spring Day — '보고 싶다' signifie 'Tu me manques'."},
+  {song:"Life Goes On (2020)",diff:"easy",words:["Like","an","echo","in","the","forest"],blanks:[2],expl:"Life Goes On — écrite pendant le COVID, une promesse que la vie continue."},
+  {song:"No More Dream (2013)",diff:"hard",words:["야","너의","꿈은","뭐야","니","꿈은","겨우","그거야"],blanks:[2,5],expl:"No More Dream — leur titre de débuts, un message aux jeunes qui n'osent pas rêver."},
+  {song:"Fire (2016)",diff:"hard",words:["We","were","born","to","be","free"],blanks:[2,4],expl:"Fire — 'born to be free', le message de liberté de l'era YNWA."},
+  {song:"Fake Love (2018)",diff:"hard",words:["I","was","wrong,","I'm","sorry,","I","don't","deserve","you"],blanks:[3,7],expl:"Fake Love — une des performances live les plus émotionnelles de BTS."},
+  {song:"Black Swan (2020)",diff:"hard",words:["죽어도","살아도","music","이어","나의","전부야"],blanks:[0,4],expl:"Black Swan — sur la peur de perdre sa passion pour la musique."},
+  {song:"DNA (2017)",diff:"hard",words:["우주가","생기기","전부터","우린","서로가","필요했어"],blanks:[3,5],expl:"DNA — 'Avant même que l'univers n'existe, nous avions besoin l'un de l'autre'."},
+];
+function plStart(mode){
+  var pool=mode==='easy'?PL_ALL.filter(function(e){return e.diff==='easy';}):PL_ALL;
+  _plExtraits=[...pool].sort(function(){return Math.random()-.5;}).slice(0,mode==='easy'?5:8);
+  _plTotal=_plExtraits.length;_plCurrent=0;_plScore=0;_plAnswered=false;
+  document.getElementById('pl-intro').style.display='none';
+  document.getElementById('pl-result').style.display='none';
+  document.getElementById('pl-game').style.display='block';
+  _plRender();
+}
+function _plRender(){
+  var ex=_plExtraits[_plCurrent];
+  _plFilled=new Array(ex.blanks.length).fill(null);
+  _plAnswered=false;
+  document.getElementById('pl-q-num').textContent='Extrait '+(_plCurrent+1)+'/'+_plTotal;
+  document.getElementById('pl-score-live').textContent='⭐ '+_plScore;
+  document.getElementById('pl-progress').style.width=(_plCurrent/_plTotal*100)+'%';
+  document.getElementById('pl-song-label').textContent='🎵 '+ex.song;
+  document.getElementById('pl-feedback').style.display='none';
+  document.getElementById('pl-next').style.display='none';
+  _plRenderLyrics();_plRenderChoices();
+}
+function _plRenderLyrics(){
+  var ex=_plExtraits[_plCurrent];
+  var c=document.getElementById('pl-lyrics');c.innerHTML='';
+  ex.words.forEach(function(word,i){
+    var bi=ex.blanks.indexOf(i);
+    if(bi!==-1){
+      var span=document.createElement('span');
+      span.className='pl-blank'+(_plFilled[bi]?' pl-blank-filled':'');
+      span.dataset.bi=bi;
+      span.textContent=_plFilled[bi]||'___';
+      if(_plFilled[bi]&&!_plAnswered){
+        span.addEventListener('click',function(){
+          var w=_plFilled[bi];_plFilled[bi]=null;_plRenderLyrics();_plAddChoice(w);
+        });
+      }
+      c.appendChild(span);
+    } else {
+      c.appendChild(document.createTextNode(' '+word+' '));
+    }
+  });
+}
+function _plRenderChoices(){
+  var ex=_plExtraits[_plCurrent];
+  var c=document.getElementById('pl-choices');c.innerHTML='';
+  var correct=ex.blanks.map(function(i){return ex.words[i];});
+  var distract=ex.words.filter(function(w,i){return !ex.blanks.includes(i);}).sort(function(){return Math.random()-.5;}).slice(0,ex.blanks.length+1);
+  var all=[...correct,...distract].sort(function(){return Math.random()-.5;});
+  var seen=new Set();
+  all.forEach(function(w){
+    if(seen.has(w)||_plFilled.includes(w))return;seen.add(w);
+    _plAddChoice(w);
+  });
+}
+function _plAddChoice(word){
+  var c=document.getElementById('pl-choices');
+  var btn=document.createElement('button');
+  btn.className='pl-choice-btn';btn.textContent=word;
+  btn.addEventListener('click',function(){
+    if(_plAnswered)return;
+    var next=_plFilled.indexOf(null);if(next===-1)return;
+    _plFilled[next]=word;btn.remove();_plRenderLyrics();
+    if(!_plFilled.includes(null))_plValidate();
+  });
+  c.appendChild(btn);
+}
+function _plValidate(){
+  _plAnswered=true;
+  var ex=_plExtraits[_plCurrent];
+  var allOk=_plFilled.every(function(w,i){return w===ex.words[ex.blanks[i]];});
+  if(allOk)_plScore++;
+  document.querySelectorAll('.pl-blank').forEach(function(s,i){
+    var ok=_plFilled[i]===ex.words[ex.blanks[i]];
+    s.classList.add(ok?'pl-blank-correct':'pl-blank-wrong');
+    if(!ok)s.textContent=ex.words[ex.blanks[i]]+' ✓';
+  });
+  document.querySelectorAll('.pl-choice-btn').forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('pl-feedback');fb.style.display='block';
+  if(allOk){fb.style.background='rgba(110,200,140,.1)';fb.style.border='1px solid rgba(110,200,140,.4)';fb.style.color='#8ee0a8';fb.innerHTML='✅ Parfait ! '+ex.expl;}
+  else{fb.style.background='rgba(224,88,120,.1)';fb.style.border='1px solid rgba(224,88,120,.4)';fb.style.color='#f0a0a0';fb.innerHTML='❌ Presque ! Les mots corrects apparaissent en vert. '+ex.expl;}
+  document.getElementById('pl-score-live').textContent='⭐ '+_plScore;
+  document.getElementById('pl-next').style.display='block';
+}
+function plNext(){_plCurrent++;if(_plCurrent>=_plTotal){_plShowResult();}else{_plRender();}}
+function _plShowResult(){
+  document.getElementById('pl-game').style.display='none';
+  document.getElementById('pl-result').style.display='block';
+  document.getElementById('pl-res-score').textContent=_plScore;
+  document.getElementById('pl-res-max').textContent='/'+_plTotal;
+  var pct=_plScore/_plTotal,emoji,level,desc;
+  if(pct===1){emoji='🎤';level='Paroles parfaites !';desc='Tu connais chaque syllabe par cœur. BTS serait fier de toi !';}
+  else if(pct>=.7){emoji='💜';level='Chanteur confirmé';desc='Très bon score ! Tu connais bien les paroles de tes chansons préférées.';}
+  else if(pct>=.5){emoji='🎵';level='Fan mélomane';desc='Pas mal ! Certains extraits t\'ont piégé mais tu t\'en sors bien.';}
+  else{emoji='🎧';level='Écoute encore...';desc='Les paroles ne sont pas encore gravées dans ta mémoire. Réécoute les albums !';}
+  document.getElementById('pl-res-emoji').textContent=emoji;
+  document.getElementById('pl-res-level').textContent=level;
+  document.getElementById('pl-res-desc').textContent=desc;
+  _plResData={emoji:emoji,level:level,score:_plScore,total:_plTotal};
+}
+function plRestart(){document.getElementById('pl-result').style.display='none';document.getElementById('pl-intro').style.display='block';}
+function plShare(){
+  var d=_plResData;if(!d.level)return;
+  var c=document.createElement('canvas'),W=800,H=1000;
+  c.width=W;c.height=H;var ctx=c.getContext('2d');
+  var g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#0a1a18');g.addColorStop(1,'#0a0812');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.textAlign='center';
+  ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='600 22px "Space Mono",monospace';ctx.fillText('✦ COMPLÈTE LES PAROLES ✦',W/2,130);
+  ctx.font='140px serif';ctx.fillText(d.emoji,W/2,340);
+  ctx.fillStyle='#ffffff';ctx.font='700 52px "Cormorant Garamond",serif';ctx.fillText(d.level,W/2,450);
+  ctx.fillStyle='#c9a96e';ctx.font='700 80px "Space Mono",monospace';ctx.fillText(d.score+' / '+d.total,W/2,570);
+  ctx.fillStyle='rgba(255,255,255,.6)';ctx.font='italic 24px "Cormorant Garamond",serif';ctx.fillText('BTS Archive Universe',W/2,900);
+  var a=document.createElement('a');a.download='paroles-bts.png';a.href=c.toDataURL('image/png');a.click();
+}
+</script>
+
+
+<!-- ══════════════════════════════════════════
+     CHRONO DES ALBUMS
+══════════════════════════════════════════ -->
+<div class="gq-hidden" id="game-chrono" style="padding:1.5rem">
+  <div class="gq-card" style="max-width:560px;margin:0 auto;">
+    <div id="ch-intro">
+      <div class="gq-intro-emoji">📅</div>
+      <div class="gq-intro-title">Chrono des albums</div>
+      <p class="gq-intro-desc">Glisse-dépose les eras de BTS pour les remettre dans l'ordre chronologique, de la plus ancienne à la plus récente.</p>
+      <button class="gq-btn gq-btn-main" onclick="chStart()">Commencer</button>
+    </div>
+
+    <div id="ch-game" style="display:none;">
+      <p style="font-size:11px;color:var(--text2);text-align:center;margin-bottom:1.2rem;">Glisse les cartes pour les réordonner, puis valide ton classement.</p>
+      <div id="ch-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.4rem;"></div>
+      <button class="gq-btn gq-btn-main" id="ch-validate" onclick="chValidate()">✓ Valider l'ordre</button>
+    </div>
+
+    <div id="ch-result" style="display:none;text-align:center;">
+      <span id="ch-res-emoji" style="font-size:52px;display:block;margin-bottom:.8rem;"></span>
+      <div class="gq-result-score"><span id="ch-res-score">0</span><span class="gq-result-max" id="ch-res-max">/8</span></div>
+      <div id="ch-res-level" style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:.6rem;color:var(--text);"></div>
+      <p id="ch-res-desc" style="font-size:12px;color:var(--text2);line-height:1.7;max-width:420px;margin:0 auto 1rem;"></p>
+      <div id="ch-correction" style="text-align:left;margin-bottom:1.4rem;"></div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <button class="gq-btn" onclick="chRestart()">🔄 Rejouer</button>
+        <button class="gq-btn gq-btn-share" onclick="chShare()">📸 Partager</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════
+   CHRONO DES ALBUMS
+══════════════════════════════════════ */
+var CH_ERAS = [
+  { name: "2 Cool 4 Skool",      year: 2013, emoji: "🏫" },
+  { name: "Dark & Wild",          year: 2014, emoji: "🌑" },
+  { name: "HYYH (in the mood for love)", year: 2015, emoji: "🌸" },
+  { name: "Wings",                year: 2016, emoji: "🪶" },
+  { name: "Love Yourself",        year: 2018, emoji: "💜" },
+  { name: "Map of the Soul",      year: 2019, emoji: "🗺" },
+  { name: "BE",                   year: 2020, emoji: "🍃" },
+  { name: "Proof",                year: 2022, emoji: "✨" },
+];
+var _chOrder = [], _chCorrectOrder = [], _chResData = {};
+var _chDragIdx = null;
+
+function chStart() {
+  _chCorrectOrder = [...CH_ERAS].sort(function(a,b){ return a.year - b.year; });
+  _chOrder = [...CH_ERAS].sort(function(){ return Math.random() - 0.5; });
+  document.getElementById('ch-intro').style.display = 'none';
+  document.getElementById('ch-result').style.display = 'none';
+  document.getElementById('ch-game').style.display = 'block';
+  _chRender();
+}
+
+function _chRender() {
+  var list = document.getElementById('ch-list');
+  list.innerHTML = '';
+  _chOrder.forEach(function(era, i) {
+    var card = document.createElement('div');
+    card.className = 'ch-card';
+    card.draggable = true;
+    card.dataset.idx = i;
+    card.innerHTML =
+      '<span class="ch-handle">⠿</span>' +
+      '<span class="ch-emoji">' + era.emoji + '</span>' +
+      '<span class="ch-name">' + era.name + '</span>' +
+      '<span class="ch-pos">' + (i+1) + '</span>';
+
+    card.addEventListener('dragstart', function() { _chDragIdx = i; card.classList.add('dragging'); });
+    card.addEventListener('dragend',   function() { card.classList.remove('dragging'); });
+    card.addEventListener('dragover',  function(e) { e.preventDefault(); card.classList.add('drag-over'); });
+    card.addEventListener('dragleave', function() { card.classList.remove('drag-over'); });
+    card.addEventListener('drop', function(e) {
+      e.preventDefault();
+      card.classList.remove('drag-over');
+      var targetIdx = i;
+      if (_chDragIdx === null || _chDragIdx === targetIdx) return;
+      var moved = _chOrder.splice(_chDragIdx, 1)[0];
+      _chOrder.splice(targetIdx, 0, moved);
+      _chRender();
+    });
+
+    list.appendChild(card);
+  });
+}
+
+function chValidate() {
+  var score = 0;
+  _chOrder.forEach(function(era, i) {
+    if (era.name === _chCorrectOrder[i].name) score++;
+  });
+  document.getElementById('ch-game').style.display = 'none';
+  document.getElementById('ch-result').style.display = 'block';
+  document.getElementById('ch-res-score').textContent = score;
+  document.getElementById('ch-res-max').textContent = '/' + CH_ERAS.length;
+
+  var pct = score / CH_ERAS.length, emoji, level, desc;
+  if (pct === 1)      { emoji='🏆'; level='Historien BTS !';      desc='Parfait ! Tu maîtrises toute la chronologie de BTS.'; }
+  else if (pct >= .6) { emoji='💜'; level='Bonne mémoire';         desc='Pas mal ! Quelques eras sont mélangées mais l\'essentiel est là.'; }
+  else                { emoji='🌱'; level='À revoir';              desc='Les dates se mélangent encore un peu. Retente après avoir exploré les eras !'; }
+
+  document.getElementById('ch-res-emoji').textContent = emoji;
+  document.getElementById('ch-res-level').textContent = level;
+  document.getElementById('ch-res-desc').textContent  = desc;
+
+  var corr = document.getElementById('ch-correction');
+  corr.innerHTML = '<div style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:.6rem;text-align:center;">Ordre correct :</div>';
+  _chCorrectOrder.forEach(function(era, i) {
+    var ok = _chOrder[i] && _chOrder[i].name === era.name;
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 10px;font-size:11px;border-radius:6px;margin-bottom:4px;' +
+      (ok ? 'background:rgba(110,200,140,.08);color:#8ee0a8;' : 'background:rgba(255,255,255,.02);color:var(--text2);');
+    row.innerHTML = (i+1) + '. ' + era.emoji + ' ' + era.name + ' (' + era.year + ')' + (ok ? ' ✓' : '');
+    corr.appendChild(row);
+  });
+
+  _chResData = { emoji: emoji, level: level, score: score, total: CH_ERAS.length };
+}
+
+function chRestart() {
+  document.getElementById('ch-result').style.display = 'none';
+  document.getElementById('ch-intro').style.display = 'block';
+}
+
+function chShare() {
+  var d = _chResData; if (!d.level) return;
+  var c = document.createElement('canvas'), W = 800, H = 1000;
+  c.width = W; c.height = H;
+  var ctx = c.getContext('2d');
+  var g = ctx.createLinearGradient(0,0,W,H);
+  g.addColorStop(0, '#1a1408'); g.addColorStop(1, '#0a0812');
+  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'rgba(255,255,255,.5)'; ctx.font = '600 22px "Space Mono",monospace';
+  ctx.fillText('✦ CHRONO DES ALBUMS ✦', W/2, 130);
+  ctx.font = '140px serif'; ctx.fillText(d.emoji, W/2, 340);
+  ctx.fillStyle = '#ffffff'; ctx.font = '700 52px "Cormorant Garamond",serif';
+  ctx.fillText(d.level, W/2, 450);
+  ctx.fillStyle = '#c9a96e'; ctx.font = '700 80px "Space Mono",monospace';
+  ctx.fillText(d.score + ' / ' + d.total, W/2, 570);
+  ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.font = 'italic 24px "Cormorant Garamond",serif';
+  ctx.fillText('BTS Archive Universe', W/2, 900);
+  var a = document.createElement('a');
+  a.download = 'chrono-bts.png'; a.href = c.toDataURL('image/png'); a.click();
+}
+</script>
+
+</div><!-- /hub-main -->
+
+</body>
+</html>
