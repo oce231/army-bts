@@ -85,7 +85,7 @@
       </div>
       <div class="onb-pretitle">✦ Et ce n'est pas tout</div>
       <h2 class="onb-title">Découvre l'ARMY Lounge</h2>
-      <p class="onb-text">En plus de l'archive, un espace communautaire t'attend : playlists d'étude, Pomodoro, karaoké, et un chat pour discuter avec d'autres ARMY. Accessible via le bouton "💜 Lounge" dans le header.</p>
+      <p class="onb-text">En plus de l'archive, un espace communautaire t'attend : playlists d'étude, karaoké, jeux en tout genre et un chat pour discuter avec d'autres ARMY. Accessible via le bouton "💜 Lounge" dans le header.</p>
       <a href="hub.html" class="onb-lounge-btn">Découvrir l'ARMY Lounge →</a>
     </div>
 
@@ -373,14 +373,14 @@
         <span class="era-years">Quoi regarder ?</span>
       </span>
     </button>
-    <button class="era-btn" onclick="showLore();closeSidebar()">
+    <button class="era-btn" onclick="showEra(18);closeSidebar()">
       <span class="era-icon">📖</span>
       <span class="era-text">
         <span class="era-name">Lore & Théories BU</span>
         <span class="era-years">L'univers narratif BTS</span>
       </span>
     </button>
-    <button class="era-btn" onclick="showAbout();closeSidebar()">
+    <button class="era-btn" onclick="showEra(19);closeSidebar()">
       <span class="era-icon">💜</span>
       <span class="era-text">
         <span class="era-name">À propos & Contribuer</span>
@@ -389,7 +389,7 @@
     </button>
   </div>
 
-  <!-- Section Solo (masquée par défaut, visible quand un membre est sélectionné) -->
+  <!-- Section Solo -->
   <div id="sidebar-solo" style="display:none">
     <div class="sidebar-label" id="sidebar-solo-name">Artiste</div>
     <div class="sidebar-label" style="margin-top:.8rem">Spécial BTS</div>
@@ -405,6 +405,20 @@
       <span class="era-text">
         <span class="era-name">Roue Aléatoire</span>
         <span class="era-years">Quoi regarder ?</span>
+      </span>
+    </button>
+        <button class="era-btn" onclick="showEra(18);closeSidebar()">
+      <span class="era-icon">📖</span>
+      <span class="era-text">
+        <span class="era-name">Lore & Théories BU</span>
+        <span class="era-years">L'univers narratif BTS</span>
+      </span>
+    </button>
+    <button class="era-btn" onclick="showEra(19);closeSidebar()">
+      <span class="era-icon">💜</span>
+      <span class="era-text">
+        <span class="era-name">À propos & Contribuer</span>
+        <span class="era-years">Le projet · Nous contacter</span>
       </span>
     </button>
     <div style="margin-top:1rem;padding:.6rem .8rem;border-top:1px solid var(--border)">
