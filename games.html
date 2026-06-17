@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Quiz & Jeux · ARMY Lounge</title>
+<meta property="og:title" content="BTS Archive Universe">
+<meta property="og:description" content="L'archive complète dédiée à BTS — eras, lives, jeux et plus.">
+<meta property="og:image" content="https://oce231.github.io/army-bts/Photo/Preview.jpg">
+<meta property="og:url" content="https://oce231.github.io/">
+<meta name="twitter:card" content="summary_large_image">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="hub.css">
@@ -1310,16 +1315,16 @@ function vfShare(){
 ══════════════════════════════════════ */
 var _plExtraits=[],_plCurrent=0,_plScore=0,_plTotal=5,_plFilled=[],_plAnswered=false,_plResData={};
 var PL_ALL=[
-  {song:"Dynamite (2020)",diff:"easy",words:["Premier","single","entièrement","en","___","du","groupe"],blanks:[4],options:["anglais","français","espagnol"],expl:"Dynamite — leur premier single 100% en anglais, sorti en août 2020."},
-  {song:"Butter (2021)",diff:"easy",words:["Deuxième","single","anglophone,","sorti","en","___"],blanks:[5],options:["2021","2019","2023"],expl:"Butter est sorti en mai 2021, en plein essor international du groupe."},
-  {song:"Boy With Luv (2019)",diff:"easy",words:["Collaboration","avec","la","chanteuse","___"],blanks:[4],options:["Halsey","Ariana Grande","Dua Lipa"],expl:"Boy With Luv est une collaboration avec la chanteuse américaine Halsey."},
-  {song:"Spring Day (2017)",diff:"easy",words:["Chanson","évoquant","le","thème","de","l'___"],blanks:[5],options:["absence","amour","été"],expl:"Spring Day aborde le thème de la nostalgie et de l'absence d'un proche."},
-  {song:"Life Goes On (2020)",diff:"easy",words:["Chanson","écrite","pendant","la","pandémie","de","___"],blanks:[5],options:["COVID-19","grippe","rougeole"],expl:"Life Goes On a été écrite pendant la pandémie de COVID-19, en 2020."},
-  {song:"No More Dream (2013)",diff:"hard",words:["Titre","de","leurs","___","officiels","en","2013"],blanks:[3],options:["débuts","adieux","retrouvailles"],expl:"No More Dream marque les débuts officiels du groupe en juin 2013."},
-  {song:"Fire (2016)",diff:"hard",words:["Single","extrait","de","l'album","___","Forever"],blanks:[4],options:["Young","Old","Last"],expl:"Fire est un single phare de l'album Young Forever, sorti en 2016."},
-  {song:"Fake Love (2018)",diff:"hard",words:["Titre","principal","de","l'album","Love","Yourself:","___"],blanks:[6],options:["Tear","Her","Answer"],expl:"Fake Love est le titre principal de l'album Love Yourself: Tear, sorti en 2018."},
-  {song:"Black Swan (2020)",diff:"hard",words:["Chanson","évoquant","la","peur","de","perdre","sa","___","pour","la","musique"],blanks:[7],options:["passion","voiture","maison"],expl:"Black Swan explore la peur de perdre sa passion pour la musique."},
-  {song:"DNA (2017)",diff:"hard",words:["Titre","principal","de","l'album","___","Pt.2"],blanks:[4],options:["LOVE YOURSELF: Her","Wings","Map of the Soul"],expl:"DNA est le titre principal de l'album LOVE YOURSELF: Her, sorti en 2017."},
+  {song:"Dynamite (2020)",diff:"easy",words:["Cause","I,","I,","I'm","in","the","stars","tonight"],blanks:[6],expl:"Dynamite — leur premier single 100% en anglais."},
+  {song:"Butter (2021)",diff:"easy",words:["Smooth","like","butter,","like","a","criminal","undercover"],blanks:[5],expl:"Butter — 'criminal undercover' pour décrire leur charme irrésistible."},
+  {song:"Boy With Luv (2019)",diff:"easy",words:["Oh","my","my","my,","I've","waited","all","my","life"],blanks:[2],expl:"Boy With Luv feat. Halsey — une déclaration d'amour aux ARMY."},
+  {song:"Swim (2026)",diff:"easy",words:["Swim","Swim","Water","falling","off","your","skin"],blanks:[9],expl:"Swim, leur nouveau single sortie de leurs album 2026 Arirang"},
+  {song:"Life Goes On (2020)",diff:"easy",words:["Like","an","echo","in","the","forest"],blanks:[2],expl:"Life Goes On — écrite pendant le COVID, une promesse que la vie continue."},
+  {song:"No More Dream (2013)",diff:"hard",words:["야","너의","꿈은","뭐야","니","꿈은","겨우","그거야"],blanks:[2,5],expl:"No More Dream — leur titre de débuts, un message aux jeunes qui n'osent pas rêver."},
+  {song:"Fire (2016)",diff:"hard",words:["We","were","born","to","be","free"],blanks:[2,4],expl:"Fire — 'born to be free', le message de liberté de l'era YNWA."},
+  {song:"Fake Love (2018)",diff:"hard",words:["I","was","wrong,","I'm","sorry,","I","don't","deserve","you"],blanks:[3,7],expl:"Fake Love — une des performances live les plus émotionnelles de BTS."},
+  {song:"Black Swan (2020)",diff:"hard",words:["죽어도","살아도","music","이어","나의","전부야"],blanks:[0,4],expl:"Black Swan — sur la peur de perdre sa passion pour la musique."},
+  {song:"DNA (2017)",diff:"hard",words:["우주가","생기기","전부터","우린","서로가","필요했어"],blanks:[3,5],expl:"DNA — 'Avant même que l'univers n'existe, nous avions besoin l'un de l'autre'."},
 ];
 function plStart(mode){
   var pool=mode==='easy'?PL_ALL.filter(function(e){return e.diff==='easy';}):PL_ALL;
