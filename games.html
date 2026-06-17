@@ -1759,7 +1759,10 @@ function _mmRender() {
     var isMatched = _mmMatched.includes(i);
     card.className = 'mm-card' + (isFlipped || isMatched ? ' mm-flipped' : '') + (isMatched ? ' mm-matched' : '');
     card.style.width = size + 'px'; card.style.height = size + 'px';
-    card.textContent = (isFlipped || isMatched) ? emoji : '';
+card.innerHTML = (isFlipped || isMatched)
+  ? '<img src="' + emoji + '" class="mm-img">'
+  : '';
+
     card.addEventListener('click', function() { _mmFlip(i); });
     board.appendChild(card);
   });
