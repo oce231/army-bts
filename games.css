@@ -423,93 +423,57 @@
 /* ══════════════════════════════════════════════
    COMPLÈTE LES PAROLES
 ══════════════════════════════════════════════ */
-.fl-container {
-  padding: 2rem;
-  display: flex;
-  justify-content: center;
-}
-
-.fl-card {
-  width: 600px;
-  background: #0a0a0f;
-  padding: 2rem;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,.08);
-  color: white;
-  text-align: center;
-}
-
-.hidden { display: none; }
-
-/* INTRO */
-.fl-intro h1 {
-  font-size: 32px;
-  margin-bottom: .5rem;
-}
-
-.fl-btn {
-  padding: 10px 20px;
-  background: #c9a96e;
-  border: none;
-  border-radius: 6px;
-  color: #0a0a0f;
-  font-weight: bold;
-  cursor: pointer;
-  transition: .2s;
-}
-
-.fl-btn:hover {
-  background: #e3c58a;
-}
-
-/* ROUND */
-.fl-round {
-  font-size: 14px;
-  letter-spacing: .15em;
-  margin-bottom: 1rem;
-  color: #c9a96e;
-}
-
-/* LYRICS */
-.fl-lyrics {
-  font-size: 22px;
-  line-height: 1.8;
-  margin-bottom: 1.5rem;
-  min-height: 80px;
-}
-
-.fl-blank {
+.pl-blank {
   display: inline-block;
-  min-width: 80px;
-  padding: 4px 8px;
-  border-bottom: 2px solid #c9a96e;
-  color: #c9a96e;
+  min-width: 70px;
+  padding: 2px 10px;
   margin: 0 4px;
-  font-weight: bold;
+  border-bottom: 2px solid var(--accent);
+  color: var(--accent);
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background .15s;
+  vertical-align: middle;
 }
+.pl-blank:hover { background: rgba(201,169,110,.1); }
+.pl-blank-filled { background: rgba(201,169,110,.12); }
 
-/* INPUTS */
-.fl-input-zone input {
-  width: 120px;
-  padding: 6px 10px;
-  margin: 4px;
-  border-radius: 6px;
-  border: 1px solid rgba(255,255,255,.2);
-  background: rgba(255,255,255,.05);
-  color: white;
-  text-align: center;
-}
-
-/* RÉVÉLATION */
-.correct {
-  color: #8ee0a8 !important;
+.pl-blank-correct {
   border-color: #6ec88c !important;
+  background: rgba(110,200,140,.15) !important;
+  color: #8ee0a8 !important;
+  cursor: default;
+}
+.pl-blank-wrong {
+  border-color: #e05878 !important;
+  background: rgba(224,88,120,.12) !important;
+  color: #f0a0a0 !important;
+  cursor: default;
+  text-decoration: line-through;
 }
 
-.wrong {
-  color: #f0a0a0 !important;
-  border-color: #e05878 !important;
-  text-decoration: line-through;
+.pl-choice-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .08em;
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border2);
+  background: var(--bg3);
+  color: var(--text2);
+  cursor: pointer;
+  transition: all .15s;
+}
+.pl-choice-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: rgba(201,169,110,.1);
+  color: var(--accent);
+}
+.pl-choice-btn:disabled {
+  opacity: .4;
+  cursor: default;
 }
 
 
