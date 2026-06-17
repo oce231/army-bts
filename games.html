@@ -1627,11 +1627,12 @@ function _chRender() {
     card.className = 'ch-card';
     card.draggable = true;
     card.dataset.idx = i;
-    card.innerHTML =
-      '<span class="ch-handle">⠿</span>' +
-      '<span class="ch-emoji">' + era.emoji + '</span>' +
-      '<span class="ch-name">' + era.name + '</span>' +
-      '<span class="ch-pos">' + (i+1) + '</span>';
+card.innerHTML =
+  '<span class="ch-handle">⠿</span>' +
+  '<img class="ch-emoji" src="' + era.emoji + '">' +
+  '<span class="ch-name">' + era.name + '</span>' +
+  '<span class="ch-pos">' + (i+1) + '</span>';
+
 
     card.addEventListener('dragstart', function() { _chDragIdx = i; card.classList.add('dragging'); });
     card.addEventListener('dragend',   function() { card.classList.remove('dragging'); });
@@ -1717,7 +1718,17 @@ function chShare() {
 /* ══════════════════════════════════════
    MEMORY
 ══════════════════════════════════════ */
-var MM_EMOJIS = ["💜","🐰","🐹","🐱","🦋","⭐","🎤","🎸","🔥","🌙","🍀","🪶"];
+var MM_EMOJIS = [
+  "Photo/RM.jpg",
+  "Photo/Jin.jpg",
+  "Photo/Jimin.jpg",
+  "Photo/Jhope.jpg",
+  "Photo/Suga.jpg",
+  "Photo/V.jpg",
+  "Photo/Jk.cover.jpg",
+  "Photo/Arirang.jpg"
+];
+
 var _mmCards = [], _mmFlipped = [], _mmMatched = [], _mmMoves = 0, _mmCols = 4, _mmTotalPairs = 8;
 var _mmTimerInt = null, _mmSeconds = 0, _mmLocked = false, _mmResData = {};
 
