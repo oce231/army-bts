@@ -49,7 +49,7 @@
     <button class="games-tab" onclick="gamesSwitch('blind', this)">🎵 Blind Test</button>
     <button class="games-tab" onclick="gamesSwitch('taquin', this)">🧩 Taquin</button>
     <button class="games-tab" onclick="gamesSwitch('vraifaux', this)">❓ Vrai ou Faux</button>
-    <button class="games-tab" onclick="gamesSwitch('paroles', this)">🎤 Paroles</button>
+    <button class="games-tab" onclick="gamesSwitch('Culture Musicale', this)">🎤 Culture Musical</button>
     <button class="games-tab" onclick="gamesSwitch('chrono', this)">📅 Chrono</button>
     <button class="games-tab" onclick="gamesSwitch('memory', this)">🃏 Memory</button>
     <button class="games-tab" onclick="gamesSwitch('devine', this)">🔍 Devine le membre</button>
@@ -278,14 +278,14 @@
 </div>
 
 <!-- ══════════════════════════════════════════
-     COMPLÈTE LES PAROLES
+     Quizz culture musicale
 ══════════════════════════════════════════ -->
-<div class="gq-hidden" id="game-paroles" style="padding:1.5rem">
+<div class="gq-hidden" id="game-Culture musicale" style="padding:1.5rem">
   <div class="gq-card" style="max-width:640px;margin:0 auto;">
     <div id="pl-intro">
       <div class="gq-intro-emoji">🎤</div>
-      <div class="gq-intro-title">Complète les paroles</div>
-      <p class="gq-intro-desc">Des extraits de chansons BTS avec des mots manquants. Clique sur le bon mot et prouve que tu connais les paroles par cœur !</p>
+      <div class="gq-intro-title"> Quizz culture musicale</div>
+      <p class="gq-intro-desc">Des affirmations conercnat les tubes de BTS avec des mots manquants. Clique sur le bon mot et prouve que tu connais l'histoire de leurs musiques par cœur !</p>
       <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
         <button class="gq-btn" onclick="plStart('easy')">🟢 Facile — 5 extraits</button>
         <button class="gq-btn" onclick="plStart('hard')">🔴 Difficile — 8 extraits</button>
@@ -690,7 +690,7 @@ window.gamesSwitch = function(game, btn) {
   document.getElementById('game-general').classList.toggle('gq-hidden', game !== 'general');
   document.getElementById('game-era').classList.toggle('gq-hidden', game !== 'era');
   document.getElementById('game-blind').classList.toggle('gq-hidden', game !== 'blind');
-  ['taquin','vraifaux','paroles','chrono','memory','devine','wordle'].forEach(function(id){
+  ['taquin','vraifaux','Culture muscale','chrono','memory','devine','wordle'].forEach(function(id){
     var el=document.getElementById('game-'+id);
     if(el) el.classList.toggle('gq-hidden', game !== id);
   });
@@ -1464,7 +1464,7 @@ function vfShare(){
 }
 
 /* ══════════════════════════════════════
-   COMPLÈTE LES PAROLES  (fonctions globales)
+   Quizz culture musicale  (fonctions globales)
 ══════════════════════════════════════ */
 var _plExtraits=[],_plCurrent=0,_plScore=0,_plTotal=5,_plFilled=[],_plAnswered=false,_plResData={};
 var PL_ALL=[
@@ -1568,10 +1568,10 @@ function _plShowResult(){
   document.getElementById('pl-res-score').textContent=_plScore;
   document.getElementById('pl-res-max').textContent='/'+_plTotal;
   var pct=_plScore/_plTotal,emoji,level,desc;
-  if(pct===1){emoji='🎤';level='Paroles parfaites !';desc='Tu connais chaque syllabe par cœur. BTS serait fier de toi !';}
-  else if(pct>=.7){emoji='💜';level='Chanteur confirmé';desc='Très bon score ! Tu connais bien les paroles de tes chansons préférées.';}
-  else if(pct>=.5){emoji='🎵';level='Fan mélomane';desc='Pas mal ! Certains extraits t\'ont piégé mais tu t\'en sors bien.';}
-  else{emoji='🎧';level='Écoute encore...';desc='Les paroles ne sont pas encore gravées dans ta mémoire. Réécoute les albums !';}
+  if(pct===1){emoji='🎤';level='Parfaites ARMY !';desc='Tu connais chaque syllabe par cœur. BTS serait fier de toi !';}
+  else if(pct>=.7){emoji='💜';level='Tu t'y connais !';desc='Très bon score ! Tu connais bien tes chansons préférées.';}
+  else if(pct>=.5){emoji='🎵';level='Un très bon début ! ';desc='Pas mal ! Certaines questions t\'ont piégé mais tu t\'en sors bien.';}
+  else{emoji='🎧';level='Rensigne toi ^^';desc='Soit patient(e) tu y arrivera.';}
   document.getElementById('pl-res-emoji').textContent=emoji;
   document.getElementById('pl-res-level').textContent=level;
   document.getElementById('pl-res-desc').textContent=desc;
@@ -1585,12 +1585,12 @@ function plShare(){
   var g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#0a1a18');g.addColorStop(1,'#0a0812');
   ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
   ctx.textAlign='center';
-  ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='600 22px "Space Mono",monospace';ctx.fillText('✦ COMPLÈTE LES PAROLES ✦',W/2,130);
+  ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='600 22px "Space Mono",monospace';ctx.fillText('✦ Quizz culture musicales ✦',W/2,130);
   ctx.font='140px serif';ctx.fillText(d.emoji,W/2,340);
   ctx.fillStyle='#ffffff';ctx.font='700 52px "Cormorant Garamond",serif';ctx.fillText(d.level,W/2,450);
   ctx.fillStyle='#c9a96e';ctx.font='700 80px "Space Mono",monospace';ctx.fillText(d.score+' / '+d.total,W/2,570);
   ctx.fillStyle='rgba(255,255,255,.6)';ctx.font='italic 24px "Cormorant Garamond",serif';ctx.fillText('BTS Archive Universe',W/2,900);
-  _shareCanvasImage(c, 'paroles-bts.png', 'Complète les paroles BTS', 'J\'ai obtenu '+d.score+'/'+d.total+' au jeu Complète les paroles sur BTS Archive Universe !');
+  _shareCanvasImage(c, 'paroles-bts.png', 'Quizz culture musicales BTS', 'J\'ai obtenu '+d.score+'/'+d.total+' au jeu Quizz culture musicale sur BTS Archive Universe !');
 }
 </script>
 
