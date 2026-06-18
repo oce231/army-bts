@@ -4255,49 +4255,83 @@ function toggleEpisodes(btn) {
 // ─────────────────────────────────────────────
 // LIVES DATA
 // ─────────────────────────────────────────────
+// Config membres : badge + emoji de secours (si pas de thumbnail dispo)
+const MEMBER_INFO = {
+  ot7:   { badge: 'OT7',    emoji: '💜' },
+  rm:    { badge: 'RM',     emoji: '🐨' },
+  jin:   { badge: 'Jin',    emoji: '🐹' },
+  suga:  { badge: 'Suga',   emoji: '🐱' },
+  jhope: { badge: 'J-Hope', emoji: '🐿️' },
+  jimin: { badge: 'Jimin',  emoji: '🐥' },
+  v:     { badge: 'V',      emoji: '🐯' },
+  jk:    { badge: 'JK',     emoji: '🐰' },
+};
+
 const LIVES_DATA = [
   // OT7
-  {title:'BTS Festa 2022 — Dîner en famille',member:'ot7',date:'2022-06-13',dateLabel:'Juin 2022',emoji:'💜',href:'https://www.youtube.com/results?search_query=BTS+Festa+2022+dinner+family+live',badge:'OT7',type:'live'},
-  {title:'BTS — Permission to Dance On Stage Seoul Live (Day 1)',member:'ot7',date:'2022-03-10',dateLabel:'Mars 2022',emoji:'🎤',href:'https://www.youtube.com/results?search_query=BTS+Permission+to+Dance+Seoul+live+2022',badge:'OT7',type:'live'},
-  {title:'BTS — Yet To Come Concert Busan Live Stream',member:'ot7',date:'2022-10-15',dateLabel:'Oct. 2022',emoji:'🏟',href:'https://www.youtube.com/results?search_query=BTS+Yet+To+Come+Busan+concert+live+2022',badge:'OT7',type:'live'},
-  {title:'BTS Weverse Live — Run BTS Comeback 2022',member:'ot7',date:'2022-10-28',dateLabel:'Oct. 2022',emoji:'🎊',href:'https://www.youtube.com/results?search_query=BTS+Run+BTS+2022+comeback+weverse+live',badge:'OT7',type:'live'},
-  {title:'BTS — Grammy Museum Live Showcase (DNA)',member:'ot7',date:'2017-09-28',dateLabel:'Sept. 2017',emoji:'🏆',href:'https://www.youtube.com/results?search_query=BTS+Grammy+Museum+2017+showcase+live',badge:'OT7',type:'live'},
-  {title:'BTS — Live at GMA (Good Morning America) 2019',member:'ot7',date:'2019-05-15',dateLabel:'Mai 2019',emoji:'🌅',href:'https://www.youtube.com/results?search_query=BTS+Good+Morning+America+2019+live',badge:'OT7',type:'live'},
-  {title:'BTS — Dynamite Official Live Performance',member:'ot7',date:'2020-08-21',dateLabel:'Août 2020',emoji:'🎆',href:'https://www.youtube.com/results?search_query=BTS+Dynamite+live+performance+2020',badge:'OT7',type:'live'},
-  {title:'BTS — Butter Live (MTV VMAs 2021)',member:'ot7',date:'2021-09-12',dateLabel:'Sept. 2021',emoji:'🧈',href:'https://www.youtube.com/results?search_query=BTS+Butter+VMAs+2021+live',badge:'OT7',type:'live'},
+  {title:'BTS Festa 2022 — Dîner en famille',members:['ot7'],date:'2022-06-13',dateLabel:'Juin 2022',emoji:'💜',href:'https://www.youtube.com/results?search_query=BTS+Festa+2022+dinner+family+live',type:'live'},
+  {title:'BTS — Permission to Dance On Stage Seoul Live (Day 1)',members:['ot7'],date:'2022-03-10',dateLabel:'Mars 2022',emoji:'🎤',href:'https://www.youtube.com/results?search_query=BTS+Permission+to+Dance+Seoul+live+2022',type:'live'},
+  {title:'BTS — Yet To Come Concert Busan Live Stream',members:['ot7'],date:'2022-10-15',dateLabel:'Oct. 2022',emoji:'🏟',href:'https://www.youtube.com/results?search_query=BTS+Yet+To+Come+Busan+concert+live+2022',type:'live'},
+  {title:'BTS Weverse Live — Run BTS Comeback 2022',members:['ot7'],date:'2022-10-28',dateLabel:'Oct. 2022',emoji:'🎊',href:'https://www.youtube.com/results?search_query=BTS+Run+BTS+2022+comeback+weverse+live',type:'live'},
+  {title:'BTS — Grammy Museum Live Showcase (DNA)',members:['ot7'],date:'2017-09-28',dateLabel:'Sept. 2017',emoji:'🏆',href:'https://www.youtube.com/results?search_query=BTS+Grammy+Museum+2017+showcase+live',type:'live'},
+  {title:'BTS — Live at GMA (Good Morning America) 2019',members:['ot7'],date:'2019-05-15',dateLabel:'Mai 2019',emoji:'🌅',href:'https://www.youtube.com/results?search_query=BTS+Good+Morning+America+2019+live',type:'live'},
+  {title:'BTS — Dynamite Official Live Performance',members:['ot7'],date:'2020-08-21',dateLabel:'Août 2020',emoji:'🎆',href:'https://www.youtube.com/results?search_query=BTS+Dynamite+live+performance+2020',type:'live'},
+  {title:'BTS — Butter Live (MTV VMAs 2021)',members:['ot7'],date:'2021-09-12',dateLabel:'Sept. 2021',emoji:'🧈',href:'https://www.youtube.com/results?search_query=BTS+Butter+VMAs+2021+live',type:'live'},
   // RM
-  {title:'RM — Live "Wild Flower" (Indigo Release)',member:'rm',date:'2022-12-02',dateLabel:'Déc. 2022',emoji:'🌸',href:'https://www.youtube.com/results?search_query=RM+Wild+Flower+Indigo+weverse+live',badge:'RM',type:'live'},
-  {title:'RM — Live musée & art talk',member:'rm',date:'2023-03-15',dateLabel:'Mars 2023',emoji:'🖼',href:'https://www.youtube.com/results?search_query=RM+BTS+weverse+live+museum+2023',badge:'RM',type:'live'},
-  {title:'RM — Live avant service militaire',member:'rm',date:'2023-09-10',dateLabel:'Sept. 2023',emoji:'💜',href:'https://www.youtube.com/results?search_query=RM+live+before+military+2023',badge:'RM',type:'live'},
+  {title:'RM — Live "Wild Flower" (Indigo Release)',members:['rm'],date:'2022-12-02',dateLabel:'Déc. 2022',emoji:'🌸',href:'https://www.youtube.com/results?search_query=RM+Wild+Flower+Indigo+weverse+live',type:'live'},
+  {title:'RM — Live musée & art talk',members:['rm'],date:'2023-03-15',dateLabel:'Mars 2023',emoji:'🖼',href:'https://www.youtube.com/results?search_query=RM+BTS+weverse+live+museum+2023',type:'live'},
+  {title:'RM — Live avant service militaire',members:['rm'],date:'2023-09-10',dateLabel:'Sept. 2023',emoji:'💜',href:'https://www.youtube.com/results?search_query=RM+live+before+military+2023',type:'live'},
   // Jin
-  {title:'Jin — Live "The Astronaut" (ft. Coldplay sortie)',member:'jin',date:'2022-10-28',dateLabel:'Oct. 2022',emoji:'🚀',href:'https://www.youtube.com/results?search_query=Jin+The+Astronaut+weverse+live+2022',badge:'Jin',type:'live'},
-  {title:'Jin — Live adieu avant l\'armée',member:'jin',date:'2022-12-12',dateLabel:'Déc. 2022',emoji:'🪖',href:'https://www.youtube.com/results?search_query=Jin+goodbye+live+before+military+2022',badge:'Jin',type:'live'},
-  {title:'Jin — Live retour de l\'armée',member:'jin',date:'2024-06-13',dateLabel:'Juin 2024',emoji:'💜',href:'https://www.youtube.com/results?search_query=Jin+BTS+return+military+discharge+live+2024',badge:'Jin',type:'live'},
+  {title:'Jin — Live "The Astronaut" (ft. Coldplay sortie)',members:['jin'],date:'2022-10-28',dateLabel:'Oct. 2022',emoji:'🚀',href:'https://www.youtube.com/results?search_query=Jin+The+Astronaut+weverse+live+2022',type:'live'},
+  {title:'Jin — Live adieu avant l\'armée',members:['jin'],date:'2022-12-12',dateLabel:'Déc. 2022',emoji:'🪖',href:'https://www.youtube.com/results?search_query=Jin+goodbye+live+before+military+2022',type:'live'},
+  {title:'Jin — Live retour de l\'armée',members:['jin'],date:'2024-06-13',dateLabel:'Juin 2024',emoji:'💜',href:'https://www.youtube.com/results?search_query=Jin+BTS+return+military+discharge+live+2024',type:'live'},
   // Suga
-  {title:'Suga — Weverse Live 24.08.2022',member:'suga',date:'2022-08-24',dateLabel:'Août. 2022',emoji:'suga',href:'https://youtu.be/W6wGdJaJrGI?si=meg1YepzYcfpms6K',badge:'Suga',type:'live'},
-  {title:'Suga — Suchwita Live Talk Show (Ep. 1)',member:'suga',date:'2022-12-05',dateLabel:'Déc. 2022',emoji:'🎙',href:'https://www.youtube.com/results?search_query=Suga+Suchwita+episode+1+live',badge:'Suga',type:'live'},
+  {title:'Suga — Weverse Live 24.08.2022',members:['suga'],date:'2022-08-24',dateLabel:'Août. 2022',emoji:'🐱',href:'https://youtu.be/W6wGdJaJrGI?si=meg1YepzYcfpms6K',type:'live'},
+  {title:'Suga — Suchwita Live Talk Show (Ep. 1)',members:['suga'],date:'2022-12-05',dateLabel:'Déc. 2022',emoji:'🎙',href:'https://www.youtube.com/results?search_query=Suga+Suchwita+episode+1+live',type:'live'},
   // J-Hope
-  {title:'J-Hope — Live après Lollapalooza',member:'jhope',date:'2022-08-01',dateLabel:'Août 2022',emoji:'🎤',href:'https://www.youtube.com/results?search_query=J-Hope+Lollapalooza+weverse+live+after+2022',badge:'J-Hope',type:'live'},
-  {title:'J-Hope — Live "Jack In The Box" sortie album',member:'jhope',date:'2022-07-15',dateLabel:'Juil. 2022',emoji:'📦',href:'https://www.youtube.com/results?search_query=J-Hope+Jack+in+the+Box+weverse+live+2022',badge:'J-Hope',type:'live'},
+  {title:'J-Hope — Live après Lollapalooza',members:['jhope'],date:'2022-08-01',dateLabel:'Août 2022',emoji:'🎤',href:'https://www.youtube.com/results?search_query=J-Hope+Lollapalooza+weverse+live+after+2022',type:'live'},
+  {title:'J-Hope — Live "Jack In The Box" sortie album',members:['jhope'],date:'2022-07-15',dateLabel:'Juil. 2022',emoji:'📦',href:'https://www.youtube.com/results?search_query=J-Hope+Jack+in+the+Box+weverse+live+2022',type:'live'},
   // Jimin
-  {title:'Jimin — Live "FACE" sortie album solo',member:'jimin',date:'2023-03-24',dateLabel:'Mars 2023',emoji:'🐥',href:'https://www.youtube.com/results?search_query=Jimin+FACE+album+weverse+live+2023',badge:'Jimin',type:'live'},
-  {title:'Jimin — Live numéro 1 Billboard Hot 100',member:'jimin',date:'2023-04-03',dateLabel:'Avr. 2023',emoji:'🏆',href:'https://www.youtube.com/results?search_query=Jimin+Like+Crazy+Hot+100+number+1+live',badge:'Jimin',type:'live'},
+  {title:'Jimin — Live "FACE" sortie album solo',members:['jimin'],date:'2023-03-24',dateLabel:'Mars 2023',emoji:'🐥',href:'https://www.youtube.com/results?search_query=Jimin+FACE+album+weverse+live+2023',type:'live'},
+  {title:'Jimin — Live numéro 1 Billboard Hot 100',members:['jimin'],date:'2023-04-03',dateLabel:'Avr. 2023',emoji:'🏆',href:'https://www.youtube.com/results?search_query=Jimin+Like+Crazy+Hot+100+number+1+live',type:'live'},
   // V
-  {title:'V — Live "Layover" sortie album',member:'v',date:'2023-09-08',dateLabel:'Sept. 2023',emoji:'🎵',href:'https://www.youtube.com/results?search_query=V+BTS+Layover+album+weverse+live+2023',badge:'V',type:'live'},
-  {title:'V — Live unité chiens militaires (photos)',member:'v',date:'2024-01-20',dateLabel:'Jan. 2024',emoji:'🐕',href:'https://www.youtube.com/results?search_query=V+BTS+military+dog+unit+weverse+live',badge:'V',type:'live'},
+  {title:'V — Live "Layover" sortie album',members:['v'],date:'2023-09-08',dateLabel:'Sept. 2023',emoji:'🎵',href:'https://www.youtube.com/results?search_query=V+BTS+Layover+album+weverse+live+2023',type:'live'},
+  {title:'V — Live unité chiens militaires (photos)',members:['v'],date:'2024-01-20',dateLabel:'Jan. 2024',emoji:'🐕',href:'https://www.youtube.com/results?search_query=V+BTS+military+dog+unit+weverse+live',type:'live'},
   // Jungkook
-  {title:'Jungkook — Live "Seven" sortie (feat. Latto)',member:'jk',date:'2023-07-14',dateLabel:'Juil. 2023',emoji:'💫',href:'https://www.youtube.com/results?search_query=Jungkook+Seven+weverse+live+2023',badge:'JK',type:'live'},
-  {title:'Jungkook — Live Golden album (3D, Standing Next To You)',member:'jk',date:'2023-11-03',dateLabel:'Nov. 2023',emoji:'✨',href:'https://www.youtube.com/results?search_query=Jungkook+Golden+album+weverse+live+2023',badge:'JK',type:'live'},
-  {title:'Jungkook — Live solo FIFA World Cup 2022',member:'jk',date:'2022-11-20',dateLabel:'Nov. 2022',emoji:'⚽',href:'https://www.youtube.com/watch?v=qGjAWJ2zWWI',badge:'JK',type:'live'},
+  {title:'Jungkook — Live "Seven" sortie (feat. Latto)',members:['jk'],date:'2023-07-14',dateLabel:'Juil. 2023',emoji:'💫',href:'https://www.youtube.com/results?search_query=Jungkook+Seven+weverse+live+2023',type:'live'},
+  {title:'Jungkook — Live Golden album (3D, Standing Next To You)',members:['jk'],date:'2023-11-03',dateLabel:'Nov. 2023',emoji:'✨',href:'https://www.youtube.com/results?search_query=Jungkook+Golden+album+weverse+live+2023',type:'live'},
+  {title:'Jungkook — Live solo FIFA World Cup 2022',members:['jk'],date:'2022-11-20',dateLabel:'Nov. 2022',emoji:'⚽',href:'https://www.youtube.com/watch?v=qGjAWJ2zWWI',type:'live'},
+
+  // Exemple d'un live avec PLUSIEURS membres présents (pas de doublon, un seul objet) :
+  // {title:'V & Jungkook — Live commun', members:['v','jk'], date:'2023-05-01', dateLabel:'Mai 2023', emoji:'🎬', href:'...', type:'live'},
 ];
 
 let livesSortAsc = false;
 let livesCurrentFilter = 'all';
 
+// Extrait l'ID vidéo YouTube si le lien est un vrai lien (pas une recherche)
+function extractYouTubeId(url) {
+  if (!url) return null;
+  let m = url.match(/[?&]v=([^&]+)/);
+  if (m) return m[1];
+  m = url.match(/youtu\.be\/([^?&]+)/);
+  if (m) return m[1];
+  m = url.match(/youtube\.com\/embed\/([^?&]+)/);
+  if (m) return m[1];
+  return null;
+}
+
+// Retourne l'URL de thumbnail à utiliser, ou null s'il faut afficher l'emoji
+function getLiveThumb(live) {
+  if (live.thumb) return live.thumb; // override manuel possible
+  const id = extractYouTubeId(live.href);
+  return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null;
+}
+
 function renderLives() {
   let data = [...LIVES_DATA];
   if (livesCurrentFilter !== 'all') {
-    data = data.filter(l => l.member === livesCurrentFilter);
+    data = data.filter(l => l.members.includes(livesCurrentFilter));
   }
   data.sort((a,b) => {
     return livesSortAsc
@@ -4306,18 +4340,24 @@ function renderLives() {
   });
   document.getElementById('live-count').textContent = data.length + ' live' + (data.length > 1 ? 's' : '');
   const grid = document.getElementById('lives-grid');
-  grid.innerHTML = data.map(l => `
+  grid.innerHTML = data.map(l => {
+    const thumb = getLiveThumb(l);
+    const badgeText = l.badge || l.members.map(m => MEMBER_INFO[m]?.badge || m).join(' & ');
+    const fallbackEmoji = l.emoji || MEMBER_INFO[l.members[0]]?.emoji || '🎬';
+    return `
     <a class="v-card" href="${l.href}" data-title="${l.title}" data-type="live">
       <div class="v-thumb">
-        <div class="v-thumb-fallback">${l.emoji}</div>
+        ${thumb ? `<img src="${thumb}" alt="${l.title}" class="v-thumb-img" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` : ''}
+        <div class="v-thumb-fallback" style="${thumb ? 'display:none' : ''}">${fallbackEmoji}</div>
         <div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div>
-        <span class="v-badge badge-show">${l.badge}</span>
+        <span class="v-badge badge-show">${badgeText}</span>
       </div>
       <div class="v-info">
         <div class="v-title">${l.title}</div>
         <div class="v-foot"><span class="v-date">${l.dateLabel}</span><span class="v-link">Voir →</span></div>
       </div>
-    </a>`).join('');
+    </a>`;
+  }).join('');
 }
 
 function filterLives(btn, member) {
@@ -4333,7 +4373,6 @@ function toggleLivesSort() {
   renderLives();
 }
 
-// Init lives
 document.addEventListener('DOMContentLoaded', function() {
   renderLives();
   initWheel();
