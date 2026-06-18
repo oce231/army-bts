@@ -510,6 +510,46 @@
     </div>
   </div>
 </div>
+  <!-- ══════════════════════════════════════════
+     CLASSEMENT
+══════════════════════════════════════════ -->
+<div class="gq-hidden" id="game-classement" style="padding:1.5rem">
+  <div class="gq-card" style="max-width:640px;margin:0 auto;">
+
+    <!-- Connexion pseudo -->
+    <div id="lb-login" style="margin-bottom:1.4rem;padding:1rem;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:10px;">
+      <div style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:.6rem;">💜 Ton pseudo ARMY</div>
+      <div style="display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;">
+        <span id="lb-avatar-display" style="font-size:22px;">💜</span>
+        <input id="lb-pseudo-input" type="text" maxlength="20" placeholder="Entre ton pseudo…"
+          style="background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;padding:.5rem .9rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;flex:1;max-width:200px;">
+        <button class="gq-btn" onclick="lbSavePseudo()">Valider</button>
+      </div>
+      <div id="lb-pseudo-status" style="font-size:10px;color:var(--text3);margin-top:.5rem;"></div>
+    </div>
+
+    <!-- Onglets par jeu -->
+    <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:1.2rem;" id="lb-tabs">
+      <button class="lb-tab active" onclick="lbShowTab('global',this)">🌟 Global</button>
+      <button class="lb-tab" onclick="lbShowTab('general',this)">🧠 Quiz</button>
+      <button class="lb-tab" onclick="lbShowTab('vraifaux',this)">❓ Vrai/Faux</button>
+      <button class="lb-tab" onclick="lbShowTab('paroles',this)">🎤 Paroles</button>
+      <button class="lb-tab" onclick="lbShowTab('chrono',this)">📅 Chrono</button>
+      <button class="lb-tab" onclick="lbShowTab('memory',this)">🃏 Memory</button>
+      <button class="lb-tab" onclick="lbShowTab('devine',this)">🔍 Devine</button>
+      <button class="lb-tab" onclick="lbShowTab('wordle',this)">🟩 Wordle</button>
+    </div>
+
+    <div id="lb-title" style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--text);margin-bottom:1rem;text-align:center;">🌟 Classement Global</div>
+
+    <!-- Liste -->
+    <div id="lb-list" style="display:flex;flex-direction:column;gap:6px;min-height:120px;">
+      <div style="color:var(--text3);font-size:11px;font-family:'Space Mono',monospace;text-align:center;padding:2rem 0;">Chargement…</div>
+    </div>
+
+    <button class="gq-btn" onclick="lbLoad(_lbCurrentTab)" style="margin-top:1rem;width:100%;">🔄 Actualiser</button>
+  </div>
+</div>
 </div>
 
 <script>
@@ -2047,7 +2087,7 @@ function chShare() {
 
 // Facile : 8 paires (4×4)
 var MM_EASY = [
-  "Photo/RM.jpg",
+  "Photo/Rm.jpg",
   "Photo/Jin.jpg",
   "Photo/Jimin.jpg",
   "Photo/Jhope.jpg",
@@ -2059,13 +2099,13 @@ var MM_EASY = [
 
 // Difficile : 12 paires (4×6) — ajoute ici tes photos d'eras ou autres
 var MM_HARD = [
-  "Photo/RM.jpg",
+  "Photo/Rm.jpg",
   "Photo/Jin.jpg",
   "Photo/Jimin.jpg",
   "Photo/Jhope.jpg",
   "Photo/Suga.jpg",
   "Photo/V.jpg",
-  "Photo/Jungkook.jpg",
+  "Photo/Jk.cover.jpg",
   "Photo/Arirang.jpg",
   "Photo/Dark-and-wild.jpg",
   "Photo/Wings.png",
@@ -2714,46 +2754,6 @@ function wdShare() {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- ══════════════════════════════════════════
-     CLASSEMENT
-══════════════════════════════════════════ -->
-<div class="gq-hidden" id="game-classement" style="padding:1.5rem">
-  <div class="gq-card" style="max-width:640px;margin:0 auto;">
-
-    <!-- Connexion pseudo -->
-    <div id="lb-login" style="margin-bottom:1.4rem;padding:1rem;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:10px;">
-      <div style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:.6rem;">💜 Ton pseudo ARMY</div>
-      <div style="display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;">
-        <span id="lb-avatar-display" style="font-size:22px;">💜</span>
-        <input id="lb-pseudo-input" type="text" maxlength="20" placeholder="Entre ton pseudo…"
-          style="background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;padding:.5rem .9rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;flex:1;max-width:200px;">
-        <button class="gq-btn" onclick="lbSavePseudo()">Valider</button>
-      </div>
-      <div id="lb-pseudo-status" style="font-size:10px;color:var(--text3);margin-top:.5rem;"></div>
-    </div>
-
-    <!-- Onglets par jeu -->
-    <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:1.2rem;" id="lb-tabs">
-      <button class="lb-tab active" onclick="lbShowTab('global',this)">🌟 Global</button>
-      <button class="lb-tab" onclick="lbShowTab('general',this)">🧠 Quiz</button>
-      <button class="lb-tab" onclick="lbShowTab('vraifaux',this)">❓ Vrai/Faux</button>
-      <button class="lb-tab" onclick="lbShowTab('paroles',this)">🎤 Paroles</button>
-      <button class="lb-tab" onclick="lbShowTab('chrono',this)">📅 Chrono</button>
-      <button class="lb-tab" onclick="lbShowTab('memory',this)">🃏 Memory</button>
-      <button class="lb-tab" onclick="lbShowTab('devine',this)">🔍 Devine</button>
-      <button class="lb-tab" onclick="lbShowTab('wordle',this)">🟩 Wordle</button>
-    </div>
-
-    <div id="lb-title" style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--text);margin-bottom:1rem;text-align:center;">🌟 Classement Global</div>
-
-    <!-- Liste -->
-    <div id="lb-list" style="display:flex;flex-direction:column;gap:6px;min-height:120px;">
-      <div style="color:var(--text3);font-size:11px;font-family:'Space Mono',monospace;text-align:center;padding:2rem 0;">Chargement…</div>
-    </div>
-
-    <button class="gq-btn" onclick="lbLoad(_lbCurrentTab)" style="margin-top:1rem;width:100%;">🔄 Actualiser</button>
-  </div>
-</div>
   <script>
 /* ══════════════════════════════════════
    CLASSEMENT — Supabase
