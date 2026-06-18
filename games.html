@@ -189,13 +189,31 @@
 <!-- ══════════════════════════════════════════
      TAQUIN
 ══════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════
+     TAQUIN
+══════════════════════════════════════════ -->
 <div class="gq-hidden" id="game-taquin" style="padding:1.5rem">
   <div class="gq-card" style="max-width:640px;margin:0 auto;">
     <div class="gq-intro-emoji">🧩</div>
     <div class="gq-intro-title">Taquin BTS</div>
-    <p class="gq-intro-desc">Charge une photo depuis ton appareil, choisis la taille de la grille et reconstitue l'image pièce par pièce.</p>
+    <p class="gq-intro-desc">Choisis une photo BTS ou charge la tienne, sélectionne la taille de la grille et reconstitue l'image pièce par pièce.</p>
+
+    <!-- Galerie de photos du site -->
+    <div style="margin-bottom:1.2rem;">
+      <div style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:.7rem;">📸 Choisir une photo du site</div>
+      <div id="tq-gallery" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;">
+        <!-- généré par JS -->
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:.8rem;">
+      <div style="height:1px;flex:1;background:var(--border);max-width:80px;"></div>
+      <span style="font-size:10px;color:var(--text3);letter-spacing:.1em;">ou</span>
+      <div style="height:1px;flex:1;background:var(--border);max-width:80px;"></div>
+    </div>
+
     <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin-bottom:1.4rem;">
-      <label class="tq-file-label" for="tq-file-input">📂 Choisir une photo
+      <label class="tq-file-label" for="tq-file-input">📂 Depuis ton appareil
         <input type="file" id="tq-file-input" accept="image/*" style="display:none">
       </label>
       <select id="tq-grid-size" class="tq-select">
@@ -233,7 +251,7 @@
         <canvas id="tq-preview" style="border-radius:6px;border:1px solid var(--border);max-width:140px;"></canvas>
       </div>
     </div>
-    <div id="tq-placeholder" style="padding:2.5rem 0;color:var(--text3);font-size:11px;font-family:'Space Mono',monospace;letter-spacing:.1em;">← Charge une photo pour commencer</div>
+    <div id="tq-placeholder" style="padding:2.5rem 0;color:var(--text3);font-size:11px;font-family:'Space Mono',monospace;letter-spacing:.1em;">← Choisis une photo pour commencer</div>
   </div>
 </div>
 
@@ -1251,12 +1269,79 @@ function btShowResult() {
 /* ══════════════════════════════════════
    TAQUIN
 ══════════════════════════════════════ */
+/* ══════════════════════════════════════
+   TAQUIN
+══════════════════════════════════════ */
 (function(){
   var N=4,tiles=[],imgSrc=null,tileSize=0,moves=0,timerInterval=null,seconds=0,imgEl=null;
   var BOARD_MAX=400;
+
+  // Photos du site disponibles pour le taquin
+  var TQ_SITE_PHOTOS = [
+    { label:'RM',       src:'Photo/RM.jpg' },
+    { label:'Jin',      src:'Photo/Jin.jpg' },
+    { label:'Jimin',    src:'Photo/Jimin.jpg' },
+    { label:'J-Hope',   src:'Photo/Jhope.jpg' },
+    { label:'Suga',     src:'Photo/Suga.jpg' },
+    { label:'V',        src:'Photo/V.jpg' },
+    { label:'Jungkook', src:'Photo/Jk.cover.jpg' },
+    { label:'Arirang',  src:'Photo/Arirang.jpg' },
+  ];
+
   function $(id){return document.getElementById(id);}
+
+  // Génère la galerie
+  var gallery = $('tq-gallery');
+  TQ_SITE_PHOTOS.forEach(function(p){
+    var wrap = document.createElement('div');
+    wrap.title = p.label;
+    wrap.style.cssText = 'cursor:pointer;border-radius:6px;overflow:hidden;border:2px solid transparent;transition:border-color .2s;flex-shrink:0;';
+    var img = document.createElement('img');
+    img.src = p.src;
+    img.alt = p.label;
+    img.style.cssText = 'width:60px;height:60px;object-fit:cover;display:block;';
+    img.onerror = function(){ wrap.style.display='none'; }; // cache si image absente
+    wrap.appendChild(img);
+    wrap.addEventListener('click', function(){
+      // Déselectionne les autres
+      gallery.querySelectorAll('div').forEach(function(d){ d.style.borderColor='transparent'; });
+      wrap.style.borderColor = '#c9a96e';
+      loadSitePhoto(p.src);
+    });
+    gallery.appendChild(wrap);
+  });
+
+  function loadSitePhoto(src){
+    imgEl = new Image();
+    imgEl.crossOrigin = 'anonymous';
+    imgEl.onload = function(){
+      imgSrc = src;
+      drawPreview();
+      N = parseInt($('tq-grid-size').value);
+      $('tq-shuffle-btn').disabled = false;
+      buildBoard();
+      shuffle();
+    };
+    imgEl.onerror = function(){
+      // fallback : canvas blanc si CORS bloque
+      var c=document.createElement('canvas'); c.width=400; c.height=400;
+      var ctx=c.getContext('2d');
+      ctx.fillStyle='#1a1a2e'; ctx.fillRect(0,0,400,400);
+      ctx.fillStyle='#c9a96e'; ctx.font='bold 32px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('BTS 💜', 200, 210);
+      imgSrc = c.toDataURL();
+      imgEl = new Image();
+      imgEl.onload = function(){ drawPreview(); N=parseInt($('tq-grid-size').value); $('tq-shuffle-btn').disabled=false; buildBoard(); shuffle(); };
+      imgEl.src = imgSrc;
+    };
+    imgEl.src = src;
+  }
+
+  // Chargement depuis l'appareil (inchangé)
   $('tq-file-input').addEventListener('change',function(){
     var file=this.files[0]; if(!file)return;
+    // Déselectionne la galerie
+    gallery.querySelectorAll('div').forEach(function(d){ d.style.borderColor='transparent'; });
     var reader=new FileReader();
     reader.onload=function(e){
       imgSrc=e.target.result; imgEl=new Image();
@@ -1265,8 +1350,10 @@ function btShowResult() {
     };
     reader.readAsDataURL(file);
   });
+
   $('tq-grid-size').addEventListener('change',function(){if(!imgSrc)return;N=parseInt(this.value);buildBoard();shuffle();});
   $('tq-shuffle-btn').addEventListener('click',function(){if(!imgSrc)return;N=parseInt($('tq-grid-size').value);buildBoard();shuffle();});
+
   function drawPreview(){var s=140;$('tq-preview').width=s;$('tq-preview').height=s*(imgEl.naturalHeight/imgEl.naturalWidth);$('tq-preview').getContext('2d').drawImage(imgEl,0,0,$('tq-preview').width,$('tq-preview').height);}
   function buildBoard(){
     tileSize=Math.floor(Math.min(BOARD_MAX,window.innerWidth-80)/N);
