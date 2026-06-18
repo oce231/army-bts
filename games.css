@@ -530,6 +530,12 @@
 /* ══════════════════════════════════════════════
    MEMORY
 ══════════════════════════════════════════════ */
+.ch-card.ch-selected {
+  border-color: #c9a96e;
+  background: rgba(201,169,110,.12);
+  box-shadow: 0 0 0 2px #c9a96e44;
+}
+
 .mm-card {
   background: var(--bg3);
   border: 1px solid var(--border2);
