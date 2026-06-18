@@ -51,7 +51,7 @@
     <button class="games-tab" onclick="gamesSwitch('vraifaux', this)">❓ Vrai ou Faux</button>
     <button class="games-tab" onclick="gamesSwitch('paroles', this)">🎤 Paroles</button>
     <button class="games-tab" onclick="gamesSwitch('chrono', this)">📅 Chrono</button>
-    <button class="games-tab" onclick="gamesSwitch('memory', this)">🃏 Memory</button>
+    <button class="games-tab" onclick="gamesSwitch('', this)">🃏 Memory</button>
     <button class="games-tab" onclick="gamesSwitch('devine', this)">🔍 Devine le membre</button>
     <button class="games-tab" onclick="gamesSwitch('wordle', this)">🟩 Wordle</button>
   </div>
@@ -397,8 +397,8 @@
       <div class="gq-intro-title">Memory BTS</div>
       <p class="gq-intro-desc">Retrouve les paires d'emojis BTS cachées. Mémorise les positions et fais le moins de coups possible !</p>
       <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
-        <button class="gq-btn" onclick="mmStart(4)">🟢 Facile (4×4)</button>
-        <button class="gq-btn" onclick="mmStart(6)">🔴 Difficile (4×6)</button>
+<button class="gq-btn" onclick="mmStart('easy')">🟢 Facile (4×4 — 8 paires)</button>
+<button class="gq-btn" onclick="mmStart('hard')">🔴 Difficile (6×4 — 12 paires)</button>
       </div>
     </div>
 
@@ -1993,7 +1993,9 @@ function chShare() {
 /* ══════════════════════════════════════
    MEMORY
 ══════════════════════════════════════ */
-var MM_EMOJIS = [
+
+// Facile : 8 paires (4×4)
+var MM_EASY = [
   "Photo/RM.jpg",
   "Photo/Jin.jpg",
   "Photo/Jimin.jpg",
@@ -2004,14 +2006,43 @@ var MM_EMOJIS = [
   "Photo/Arirang.jpg"
 ];
 
-var _mmCards = [], _mmFlipped = [], _mmMatched = [], _mmMoves = 0, _mmCols = 4, _mmTotalPairs = 8;
+// Difficile : 12 paires (4×6) — ajoute ici tes photos d'eras ou autres
+var MM_HARD = [
+  "Photo/RM.jpg",
+  "Photo/Jin.jpg",
+  "Photo/Jimin.jpg",
+  "Photo/Jhope.jpg",
+  "Photo/Suga.jpg",
+  "Photo/V.jpg",
+  "Photo/Jungkook.jpg",
+  "Photo/Arirang.jpg",
+  "Photo/Dark-and-wild.jpg",
+  "Photo/Wings.jpg",
+  "Photo/Pre-debut.jpg",
+  "Photo/YNWA.jpg"
+];
+
+var _mmCards = [], _mmFlipped = [], _mmMatched = [], _mmMoves = 0;
+var _mmCols = 4, _mmRows = 4, _mmTotalPairs = 8;
 var _mmTimerInt = null, _mmSeconds = 0, _mmLocked = false, _mmResData = {};
 
-function mmStart(cols) {
-  _mmCols = cols;
-  _mmTotalPairs = (cols * 4) / 2;
-  var chosen = MM_EMOJIS.slice(0, _mmTotalPairs);
-  _mmCards = [...chosen, ...chosen].sort(function(){ return Math.random() - 0.5; });
+function mmStart(mode) {
+  // mode : 'easy' ou 'hard'
+  var pool, cardSize;
+  if (mode === 'hard') {
+    _mmCols = 6; _mmRows = 4; _mmTotalPairs = 12;
+    pool = MM_HARD.slice(0, 12);
+    cardSize = 58;
+  } else {
+    _mmCols = 4; _mmRows = 4; _mmTotalPairs = 8;
+    pool = MM_EASY.slice(0, 8);
+    cardSize = 68;
+  }
+
+  // S'il manque des images dans le pool, on complète avec des doublons pour éviter les cartes vides
+  while (pool.length < _mmTotalPairs) pool.push(pool[pool.length % pool.length]);
+
+  _mmCards = [...pool, ...pool].sort(function(){ return Math.random() - 0.5; });
   _mmFlipped = []; _mmMatched = []; _mmMoves = 0; _mmLocked = false;
 
   document.getElementById('mm-intro').style.display = 'none';
@@ -2019,16 +2050,21 @@ function mmStart(cols) {
   document.getElementById('mm-game').style.display = 'block';
   document.getElementById('mm-moves').textContent = '0';
   document.getElementById('mm-pairs').textContent = '0/' + _mmTotalPairs;
+
   _mmResetTimer(); _mmStartTimer();
-  _mmRender();
+  _mmRender(cardSize);
 }
-function _mmRender() {
+
+function _mmRender(size) {
+  // Utilise la taille passée ou recalcule à partir des cols
+  var cardSize = size || (window.innerWidth < 480 ? Math.floor((window.innerWidth - 60) / _mmCols) : (_mmCols === 6 ? 58 : 68));
+  cardSize = Math.min(cardSize, Math.floor((window.innerWidth - 60) / _mmCols)); // responsive
+
   var board = document.getElementById('mm-board');
-  var size = _mmCols === 4 ? 64 : 56;
-  board.style.gridTemplateColumns = 'repeat(' + _mmCols + ', ' + size + 'px)';
+  board.style.gridTemplateColumns = 'repeat(' + _mmCols + ', ' + cardSize + 'px)';
   board.innerHTML = '';
 
-  _mmCards.forEach(function(emoji, i) {
+  _mmCards.forEach(function(src, i) {
     var card = document.createElement('div');
     var isFlipped = _mmFlipped.includes(i);
     var isMatched = _mmMatched.includes(i);
@@ -2037,44 +2073,50 @@ function _mmRender() {
       (isFlipped || isMatched ? ' mm-flipped' : '') +
       (isMatched ? ' mm-matched' : '');
 
-    card.style.width = size + 'px';
-    card.style.height = size + 'px';
+    card.style.width  = cardSize + 'px';
+    card.style.height = cardSize + 'px';
 
-    // 🔥 ICI : on remplace textContent par innerHTML
-    card.innerHTML = (isFlipped || isMatched)
-      ? '<img src="' + emoji + '" class="mm-img">'
-      : '';
+    if (isFlipped || isMatched) {
+      var img = document.createElement('img');
+      img.src = src;
+      img.className = 'mm-img';
+      img.onerror = function() {
+        // Si l'image ne charge pas, affiche un placeholder violet
+        card.style.background = 'linear-gradient(135deg,#2a1a4e,#1a0a2e)';
+        card.innerHTML = '<span style="font-size:' + Math.floor(cardSize*0.4) + 'px;line-height:' + cardSize + 'px;">💜</span>';
+      };
+      card.appendChild(img);
+    }
 
-    card.addEventListener('click', function() { _mmFlip(i); });
+    card.addEventListener('click', function() { _mmFlip(i, cardSize); });
     board.appendChild(card);
   });
 }
 
-
-function _mmFlip(i) {
+function _mmFlip(i, cardSize) {
   if (_mmLocked || _mmFlipped.includes(i) || _mmMatched.includes(i)) return;
   _mmFlipped.push(i);
-  _mmRender();
+  _mmRender(cardSize);
 
   if (_mmFlipped.length === 2) {
     _mmLocked = true;
     _mmMoves++;
     document.getElementById('mm-moves').textContent = _mmMoves;
-    var [a, b] = _mmFlipped;
+    var a = _mmFlipped[0], b = _mmFlipped[1];
     if (_mmCards[a] === _mmCards[b]) {
       setTimeout(function() {
         _mmMatched.push(a, b);
         _mmFlipped = [];
         _mmLocked = false;
         document.getElementById('mm-pairs').textContent = (_mmMatched.length/2) + '/' + _mmTotalPairs;
-        _mmRender();
+        _mmRender(cardSize);
         if (_mmMatched.length === _mmCards.length) _mmWin();
       }, 500);
     } else {
       setTimeout(function() {
         _mmFlipped = [];
         _mmLocked = false;
-        _mmRender();
+        _mmRender(cardSize);
       }, 800);
     }
   }
@@ -2094,8 +2136,7 @@ function _mmWin() {
   document.getElementById('mm-res-emoji').textContent = emoji;
   document.getElementById('mm-res-level').textContent = level;
   document.getElementById('mm-res-desc').textContent  = desc + ' (' + _mmMoves + ' coups, ' + document.getElementById('mm-timer').textContent + ')';
-
-  _mmResData = { emoji: emoji, level: level, moves: _mmMoves, time: document.getElementById('mm-timer').textContent };
+  _mmResData = { emoji:emoji, level:level, moves:_mmMoves, time:document.getElementById('mm-timer').textContent };
 }
 
 function mmRestart() {
@@ -2105,25 +2146,24 @@ function mmRestart() {
 
 function mmShare() {
   var d = _mmResData; if (!d.level) return;
-  var c = document.createElement('canvas'), W = 800, H = 1000;
-  c.width = W; c.height = H;
+  var c = document.createElement('canvas'), W=800, H=1000;
+  c.width=W; c.height=H;
   var ctx = c.getContext('2d');
   var g = ctx.createLinearGradient(0,0,W,H);
-  g.addColorStop(0, '#1a0a18'); g.addColorStop(1, '#0a0812');
-  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
-  ctx.textAlign = 'center';
-  ctx.fillStyle = 'rgba(255,255,255,.5)'; ctx.font = '600 22px "Space Mono",monospace';
+  g.addColorStop(0,'#1a0a18'); g.addColorStop(1,'#0a0812');
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  ctx.textAlign='center';
+  ctx.fillStyle='rgba(255,255,255,.5)'; ctx.font='600 22px "Space Mono",monospace';
   ctx.fillText('✦ MEMORY BTS ✦', W/2, 130);
-  ctx.font = '140px serif'; ctx.fillText(d.emoji, W/2, 340);
-  ctx.fillStyle = '#ffffff'; ctx.font = '700 48px "Cormorant Garamond",serif';
+  ctx.font='140px serif'; ctx.fillText(d.emoji, W/2, 340);
+  ctx.fillStyle='#ffffff'; ctx.font='700 48px "Cormorant Garamond",serif';
   ctx.fillText(d.level, W/2, 450);
-  ctx.fillStyle = '#c9a96e'; ctx.font = '700 60px "Space Mono",monospace';
+  ctx.fillStyle='#c9a96e'; ctx.font='700 60px "Space Mono",monospace';
   ctx.fillText(d.moves + ' coups', W/2, 560);
-  ctx.font = '700 40px "Space Mono",monospace';
-  ctx.fillText(d.time, W/2, 630);
-  ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.font = 'italic 24px "Cormorant Garamond",serif';
+  ctx.font='700 40px "Space Mono",monospace'; ctx.fillText(d.time, W/2, 630);
+  ctx.fillStyle='rgba(255,255,255,.6)'; ctx.font='italic 24px "Cormorant Garamond",serif';
   ctx.fillText('BTS Archive Universe', W/2, 900);
-  _shareCanvasImage(c, 'memory-bts.png', 'Memory BTS', 'J\'ai terminé le Memory BTS en '+d.moves+' coups sur BTS Archive Universe !');
+  _shareCanvasImage(c, 'memory-bts.png', 'Memory BTS', "J'ai terminé le Memory BTS en "+d.moves+' coups sur BTS Archive Universe !');
 }
 
 function _mmStartTimer() {
@@ -2132,11 +2172,11 @@ function _mmStartTimer() {
     _mmSeconds++;
     var m = Math.floor(_mmSeconds/60).toString().padStart(2,'0');
     var s = (_mmSeconds%60).toString().padStart(2,'0');
-    document.getElementById('mm-timer').textContent = m + ':' + s;
+    document.getElementById('mm-timer').textContent = m+':'+s;
   }, 1000);
 }
-function _mmResetTimer() { clearInterval(_mmTimerInt); _mmSeconds = 0; document.getElementById('mm-timer').textContent = '00:00'; }
-function _mmStopTimer() { clearInterval(_mmTimerInt); }
+function _mmResetTimer() { clearInterval(_mmTimerInt); _mmSeconds=0; document.getElementById('mm-timer').textContent='00:00'; }
+function _mmStopTimer()  { clearInterval(_mmTimerInt); }
 </script>
 
 
