@@ -500,10 +500,12 @@
       <span id="wd-res-emoji" style="font-size:52px;display:block;margin-bottom:.8rem;"></span>
       <div id="wd-res-level" style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:.6rem;color:var(--text);"></div>
       <p id="wd-res-desc" style="font-size:12px;color:var(--text2);line-height:1.7;max-width:400px;margin:0 auto 1.4rem;"></p>
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
-        <button class="gq-btn" onclick="wdRestart()">🔄 Rejouer</button>
-        <button class="gq-btn gq-btn-share" onclick="wdShare()">📸 Partager</button>
-      </div>
+<!-- Remplace les deux boutons du résultat par : -->
+<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:1rem;">
+  <button class="gq-btn" id="wd-restart-btn" onclick="wdRestart()" style="display:none;">🔄 Rejouer</button>
+  <button class="gq-btn gq-btn-share" onclick="wdShare()">📸 Partager</button>
+</div>
+<div id="wd-countdown" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text3);margin-top:.5rem;"></div>
     </div>
   </div>
 </div>
@@ -2382,25 +2384,101 @@ function dmShare() {
 /* ══════════════════════════════════════
    WORDLE BTS
 ══════════════════════════════════════ */
-var WD_WORDS = [
-  { word: "ARMY",     hint: "Le nom du fandom de BTS." },
-  { word: "JIMIN",    hint: "Membre originaire de Busan." },
-  { word: "BUTTER",   hint: "Titre d'un single anglophone de 2021." },
-  { word: "PROOF",    hint: "Nom d'une compilation anthologique du groupe." },
-  { word: "DYNAMITE", hint: "Premier titre 100% anglophone du groupe." },
-  { word: "BANGTAN",  hint: "Premier mot du nom complet du groupe en coréen." },
-  { word: "MAKNAE",   hint: "Terme désignant le plus jeune membre d'un groupe." },
-  { word: "WEVERSE",  hint: "Plateforme utilisée pour les contenus et lives officiels." },
+
+// Mots programmés par date (format "YYYY-MM-DD")
+// Ajoute tes mots mois par mois ici
+var WD_CALENDAR = {
+  "2026-06-19": { word:"ARMY",        hint:"Le nom du fandom de BTS." },
+  "2026-06-20": { word:"MIKROKOSMOS", hint:"Titre d'une chanson de Map of the Soul: Persona." },
+  "2026-06-21": { word:"BUTTER",      hint:"Single anglophone de 2021, smooth like..." },
+  "2026-06-22": { word:"JIMIN",       hint:"Membre originaire de Busan." },
+  "2026-06-23": { word:"PROOF",       hint:"Compilation anthologique de 2022." },
+  "2026-06-24": { word:"DYNAMITE",    hint:"Premier titre 100% anglophone du groupe." },
+  "2026-06-25": { word:"BANGTAN",     hint:"Premier mot du nom complet du groupe en coréen." },
+  "2026-06-26": { word:"MAKNAE",      hint:"Terme désignant le plus jeune membre d'un groupe." },
+  "2026-06-27": { word:"WEVERSE",     hint:"Plateforme officielle des contenus et lives BTS." },
+  "2026-06-28": { word:"WINGS",       hint:"Era de 2016, Blood Sweat & Tears." },
+  "2026-06-29": { word:"HYYH",        hint:"Abréviation de 'The Most Beautiful Moment in Life'." },
+  "2026-06-30": { word:"SUGA",        hint:"Rappeur, aussi connu sous le nom Agust D." },
+  // Ajoute la suite ici...
+};
+
+// Fallback si la date n'est pas dans le calendrier
+var WD_FALLBACK = [
+  { word:"SEOUL",    hint:"Capitale de la Corée du Sud, berceau de BTS." },
+  { word:"IDOL",     hint:"Titre phare de l'era Love Yourself: Answer." },
+  { word:"BORAHAE",  hint:"Expression inventée par V signifiant 'je t'aime' en violet." },
+  { word:"JHOPE",    hint:"Le rayon de soleil du groupe, danseur principal." },
+  { word:"JUNGKOOK", hint:"Le Golden Maknae, plus jeune membre du groupe." },
 ];
 
-var _wdAnswer = "", _wdHint = "", _wdGuesses = [], _wdCurrentGuess = "", _wdRow = 0, _wdMaxRows = 6, _wdGameOver = false, _wdResData = {};
-var WD_ROWS_LETTERS = "QWERTYUIOPASDFGHJKLZXCVBNM".split("");
+var _wdAnswer = "", _wdHint = "", _wdGuesses = [], _wdCurrentGuess = "";
+var _wdRow = 0, _wdMaxRows = 6, _wdGameOver = false, _wdResData = {};
+var _wdTodayKey = ""; // clé YYYY-MM-DD du jour
+
+function _wdGetTodayKey() {
+  var d = new Date();
+  var y = d.getFullYear();
+  var m = String(d.getMonth()+1).padStart(2,'0');
+  var day = String(d.getDate()).padStart(2,'0');
+  return y + '-' + m + '-' + day;
+}
+
+function _wdGetStorageKey(dateKey) {
+  return 'wd_day_' + dateKey;
+}
+
+// Lit l'état sauvegardé du jour depuis localStorage
+function _wdLoadState(dateKey) {
+  try {
+    var raw = localStorage.getItem(_wdGetStorageKey(dateKey));
+    return raw ? JSON.parse(raw) : null;
+  } catch(e) { return null; }
+}
+
+// Sauvegarde l'état du jour
+function _wdSaveState(dateKey, state) {
+  try { localStorage.setItem(_wdGetStorageKey(dateKey), JSON.stringify(state)); } catch(e) {}
+}
 
 function wdStart() {
-  var pick = WD_WORDS[Math.floor(Math.random() * WD_WORDS.length)];
+  _wdTodayKey = _wdGetTodayKey();
+
+  // Choisit le mot du jour
+  var pick = WD_CALENDAR[_wdTodayKey];
+  if (!pick) {
+    // Fallback déterministe basé sur la date pour ne pas changer à chaque refresh
+    var dayNum = parseInt(_wdTodayKey.replace(/-/g,''));
+    pick = WD_FALLBACK[dayNum % WD_FALLBACK.length];
+  }
+
   _wdAnswer = pick.word.toUpperCase();
-  _wdHint = pick.hint;
-  _wdGuesses = []; _wdCurrentGuess = ""; _wdRow = 0; _wdGameOver = false;
+  _wdHint   = pick.hint;
+
+  // Vérifie si la partie du jour est déjà terminée
+  var saved = _wdLoadState(_wdTodayKey);
+  if (saved && saved.gameOver) {
+    // Restaure la partie terminée et affiche directement le résultat
+    _wdGuesses = saved.guesses || [];
+    _wdRow = saved.row || 0;
+    _wdGameOver = true;
+    _wdCurrentGuess = '';
+
+    document.getElementById('wd-intro').style.display = 'none';
+    document.getElementById('wd-result').style.display = 'none';
+    document.getElementById('wd-game').style.display = 'block';
+    document.getElementById('wd-hint').textContent = '💡 Indice : ' + _wdHint;
+    document.getElementById('wd-message').textContent = '';
+    _wdRenderGrid();
+    _wdRenderKeyboard();
+
+    // Affiche un message "déjà joué" avec le résultat
+    setTimeout(function(){ _wdShowResult(saved.won, true); }, 200);
+    return;
+  }
+
+  // Nouvelle partie
+  _wdGuesses = []; _wdCurrentGuess = ''; _wdRow = 0; _wdGameOver = false;
 
   document.getElementById('wd-intro').style.display = 'none';
   document.getElementById('wd-result').style.display = 'none';
@@ -2427,8 +2505,7 @@ function _wdRenderGrid() {
       var letter = guess[c] || '';
       cell.textContent = letter;
       if (_wdGuesses[r]) {
-        var status = _wdLetterStatus(_wdGuesses[r], c);
-        cell.classList.add('wd-' + status);
+        cell.classList.add('wd-' + _wdLetterStatus(_wdGuesses[r], c));
       } else if (letter) {
         cell.classList.add('wd-filled');
       }
@@ -2448,7 +2525,7 @@ function _wdLetterStatus(guess, idx) {
 function _wdRenderKeyboard() {
   var kb = document.getElementById('wd-keyboard');
   kb.innerHTML = '';
-  var rows = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
+  var rows = ["QWERTYUIOP","ASDFGHJKL","ZXCVBNM"];
   rows.forEach(function(rowStr, ri) {
     var rowDiv = document.createElement('div');
     rowDiv.style.cssText = 'display:flex;gap:4px;';
@@ -2507,13 +2584,14 @@ function _wdSubmitGuess() {
   }
   _wdGuesses[_wdRow] = _wdCurrentGuess;
   document.getElementById('wd-message').textContent = '';
-
   _wdUpdateKeyboardColors();
 
-  if (_wdCurrentGuess === _wdAnswer) {
+  var won = _wdCurrentGuess === _wdAnswer;
+  if (won) {
     _wdGameOver = true;
     _wdRenderGrid();
-    setTimeout(function(){ _wdShowResult(true); }, 600);
+    _wdSaveState(_wdTodayKey, { gameOver:true, won:true, guesses:_wdGuesses, row:_wdRow });
+    setTimeout(function(){ _wdShowResult(true, false); }, 600);
     return;
   }
 
@@ -2523,7 +2601,8 @@ function _wdSubmitGuess() {
   if (_wdRow >= _wdMaxRows) {
     _wdGameOver = true;
     _wdRenderGrid();
-    setTimeout(function(){ _wdShowResult(false); }, 600);
+    _wdSaveState(_wdTodayKey, { gameOver:true, won:false, guesses:_wdGuesses, row:_wdRow });
+    setTimeout(function(){ _wdShowResult(false, false); }, 600);
     return;
   }
 
@@ -2543,53 +2622,82 @@ function _wdUpdateKeyboardColors() {
   });
 }
 
-function _wdShowResult(won) {
+function _wdShowResult(won, alreadyPlayed) {
   document.removeEventListener('keydown', _wdHandleKey);
   document.getElementById('wd-game').style.display = 'none';
   document.getElementById('wd-result').style.display = 'block';
 
+  // Cache le bouton Rejouer — le mot change demain seulement
+  document.getElementById('wd-restart-btn').style.display = 'none';
+
   var emoji, level, desc;
-  if (won) {
+  if (alreadyPlayed) {
+    emoji = '📅';
+    level = 'Déjà joué aujourd\'hui !';
+    desc = won
+      ? 'Tu as déjà trouvé le mot du jour. Reviens demain pour un nouveau mot !'
+      : 'Tu as déjà utilisé tes 6 essais aujourd\'hui. Reviens demain ! Le mot était : ' + _wdAnswer;
+  } else if (won) {
     var attempts = _wdRow + 1;
-    if (attempts <= 2)      { emoji='🏆'; level='Incroyable !'; desc='Trouvé en ' + attempts + ' essai(s) seulement ! Niveau expert.'; }
-    else if (attempts <= 4) { emoji='💜'; level='Bien joué !';   desc='Trouvé en ' + attempts + ' essais. Belle performance !'; }
-    else                    { emoji='🎵'; level='Réussi !';      desc='Trouvé en ' + attempts + ' essais, juste à temps !'; }
+    if (attempts <= 2)      { emoji='🏆'; level='Incroyable !'; desc='Trouvé en '+attempts+' essai(s) ! Reviens demain pour le prochain mot.'; }
+    else if (attempts <= 4) { emoji='💜'; level='Bien joué !';  desc='Trouvé en '+attempts+' essais. Reviens demain !'; }
+    else                    { emoji='🎵'; level='Réussi !';     desc='Trouvé en '+attempts+' essais, juste à temps ! Reviens demain.'; }
   } else {
-    emoji = '😅'; level = 'Pas trouvé...';
-    desc = 'Le mot était : ' + _wdAnswer + '. Retente ta chance avec un nouveau mot !';
+    emoji='😅'; level='Pas trouvé...';
+    desc = 'Le mot était : ' + _wdAnswer + '. Reviens demain pour un nouveau mot !';
   }
 
   document.getElementById('wd-res-emoji').textContent = emoji;
   document.getElementById('wd-res-level').textContent = level;
   document.getElementById('wd-res-desc').textContent  = desc;
 
-  _wdResData = { emoji: emoji, level: level, won: won, attempts: _wdRow + 1, word: _wdAnswer };
+  // Compte à rebours jusqu'à minuit
+  _wdStartCountdown();
+
+  _wdResData = { emoji:emoji, level:level, won:won, attempts:_wdRow+1, word:_wdAnswer };
+}
+
+// Compte à rebours jusqu'au prochain mot
+function _wdStartCountdown() {
+  var countEl = document.getElementById('wd-countdown');
+  if (!countEl) return;
+  function update() {
+    var now = new Date();
+    var midnight = new Date(now);
+    midnight.setHours(24,0,0,0);
+    var diff = Math.floor((midnight - now) / 1000);
+    var h = Math.floor(diff/3600).toString().padStart(2,'0');
+    var m = Math.floor((diff%3600)/60).toString().padStart(2,'0');
+    var s = (diff%60).toString().padStart(2,'0');
+    countEl.textContent = 'Prochain mot dans : ' + h + ':' + m + ':' + s;
+  }
+  update();
+  setInterval(update, 1000);
 }
 
 function wdRestart() {
-  document.getElementById('wd-result').style.display = 'none';
-  document.getElementById('wd-intro').style.display = 'block';
+  // Ne fait rien — désactivé, le mot change demain
 }
 
 function wdShare() {
   var d = _wdResData; if (!d.level) return;
-  var c = document.createElement('canvas'), W = 800, H = 1000;
-  c.width = W; c.height = H;
+  var c = document.createElement('canvas'), W=800, H=1000;
+  c.width=W; c.height=H;
   var ctx = c.getContext('2d');
   var g = ctx.createLinearGradient(0,0,W,H);
-  g.addColorStop(0, '#0a1a0e'); g.addColorStop(1, '#0a0812');
-  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
-  ctx.textAlign = 'center';
-  ctx.fillStyle = 'rgba(255,255,255,.5)'; ctx.font = '600 22px "Space Mono",monospace';
+  g.addColorStop(0,'#0a1a0e'); g.addColorStop(1,'#0a0812');
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  ctx.textAlign='center';
+  ctx.fillStyle='rgba(255,255,255,.5)'; ctx.font='600 22px "Space Mono",monospace';
   ctx.fillText('✦ WORDLE BTS ✦', W/2, 130);
-  ctx.font = '140px serif'; ctx.fillText(d.emoji, W/2, 340);
-  ctx.fillStyle = '#ffffff'; ctx.font = '700 48px "Cormorant Garamond",serif';
+  ctx.font='140px serif'; ctx.fillText(d.emoji, W/2, 340);
+  ctx.fillStyle='#ffffff'; ctx.font='700 48px "Cormorant Garamond",serif';
   ctx.fillText(d.level, W/2, 450);
-  ctx.fillStyle = '#c9a96e'; ctx.font = '700 60px "Space Mono",monospace';
-  ctx.fillText(d.won ? (d.attempts + '/6 essais') : 'X/6', W/2, 560);
-  ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.font = 'italic 24px "Cormorant Garamond",serif';
+  ctx.fillStyle='#c9a96e'; ctx.font='700 60px "Space Mono",monospace';
+  ctx.fillText(d.won ? (d.attempts+'/6 essais') : 'X/6', W/2, 560);
+  ctx.fillStyle='rgba(255,255,255,.6)'; ctx.font='italic 24px "Cormorant Garamond",serif';
   ctx.fillText('BTS Archive Universe', W/2, 900);
-  _shareCanvasImage(c, 'wordle-bts.png', 'Wordle BTS', d.won ? ('J\'ai trouvé le mot mystère en '+d.attempts+'/6 essais sur Wordle BTS !') : 'J\'ai joué au Wordle BTS sur BTS Archive Universe !');
+  _shareCanvasImage(c,'wordle-bts.png','Wordle BTS', d.won ? ("J'ai trouvé le mot du jour en "+d.attempts+"/6 essais sur Wordle BTS !") : "J'ai joué au Wordle BTS sur BTS Archive Universe !");
 }
 </script>
 
