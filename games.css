@@ -626,3 +626,25 @@
 .wd-key-correct { background: #2d7a4f; border-color: #2d7a4f; color: #fff; }
 .wd-key-present { background: #b8954a; border-color: #b8954a; color: #fff; }
 .wd-key-absent  { background: #1a1a1a; border-color: #1a1a1a; color: #666; }
+
+
+
+.lb-tab {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: .4rem .8rem;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text3);
+  cursor: pointer;
+  transition: all .2s;
+}
+.lb-tab:hover { color: var(--text); border-color: var(--text2); }
+.lb-tab.active {
+  background: rgba(176,154,232,.15);
+  border-color: #b09ae8;
+  color: #b09ae8;
+}
