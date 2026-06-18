@@ -730,9 +730,9 @@ window.gamesSwitch = function(game, btn) {
   document.getElementById('game-general').classList.toggle('gq-hidden', game !== 'general');
   document.getElementById('game-era').classList.toggle('gq-hidden', game !== 'era');
   document.getElementById('game-blind').classList.toggle('gq-hidden', game !== 'blind');
-['taquin','vraifaux','paroles','chrono','memory','devine','wordle','classement'].forEach(...)
-    var el=document.getElementById('game-'+id);
-    if(el) el.classList.toggle('gq-hidden', game !== id);
+  ['taquin','vraifaux','paroles','chrono','memory','devine','wordle','classement'].forEach(function(id) {
+    var el = document.getElementById('game-' + id);
+    if (el) el.classList.toggle('gq-hidden', game !== id);
   });
 
   if (game === 'era' && !_eraGameStarted) {
@@ -742,6 +742,10 @@ window.gamesSwitch = function(game, btn) {
   if (game === 'blind' && !_blindGameStarted) {
     _blindGameStarted = true;
     showBlindTestGame();
+  }
+  if (game === 'classement') {
+    if (typeof lbInitUI === 'function') lbInitUI();
+    if (!window._lbLoaded) { window._lbLoaded = true; if (typeof lbLoad === 'function') lbLoad('global'); }
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2947,16 +2951,7 @@ function lbShowTab(tab, btn) {
   lbLoad(tab);
 }
 
-// Initialise quand on ouvre le classement
-var _lbLoaded = false;
-var _origGamesSwitch = window.gamesSwitch;
-window.gamesSwitch = function(game, btn) {
-  _origGamesSwitch(game, btn);
-  if (game === 'classement') {
-    lbInitUI();
-    if (!_lbLoaded) { _lbLoaded = true; lbLoad('global'); }
-  }
-};
+// _lbLoaded est initialisé dans window.gamesSwitch (script principal)
 </script>
 </div><!-- /hub-main -->
 
