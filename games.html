@@ -1873,21 +1873,24 @@ function plShare() {
    CHRONO DES ALBUMS
 ══════════════════════════════════════ */
 var CH_ERAS = [
-  { name: "2 Cool 4 Skool",      year: 2013, emoji: "🏫" },
-  { name: "Dark & Wild",          year: 2014, emoji: "🌑" },
-  { name: "HYYH (in the mood for love)", year: 2015, emoji: "🌸" },
-  { name: "Wings",                year: 2016, emoji: "🪶" },
-  { name: "Love Yourself",        year: 2018, emoji: "💜" },
-  { name: "Map of the Soul",      year: 2019, emoji: "🗺" },
-  { name: "BE",                   year: 2020, emoji: "🍃" },
-  { name: "Proof",                year: 2022, emoji: "✨" },
+  { name:"2 Cool 4 Skool",           year:2013, emoji:"🏫" },
+  { name:"Dark & Wild",              year:2014, emoji:"🌑" },
+  { name:"HYYH (in the mood for love)", year:2015, emoji:"🌸" },
+  { name:"Wings",                    year:2016, emoji:"🪶" },
+  { name:"Love Yourself",            year:2018, emoji:"💜" },
+  { name:"Map of the Soul",          year:2019, emoji:"🗺" },
+  { name:"BE",                       year:2020, emoji:"🍃" },
+  { name:"Proof",                    year:2022, emoji:"✨" },
 ];
+
 var _chOrder = [], _chCorrectOrder = [], _chResData = {};
 var _chDragIdx = null;
+var _chSelectedIdx = null; // pour le swap mobile
 
 function chStart() {
   _chCorrectOrder = [...CH_ERAS].sort(function(a,b){ return a.year - b.year; });
   _chOrder = [...CH_ERAS].sort(function(){ return Math.random() - 0.5; });
+  _chSelectedIdx = null;
   document.getElementById('ch-intro').style.display = 'none';
   document.getElementById('ch-result').style.display = 'none';
   document.getElementById('ch-game').style.display = 'block';
@@ -1897,30 +1900,63 @@ function chStart() {
 function _chRender() {
   var list = document.getElementById('ch-list');
   list.innerHTML = '';
+
   _chOrder.forEach(function(era, i) {
     var card = document.createElement('div');
-    card.className = 'ch-card';
+    card.className = 'ch-card' + (_chSelectedIdx === i ? ' ch-selected' : '');
     card.draggable = true;
     card.dataset.idx = i;
-card.innerHTML =
-  '<span class="ch-handle">⠿</span>' +
-  '<img class="ch-emoji" src="' + era.emoji + '">' +
-  '<span class="ch-name">' + era.name + '</span>' +
-  '<span class="ch-pos">' + (i+1) + '</span>';
 
+    card.innerHTML =
+      '<span class="ch-handle">⠿</span>' +
+      '<span style="font-size:20px;margin-right:.5rem">' + era.emoji + '</span>' +
+      '<span class="ch-name">' + era.name + '</span>' +
+      '<span class="ch-pos">' + (i+1) + '</span>';
 
-    card.addEventListener('dragstart', function() { _chDragIdx = i; card.classList.add('dragging'); });
-    card.addEventListener('dragend',   function() { card.classList.remove('dragging'); });
-    card.addEventListener('dragover',  function(e) { e.preventDefault(); card.classList.add('drag-over'); });
-    card.addEventListener('dragleave', function() { card.classList.remove('drag-over'); });
+    // ── Drag & drop (desktop) ──
+    card.addEventListener('dragstart', function() {
+      _chDragIdx = i;
+      card.classList.add('dragging');
+    });
+    card.addEventListener('dragend', function() {
+      card.classList.remove('dragging');
+    });
+    card.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      card.classList.add('drag-over');
+    });
+    card.addEventListener('dragleave', function() {
+      card.classList.remove('drag-over');
+    });
     card.addEventListener('drop', function(e) {
       e.preventDefault();
       card.classList.remove('drag-over');
-      var targetIdx = i;
-      if (_chDragIdx === null || _chDragIdx === targetIdx) return;
+      if (_chDragIdx === null || _chDragIdx === i) return;
       var moved = _chOrder.splice(_chDragIdx, 1)[0];
-      _chOrder.splice(targetIdx, 0, moved);
+      _chOrder.splice(i, 0, moved);
+      _chDragIdx = null;
+      _chSelectedIdx = null;
       _chRender();
+    });
+
+    // ── Tap / clic (mobile) : swap par sélection ──
+    card.addEventListener('click', function() {
+      if (_chSelectedIdx === null) {
+        // Première sélection
+        _chSelectedIdx = i;
+        _chRender();
+      } else if (_chSelectedIdx === i) {
+        // Désélectionne si on reclique sur la même
+        _chSelectedIdx = null;
+        _chRender();
+      } else {
+        // Deuxième sélection → échange les deux
+        var tmp = _chOrder[_chSelectedIdx];
+        _chOrder[_chSelectedIdx] = _chOrder[i];
+        _chOrder[i] = tmp;
+        _chSelectedIdx = null;
+        _chRender();
+      }
     });
 
     list.appendChild(card);
@@ -1932,32 +1968,36 @@ function chValidate() {
   _chOrder.forEach(function(era, i) {
     if (era.name === _chCorrectOrder[i].name) score++;
   });
+
+  _chSelectedIdx = null;
   document.getElementById('ch-game').style.display = 'none';
   document.getElementById('ch-result').style.display = 'block';
   document.getElementById('ch-res-score').textContent = score;
   document.getElementById('ch-res-max').textContent = '/' + CH_ERAS.length;
 
   var pct = score / CH_ERAS.length, emoji, level, desc;
-  if (pct === 1)      { emoji='🏆'; level='Historien BTS !';      desc='Parfait ! Tu maîtrises toute la chronologie de BTS.'; }
-  else if (pct >= .6) { emoji='💜'; level='Bonne mémoire';         desc='Pas mal ! Quelques eras sont mélangées mais l\'essentiel est là.'; }
-  else                { emoji='🌱'; level='À revoir';              desc='Les dates se mélangent encore un peu. Retente après avoir exploré les eras !'; }
+  if (pct === 1)      { emoji='🏆'; level='Historien BTS !';  desc='Parfait ! Tu maîtrises toute la chronologie de BTS.'; }
+  else if (pct >= .6) { emoji='💜'; level='Bonne mémoire';    desc='Pas mal ! Quelques eras sont mélangées mais l\'essentiel est là.'; }
+  else                { emoji='🌱'; level='À revoir';         desc='Les dates se mélangent encore un peu. Retente après avoir exploré les eras !'; }
 
-  document.getElementById('ch-res-emoji').textContent = emoji;
-  document.getElementById('ch-res-level').textContent = level;
-  document.getElementById('ch-res-desc').textContent  = desc;
-
-  var corr = document.getElementById('ch-correction');
-  corr.innerHTML = '<div style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:.6rem;text-align:center;">Ordre correct :</div>';
+  // Correction détaillée
+  var corrDiv = document.getElementById('ch-correction');
+  corrDiv.innerHTML = '<div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:.6rem;">Ordre correct :</div>';
   _chCorrectOrder.forEach(function(era, i) {
-    var ok = _chOrder[i] && _chOrder[i].name === era.name;
+    var userEra = _chOrder[i];
+    var ok = userEra.name === era.name;
     var row = document.createElement('div');
-    row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 10px;font-size:11px;border-radius:6px;margin-bottom:4px;' +
-      (ok ? 'background:rgba(110,200,140,.08);color:#8ee0a8;' : 'background:rgba(255,255,255,.02);color:var(--text2);');
-    row.innerHTML = (i+1) + '. ' + era.emoji + ' ' + era.name + ' (' + era.year + ')' + (ok ? ' ✓' : '');
-    corr.appendChild(row);
+    row.style.cssText = 'display:flex;align-items:center;gap:.5rem;padding:.3rem .5rem;border-radius:5px;margin-bottom:3px;font-size:12px;font-family:"DM Sans",sans-serif;';
+    row.style.background = ok ? 'rgba(110,200,140,.08)' : 'rgba(224,88,120,.08)';
+    row.innerHTML =
+      '<span style="font-family:\'Space Mono\',monospace;color:var(--text3);min-width:18px">' + (i+1) + '.</span>' +
+      '<span>' + era.emoji + '</span>' +
+      '<span style="color:' + (ok?'#6ec88c':'#f0a0a0') + '">' + era.name + '</span>' +
+      '<span style="color:var(--text3);font-size:10px;margin-left:auto">' + era.year + '</span>';
+    corrDiv.appendChild(row);
   });
 
-  _chResData = { emoji: emoji, level: level, score: score, total: CH_ERAS.length };
+  _chResData = { emoji:emoji, level:level, score:score, total:CH_ERAS.length };
 }
 
 function chRestart() {
@@ -1967,23 +2007,23 @@ function chRestart() {
 
 function chShare() {
   var d = _chResData; if (!d.level) return;
-  var c = document.createElement('canvas'), W = 800, H = 1000;
-  c.width = W; c.height = H;
+  var c = document.createElement('canvas'), W=800, H=1000;
+  c.width=W; c.height=H;
   var ctx = c.getContext('2d');
   var g = ctx.createLinearGradient(0,0,W,H);
-  g.addColorStop(0, '#1a1408'); g.addColorStop(1, '#0a0812');
-  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
-  ctx.textAlign = 'center';
-  ctx.fillStyle = 'rgba(255,255,255,.5)'; ctx.font = '600 22px "Space Mono",monospace';
+  g.addColorStop(0,'#0a100a'); g.addColorStop(1,'#0a0812');
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  ctx.textAlign='center';
+  ctx.fillStyle='rgba(255,255,255,.5)'; ctx.font='600 22px "Space Mono",monospace';
   ctx.fillText('✦ CHRONO DES ALBUMS ✦', W/2, 130);
-  ctx.font = '140px serif'; ctx.fillText(d.emoji, W/2, 340);
-  ctx.fillStyle = '#ffffff'; ctx.font = '700 52px "Cormorant Garamond",serif';
+  ctx.font='140px serif'; ctx.fillText(d.emoji, W/2, 340);
+  ctx.fillStyle='#ffffff'; ctx.font='700 52px "Cormorant Garamond",serif';
   ctx.fillText(d.level, W/2, 450);
-  ctx.fillStyle = '#c9a96e'; ctx.font = '700 80px "Space Mono",monospace';
+  ctx.fillStyle='#c9a96e'; ctx.font='700 80px "Space Mono",monospace';
   ctx.fillText(d.score + ' / ' + d.total, W/2, 570);
-  ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.font = 'italic 24px "Cormorant Garamond",serif';
+  ctx.fillStyle='rgba(255,255,255,.6)'; ctx.font='italic 24px "Cormorant Garamond",serif';
   ctx.fillText('BTS Archive Universe', W/2, 900);
-  _shareCanvasImage(c, 'chrono-bts.png', 'Chrono des albums BTS', 'J\'ai obtenu '+d.score+'/'+d.total+' au Chrono des albums sur BTS Archive Universe !');
+  _shareCanvasImage(c, 'chrono-bts.png', 'Chrono des albums BTS', "J'ai obtenu "+d.score+'/'+d.total+' au Chrono des albums sur BTS Archive Universe !');
 }
 </script>
 
