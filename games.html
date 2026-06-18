@@ -54,6 +54,7 @@
     <button class="games-tab" onclick="gamesSwitch('', this)">🃏 Memory</button>
     <button class="games-tab" onclick="gamesSwitch('devine', this)">🔍 Devine le membre</button>
     <button class="games-tab" onclick="gamesSwitch('wordle', this)">🟩 Wordle</button>
+    <button class="games-tab" onclick="gamesSwitch('classement', this)">🏆 Classement</button>
   </div>
 
   <!-- ══════════════════════════════════════════════
@@ -615,6 +616,7 @@ function gqShowResult() {
   document.getElementById('gq-r-score').textContent = gqScore;
   document.getElementById('gq-r-level').textContent = level.level;
   document.getElementById('gq-r-desc').textContent = level.desc;
+  lbSubmitScore('general', gqScore, 20, {});
 }
 
 window.gqRestart = function() {
@@ -728,7 +730,7 @@ window.gamesSwitch = function(game, btn) {
   document.getElementById('game-general').classList.toggle('gq-hidden', game !== 'general');
   document.getElementById('game-era').classList.toggle('gq-hidden', game !== 'era');
   document.getElementById('game-blind').classList.toggle('gq-hidden', game !== 'blind');
-  ['taquin','vraifaux','paroles','chrono','memory','devine','wordle'].forEach(function(id){
+['taquin','vraifaux','paroles','chrono','memory','devine','wordle','classement'].forEach(...)
     var el=document.getElementById('game-'+id);
     if(el) el.classList.toggle('gq-hidden', game !== id);
   });
@@ -1521,6 +1523,7 @@ function _vfShowResult(){
   document.getElementById('vf-res-level').textContent=level;
   document.getElementById('vf-res-desc').textContent=desc;
   _vfResData={emoji:emoji,level:level,score:_vfScore,total:_vfTotal};
+  lbSubmitScore('vraifaux', _vfScore, _vfTotal, {});
 }
 function vfRestart(){
   document.getElementById('vf-result').style.display='none';
@@ -1844,6 +1847,7 @@ function _plShowResult() {
   document.getElementById('pl-res-level').textContent = level;
   document.getElementById('pl-res-desc').textContent  = desc;
   _plResData = {emoji:emoji,level:level,score:_plScore,total:_plTotal};
+  lbSubmitScore('paroles', _plScore, _plTotal, {});
 }
 
 function plRestart() {
@@ -1981,7 +1985,7 @@ function chValidate() {
   if (pct === 1)      { emoji='🏆'; level='Historien BTS !';  desc='Parfait ! Tu maîtrises toute la chronologie de BTS.'; }
   else if (pct >= .6) { emoji='💜'; level='Bonne mémoire';    desc='Pas mal ! Quelques eras sont mélangées mais l\'essentiel est là.'; }
   else                { emoji='🌱'; level='À revoir';         desc='Les dates se mélangent encore un peu. Retente après avoir exploré les eras !'; }
-
+    lbSubmitScore('chrono', score, CH_ERAS.length, {});
   // Correction détaillée
   var corrDiv = document.getElementById('ch-correction');
   corrDiv.innerHTML = '<div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:.6rem;">Ordre correct :</div>';
@@ -1997,6 +2001,7 @@ function chValidate() {
       '<span style="color:' + (ok?'#6ec88c':'#f0a0a0') + '">' + era.name + '</span>' +
       '<span style="color:var(--text3);font-size:10px;margin-left:auto">' + era.year + '</span>';
     corrDiv.appendChild(row);
+
   });
 
   _chResData = { emoji:emoji, level:level, score:score, total:CH_ERAS.length };
@@ -2178,7 +2183,8 @@ function _mmWin() {
   document.getElementById('mm-res-emoji').textContent = emoji;
   document.getElementById('mm-res-level').textContent = level;
   document.getElementById('mm-res-desc').textContent  = desc + ' (' + _mmMoves + ' coups, ' + document.getElementById('mm-timer').textContent + ')';
-  _mmResData = { emoji:emoji, level:level, moves:_mmMoves, time:document.getElementById('mm-timer').textContent };
+  _mmResData = { emoji:emoji, level:level, moves:_mmMoves, time:document.getElementById('mm-timer').textContent };lbSubmitScore('memory', _mmTotalPairs, _mmTotalPairs, { moves: _mmMoves, time: document.getElementById('mm-timer').textContent });
+  
 }
 
 function mmRestart() {
@@ -2350,6 +2356,7 @@ function _dmShowResult() {
   document.getElementById('dm-res-desc').textContent  = desc;
 
   _dmResData = { emoji: emoji, level: level, score: _dmScore, max: maxScore };
+  lbSubmitScore('devine', _dmScore, 32, {});
 }
 
 function dmRestart() {
@@ -2607,6 +2614,7 @@ function _wdSubmitGuess() {
   }
 
   _wdRenderGrid();
+  lbSubmitScore('wordle', won?1:0, 1, { attempts: _wdRow+1, word: _wdAnswer });
 }
 
 function _wdUpdateKeyboardColors() {
@@ -2700,7 +2708,256 @@ function wdShare() {
   _shareCanvasImage(c,'wordle-bts.png','Wordle BTS', d.won ? ("J'ai trouvé le mot du jour en "+d.attempts+"/6 essais sur Wordle BTS !") : "J'ai joué au Wordle BTS sur BTS Archive Universe !");
 }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+  <!-- ══════════════════════════════════════════
+     CLASSEMENT
+══════════════════════════════════════════ -->
+<div class="gq-hidden" id="game-classement" style="padding:1.5rem">
+  <div class="gq-card" style="max-width:640px;margin:0 auto;">
+
+    <!-- Connexion pseudo -->
+    <div id="lb-login" style="margin-bottom:1.4rem;padding:1rem;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:10px;">
+      <div style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:.6rem;">💜 Ton pseudo ARMY</div>
+      <div style="display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;">
+        <span id="lb-avatar-display" style="font-size:22px;">💜</span>
+        <input id="lb-pseudo-input" type="text" maxlength="20" placeholder="Entre ton pseudo…"
+          style="background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;padding:.5rem .9rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;flex:1;max-width:200px;">
+        <button class="gq-btn" onclick="lbSavePseudo()">Valider</button>
+      </div>
+      <div id="lb-pseudo-status" style="font-size:10px;color:var(--text3);margin-top:.5rem;"></div>
+    </div>
+
+    <!-- Onglets par jeu -->
+    <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:1.2rem;" id="lb-tabs">
+      <button class="lb-tab active" onclick="lbShowTab('global',this)">🌟 Global</button>
+      <button class="lb-tab" onclick="lbShowTab('general',this)">🧠 Quiz</button>
+      <button class="lb-tab" onclick="lbShowTab('vraifaux',this)">❓ Vrai/Faux</button>
+      <button class="lb-tab" onclick="lbShowTab('paroles',this)">🎤 Paroles</button>
+      <button class="lb-tab" onclick="lbShowTab('chrono',this)">📅 Chrono</button>
+      <button class="lb-tab" onclick="lbShowTab('memory',this)">🃏 Memory</button>
+      <button class="lb-tab" onclick="lbShowTab('devine',this)">🔍 Devine</button>
+      <button class="lb-tab" onclick="lbShowTab('wordle',this)">🟩 Wordle</button>
+    </div>
+
+    <div id="lb-title" style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--text);margin-bottom:1rem;text-align:center;">🌟 Classement Global</div>
+
+    <!-- Liste -->
+    <div id="lb-list" style="display:flex;flex-direction:column;gap:6px;min-height:120px;">
+      <div style="color:var(--text3);font-size:11px;font-family:'Space Mono',monospace;text-align:center;padding:2rem 0;">Chargement…</div>
+    </div>
+
+    <button class="gq-btn" onclick="lbLoad(_lbCurrentTab)" style="margin-top:1rem;width:100%;">🔄 Actualiser</button>
+  </div>
+</div>
+  <script>
+/* ══════════════════════════════════════
+   CLASSEMENT — Supabase
+══════════════════════════════════════ */
+var _lbSB = null;
+var _lbCurrentTab = 'global';
+var SUPABASE_URL = 'https://hutkkaubvjpmsjqhqfzi.supabase.co';       // ← remplace
+var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1dGtrYXVidmpwbXNqcWhxZnppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0MTE3MzUsImV4cCI6MjA5Njk4NzczNX0.hw6xnZ0PdnWqW-aTbOnpFOBwLjSNYYlwvt7cb-AZY3Q';                         // ← remplace
+
+function _lbInit() {
+  if (_lbSB) return;
+  try {
+    _lbSB = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  } catch(e) { console.error('Supabase init error', e); }
+}
+
+// ── Pseudo / avatar ──────────────────────────────
+function lbGetPseudo() {
+  try { return localStorage.getItem('army_pseudo') || ''; } catch(e){ return ''; }
+}
+function lbGetAvatar() {
+  try {
+    var saved = JSON.parse(localStorage.getItem('bts_avatar') || '{}');
+    return saved.emoji || '💜';
+  } catch(e){ return '💜'; }
+}
+
+function lbInitUI() {
+  var pseudo = lbGetPseudo();
+  var avatar = lbGetAvatar();
+  document.getElementById('lb-avatar-display').textContent = avatar;
+  if (pseudo) {
+    document.getElementById('lb-pseudo-input').value = pseudo;
+    document.getElementById('lb-pseudo-status').textContent = '✓ Connecté en tant que ' + pseudo;
+  }
+}
+
+function lbSavePseudo() {
+  var val = document.getElementById('lb-pseudo-input').value.trim();
+  if (!val) return;
+  try { localStorage.setItem('army_pseudo', val); } catch(e){}
+  document.getElementById('lb-pseudo-status').textContent = '✓ Pseudo enregistré : ' + val;
+}
+
+// ── Envoi d'un score ─────────────────────────────
+// Appelé automatiquement à la fin de chaque jeu
+async function lbSubmitScore(game, score, scoreMax, extra) {
+  _lbInit();
+  if (!_lbSB) return;
+  var pseudo = lbGetPseudo();
+  if (!pseudo) return; // pas de pseudo = pas d'envoi
+  var avatar = lbGetAvatar();
+  try {
+    await _lbSB.from('scores').insert({
+      pseudo: pseudo,
+      avatar: avatar,
+      game: game,
+      score: score,
+      score_max: scoreMax,
+      extra: JSON.stringify(extra || {})
+    });
+  } catch(e) { console.warn('Score non envoyé', e); }
+}
+
+// ── Chargement du classement ──────────────────────
+async function lbLoad(tab) {
+  _lbInit();
+  _lbCurrentTab = tab;
+  var list = document.getElementById('lb-list');
+  list.innerHTML = '<div style="color:var(--text3);font-size:11px;font-family:\'Space Mono\',monospace;text-align:center;padding:2rem 0;">Chargement…</div>';
+
+  if (!_lbSB) {
+    list.innerHTML = '<div style="color:#f0a0a0;font-size:11px;text-align:center;padding:2rem 0;">⚠ Connexion impossible</div>';
+    return;
+  }
+
+  try {
+    var rows;
+    if (tab === 'global') {
+      // Global : somme des scores par pseudo, triée desc
+      var { data, error } = await _lbSB
+        .from('scores')
+        .select('pseudo, avatar, score, score_max')
+        .order('score', { ascending: false })
+        .limit(100);
+      if (error) throw error;
+
+      // Agrège par pseudo : somme score / somme score_max
+      var map = {};
+      data.forEach(function(r){
+        if (!map[r.pseudo]) map[r.pseudo] = { pseudo:r.pseudo, avatar:r.avatar, total:0, max:0, count:0 };
+        map[r.pseudo].total += r.score;
+        map[r.pseudo].max   += r.score_max;
+        map[r.pseudo].count++;
+      });
+      rows = Object.values(map)
+        .sort(function(a,b){ return (b.total/b.max) - (a.total/a.max); })
+        .slice(0, 20);
+      lbRenderGlobal(rows);
+
+    } else {
+      // Par jeu : meilleur score par pseudo
+      var { data, error } = await _lbSB
+        .from('scores')
+        .select('pseudo, avatar, score, score_max, extra, played_at')
+        .eq('game', tab)
+        .order('score', { ascending: false })
+        .limit(200);
+      if (error) throw error;
+
+      // Garde seulement le meilleur score par pseudo
+      var map = {};
+      data.forEach(function(r){
+        var pct = r.score / r.score_max;
+        if (!map[r.pseudo] || pct > (map[r.pseudo].score / map[r.pseudo].score_max)) {
+          map[r.pseudo] = r;
+        }
+      });
+      rows = Object.values(map)
+        .sort(function(a,b){ return (b.score/b.score_max) - (a.score/a.score_max); })
+        .slice(0, 20);
+      lbRenderGame(rows, tab);
+    }
+  } catch(e) {
+    list.innerHTML = '<div style="color:#f0a0a0;font-size:11px;text-align:center;padding:2rem 0;">⚠ Erreur de chargement</div>';
+    console.error(e);
+  }
+}
+
+function lbRenderGlobal(rows) {
+  var list = document.getElementById('lb-list');
+  var myPseudo = lbGetPseudo();
+  if (!rows.length) {
+    list.innerHTML = '<div style="color:var(--text3);font-size:11px;font-family:\'Space Mono\',monospace;text-align:center;padding:2rem 0;">Aucun score pour l\'instant. Sois le premier !</div>';
+    return;
+  }
+  list.innerHTML = '';
+  rows.forEach(function(r, i) {
+    var pct = Math.round(r.total / r.max * 100);
+    var medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+    var isMe = r.pseudo === myPseudo;
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:.7rem;padding:.6rem .8rem;border-radius:8px;font-size:12px;font-family:"DM Sans",sans-serif;' +
+      (isMe ? 'background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.3);' : 'background:rgba(255,255,255,.02);border:1px solid var(--border);');
+    row.innerHTML =
+      '<span style="font-family:\'Space Mono\',monospace;color:var(--text3);min-width:22px;font-size:11px;">' + (medal || (i+1)+'.') + '</span>' +
+      '<span style="font-size:18px;">' + (r.avatar||'💜') + '</span>' +
+      '<span style="flex:1;color:' + (isMe?'#c9a96e':'var(--text)') + ';font-weight:' + (isMe?'600':'400') + ';">' + r.pseudo + '</span>' +
+      '<span style="font-family:\'Space Mono\',monospace;color:#b09ae8;font-size:11px;">' + pct + '%</span>' +
+      '<span style="font-family:\'Space Mono\',monospace;color:var(--text3);font-size:10px;">' + r.count + ' parties</span>';
+    list.appendChild(row);
+  });
+}
+
+function lbRenderGame(rows, game) {
+  var list = document.getElementById('lb-list');
+  var myPseudo = lbGetPseudo();
+  if (!rows.length) {
+    list.innerHTML = '<div style="color:var(--text3);font-size:11px;font-family:\'Space Mono\',monospace;text-align:center;padding:2rem 0;">Aucun score pour ce jeu. Lance une partie !</div>';
+    return;
+  }
+  list.innerHTML = '';
+  rows.forEach(function(r, i) {
+    var medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+    var isMe = r.pseudo === myPseudo;
+    var extra = {};
+    try { extra = JSON.parse(r.extra||'{}'); } catch(e){}
+    var extraStr = '';
+    if (extra.time)     extraStr = ' · ' + extra.time;
+    if (extra.attempts) extraStr = ' · ' + extra.attempts + ' essais';
+    if (extra.moves)    extraStr = ' · ' + extra.moves + ' coups';
+
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:.7rem;padding:.6rem .8rem;border-radius:8px;font-size:12px;font-family:"DM Sans",sans-serif;' +
+      (isMe ? 'background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.3);' : 'background:rgba(255,255,255,.02);border:1px solid var(--border);');
+    row.innerHTML =
+      '<span style="font-family:\'Space Mono\',monospace;color:var(--text3);min-width:22px;font-size:11px;">' + (medal || (i+1)+'.') + '</span>' +
+      '<span style="font-size:18px;">' + (r.avatar||'💜') + '</span>' +
+      '<span style="flex:1;color:' + (isMe?'#c9a96e':'var(--text)') + ';font-weight:' + (isMe?'600':'400') + ';">' + r.pseudo + '</span>' +
+      '<span style="font-family:\'Space Mono\',monospace;color:#c9a96e;font-size:11px;">' + r.score + '/' + r.score_max + '</span>' +
+      '<span style="color:var(--text3);font-size:10px;">' + extraStr + '</span>';
+    list.appendChild(row);
+  });
+}
+
+function lbShowTab(tab, btn) {
+  document.querySelectorAll('.lb-tab').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  var titles = {
+    global:'🌟 Classement Global', general:'🧠 Quiz Général', vraifaux:'❓ Vrai ou Faux',
+    paroles:'🎤 Complète les paroles', chrono:'📅 Chrono des albums',
+    memory:'🃏 Memory', devine:'🔍 Devine le membre', wordle:'🟩 Wordle BTS'
+  };
+  document.getElementById('lb-title').textContent = titles[tab] || tab;
+  lbLoad(tab);
+}
+
+// Initialise quand on ouvre le classement
+var _lbLoaded = false;
+var _origGamesSwitch = window.gamesSwitch;
+window.gamesSwitch = function(game, btn) {
+  _origGamesSwitch(game, btn);
+  if (game === 'classement') {
+    lbInitUI();
+    if (!_lbLoaded) { _lbLoaded = true; lbLoad('global'); }
+  }
+};
+</script>
 </div><!-- /hub-main -->
 
 </body>
