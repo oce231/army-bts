@@ -22,7 +22,7 @@
   text-align: center;
   overflow: hidden;
   padding: 3rem 1.5rem;
-  background: linear-gradient(135deg, #0a0812 0%, #1a0a30 45%, #2a1040 100%);
+  background: var(--hero-gradient);
   border-bottom: 1px solid var(--border);
 }
 .hub-hero-bg {
@@ -36,12 +36,12 @@
 .hub-pretitle {
   font-family: 'Space Mono', monospace;
   font-size: 10px; letter-spacing: .3em; text-transform: uppercase;
-  color: #b09ae8; margin-bottom: .6rem;
+  color: var(--hero-pretitle); margin-bottom: .6rem;
 }
 .hub-title {
   font-family: 'Playfair Display', serif;
   font-size: clamp(36px, 8vw, 64px); font-weight: 600;
-  color: #f5f0ff;
+  color: var(--hero-title);
   text-shadow: 0 0 40px rgba(123,95,212,.4);
   margin: 0 0 .8rem;
   letter-spacing: .04em;
@@ -64,7 +64,7 @@
 
 .hub-card {
   display: flex; flex-direction: column;
-  background: rgba(255,255,255,.03);
+  background: var(--overlay-3);
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 1.4rem 1.3rem;
@@ -82,7 +82,7 @@
 .hub-card:hover {
   transform: translateY(-4px);
   border-color: rgba(123,95,212,.4);
-  background: rgba(255,255,255,.05);
+  background: var(--overlay-4);
 }
 .hub-card:hover::before { opacity: 1; }
 

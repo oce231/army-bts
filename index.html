@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+<script>
+  (function(){
+    try {
+      var saved = localStorage.getItem('bts-theme');
+      var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch(e){}
+  })();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>BTS Archive 방탄소년단</title>
@@ -221,6 +230,7 @@
     <button id="search-clear" onclick="clearSearch()" style="display:none">✕</button>
   </div>
   <button id="cursor-toggle-btn" onclick="document.getElementById('cursor-picker').classList.toggle('open')" title="Choisir mon curseur">🖱️</button>
+  <button id="theme-toggle-btn" onclick="toggleTheme()" title="Changer de thème" aria-label="Basculer thème clair/sombre">🌙</button>
   <a class="hub-switch" href="hub.html">💜 Lounge</a>
   <div id="search-results"></div>
 </header>
@@ -5733,11 +5743,29 @@ function closeSidebar() {
   document.getElementById('overlay').classList.remove('open');
 }
 
+/* ═══ THÈME CLAIR / SOMBRE ═══ */
+function updateThemeBtn() {
+  var btn = document.getElementById('theme-toggle-btn');
+  if (!btn) return;
+  var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  btn.textContent = isLight ? '☀️' : '🌙';
+  btn.title = isLight ? 'Passer en mode sombre' : 'Passer en mode clair';
+}
+function toggleTheme() {
+  var current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  var next = current === 'light' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('bts-theme', next); } catch(e){}
+  updateThemeBtn();
+}
+document.addEventListener('DOMContentLoaded', updateThemeBtn);
+
 /* ═══ INTRO CANVAS ═══ */
 (function(){
   var c=document.getElementById('intro-canvas');
   if(!c)return;
   var ctx=c.getContext('2d'),W,H,stars=[];
+  function isLight(){ return document.documentElement.getAttribute('data-theme')==='light'; }
   function resize(){
     W=c.width=window.innerWidth;H=c.height=window.innerHeight;
     stars=[];for(var i=0;i<Math.floor(W*H/2800);i++)
@@ -5746,16 +5774,25 @@ function closeSidebar() {
   var t=0;
   function draw(){
     ctx.clearRect(0,0,W,H);
+    var light=isLight();
     var bg=ctx.createRadialGradient(W*.35,H*.4,0,W*.35,H*.4,Math.max(W,H)*.9);
-    bg.addColorStop(0,'rgba(16,10,38,1)');bg.addColorStop(.5,'rgba(10,8,22,1)');bg.addColorStop(1,'rgba(7,7,13,1)');
+    if(light){
+      bg.addColorStop(0,'rgba(255,250,240,1)');bg.addColorStop(.5,'rgba(246,238,224,1)');bg.addColorStop(1,'rgba(238,227,206,1)');
+    } else {
+      bg.addColorStop(0,'rgba(16,10,38,1)');bg.addColorStop(.5,'rgba(10,8,22,1)');bg.addColorStop(1,'rgba(7,7,13,1)');
+    }
     ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
     var nb=ctx.createRadialGradient(W*.7,H*.3,0,W*.7,H*.3,W*.45);
-    nb.addColorStop(0,'rgba(100,60,180,.07)');nb.addColorStop(1,'transparent');
+    if(light){
+      nb.addColorStop(0,'rgba(160,120,210,.08)');nb.addColorStop(1,'transparent');
+    } else {
+      nb.addColorStop(0,'rgba(100,60,180,.07)');nb.addColorStop(1,'transparent');
+    }
     ctx.fillStyle=nb;ctx.fillRect(0,0,W,H);
     t+=.006;
     stars.forEach(function(s){
-      ctx.globalAlpha=s.o*(Math.sin(t*s.s*5+s.p)*.3+.7);
-      ctx.fillStyle=s.g?'#e8c88a':'#fff';
+      ctx.globalAlpha=s.o*(Math.sin(t*s.s*5+s.p)*.3+.7)*(light?0.55:1);
+      ctx.fillStyle=s.g?'#c9a96e':(light?'#7a6a50':'#fff');
       ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
     });
     ctx.globalAlpha=1;
@@ -5769,6 +5806,7 @@ function closeSidebar() {
   var c=document.getElementById('hp-canvas');
   if(!c)return;
   var ctx=c.getContext('2d'),W,H,stars=[];
+  function isLight(){ return document.documentElement.getAttribute('data-theme')==='light'; }
   function resize(){
     W=c.width=c.parentElement.offsetWidth||window.innerWidth;
     H=c.height=c.parentElement.offsetHeight||window.innerHeight;
@@ -5778,16 +5816,25 @@ function closeSidebar() {
   var t=0,started=false;
   function draw(){
     ctx.clearRect(0,0,W,H);
+    var light=isLight();
     var bg=ctx.createRadialGradient(W*.4,H*.35,0,W*.4,H*.35,Math.max(W,H)*.9);
-    bg.addColorStop(0,'rgba(18,12,40,.95)');bg.addColorStop(.5,'rgba(10,8,24,.98)');bg.addColorStop(1,'rgba(7,7,13,1)');
+    if(light){
+      bg.addColorStop(0,'rgba(255,251,243,.97)');bg.addColorStop(.5,'rgba(248,241,228,.98)');bg.addColorStop(1,'rgba(238,227,206,1)');
+    } else {
+      bg.addColorStop(0,'rgba(18,12,40,.95)');bg.addColorStop(.5,'rgba(10,8,24,.98)');bg.addColorStop(1,'rgba(7,7,13,1)');
+    }
     ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
     var nb=ctx.createRadialGradient(W*.6,H*.3,0,W*.6,H*.3,W*.5);
-    nb.addColorStop(0,'rgba(100,60,180,.06)');nb.addColorStop(1,'transparent');
+    if(light){
+      nb.addColorStop(0,'rgba(160,120,210,.07)');nb.addColorStop(1,'transparent');
+    } else {
+      nb.addColorStop(0,'rgba(100,60,180,.06)');nb.addColorStop(1,'transparent');
+    }
     ctx.fillStyle=nb;ctx.fillRect(0,0,W,H);
     t+=.006;
     stars.forEach(function(s){
-      ctx.globalAlpha=s.o*(Math.sin(t*s.s*5+s.p)*.3+.7);
-      ctx.fillStyle=s.g?'#e8c88a':'#fff';
+      ctx.globalAlpha=s.o*(Math.sin(t*s.s*5+s.p)*.3+.7)*(light?0.55:1);
+      ctx.fillStyle=s.g?'#c9a96e':(light?'#7a6a50':'#fff');
       ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
     });
     ctx.globalAlpha=1;

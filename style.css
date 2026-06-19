@@ -34,6 +34,8 @@
   --modal-scrim: rgba(0,0,0,.92);
   --on-accent: #07070d; /* couleur de texte posée sur un fond --accent doré */
   --hero-gradient: linear-gradient(135deg, #0a0812 0%, #1a0a2a 50%, #0a1020 100%);
+  --hero-pretitle: #b09ae8;
+  --hero-title: #f5f0ff;
 
   /* Era accent dynamique — change selon l'era active */
   --era-c:     #c9a96e;
@@ -77,6 +79,8 @@
   --modal-scrim: rgba(20,15,8,.85);
   --on-accent: #fffaf0;
   --hero-gradient: linear-gradient(135deg, #f3ecf9 0%, #f6f0e4 50%, #eef3f6 100%);
+  --hero-pretitle: #6a4fc4;
+  --hero-title: #2a1f3d;
 }
 
 /* ─── SIDEBAR ERA THUMBNAIL ─── */
@@ -557,7 +561,7 @@ header{
   bottom: 24px; right: 24px;
   z-index: 10500;
   max-width: 300px;
-  background: rgba(12,10,26,.97);
+  background: var(--surface);
   border: 1px solid rgba(201,169,110,.4);
   border-radius: 14px;
   padding: 14px 16px 12px;
@@ -591,14 +595,14 @@ body:has(#spotify-bar.visible) #dyk-card {
   flex: 1;
 }
 #dyk-close {
-  background: none; border: none; color: rgba(255,255,255,.3);
+  background: none; border: none; color: var(--text3);
   font-size: 14px; cursor: pointer; padding: 0; line-height: 1;
   transition: color .2s;
 }
-#dyk-close:hover { color: #fff; }
+#dyk-close:hover { color: var(--text); }
 #dyk-text {
   font-size: 11px; line-height: 1.65;
-  color: rgba(232,224,208,.88);
+  color: var(--text2);
   font-family: 'DM Sans', sans-serif;
 }
 #dyk-member {
@@ -1142,14 +1146,6 @@ body:has(#spotify-bar.visible) #dyk-card {
 .cp-success-sub{font-size:9px;color:var(--text3);letter-spacing:.1em}
 
 /* ─── DRIVE MANAGER ─── */
-  margin-left:auto;
-  display:flex;align-items:center;gap:5px;
-  background:none;border:1px solid var(--border2);
-  color:var(--text2);font-family:'Space Mono',monospace;
-  font-size:8px;letter-spacing:.12em;text-transform:uppercase;
-  padding:5px 10px;border-radius:3px;cursor:pointer;
-  transition:all .15s;white-space:nowrap;
-}
 
 
 /* ─── DRIVE MANAGER ─── */
@@ -1817,6 +1813,19 @@ body:has(#spotify-bar.visible) #dyk-card {
 }
 #cursor-toggle-btn:hover { border-color: var(--cursor-color, #c9a96e); background: rgba(201,169,110,.12); }
 
+/* Bouton toggle thème clair/sombre — dans le header */
+#theme-toggle-btn {
+  flex-shrink: 0;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--overlay-4);
+  border: 1px solid var(--border2);
+  color: var(--text); font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer !important;
+  transition: border-color .2s, background .2s, transform .3s;
+}
+#theme-toggle-btn:hover { border-color: var(--accent); background: rgba(201,169,110,.12); transform: rotate(15deg); }
+
 /* ══════════════════════════════════════════════
    QUIZ — QUELLE ERA ES-TU ?
 ══════════════════════════════════════════════ */
@@ -1937,7 +1946,7 @@ body:has(#spotify-bar.visible) #dyk-card {
 }
 .quiz-btn:hover { background: var(--accent); color: var(--bg); }
 .quiz-btn-share {
-  border-color: #b09ae8; color: #b09ae8;
+  border-color: var(--hero-pretitle); color: var(--hero-pretitle);
 }
 .quiz-btn-share:hover { background: #b09ae8; color: #1a1024; }
 
@@ -2242,7 +2251,7 @@ body:has(#spotify-bar.visible) #dyk-card {
 .hub-switch:hover {
   border-color: rgba(123,95,212,.5);
   background: rgba(123,95,212,.1);
-  color: #b09ae8;
+  color: var(--hero-pretitle);
 }
 
 /* ══════════════════════════════════════════════
@@ -2272,7 +2281,7 @@ body:has(#spotify-bar.visible) #dyk-card {
   cursor: pointer; transition: all .2s;
   z-index: 10;
 }
-#onb-skip:hover { border-color: rgba(255,255,255,.35); color: #fff; }
+#onb-skip:hover { border-color: var(--overlay-12); color: var(--text); }
 
 .onb-slides {
   position: relative;
@@ -2295,12 +2304,12 @@ body:has(#spotify-bar.visible) #dyk-card {
 .onb-pretitle {
   font-family: 'Space Mono', monospace;
   font-size: 10px; letter-spacing: .25em; text-transform: uppercase;
-  color: #b09ae8; margin-bottom: .5rem;
+  color: var(--hero-pretitle); margin-bottom: .5rem;
 }
 .onb-title {
   font-family: 'Playfair Display', serif;
   font-size: clamp(24px, 6vw, 38px); font-weight: 600;
-  color: #f5f0ff; margin: 0 0 .8rem; line-height: 1.2;
+  color: var(--hero-title); margin: 0 0 .8rem; line-height: 1.2;
 }
 .onb-text {
   font-size: clamp(11px, 2vw, 13px);
@@ -2398,7 +2407,7 @@ body:has(#spotify-bar.visible) #dyk-card {
   padding: 10px 20px;
   font-family: 'Space Mono', monospace;
   font-size: 11px; letter-spacing: .1em;
-  color: #d0c0ff;
+  color: var(--hero-pretitle);
   margin: 4px;
   display: inline-block;
 }
@@ -2416,7 +2425,7 @@ body:has(#spotify-bar.visible) #dyk-card {
 .onb-lounge-icon { font-size: 36px; }
 .onb-lounge-name {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 20px; font-weight: 500; color: #f5f0ff;
+  font-size: 20px; font-weight: 500; color: var(--hero-title);
 }
 .onb-lounge-btn {
   display: inline-block;
@@ -2424,7 +2433,7 @@ body:has(#spotify-bar.visible) #dyk-card {
   font-size: 10px; letter-spacing: .15em; text-transform: uppercase;
   background: rgba(123,95,212,.2);
   border: 1px solid rgba(123,95,212,.5);
-  color: #d0c0ff;
+  color: var(--hero-pretitle);
   padding: 10px 24px; border-radius: 22px;
   text-decoration: none;
   transition: background .2s;
@@ -2462,11 +2471,11 @@ body:has(#spotify-bar.visible) #dyk-card {
   padding: 10px 22px; border-radius: 22px;
   cursor: pointer; transition: all .2s;
 }
-.onb-btn:hover { border-color: rgba(255,255,255,.4); color: #fff; }
+.onb-btn:hover { border-color: var(--overlay-12); color: var(--text); }
 .onb-btn-next {
   border-color: rgba(123,95,212,.5);
   background: rgba(123,95,212,.15);
-  color: #d0c0ff;
+  color: var(--hero-pretitle);
   margin-left: auto;
 }
 .onb-btn-next:hover { background: rgba(123,95,212,.28); }

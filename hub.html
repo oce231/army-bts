@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+<script>
+  (function(){
+    try {
+      var saved = localStorage.getItem('bts-theme');
+      var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch(e){}
+  })();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>ARMY Lounge 💜 BTS Archive</title>
@@ -18,6 +27,7 @@
   </button>
   <a class="logo" href="index.html" style="text-decoration:none">BTS <small>방탄소년단 Archive</small></a>
   <div style="flex:1"></div>
+  <button id="theme-toggle-btn" onclick="toggleTheme()" title="Changer de thème" aria-label="Basculer thème clair/sombre">🌙</button>
   <a class="hub-switch" href="index.html">📖 Archive</a>
 </header>
 
@@ -104,6 +114,25 @@
   <div class="cursor-option" data-emoji="🐰" data-color="#c9a96e" onclick="selectCursor(this)"><span class="cursor-option-emoji">🐰</span><span class="cursor-option-label">Jung Kook</span><span class="cursor-option-dot" style="--co-color:#c9a96e"></span></div>
   <div class="cursor-option" data-emoji="💜" data-color="#7b5fd4" onclick="selectCursor(this)"><span class="cursor-option-emoji">💜</span><span class="cursor-option-label">ARMY — Violet</span><span class="cursor-option-dot" style="--co-color:#7b5fd4"></span></div>
 </div>
+
+<!-- Thème clair / sombre -->
+<script>
+function updateThemeBtn() {
+  var btn = document.getElementById('theme-toggle-btn');
+  if (!btn) return;
+  var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  btn.textContent = isLight ? '☀️' : '🌙';
+  btn.title = isLight ? 'Passer en mode sombre' : 'Passer en mode clair';
+}
+function toggleTheme() {
+  var current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  var next = current === 'light' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('bts-theme', next); } catch(e){}
+  updateThemeBtn();
+}
+document.addEventListener('DOMContentLoaded', updateThemeBtn);
+</script>
 
 <!-- ── Traînée emoji curseur (réutilise le même système que l'Archive) ── -->
 <script>
