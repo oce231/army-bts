@@ -4127,6 +4127,24 @@
 
   <div class="tab-pane active" id="tp-8-lives" style="display:block;padding:1.8rem 2rem 3rem">
     <div class="live-filters">
+      <select class="live-filter-btn" id="lives-year-select" onchange="filterLivesYear(this.value)" style="cursor:pointer">
+      <option value="all">Toutes années</option>
+      <option value="2012">2012</option>
+      <option value="2013">2013</option>
+      <option value="2014">2014</option>
+      <option value="2015">2015</option>
+      <option value="2016">2016</option>
+      <option value="2017">2017</option>
+      <option value="2018">2018</option>
+      <option value="2019">2019</option>
+      <option value="2020">2020</option>
+      <option value="2021">2021</option>
+      <option value="2022">2022</option>
+      <option value="2023">2023</option>
+      <option value="2024">2024</option>
+      <option value="2025">2025</option>
+      <option value="2026">2026</option>
+    </select>
       <button class="live-filter-btn active" onclick="filterLives(this,'all')">Tous</button>
       <button class="live-filter-btn" onclick="filterLives(this,'ot7')">OT7</button>
       <button class="live-filter-btn" onclick="filterLives(this,'rm')">RM</button>
@@ -4543,34 +4561,47 @@ const LIVES_DATA = [
   {title:'Jimin · YouTube · Vlog · 02/09/2013',members:['jimin'],date:'2013-09-02',dateLabel:'02/09/2013',href:'https://youtu.be/kaGvqN5MQjI?si=2j1JmR1Flh4GA2ly',type:'live'},
   {title:'RM · YouTube · Vlog · 25/08/2013',members:['rm'],date:'2013-08-25',dateLabel:'25/08/2013',href:'https://youtu.be/ATANEDmGHdk?si=CUb6RoK0bbvJdkBM',type:'live'},
   {title:'J-Hope · YouTube · Vlog · 17/09/2013',members:['jhope'],date:'2013-09-17',dateLabel:'17/09/2013',href:'https://youtu.be/x9xn1vPrl5A?si=nl7ZYExxJWKjCuGn',type:'live'},
+{title:'Jin · YouTube · Vlog · 04/09/2013',members:['jin'],date:'2013-09-04',dateLabel:'04/09/2013',href:'https://youtu.be/Zq3-ahCfdyc?si=NVWu5V_BcN-GKadx',type:'live'},
+  {title:'RM & JK · YouTube · Vlog · 07/09/2013',members:['rm','jk'],date:'2013-09-07',dateLabel:'07/09/2013',href:'https://youtu.be/bSGBvLU-za4?si=3NN60B-Abi4pHoQY',type:'live'},
+  {title:'J-Hope & V · YouTube · Vlog · 08/09/2013',members:['jhope','v'],date:'2013-09-08',dateLabel:'08/09/2013',href:'https://youtu.be/u371iWH4QRI?si=9cTfLnKv5xwr1eKi',type:'live'},
+  {title:'Jimin · YouTube · Vlog · 09/09/2013',members:['jimin'],date:'2013-09-09',dateLabel:'09/09/2013',href:'https://youtu.be/A3WE93dTkWI?si=jhyAYmU0YOKSfbfn',type:'live'},
+  {title:'Jin · YouTube · Vlog · 12/10/2013',members:['jin'],date:'2013-10-12',dateLabel:'12/10/2013',href:'https://youtu.be/fSI6NQ_6hug?si=pLkVuiiMeX2gznV0',type:'live'},
+  {title:'J-Hope & Jimin · YouTube · Vlog · 13/10/2013',members:['jhope','jimin'],date:'2013-10-13',dateLabel:'13/10/2013',href:'https://youtu.be/NqorP_XURm0?si=h6MeJE_4tLR3GPDT',type:'live'},
+  {title:'RM & V · YouTube · Vlog · 14/10/2013',members:['rm','v'],date:'2013-10-14',dateLabel:'14/10/2013',href:'https://youtu.be/PmeK-wJeieo?si=A_vzCYN4AC59q_Cg',type:'live'},
+  {title:'Suga · YouTube · Vlog · 16/10/2013',members:['suga'],date:'2013-10-16',dateLabel:'16/10/2013',href:'https://youtu.be/jQUwj-DLp6Q?si=hhmj4ivT5cqBQ84T',type:'live'},
+  {title:'RM · YouTube · Vlog · 17/10/2013',members:['rm'],date:'2013-10-17',dateLabel:'17/10/2013',href:'https://youtu.be/Qv9cdbhe308?si=QwZzt7KTbGSJPtdY',type:'live'},
+  {title:'JK · YouTube · Vlog · 20/10/2013',members:['jk'],date:'2013-10-20',dateLabel:'20/10/2013',href:'https://youtu.be/GT43f1oJyyY?si=lVfTeSMIIDhwjpL9',type:'live'},
+  {title:'V · YouTube · Vlog · 21/10/2013',members:['v'],date:'2013-10-21',dateLabel:'21/10/2013',href:'https://youtu.be/Whu4LiDnars?si=Q3aFf-jNPdyk0Myg',type:'live'},
+  {title:'Jimin · YouTube · Vlog · 01/11/2013',members:['jimin'],date:'2013-11-01',dateLabel:'01/11/2013',href:'https://youtu.be/Y44Zr6NwkAk?si=UWgdnKJKqpAK1f8Q',type:'live'},
+  {title:'J-Hope · YouTube · Vlog · 02/11/2013',members:['jhope'],date:'2013-11-02',dateLabel:'02/11/2013',href:'https://youtu.be/qgoa2stufFI?si=laiP9bES3A3vFpXT',type:'live'},
+  {title:'Jin & JK · YouTube · Vlog · 03/11/2013',members:['jin','jk'],date:'2013-11-03',dateLabel:'03/11/2013',href:'https://youtu.be/gixusYLo-gg?si=flPP-taOtY3exJxP',type:'live'},
+  {title:'RM & J-Hope · YouTube · Vlog · 16/11/2013',members:['rm','jhope'],date:'2013-11-16',dateLabel:'16/11/2013',href:'https://youtu.be/ARdQ6FckfXQ?si=XQ1mcTFliohhRgeS',type:'live'},
+  {title:'Suga & Jimin · YouTube · Vlog · 19/11/2013',members:['suga','jimin'],date:'2013-11-19',dateLabel:'19/11/2013',href:'https://youtu.be/5rV5YzT2j8o?si=7jb8pgMU2ZM-cy-G',type:'live'},
+  {title:'Jin & V · YouTube · Vlog · 22/11/2013',members:['jin','v'],date:'2013-11-22',dateLabel:'22/11/2013',href:'https://youtu.be/t68qZcPMFWc?si=Lb_OLp_GnxSWfmaB',type:'live'},
+  {title:'JK · YouTube · Vlog · 23/11/2013',members:['jk'],date:'2013-11-23',dateLabel:'23/11/2013',href:'https://youtu.be/vFFOEIqQR_c?si=L7WGMe2aasQur-QM',type:'live'},
+  {title:'Jin · YouTube · Vlog · 04/12/2013',members:['jin'],date:'2013-12-04',dateLabel:'04/12/2013',href:'https://youtu.be/LQGhtLv_hzY?si=V2Wmeuj9VC9WPC8b',type:'live'},
+  {title:'V · YouTube · Vlog · 01/01/2014',members:['v'],date:'2014-01-01',dateLabel:'01/01/2014',href:'https://youtu.be/1QMBtmk_Y_g?si=hOM9vSIDDlyeJUZb',type:'live'},
+  {title:'J-Hope · YouTube · Vlog · 03/01/2014',members:['jhope'],date:'2014-01-03',dateLabel:'03/01/2014',href:'https://youtu.be/D4MglibLpDA?si=pXgju_FhS1oaNppJ',type:'live'},
+  {title:'Jimin · YouTube · Vlog · 03/01/2014',members:['jimin'],date:'2014-01-03',dateLabel:'03/01/2014',href:'https://youtu.be/JKyuyfL_0EQ?si=eU4rbsGMZcI3MAbA',type:'live'},
+  {title:'Jin · YouTube · Vlog · 04/01/2014',members:['jin'],date:'2014-01-04',dateLabel:'04/01/2014',href:'https://youtu.be/_q-P1Ep1nDo?si=OOCk8oI3K8NFS7On',type:'live'},
+  {title:'RM · YouTube · Vlog · 05/01/2014',members:['rm'],date:'2014-01-05',dateLabel:'05/01/2014',href:'https://youtu.be/JQuosHB-pQU?si=ItPMZMdet7u_7vog',type:'live'},
+  {title:'Suga · YouTube · Vlog · 15/01/2014',members:['suga'],date:'2014-01-15',dateLabel:'15/01/2014',href:'https://youtu.be/HGAa0ZWc5TQ?si=xnLf1kD7-EVgnGZx',type:'live'},
+  {title:'J-Hope & JK · YouTube · Vlog · 18/01/2014',members:['jhope','jk'],date:'2014-01-18',dateLabel:'18/01/2014',href:'https://youtu.be/Wbl1V1uhJb4?si=FZ4pay5XcglXldOx',type:'live'},
+  {title:'OT7 · YouTube · Vlog · 26/01/2014',members:['ot7'],date:'2014-01-26',dateLabel:'26/01/2014',href:'https://youtu.be/KtqHWJNefl4?si=y89LaHYOhWj9hVZA',type:'live'},
+  {title:'V · YouTube · Vlog · 18/02/2014',members:['v'],date:'2014-02-18',dateLabel:'18/02/2014',href:'https://youtu.be/xCNYWPA0OAU?si=GaMDgijfcjYYEDev',type:'live'},
 ];
 
 let livesSortAsc = false;
 let livesCurrentFilter = 'all';
-
-// Extrait l'ID vidéo YouTube si le lien est un vrai lien (pas une recherche)
-function extractYouTubeId(url) {
-  if (!url) return null;
-  let m = url.match(/[?&]v=([^&]+)/);
-  if (m) return m[1];
-  m = url.match(/youtu\.be\/([^?&]+)/);
-  if (m) return m[1];
-  m = url.match(/youtube\.com\/embed\/([^?&]+)/);
-  if (m) return m[1];
-  return null;
-}
-
-// Retourne l'URL de thumbnail à utiliser, ou null s'il faut afficher l'emoji
-function getLiveThumb(live) {
-  if (live.thumb) return live.thumb; // override manuel possible
-  const id = extractYouTubeId(live.href);
-  return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null;
-}
+let livesCurrentYear = 'all';
 
 function renderLives() {
   let data = [...LIVES_DATA];
   if (livesCurrentFilter !== 'all') {
     data = data.filter(l => l.members.includes(livesCurrentFilter));
+  }
+  if (livesCurrentYear !== 'all') {
+    data = data.filter(l => l.date.slice(0,4) === livesCurrentYear);
   }
   data.sort((a,b) => {
     return livesSortAsc
@@ -4599,6 +4630,25 @@ function renderLives() {
   }).join('');
 }
 
+function filterLives(btn, member) {
+  document.querySelectorAll('.live-filter-btn').forEach(b => {
+    if (b.tagName === 'BUTTON') b.classList.remove('active');
+  });
+  btn.classList.add('active');
+  livesCurrentFilter = member;
+  renderLives();
+}
+
+function filterLivesYear(year) {
+  livesCurrentYear = year;
+  renderLives();
+}
+
+function toggleLivesSort() {
+  livesSortAsc = !livesSortAsc;
+  document.getElementById('sort-icon').textContent = livesSortAsc ? '↑' : '↓';
+  renderLives();
+}
 function filterLives(btn, member) {
   document.querySelectorAll('.live-filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
