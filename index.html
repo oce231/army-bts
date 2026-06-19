@@ -4426,6 +4426,7 @@ function toggleEpisodes(btn) {
 // LIVES DATA
 // ─────────────────────────────────────────────
 // Config membres : badge + emoji de secours (si pas de thumbnail dispo)
+// Config membres : badge + emoji de secours (si pas de thumbnail dispo)
 const MEMBER_INFO = {
   ot7:   { badge: 'OT7',    emoji: '💜' },
   rm:    { badge: 'RM',     emoji: '🐨' },
@@ -4436,6 +4437,25 @@ const MEMBER_INFO = {
   v:     { badge: 'V',      emoji: '🐯' },
   jk:    { badge: 'JK',     emoji: '🐰' },
 };
+
+// Extrait l'ID vidéo YouTube si le lien est un vrai lien (pas une recherche)
+function extractYouTubeId(url) {
+  if (!url) return null;
+  let m = url.match(/[?&]v=([^&]+)/);
+  if (m) return m[1];
+  m = url.match(/youtu\.be\/([^?&]+)/);
+  if (m) return m[1];
+  m = url.match(/youtube\.com\/embed\/([^?&]+)/);
+  if (m) return m[1];
+  return null;
+}
+
+// Retourne l'URL de thumbnail à utiliser, ou null s'il faut afficher l'emoji
+function getLiveThumb(live) {
+  if (live.thumb) return live.thumb;
+  const id = extractYouTubeId(live.href);
+  return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null;
+}
 
 const LIVES_DATA = [
   {title:'Suga · YouTube · Weverse · 24/08/2022',members:['suga'],date:'2022-08-24',dateLabel:'24/08/2022',href:'https://youtu.be/W6wGdJaJrGI?si=YVE1B710hXzTwc7Z',type:'live'},
@@ -4561,7 +4581,7 @@ const LIVES_DATA = [
   {title:'Jimin · YouTube · Vlog · 02/09/2013',members:['jimin'],date:'2013-09-02',dateLabel:'02/09/2013',href:'https://youtu.be/kaGvqN5MQjI?si=2j1JmR1Flh4GA2ly',type:'live'},
   {title:'RM · YouTube · Vlog · 25/08/2013',members:['rm'],date:'2013-08-25',dateLabel:'25/08/2013',href:'https://youtu.be/ATANEDmGHdk?si=CUb6RoK0bbvJdkBM',type:'live'},
   {title:'J-Hope · YouTube · Vlog · 17/09/2013',members:['jhope'],date:'2013-09-17',dateLabel:'17/09/2013',href:'https://youtu.be/x9xn1vPrl5A?si=nl7ZYExxJWKjCuGn',type:'live'},
-{title:'Jin · YouTube · Vlog · 04/09/2013',members:['jin'],date:'2013-09-04',dateLabel:'04/09/2013',href:'https://youtu.be/Zq3-ahCfdyc?si=NVWu5V_BcN-GKadx',type:'live'},
+  {title:'Jin · YouTube · Vlog · 04/09/2013',members:['jin'],date:'2013-09-04',dateLabel:'04/09/2013',href:'https://youtu.be/Zq3-ahCfdyc?si=NVWu5V_BcN-GKadx',type:'live'},
   {title:'RM & JK · YouTube · Vlog · 07/09/2013',members:['rm','jk'],date:'2013-09-07',dateLabel:'07/09/2013',href:'https://youtu.be/bSGBvLU-za4?si=3NN60B-Abi4pHoQY',type:'live'},
   {title:'J-Hope & V · YouTube · Vlog · 08/09/2013',members:['jhope','v'],date:'2013-09-08',dateLabel:'08/09/2013',href:'https://youtu.be/u371iWH4QRI?si=9cTfLnKv5xwr1eKi',type:'live'},
   {title:'Jimin · YouTube · Vlog · 09/09/2013',members:['jimin'],date:'2013-09-09',dateLabel:'09/09/2013',href:'https://youtu.be/A3WE93dTkWI?si=jhyAYmU0YOKSfbfn',type:'live'},
