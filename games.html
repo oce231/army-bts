@@ -66,8 +66,15 @@
     <div id="gq-intro" class="gq-card">
       <div class="gq-intro-emoji">🧠</div>
       <h2 class="gq-intro-title">Quiz BTS Général</h2>
-      <p class="gq-intro-desc">20 questions sur l'histoire, les membres, la musique et les anecdotes de BTS. Découvre si tu es Casual ARMY, Vétéran·ne ou Expert·e !</p>
-      <button class="gq-btn gq-btn-main" onclick="gqStart()">Commencer le quiz</button>
+      <p class="gq-intro-desc">20 questions tirées au hasard sur l'histoire, les membres, la musique et les anecdotes de BTS. Choisis ton niveau pour commencer !</p>
+      <div class="gq-diff-choice">
+        <button class="gq-btn gq-btn-main gq-diff-btn" onclick="gqStart('easy')">
+          🌱 Facile
+        </button>
+        <button class="gq-btn gq-btn-main gq-diff-btn gq-diff-hard" onclick="gqStart('hard')">
+          🔥 Difficile
+        </button>
+      </div>
     </div>
 
     <!-- Écran question -->
@@ -87,6 +94,7 @@
     <div id="gq-result" class="gq-card" style="display:none">
       <span class="gq-result-emoji" id="gq-r-emoji"></span>
       <div class="gq-result-score"><span id="gq-r-score"></span><span class="gq-result-max">/ 20</span></div>
+      <div class="gq-result-diff" id="gq-r-diff"></div>
       <div class="gq-result-level" id="gq-r-level"></div>
       <div class="gq-result-desc" id="gq-r-desc"></div>
       <div class="gq-result-actions">
@@ -264,10 +272,10 @@
     <div id="vf-intro">
       <div class="gq-intro-emoji">❓</div>
       <div class="gq-intro-title">Vrai ou Faux ?</div>
-      <p class="gq-intro-desc">20 anecdotes sur BTS — certaines vraies, d'autres fausses. Sauras-tu faire la différence ?</p>
+      <p class="gq-intro-desc">20 anecdotes sur BTS tirées au hasard — certaines vraies, d'autres fausses. Sauras-tu faire la différence ?</p>
       <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
-        <button class="gq-btn" onclick="vfStart('easy')">🟢 Facile — 10 questions</button>
-        <button class="gq-btn" onclick="vfStart('hard')">🔴 Difficile — 15 questions</button>
+        <button class="gq-btn" onclick="vfStart('easy')">🟢 Facile — 20 questions</button>
+        <button class="gq-btn" onclick="vfStart('hard')">🔴 Difficile — 20 questions</button>
       </div>
     </div>
     <div id="vf-game" style="display:none;">
@@ -286,6 +294,7 @@
     <div id="vf-result" style="display:none;text-align:center;">
       <span id="vf-res-emoji" style="font-size:52px;display:block;margin-bottom:.8rem;"></span>
       <div class="gq-result-score"><span id="vf-res-score">0</span><span class="gq-result-max" id="vf-res-max">/10</span></div>
+      <div class="gq-result-diff" id="vf-res-diff"></div>
       <div id="vf-res-level" style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:.6rem;color:var(--text);"></div>
       <p id="vf-res-desc" style="font-size:12px;color:var(--text2);line-height:1.7;max-width:420px;margin:0 auto 1.4rem;"></p>
       <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
@@ -557,34 +566,124 @@
 /* ══════════════════════════════════════════════
    QUIZ BTS GÉNÉRAL — 20 QUESTIONS
 ══════════════════════════════════════════════ */
-const GQ_QUESTIONS = [
-  { q: "En quelle année BTS a-t-il officiellement débuté ?", a: ["2010","2013","2015","2012"], correct: 1 },
-  { q: "Que signifie l'acronyme BTS en coréen ?", a: ["Bangtan Sonyeondan","Big Top Star","Best Top Singers","Beyond The Scene seulement"], correct: 0 },
-  { q: "Quel membre est surnommé \"le leader\" du groupe ?", a: ["Jin","SUGA","RM","V"], correct: 2 },
-  { q: "Quel est le titre du premier single de BTS ?", a: ["No More Dream","We Are Bulletproof Pt.2","N.O","Boy in Luv"], correct: 1 },
-  { q: "Quel membre est le plus âgé ?", a: ["RM","Jin","SUGA","j-hope"], correct: 1 },
-  { q: "Quel membre est le plus jeune (le \"maknae\") ?", a: ["V","Jimin","Jung Kook","j-hope"], correct: 2 },
-  { q: "Quelle chanson a valu à BTS son premier Daesang (prix majeur) ?", a: ["DNA","Spring Day","Blood Sweat & Tears","Fire"], correct: 2 },
-  { q: "En quelle année BTS a-t-il parlé à l'Assemblée Générale de l'ONU pour la première fois ?", a: ["2017","2018","2019","2020"], correct: 1 },
-  { q: "Quel est le nom du fandom de BTS ?", a: ["BTS Family","ARMY","Bangtan Bombs","Purple Hearts"], correct: 1 },
-  { q: "Quel membre a pour nom de scène \"Agust D\" ?", a: ["RM","SUGA","j-hope","Jin"], correct: 1 },
-  { q: "Quelle agence gère BTS ?", a: ["SM Entertainment","JYP Entertainment","HYBE (Big Hit)","YG Entertainment"], correct: 2 },
-  { q: "Quel album a marqué le début de la série \"Map of the Soul\" ?", a: ["Persona","Wings","Love Yourself: Her","BE"], correct: 0 },
-  { q: "Quelle chanson de BTS a atteint la 1ère place du Billboard Hot 100 en 2020 ?", a: ["Boy With Luv","ON","Dynamite","Black Swan"], correct: 2 },
-  { q: "Quel membre est connu pour son surnom \"Worldwide Handsome\" ?", a: ["V","Jin","Jimin","Jung Kook"], correct: 1 },
-  { q: "Dans quelle ville coréenne BTS a-t-il été formé ?", a: ["Busan","Daegu","Séoul","Incheon"], correct: 2 },
-  { q: "Quel est le nom du personnage BT21 créé par Jimin ?", a: ["CHIMMY","COOKY","TATA","SHOOKY"], correct: 0 },
-  { q: "Quelle chanson parle du concept \"Love Yourself\" présenté à l'ONU ?", a: ["IDOL","Answer: Love Myself","Magic Shop","Epiphany"], correct: 1 },
-  { q: "Quel membre a sorti l'album solo \"D-2\" sous le nom Agust D ?", a: ["RM","j-hope","SUGA","Jung Kook"], correct: 2 },
-  { q: "En quelle année BTS a-t-il reçu une distinction honorifique du gouvernement sud-coréen (Ordre du Mérite Culturel) ?", a: ["2018","2019","2020","2021"], correct: 1 },
-  { q: "Quel single est sorti pour célébrer les 5 ans depuis les débuts de BTS, avant l'annonce d'une pause ?", a: ["Euphoria","Heartbeat","Dynamite","Save Me"], correct: 0 },
+const GQ_EASY = [
+  { q: "En quelle année BTS a-t-il débuté ?", correct: "2013", wrong: ["2010", "2015", "2012"] },
+  { q: "Combien de membres composent BTS ?", correct: "7", wrong: ["5", "6", "8"] },
+  { q: "Comment s'appelle le fandom officiel de BTS ?", correct: "ARMY", wrong: ["BTS Family", "Bangtan Bombs", "Purple Hearts"] },
+  { q: "Quel membre est le leader de BTS ?", correct: "RM", wrong: ["Jin", "SUGA", "V"] },
+  { q: "Quel membre est le plus jeune du groupe ?", correct: "Jung Kook", wrong: ["V", "Jimin", "j-hope"] },
+  { q: "Quel membre est surnommé \"Worldwide Handsome\" ?", correct: "Jin", wrong: ["V", "Jimin", "Jung Kook"] },
+  { q: "Quel est le vrai nom de V ?", correct: "Kim Taehyung", wrong: ["Kim Namjoon", "Min Yoongi", "Jeon Jungkook"] },
+  { q: "Quel est le vrai nom de RM ?", correct: "Kim Namjoon", wrong: ["Kim Seokjin", "Kim Taehyung", "Park Jimin"] },
+  { q: "Quel est le vrai nom de SUGA ?", correct: "Min Yoongi", wrong: ["Jung Hoseok", "Kim Namjoon", "Kim Taehyung"] },
+  { q: "Quel est le vrai nom de j-hope ?", correct: "Jung Hoseok", wrong: ["Min Yoongi", "Park Jimin", "Kim Seokjin"] },
+  { q: "Quel membre est surnommé le \"Golden Maknae\" ?", correct: "Jung Kook", wrong: ["V", "Jimin", "SUGA"] },
+  { q: "Quel est le premier MV officiel de BTS ?", correct: "No More Dream", wrong: ["N.O", "Boy in Luv", "We Are Bulletproof Pt.2"] },
+  { q: "Quelle agence a créé BTS ?", correct: "Big Hit Entertainment", wrong: ["SM Entertainment", "JYP Entertainment", "YG Entertainment"] },
+  { q: "Quel est le nom du lightstick officiel de BTS ?", correct: "ARMY Bomb", wrong: ["Bangtan Stick", "Purple Light", "BTS Wand"] },
+  { q: "Quelle chanson a été le premier numéro 1 de BTS au Billboard Hot 100 ?", correct: "Dynamite", wrong: ["Boy With Luv", "ON", "Black Swan"] },
+  { q: "Quelle chanson est connue avec le refrain \"I purple you\" dans l'univers BTS ?", correct: "Serendipity", wrong: ["Magic Shop", "Epiphany", "Singularity"] },
+  { q: "Quel album contient \"Fake Love\" ?", correct: "Love Yourself: Tear", wrong: ["Love Yourself: Her", "Love Yourself: Answer", "Map of the Soul: Persona"] },
+  { q: "Quel album contient \"DNA\" ?", correct: "Love Yourself: Her", wrong: ["Love Yourself: Tear", "Wings", "BE"] },
+  { q: "Quel album contient \"Life Goes On\" ?", correct: "BE", wrong: ["Map of the Soul: 7", "Love Yourself: Answer", "Proof"] },
+  { q: "Quel album contient \"ON\" ?", correct: "Map of the Soul: 7", wrong: ["Map of the Soul: Persona", "Love Yourself: Her", "Wings"] },
+  { q: "Quelle chanson parle de croire en ses rêves au début de BTS ?", correct: "No More Dream", wrong: ["N.O", "Boy in Luv", "Danger"] },
+  { q: "Quel membre est un rappeur du groupe ?", correct: "RM", wrong: ["Jin", "Jimin", "V"] },
+  { q: "Quel membre est connu pour sa danse ?", correct: "j-hope", wrong: ["Jin", "RM", "SUGA"] },
+  { q: "Quel membre est surnommé \"Mochi\" par les fans ?", correct: "Jimin", wrong: ["V", "Jung Kook", "Jin"] },
+  { q: "Quel membre a un personnage BT21 appelé Tata ?", correct: "V", wrong: ["RM", "Jin", "SUGA"] },
+  { q: "Quel personnage BT21 appartient à Jung Kook ?", correct: "Cooky", wrong: ["Koya", "RJ", "Mang"] },
+  { q: "Quel personnage BT21 appartient à RM ?", correct: "Koya", wrong: ["Cooky", "Shooky", "Chimmy"] },
+  { q: "Quel personnage BT21 appartient à Jin ?", correct: "RJ", wrong: ["Koya", "Mang", "Tata"] },
+  { q: "Quel personnage BT21 appartient à j-hope ?", correct: "Mang", wrong: ["RJ", "Cooky", "Shooky"] },
+  { q: "Quel personnage BT21 appartient à SUGA ?", correct: "Shooky", wrong: ["Mang", "Chimmy", "Tata"] },
+  { q: "Quel personnage BT21 appartient à Jimin ?", correct: "Chimmy", wrong: ["Shooky", "Koya", "RJ"] },
+  { q: "Quelle chanson BTS est sortie en 2021 et donne une ambiance estivale ?", correct: "Butter", wrong: ["Dynamite", "Permission to Dance", "Life Goes On"] },
+  { q: "Quelle chanson parle de l'amour de soi ?", correct: "Answer: Love Myself", wrong: ["IDOL", "Epiphany", "Magic Shop"] },
+  { q: "Quel membre a sorti l'album \"Jack In The Box\" ?", correct: "j-hope", wrong: ["RM", "SUGA", "V"] },
+  { q: "Quel membre a sorti l'album \"Indigo\" ?", correct: "RM", wrong: ["j-hope", "SUGA", "Jin"] },
+  { q: "Quel membre utilise aussi le nom Agust D ?", correct: "SUGA", wrong: ["RM", "j-hope", "Jung Kook"] },
+  { q: "Quel est le nom de l'émission où BTS joue souvent à des jeux ?", correct: "Run BTS!", wrong: ["BTS in the SOOP", "Bon Voyage", "American Hustle Life"] },
+  { q: "Quel est le nom du chien de V ?", correct: "Yeontan", wrong: ["Jjangu", "Mickey", "Mong"] },
+  { q: "Dans quel pays BTS est-il originaire ?", correct: "Corée du Sud", wrong: ["Japon", "Chine", "Corée du Nord"] },
+  { q: "Quel symbole est souvent associé à BTS et ARMY ?", correct: "Le cœur violet 💜", wrong: ["L'étoile dorée ⭐", "Le papillon 🦋", "La couronne 👑"] },
 ];
+
+const GQ_HARD = [
+  { q: "Quel était le nom complet de BTS avant l'ajout de \"Beyond The Scene\" ?", correct: "Bangtan Sonyeondan", wrong: ["Bulletproof Boy Scouts", "Big Top Star", "Bangtan Soldiers"] },
+  { q: "Quel membre était connu sous le nom de scène \"Gloss\" avant ses débuts ?", correct: "SUGA", wrong: ["RM", "j-hope", "V"] },
+  { q: "Quel était le premier album de la trilogie \"School\" ?", correct: "2 Cool 4 Skool", wrong: ["Skool Luv Affair", "O!RUL8,2?", "Dark & Wild"] },
+  { q: "Quel album termine la série \"School\" ?", correct: "Skool Luv Affair", wrong: ["2 Cool 4 Skool", "Dark & Wild", "O!RUL8,2?"] },
+  { q: "Quel album a lancé l'ère HYYH ?", correct: "The Most Beautiful Moment in Life, Pt.1", wrong: ["The Most Beautiful Moment in Life, Pt.2", "Young Forever", "Wings"] },
+  { q: "Que signifie HYYH ?", correct: "Hwa Yang Yeon Hwa", wrong: ["Hangang Yeonbam Yeoja", "Haru Yeonin Yaksok", "Hana Yeolli Yeoksa"] },
+  { q: "Quel titre a donné à BTS leur première victoire dans une émission musicale ?", correct: "I Need U", wrong: ["Boy in Luv", "Danger", "N.O"] },
+  { q: "Quel album contient \"Blood Sweat & Tears\" ?", correct: "Wings", wrong: ["Love Yourself: Her", "Map of the Soul: Persona", "Young Forever"] },
+  { q: "Quel thème central explore l'album Wings ?", correct: "La tentation, la croissance et l'introspection", wrong: ["L'amour de soi et l'acceptation", "Les rêves de jeunesse et la liberté", "La séparation et les retrouvailles"] },
+  { q: "Quel membre a écrit \"The Last\" sous le nom Agust D ?", correct: "SUGA", wrong: ["RM", "j-hope", "Jin"] },
+  { q: "Quel membre a sorti la mixtape \"Hope World\" ?", correct: "j-hope", wrong: ["RM", "SUGA", "Jung Kook"] },
+  { q: "Quel membre a sorti la mixtape \"mono.\" ?", correct: "RM", wrong: ["SUGA", "j-hope", "V"] },
+  { q: "Quel album solo de Jin contient \"The Astronaut\" ?", correct: "Aucun album (single)", wrong: ["Echo", "Yours", "Tonight"] },
+  { q: "Quel album BTS contient \"Black Swan\" ?", correct: "Map of the Soul: 7", wrong: ["Map of the Soul: Persona", "Love Yourself: Answer", "BE"] },
+  { q: "Quel album BTS contient \"Boy With Luv\" ?", correct: "Map of the Soul: Persona", wrong: ["Map of the Soul: 7", "Love Yourself: Tear", "Wings"] },
+  { q: "Quel titre est souvent appelé \"la chanson éternelle\" par les ARMY ?", correct: "Spring Day", wrong: ["Epiphany", "Magic Shop", "Save Me"] },
+  { q: "Quel membre a écrit et produit \"Trivia: Love\" ?", correct: "RM", wrong: ["SUGA", "j-hope", "Jin"] },
+  { q: "Quel membre a composé \"Trivia: Seesaw\" ?", correct: "SUGA", wrong: ["RM", "j-hope", "V"] },
+  { q: "Quel membre a interprété \"Serendipity\" ?", correct: "Jimin", wrong: ["V", "Jung Kook", "Jin"] },
+  { q: "Quel membre a interprété \"Stigma\" ?", correct: "V", wrong: ["Jimin", "Jin", "Jung Kook"] },
+  { q: "Quel membre a interprété \"Awake\" ?", correct: "Jin", wrong: ["V", "j-hope", "RM"] },
+  { q: "Quel membre a interprété \"Begin\" ?", correct: "Jung Kook", wrong: ["V", "Jimin", "j-hope"] },
+  { q: "Quel membre a interprété \"Lie\" ?", correct: "Jimin", wrong: ["V", "Jung Kook", "SUGA"] },
+  { q: "Quel membre a interprété \"First Love\" ?", correct: "SUGA", wrong: ["RM", "j-hope", "Jin"] },
+  { q: "Quel membre a interprété \"MAMA\" ?", correct: "j-hope", wrong: ["RM", "SUGA", "V"] },
+  { q: "Quel membre a interprété \"Reflection\" ?", correct: "RM", wrong: ["SUGA", "j-hope", "Jin"] },
+  { q: "Quel membre a interprété \"Euphoria\" ?", correct: "Jung Kook", wrong: ["V", "Jimin", "Jin"] },
+  { q: "Quel album contient \"Save Me\" ?", correct: "The Most Beautiful Moment in Life: Young Forever", wrong: ["Wings", "Love Yourself: Her", "Map of the Soul: 7"] },
+  { q: "Quel album contient \"Spring Day\" ?", correct: "You Never Walk Alone", wrong: ["Young Forever", "Wings", "Love Yourself: Tear"] },
+  { q: "Quel était le premier concert de BTS aux États-Unis ?", correct: "The Red Bullet Tour (Amérique du Nord)", wrong: ["The Wings Tour", "Love Yourself Tour", "Speak Yourself Tour"] },
+  { q: "Quel prix BTS a remporté en premier aux Billboard Music Awards ?", correct: "Top Social Artist", wrong: ["Top Duo/Group", "Top Selling Song", "Top Artist"] },
+  { q: "En quelle année BTS a-t-il prononcé son premier discours à l'ONU ?", correct: "2018", wrong: ["2017", "2019", "2020"] },
+  { q: "Quel membre est le dernier à avoir été révélé avant les débuts ?", correct: "V", wrong: ["Jung Kook", "Jimin", "SUGA"] },
+  { q: "Quel membre est originaire de Daegu ?", correct: "V / SUGA", wrong: ["RM / Jin", "Jimin / Jung Kook", "j-hope / RM"] },
+  { q: "Quel membre est originaire de Busan ?", correct: "Jung Kook / Jimin", wrong: ["V / SUGA", "RM / Jin", "j-hope / V"] },
+  { q: "Quel était le premier album japonais de BTS ?", correct: "Wake Up", wrong: ["Youth", "Face Yourself", "Map of the Soul: 7 ~The Journey~"] },
+  { q: "Quel album compile plusieurs titres des débuts et des nouveautés en 2022 ?", correct: "Proof", wrong: ["BE", "Map of the Soul: 7", "Love Yourself: Answer"] },
+  { q: "Quel morceau inédit de Proof a été très attendu par les ARMY ?", correct: "Run BTS", wrong: ["Yet To Come", "For Youth", "Born Singer"] },
+  { q: "Quel concert à Busan a été organisé pour soutenir la candidature de la ville à l'Expo 2030 ?", correct: "Yet To Come in BUSAN", wrong: ["Permission to Dance On Stage", "Speak Yourself: The Final", "Map of the Soul ON:E"] },
+  { q: "Quel membre a sorti l'album \"D-DAY\" ?", correct: "SUGA (Agust D)", wrong: ["RM", "j-hope", "Jin"] },
+];
+
+/* Mélange Fisher-Yates */
+function gqShuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* Construit un pool de N questions tirées au hasard depuis la banque,
+   avec les 4 réponses mélangées et l'index de la bonne réponse recalculé */
+function gqBuildPool(bank, count) {
+  const picked = gqShuffle(bank).slice(0, count);
+  return picked.map(item => {
+    const answers = gqShuffle([item.correct, ...item.wrong]);
+    return { q: item.q, a: answers, correct: answers.indexOf(item.correct) };
+  });
+}
+
+let GQ_QUESTIONS = [];
+let gqDifficulty = 'easy';
+
 
 let gqIndex = 0;
 let gqScore = 0;
 let gqAnswered = false;
 
-window.gqStart = function() {
+window.gqStart = function(difficulty) {
+  gqDifficulty = difficulty || 'easy';
+  const bank = gqDifficulty === 'hard' ? GQ_HARD : GQ_EASY;
+  GQ_QUESTIONS = gqBuildPool(bank, 20);
   gqIndex = 0;
   gqScore = 0;
   document.getElementById('gq-intro').style.display = 'none';
@@ -655,6 +754,7 @@ function gqShowResult() {
 
   document.getElementById('gq-r-emoji').textContent = level.emoji;
   document.getElementById('gq-r-score').textContent = gqScore;
+  document.getElementById('gq-r-diff').textContent = gqDifficulty === 'hard' ? '🔥 Mode Difficile' : '🌱 Mode Facile';
   document.getElementById('gq-r-level').textContent = level.level;
   document.getElementById('gq-r-desc').textContent = level.desc;
   lbSubmitScore('general', gqScore, 20, {});
@@ -704,7 +804,8 @@ function gqDrawShareCard(level, score) {
   ctx.textAlign = 'center';
   ctx.fillStyle = 'rgba(255,255,255,0.6)';
   ctx.font = '600 22px "Space Mono", monospace';
-  ctx.fillText('✦ QUIZ BTS GÉNÉRAL ✦', W/2, 130);
+  const diffLabel = gqDifficulty === 'hard' ? '✦ QUIZ BTS — MODE DIFFICILE ✦' : '✦ QUIZ BTS — MODE FACILE ✦';
+  ctx.fillText(diffLabel, W/2, 130);
 
   ctx.font = '160px serif';
   ctx.fillText(level.emoji, W/2, 360);
@@ -1500,31 +1601,96 @@ function btShowResult() {
    VRAI OU FAUX  (fonctions globales)
 ══════════════════════════════════════ */
 var _vfQ=[],_vfCurrent=0,_vfScore=0,_vfTotal=10,_vfAnswered=false,_vfResData={};
-var VF_ALL=[
-  {q:"BTS est composé de 7 membres.",ans:true,expl:"RM, Jin, Suga, J-Hope, Jimin, V et Jungkook — les 7 depuis 2013."},
-  {q:"Le vrai prénom de Suga est Min Yoongi.",ans:true,expl:"Min Yoongi est son nom coréen. Suga est son nom de scène."},
-  {q:"Jungkook est le maknae (plus jeune) du groupe.",ans:true,expl:"Né le 1er septembre 1997, il est le plus jeune des 7."},
-  {q:"BTS vient de la ville de Busan.",ans:false,expl:"BTS est originaire de Séoul. Certains membres viennent d'autres villes."},
-  {q:"'Dynamite' est le premier titre entièrement en anglais de BTS.",ans:true,expl:"Sorti en août 2020, c'est leur premier single 100% en anglais."},
-  {q:"Le nom BTS signifie 'Behind The Scene'.",ans:false,expl:"BTS signifie 'Bangtan Sonyeondan', soit 'Bulletproof Boy Scouts'."},
-  {q:"RM est le leader officiel de BTS.",ans:true,expl:"Kim Namjoon (RM) est le leader du groupe depuis ses débuts."},
-  {q:"BTS a fait ses débuts en 2013.",ans:true,expl:"Leurs débuts officiels : le 13 juin 2013 avec 'No More Dream'."},
-  {q:"Jin est le plus vieux membre de BTS.",ans:true,expl:"Kim Seokjin est né le 4 décembre 1992, il est le plus âgé."},
-  {q:"J-Hope s'appelle Kim Taehyung dans la vraie vie.",ans:false,expl:"Kim Taehyung est le vrai nom de V. J-Hope s'appelle Jung Hoseok."},
-  {q:"Jimin est originaire de Busan.",ans:true,expl:"Park Jimin est né et a grandi à Busan, dans le sud de la Corée."},
-  {q:"BTS a été formé par SM Entertainment.",ans:false,expl:"BTS a été formé par BIGHIT Entertainment (devenu HYBE en 2021)."},
-  {q:"Le clip 'Butter' a battu le record du MV le plus vu en 24h à sa sortie.",ans:true,expl:"Butter a cumulé plus de 108 millions de vues en 24h en 2021."},
-  {q:"V (Taehyung) joue de la trompette.",ans:false,expl:"V joue du saxophone, pas de la trompette."},
-  {q:"'Spring Day' est une des chansons les plus streamées de BTS en Corée.",ans:true,expl:"Sortie en 2017, elle réapparaît chaque printemps dans les charts."},
-  {q:"Suga a sorti un album solo sous le nom 'Agust D'.",ans:true,expl:"Agust D est l'anagramme de 'DT Suga', son surnom."},
-  {q:"BTS a performé au Super Bowl en 2020.",ans:false,expl:"BTS n'a jamais performé au Super Bowl."},
-  {q:"RM a appris l'anglais principalement grâce à la série Friends.",ans:true,expl:"RM a confirmé avoir beaucoup appris en regardant Friends."},
-  {q:"Le fandom de BTS s'appelle 'ARMY' depuis 2013.",ans:true,expl:"ARMY (Adorable Representative MC for Youth) a été officialisé dès 2013."},
-  {q:"Jungkook est surnommé 'Golden Maknae' car il excelle dans tout.",ans:true,expl:"Chant, danse, rap, sport, art... Jungkook est réputé pour être doué en tout."},
+var VF_EASY=[
+  {q:"BTS a débuté en 2013.",ans:true,expl:"Leurs débuts officiels datent du 13 juin 2013 avec « No More Dream »."},
+  {q:"BTS est composé de 5 membres.",ans:false,expl:"BTS compte 7 membres : RM, Jin, SUGA, j-hope, Jimin, V et Jung Kook."},
+  {q:"Le fandom de BTS s'appelle ARMY.",ans:true,expl:"ARMY est le nom officiel du fandom depuis 2013."},
+  {q:"RM est le leader du groupe.",ans:true,expl:"Kim Namjoon (RM) est le leader de BTS depuis ses débuts."},
+  {q:"Jin est le plus jeune membre.",ans:false,expl:"Jin est au contraire le membre le plus âgé du groupe."},
+  {q:"Jung Kook est le maknae de BTS.",ans:true,expl:"Né en 1997, Jung Kook est le plus jeune des 7 membres."},
+  {q:"Dynamite est une chanson entièrement en anglais.",ans:true,expl:"Sortie en 2020, c'est leur premier single 100% en anglais."},
+  {q:"BTS vient de Corée du Sud.",ans:true,expl:"Le groupe a été formé à Séoul, en Corée du Sud."},
+  {q:"V fait partie du groupe BTS.",ans:true,expl:"Kim Taehyung, alias V, est l'un des 7 membres."},
+  {q:"SUGA utilise aussi le nom Agust D.",ans:true,expl:"Agust D est le nom de scène de SUGA pour ses projets solo."},
+  {q:"j-hope est principalement connu comme chanteur principal.",ans:false,expl:"j-hope est surtout connu pour la danse et le rap, pas comme chanteur principal."},
+  {q:"Jimin est un des danseurs principaux de BTS.",ans:true,expl:"Jimin est reconnu pour ses talents de danseur au sein du groupe."},
+  {q:"Butter est sortie en 2021.",ans:true,expl:"Le single Butter est sorti en mai 2021."},
+  {q:"Fake Love appartient à l'ère Love Yourself.",ans:true,expl:"Fake Love figure sur l'album Love Yourself: Tear."},
+  {q:"Spring Day est une chanson de BTS.",ans:true,expl:"Spring Day est un titre emblématique sorti en 2017."},
+  {q:"BTS a 10 membres.",ans:false,expl:"BTS compte 7 membres, pas 10."},
+  {q:"Jin est le membre le plus âgé.",ans:true,expl:"Né en 1992, Jin est l'aîné du groupe."},
+  {q:"RM s'appelle Kim Namjoon.",ans:true,expl:"Kim Namjoon est le vrai nom de RM."},
+  {q:"V s'appelle Kim Taehyung.",ans:true,expl:"Kim Taehyung est le vrai nom de V."},
+  {q:"Jung Kook est né en 1997.",ans:true,expl:"Jung Kook est né le 1er septembre 1997."},
+  {q:"BTS a créé les personnages BT21.",ans:true,expl:"BT21 est une collaboration entre les membres de BTS et LINE Friends."},
+  {q:"Tata est le personnage BT21 de V.",ans:true,expl:"Tata est bien le personnage BT21 conçu par V."},
+  {q:"Koya appartient à Jung Kook.",ans:false,expl:"Koya est le personnage BT21 de RM, pas de Jung Kook."},
+  {q:"Cooky est le personnage BT21 de Jung Kook.",ans:true,expl:"Cooky est le personnage BT21 imaginé par Jung Kook."},
+  {q:"No More Dream est le premier MV de BTS.",ans:true,expl:"No More Dream est leur tout premier clip officiel, sorti en 2013."},
+  {q:"BTS a commencé sous HYBE directement.",ans:false,expl:"BTS a débuté sous Big Hit Entertainment, renommé HYBE plus tard."},
+  {q:"Big Hit Entertainment est l'agence d'origine de BTS.",ans:true,expl:"Big Hit Entertainment a formé et lancé BTS en 2013."},
+  {q:"Jin est surnommé Worldwide Handsome.",ans:true,expl:"Ce surnom est associé à Jin depuis plusieurs années."},
+  {q:"ARMY signifie Adorable Representative M.C. for Youth.",ans:true,expl:"C'est la signification officielle de l'acronyme ARMY."},
+  {q:"BTS a participé à des discours à l'ONU.",ans:true,expl:"BTS s'est exprimé à plusieurs reprises devant l'Assemblée Générale de l'ONU."},
+  {q:"V est le leader de BTS.",ans:false,expl:"C'est RM qui est le leader du groupe, pas V."},
+  {q:"RM est un rappeur du groupe.",ans:true,expl:"RM fait partie de la ligne rap de BTS."},
+  {q:"Jimin est le membre le plus jeune.",ans:false,expl:"Jung Kook est le plus jeune ; Jimin est plus âgé que lui."},
+  {q:"j-hope a sorti Jack In The Box.",ans:true,expl:"Jack In The Box est l'album solo de j-hope sorti en 2022."},
+  {q:"Indigo est un album de RM.",ans:true,expl:"Indigo est l'album solo de RM sorti en 2022."},
+  {q:"D-DAY est un album de SUGA sous Agust D.",ans:true,expl:"D-DAY est sorti en 2023 sous le nom Agust D."},
+  {q:"Run BTS est une émission où les membres jouent ensemble.",ans:true,expl:"Run BTS! est un programme de variété mettant en scène les 7 membres."},
+  {q:"BTS a remporté un Grammy Award.",ans:false,expl:"BTS a été nommé aux Grammy Awards mais n'en a encore remporté aucun."},
+  {q:"Life Goes On appartient à l'album BE.",ans:true,expl:"Life Goes On figure sur l'album BE sorti en 2020."},
+  {q:"Le symbole violet est associé à BTS et ARMY.",ans:true,expl:"Le cœur violet 💜 est un symbole emblématique du lien entre BTS et ARMY."},
 ];
+var VF_HARD=[
+  {q:"V a été caché au public avant les débuts officiels de BTS.",ans:true,expl:"V a été révélé plus tardivement que les autres membres avant les débuts du groupe."},
+  {q:"BTS a gagné sa première victoire dans une émission musicale avec « I Need U ».",ans:true,expl:"I Need U a offert à BTS sa toute première victoire en émission musicale en 2015."},
+  {q:"« No More Dream » appartient à l'ère Wings.",ans:false,expl:"No More Dream appartient à l'ère des débuts (2 Cool 4 Skool), pas à Wings."},
+  {q:"HYYH signifie « The Most Beautiful Moment in Life ».",ans:true,expl:"HYYH (Hwa Yang Yeon Hwa) se traduit par « The Most Beautiful Moment in Life »."},
+  {q:"« Blood Sweat & Tears » fait partie de l'album Wings.",ans:true,expl:"Ce titre est le single principal de l'album Wings sorti en 2016."},
+  {q:"« Spring Day » est sortie en 2017.",ans:true,expl:"Spring Day est sortie en février 2017 sur l'album You Never Walk Alone."},
+  {q:"SUGA utilisait le nom Gloss avant BTS.",ans:true,expl:"SUGA utilisait ce nom de scène lors de ses débuts dans le hip-hop underground."},
+  {q:"RM était le dernier membre ajouté au groupe.",ans:false,expl:"RM a au contraire été le premier membre recruté pour BTS."},
+  {q:"Jimin a rejoint Big Hit après avoir été trainee dans une autre agence.",ans:true,expl:"Jimin avait été repéré ailleurs avant de rejoindre Big Hit Entertainment."},
+  {q:"BTS a débuté avec une image hip-hop et un concept scolaire.",ans:true,expl:"Leurs débuts s'inscrivaient dans une trilogie « School » à l'esthétique hip-hop."},
+  {q:"« The Most Beautiful Moment in Life » est aussi appelé HYYH.",ans:true,expl:"HYYH est l'acronyme coréen de cette ère emblématique."},
+  {q:"« Young Forever » est un album de la série Love Yourself.",ans:false,expl:"Young Forever appartient à l'ère HYYH, pas à Love Yourself."},
+  {q:"« You Never Walk Alone » contient « Spring Day ».",ans:true,expl:"Spring Day est le titre phare de cet album sorti en 2017."},
+  {q:"« Black Swan » appartient à Map of the Soul: 7.",ans:true,expl:"Black Swan figure sur l'album Map of the Soul: 7 sorti en 2020."},
+  {q:"« Persona » est un album solo de RM.",ans:false,expl:"Persona ouvre l'album de groupe Map of the Soul: Persona, ce n'est pas un album solo."},
+  {q:"RM a sorti l'album Indigo en 2022.",ans:true,expl:"Indigo, son premier album solo officiel, est sorti en décembre 2022."},
+  {q:"j-hope a sorti Hope World avant Jack In The Box.",ans:true,expl:"Hope World (2018) précède Jack In The Box, sorti en 2022."},
+  {q:"Agust D est le nom solo utilisé par RM.",ans:false,expl:"Agust D est le nom de scène solo de SUGA, pas de RM."},
+  {q:"SUGA est originaire de Daegu.",ans:true,expl:"SUGA a grandi à Daegu avant de rejoindre Big Hit."},
+  {q:"Jimin est originaire de Busan.",ans:true,expl:"Jimin est né et a grandi à Busan."},
+  {q:"Jin a étudié le cinéma à l'université.",ans:true,expl:"Jin a suivi des études liées au cinéma avant de devenir idol."},
+  {q:"V est le plus âgé des membres.",ans:false,expl:"Jin est le membre le plus âgé, pas V."},
+  {q:"Jung Kook a participé à l'écriture de plusieurs chansons de BTS.",ans:true,expl:"Jung Kook est crédité comme auteur-compositeur sur plusieurs titres du groupe."},
+  {q:"« Run BTS » est sortie avant les débuts du groupe.",ans:false,expl:"Run BTS est un titre paru bien après les débuts, inclus sur l'album Proof en 2022."},
+  {q:"BTS a remporté son premier Daesang en 2016.",ans:true,expl:"Leur premier grand prix (Daesang) a été remporté en 2016 pour Blood Sweat & Tears."},
+  {q:"« Fire » appartient à l'album Wings.",ans:false,expl:"Fire appartient à l'ère HYYH (Young Forever), pas à Wings."},
+  {q:"« Fake Love » appartient à l'album Love Yourself: Tear.",ans:true,expl:"Fake Love est le single principal de cet album sorti en 2018."},
+  {q:"« ON » possède une version avec Sia.",ans:true,expl:"Une version featuring Sia de ON existe sur l'album Map of the Soul: 7."},
+  {q:"« Dynamite » a été le premier #1 de BTS au Billboard Hot 100.",ans:true,expl:"Dynamite a offert à BTS leur première place n°1 au Billboard Hot 100 en 2020."},
+  {q:"BTS a toujours été sous le nom HYBE depuis ses débuts.",ans:false,expl:"L'agence s'appelait Big Hit Entertainment avant d'être renommée HYBE en 2021."},
+  {q:"Le premier album japonais de BTS est Wake Up.",ans:true,expl:"Wake Up, sorti en 2014, est leur premier album studio japonais."},
+  {q:"« Proof » est un album de compilation sorti en 2022.",ans:true,expl:"Proof rassemble des titres marquants de la carrière de BTS, sorti en 2022."},
+  {q:"« The Astronaut » est le premier album studio de Jin.",ans:false,expl:"The Astronaut est un single, pas un album studio."},
+  {q:"V a créé le personnage BT21 Tata.",ans:true,expl:"Tata est le personnage BT21 conçu par V."},
+  {q:"SUGA a produit des chansons pour d'autres artistes avant BTS.",ans:true,expl:"SUGA était déjà actif comme producteur avant de rejoindre BTS."},
+  {q:"« Mikrokosmos » appartient à l'album Map of the Soul: Persona.",ans:true,expl:"Mikrokosmos figure sur l'album Map of the Soul: Persona sorti en 2019."},
+  {q:"BTS a donné un concert gratuit à Busan en 2022.",ans:true,expl:"Le concert Yet To Come in BUSAN a eu lieu gratuitement en octobre 2022."},
+  {q:"Le surnom « Worldwide Handsome » vient de RM.",ans:false,expl:"Ce surnom est associé à Jin, pas à RM."},
+  {q:"« Yet To Come » est un titre de l'album Proof.",ans:true,expl:"Yet To Come figure parmi les nouveaux titres de l'album Proof."},
+  {q:"BTS a été créé par SM Entertainment.",ans:false,expl:"BTS a été créé par Big Hit Entertainment, pas SM Entertainment."},
+];
+var _vfDifficulty='easy';
 function vfStart(mode){
-  _vfTotal=mode==='hard'?15:10;
-  _vfQ=[...VF_ALL].sort(function(){return Math.random()-.5;}).slice(0,_vfTotal);
+  _vfDifficulty=mode==='hard'?'hard':'easy';
+  var bank=_vfDifficulty==='hard'?VF_HARD:VF_EASY;
+  _vfTotal=20;
+  _vfQ=[...bank].sort(function(){return Math.random()-.5;}).slice(0,_vfTotal);
   _vfCurrent=0;_vfScore=0;_vfAnswered=false;
   document.getElementById('vf-intro').style.display='none';
   document.getElementById('vf-result').style.display='none';
@@ -1567,6 +1733,7 @@ function _vfShowResult(){
   document.getElementById('vf-result').style.display='block';
   document.getElementById('vf-res-score').textContent=_vfScore;
   document.getElementById('vf-res-max').textContent='/'+_vfTotal;
+  document.getElementById('vf-res-diff').textContent=_vfDifficulty==='hard'?'🔴 Mode Difficile':'🟢 Mode Facile';
   var pct=_vfScore/_vfTotal,emoji,level,desc;
   if(pct===1){emoji='🏆';level='ARMY Expert !';desc='Parfait ! Tu connais BTS sur le bout des doigts.';}
   else if(pct>=.8){emoji='💜';level='ARMY Confirmé';desc='Très bon score ! Tu maîtrises bien l\'histoire de BTS.';}
@@ -1619,7 +1786,9 @@ function vfShare(){
   var g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#1a1030');g.addColorStop(1,'#0a0812');
   ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
   ctx.textAlign='center';
-  ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='600 22px "Space Mono",monospace';ctx.fillText('✦ VRAI OU FAUX BTS ✦',W/2,130);
+  ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='600 22px "Space Mono",monospace';
+  var diffLabel=_vfDifficulty==='hard'?'✦ VRAI OU FAUX BTS — DIFFICILE ✦':'✦ VRAI OU FAUX BTS — FACILE ✦';
+  ctx.fillText(diffLabel,W/2,130);
   ctx.font='140px serif';ctx.fillText(d.emoji,W/2,340);
   ctx.fillStyle='#ffffff';ctx.font='700 52px "Cormorant Garamond",serif';ctx.fillText(d.level,W/2,450);
   ctx.fillStyle='#c9a96e';ctx.font='700 80px "Space Mono",monospace';ctx.fillText(d.score+' / '+d.total,W/2,570);

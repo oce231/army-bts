@@ -72,6 +72,18 @@
 }
 .gq-btn-share:hover { background: var(--hero-pretitle); color: #1a1024; }
 
+/* Choix de difficulté */
+.gq-diff-choice {
+  display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+}
+.gq-diff-btn { margin: 0; min-width: 120px; }
+.gq-diff-hard {
+  border-color: rgba(224,88,120,.5);
+  background: rgba(224,88,120,.12);
+  color: #e08a9a;
+}
+.gq-diff-hard:hover { background: rgba(224,88,120,.28); color: var(--text); }
+
 /* Progress */
 .gq-progress-wrap { margin-bottom: 1.4rem; }
 .gq-progress-info {
@@ -138,6 +150,11 @@
   color: var(--hero-pretitle); margin-bottom: .3rem;
 }
 .gq-result-max { font-size: 20px; color: var(--text3); }
+.gq-result-diff {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--text3); margin-bottom: .6rem;
+}
 .gq-result-level {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(20px, 4vw, 26px); font-weight: 600;
