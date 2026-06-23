@@ -24,6 +24,19 @@
   <script defer src="https://cloud.umami.is/script.js" data-website-id="05ed87e3-dc67-44d8-a5b7-133005178a72"></script>
 </head>
 <body>
+<div id="subtitle-notice" style="display:none; position:relative; z-index:9999; background:linear-gradient(90deg,#7c3aed,#a855f7); color:#fff; padding:12px 44px; font-size:14px; line-height:1.5; text-align:center; font-family:inherit;">
+  <span>⚠️ <strong>Note :</strong> la majorité des vidéos (MV, lives, interviews...) ne sont <strong>pas sous-titrées en français</strong> — certaines ont des sous-titres anglais uniquement, d'autres aucun sous-titre. Les liens viennent d'archives anglophones (merci à <a href="https://btsarchive.com" target="_blank" style="color:#fff; text-decoration:underline;">btsarchive.com</a>). Des sous-titres FR seront ajoutés progressivement au fil de mes trouvailles 💜</span>
+  <button onclick="document.getElementById('subtitle-notice').style.display='none'; try{localStorage.setItem('bts_subtitle_notice_dismissed','1')}catch(e){}" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.2); border:none; color:#fff; width:26px; height:26px; border-radius:50%; cursor:pointer; font-size:14px;">✕</button>
+</div>
+<script>
+  try {
+    if (!localStorage.getItem('bts_subtitle_notice_dismissed')) {
+      document.getElementById('subtitle-notice').style.display = 'block';
+    }
+  } catch(e) {
+    document.getElementById('subtitle-notice').style.display = 'block';
+  }
+</script>
 <div id="onboarding-overlay">
   <button id="onb-skip" onclick="onbSkip()">Passer ✕</button>
 
