@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>
+  (function(){
+    try {
+      var saved = localStorage.getItem('bts-theme');
+      var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch(e){}
+  })();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Dance Academy · ARMY Lounge</title>
+<meta property="og:title" content="BTS Archive Universe">
+<meta property="og:description" content="L'archive complète dédiée à BTS — eras, lives, jeux et plus.">
+<meta property="og:image" content="https://oce231.github.io/army-bts/Photo/Preview.jpg">
+<meta property="og:url" content="https://oce231.github.io/">
+<meta name="twitter:card" content="summary_large_image">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="hub.css">
+<link rel="stylesheet" href="dance.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="05ed87e3-dc67-44d8-a5b7-133005178a72"></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <button class="hamburger" id="ham" style="visibility:hidden" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a class="logo" href="index.html" style="text-decoration:none">BTS <small>방탄소년단 Archive</small></a>
+  <div style="flex:1"></div>
+  <button id="theme-toggle-btn" onclick="toggleTheme()" title="Changer de thème" aria-label="Basculer thème clair/sombre">🌙</button>
+  <a class="hub-switch" href="hub.html">💜 Lounge</a>
+</header>
+
+<div class="hub-main">
+
+  <!-- ── HERO ── -->
+  <div class="dance-hero">
+    <div class="hub-hero-bg"></div>
+    <div class="hub-hero-content">
+      <a href="hub.html" class="dance-back">← ARMY Lounge</a>
+      <div class="hub-pretitle">💃 Espace danse</div>
+      <h1 class="hub-title" style="font-size:clamp(30px,7vw,52px)">Dance Academy</h1>
+      <p class="hub-subtitle">Apprends pas à pas, suis les Dance Practice officielles et découvre les meilleurs tutos complets de la communauté.</p>
+    </div>
+  </div>
+
+  <div class="dance-main">
+
+    <!-- ══════════════════════════════════════════════
+         SÉLECTEUR D'ONGLETS
+    ══════════════════════════════════════════════ -->
+    <div class="dance-selector">
+      <button class="dance-tab active" onclick="danceSwitch('pas', this)">🪜 Tutos de pas</button>
+      <button class="dance-tab" onclick="danceSwitch('practice', this)">🎬 Dance Practice BTS</button>
+      <button class="dance-tab" onclick="danceSwitch('tutos', this)">🎓 Tutos complets</button>
+      <button class="dance-tab" onclick="danceSwitch('justdance', this)">🕹️ Just Dance</button>
+      <button class="dance-tab" onclick="danceSwitch('jeu', this)">🎮 Jeu de danse</button>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         1. TUTOS DE PAS ISOLÉS
+    ══════════════════════════════════════════════ -->
+    <div id="dance-pas" class="dance-tab-panel">
+      <div class="dance-section-intro">
+        <div class="dance-section-emoji">🪜</div>
+        <div class="dance-section-title">Apprends un pas à la fois</div>
+        <p class="dance-section-desc">Des mouvements isolés, expliqués lentement, pour progresser pas après pas avant de te lancer dans une chorégraphie complète.</p>
+      </div>
+      <div class="dance-filters" id="dance-pas-filters"></div>
+      <div class="dance-grid" id="dance-pas-grid"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         2. DANCE PRACTICE BTS
+    ══════════════════════════════════════════════ -->
+    <div id="dance-practice" class="dance-tab-panel dance-hidden">
+      <div class="dance-section-intro">
+        <div class="dance-section-emoji">🎬</div>
+        <div class="dance-section-title">Dance Practice officielles</div>
+        <p class="dance-section-desc">Les vidéos Dance Practice de BTS eux-mêmes — la meilleure référence pour observer chaque détail de la chorégraphie originale.</p>
+      </div>
+      <div class="dance-filters" id="dance-practice-filters"></div>
+      <div class="dance-grid" id="dance-practice-grid"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         3. TUTOS COMPLETS PAR CRÉATEURS
+    ══════════════════════════════════════════════ -->
+    <div id="dance-tutos" class="dance-tab-panel dance-hidden">
+      <div class="dance-section-intro">
+        <div class="dance-section-emoji">🎓</div>
+        <div class="dance-section-title">Tutos complets par la communauté</div>
+        <p class="dance-section-desc">Des chorégraphies entières décortiquées par des créateurs de danse, mirror mode et ralentis pour apprendre à ton rythme.</p>
+      </div>
+      <div class="dance-filters" id="dance-tutos-filters"></div>
+      <div class="dance-grid" id="dance-tutos-grid"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         4. JUST DANCE
+    ══════════════════════════════════════════════ -->
+    <div id="dance-justdance" class="dance-tab-panel dance-hidden">
+      <div class="dance-section-intro">
+        <div class="dance-section-emoji">🕹️</div>
+        <div class="dance-section-title">Just Dance — BTS Edition</div>
+        <p class="dance-section-desc">Des vidéos dans l'esprit Just Dance sur des titres de BTS — suis les mouvements à l'écran et danse !</p>
+      </div>
+      <div class="dance-grid" id="dance-justdance-grid"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         5. JEU DE DANSE — RHYTHM GAME
+    ══════════════════════════════════════════════ -->
+    <div id="dance-jeu" class="dance-tab-panel dance-hidden">
+      <div class="dance-section-intro">
+        <div class="dance-section-emoji">🎮</div>
+        <div class="dance-section-title">Jeu de danse</div>
+        <p class="dance-section-desc">Choisis une chanson, appuie sur les flèches au bon moment et enchaîne les combos ! Clavier ← ↑ ↓ → ou tap sur mobile.</p>
+      </div>
+
+      <!-- Sélection chanson -->
+      <div id="rg-select" class="rg-select-screen">
+        <div class="rg-song-grid" id="rg-song-grid"></div>
+      </div>
+
+      <!-- Zone de jeu -->
+      <div id="rg-game" class="rg-game-wrap" style="display:none">
+        <div class="rg-top-bar">
+          <div class="rg-song-title-display" id="rg-song-label"></div>
+          <div class="rg-combo-display" id="rg-combo-display"></div>
+          <div class="rg-score-display" id="rg-score-display">0 pts</div>
+        </div>
+        <div class="rg-progress-bar-wrap"><div class="rg-progress-bar-fill" id="rg-progress-fill"></div></div>
+        <div class="rg-field" id="rg-field">
+          <div class="rg-lanes">
+            <div class="rg-lane" id="rg-lane-0"></div>
+            <div class="rg-lane" id="rg-lane-1"></div>
+            <div class="rg-lane" id="rg-lane-2"></div>
+            <div class="rg-lane" id="rg-lane-3"></div>
+          </div>
+          <div class="rg-hit-line"></div>
+          <div class="rg-keys">
+            <div class="rg-key" data-lane="0" id="rg-key-0"><span class="rg-key-label">←</span></div>
+            <div class="rg-key" data-lane="1" id="rg-key-1"><span class="rg-key-label">↑</span></div>
+            <div class="rg-key" data-lane="2" id="rg-key-2"><span class="rg-key-label">↓</span></div>
+            <div class="rg-key" data-lane="3" id="rg-key-3"><span class="rg-key-label">→</span></div>
+          </div>
+          <div class="rg-feedback" id="rg-feedback"></div>
+          <!-- Compte à rebours + résultat -->
+          <div class="rg-overlay" id="rg-overlay">
+            <div class="rg-countdown" id="rg-countdown">3</div>
+          </div>
+        </div>
+        <div class="rg-kb-hint">Clavier : ← D · ↑ F · ↓ J · → K &nbsp;|&nbsp; Ou tap sur les touches</div>
+        <button class="rg-btn" onclick="rgQuit()">✕ Quitter</button>
+        <!-- Lecteur YT caché -->
+        <div id="rg-yt-player"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   THÈME CLAIR / SOMBRE
+══════════════════════════════════════════════ */
+function updateThemeBtn() {
+  var btn = document.getElementById('theme-toggle-btn');
+  if (!btn) return;
+  var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  btn.textContent = isLight ? '☀️' : '🌙';
+  btn.title = isLight ? 'Passer en mode sombre' : 'Passer en mode clair';
+}
+function toggleTheme() {
+  var current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  var next = current === 'light' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('bts-theme', next); } catch(e){}
+  updateThemeBtn();
+}
+document.addEventListener('DOMContentLoaded', updateThemeBtn);
+
+/* ══════════════════════════════════════════════
+   DONNÉES — à compléter au fur et à mesure
+   youtubeId: laisser "" tant que le lien n'est pas choisi → un placeholder s'affiche
+══════════════════════════════════════════════ */
+
+/* 1. Tutos de pas isolés */
+const DANCE_PAS = [
+  // Exemple de structure à dupliquer :
+  // { titre: "Le 'point' iconique de BTS", youtubeId: "", niveau: "debutant", membre: "groupe", desc: "Le mouvement de pointage synchronisé qu'on retrouve dans plusieurs chorégraphies." },
+];
+
+/* 2. Dance Practice officielles BTS */
+const DANCE_PRACTICE = [
+  // { titre: "Dynamite — Dance Practice", youtubeId: "", chanson: "Dynamite", desc: "Version Dance Practice officielle." },
+];
+
+/* 3. Tutos complets par créateurs */
+const DANCE_TUTOS = [
+  // { titre: "Dynamite — Tuto complet", youtubeId: "", chanson: "Dynamite", niveau: "intermediaire", createur: "Nom de la chaîne", createurUrl: "", desc: "Tuto pas à pas avec mirror mode." },
+];
+
+/* 4. Just Dance */
+const DANCE_JUSTDANCE = [
+  // { titre: "Dynamite — Just Dance Style", youtubeId: "", chanson: "Dynamite", desc: "Suis les mouvements à l'écran !" },
+];
+
+/* ══════════════════════════════════════════════
+   RENDU
+══════════════════════════════════════════════ */
+function danceVideoEmbed(youtubeId) {
+  if (youtubeId) {
+    return '<div class="dance-video-wrap"><iframe src="https://www.youtube.com/embed/' + youtubeId + '" title="YouTube video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>';
+  }
+  return '<div class="dance-video-wrap"><div class="dance-video-placeholder"><span class="ph-icon">🎥</span><span class="ph-text">Vidéo à venir</span></div></div>';
+}
+
+const LEVEL_LABELS = { debutant: '🟢 Débutant', intermediaire: '🟡 Intermédiaire', avance: '🔴 Avancé' };
+
+function danceCardPas(item) {
+  const levelTag = item.niveau ? '<span class="dance-tag level-' + item.niveau + '">' + (LEVEL_LABELS[item.niveau] || item.niveau) + '</span>' : '';
+  const memberTag = item.membre ? '<span class="dance-tag">' + item.membre + '</span>' : '';
+  return '<div class="dance-card">' +
+    danceVideoEmbed(item.youtubeId) +
+    '<div class="dance-card-body">' +
+      '<div class="dance-card-title">' + item.titre + '</div>' +
+      '<div class="dance-card-meta">' + levelTag + memberTag + '</div>' +
+      '<div class="dance-card-desc">' + (item.desc || '') + '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+function danceCardPractice(item) {
+  const songTag = item.chanson ? '<span class="dance-tag">🎵 ' + item.chanson + '</span>' : '';
+  return '<div class="dance-card">' +
+    danceVideoEmbed(item.youtubeId) +
+    '<div class="dance-card-body">' +
+      '<div class="dance-card-title">' + item.titre + '</div>' +
+      '<div class="dance-card-meta">' + songTag + '</div>' +
+      '<div class="dance-card-desc">' + (item.desc || '') + '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+function danceCardTuto(item) {
+  const songTag = item.chanson ? '<span class="dance-tag">🎵 ' + item.chanson + '</span>' : '';
+  const levelTag = item.niveau ? '<span class="dance-tag level-' + item.niveau + '">' + (LEVEL_LABELS[item.niveau] || item.niveau) + '</span>' : '';
+  const creatorHtml = item.createur
+    ? '<div class="dance-card-creator">Par ' + (item.createurUrl ? '<a href="' + item.createurUrl + '" target="_blank" rel="noopener">' + item.createur + '</a>' : item.createur) + '</div>'
+    : '';
+  return '<div class="dance-card">' +
+    danceVideoEmbed(item.youtubeId) +
+    '<div class="dance-card-body">' +
+      '<div class="dance-card-title">' + item.titre + '</div>' +
+      '<div class="dance-card-meta">' + songTag + levelTag + '</div>' +
+      '<div class="dance-card-desc">' + (item.desc || '') + '</div>' +
+      creatorHtml +
+    '</div>' +
+  '</div>';
+}
+
+function danceRenderEmpty(gridEl, message) {
+  gridEl.innerHTML = '<div class="dance-empty" style="grid-column:1/-1"><span class="ph-icon">💃</span>' + message + '</div>';
+}
+
+function danceRenderJustDance() {
+  const grid = document.getElementById('dance-justdance-grid');
+  if (!DANCE_JUSTDANCE.length) {
+    danceRenderEmpty(grid, 'Les vidéos Just Dance arrivent bientôt !');
+    return;
+  }
+  grid.innerHTML = DANCE_JUSTDANCE.map(item => {
+    const songTag = item.chanson ? '<span class="dance-tag">🎵 ' + item.chanson + '</span>' : '';
+    return '<div class="dance-card">' +
+      danceVideoEmbed(item.youtubeId) +
+      '<div class="dance-card-body">' +
+        '<div class="dance-card-title">' + item.titre + '</div>' +
+        '<div class="dance-card-meta">' + songTag + '</div>' +
+        '<div class="dance-card-desc">' + (item.desc || '') + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function danceRenderPas() {
+  const grid = document.getElementById('dance-pas-grid');
+  if (!DANCE_PAS.length) {
+    danceRenderEmpty(grid, 'Les tutos de pas arrivent bientôt !');
+    return;
+  }
+  grid.innerHTML = DANCE_PAS.map(danceCardPas).join('');
+}
+
+function danceRenderPractice() {
+  const grid = document.getElementById('dance-practice-grid');
+  if (!DANCE_PRACTICE.length) {
+    danceRenderEmpty(grid, 'Les Dance Practice arrivent bientôt !');
+    return;
+  }
+  grid.innerHTML = DANCE_PRACTICE.map(danceCardPractice).join('');
+}
+
+function danceRenderTutos() {
+  const grid = document.getElementById('dance-tutos-grid');
+  if (!DANCE_TUTOS.length) {
+    danceRenderEmpty(grid, 'Les tutos complets arrivent bientôt !');
+    return;
+  }
+  grid.innerHTML = DANCE_TUTOS.map(danceCardTuto).join('');
+}
+
+/* ══════════════════════════════════════════════
+   NAVIGATION ENTRE ONGLETS
+══════════════════════════════════════════════ */
+window.danceSwitch = function(panel, btn) {
+  document.querySelectorAll('.dance-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.getElementById('dance-pas').classList.toggle('dance-hidden', panel !== 'pas');
+  document.getElementById('dance-practice').classList.toggle('dance-hidden', panel !== 'practice');
+  document.getElementById('dance-tutos').classList.toggle('dance-hidden', panel !== 'tutos');
+  document.getElementById('dance-justdance').classList.toggle('dance-hidden', panel !== 'justdance');
+  document.getElementById('dance-jeu').classList.toggle('dance-hidden', panel !== 'jeu');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+/* ══════════════════════════════════════════════
+   RHYTHM GAME — MOTEUR COMPLET
+══════════════════════════════════════════════ */
+
+/* ── Chansons & patterns ── */
+const RG_SONGS = [
+  {
+    id: 'dynamite',
+    name: 'Dynamite',
+    bpm: 114,
+    diff: '⭐ Facile',
+    youtubeId: 'gdZLi9oWNZg', // MV officiel — à tester
+    // Chaque note : [temps en ms, lane 0-3]
+    // Pattern calé sur 114 BPM (~526ms/beat)
+    notes: (function(){
+      const b = 526; // ms par beat
+      return [
+        [b*4,0],[b*4+b*.5,2],[b*5,1],[b*5+b*.5,3],
+        [b*6,0],[b*6+b*.5,1],[b*7,2],[b*7+b*.5,3],
+        [b*8,1],[b*8+b*.5,0],[b*9,3],[b*9+b*.25,2],[b*9+b*.5,1],
+        [b*10,0],[b*10+b*.5,2],[b*11,1],[b*11+b*.5,3],
+        [b*12,2],[b*12+b*.25,1],[b*12+b*.5,0],[b*13,3],
+        [b*14,0],[b*14+b*.5,1],[b*15,2],[b*15+b*.5,3],
+        [b*16,1],[b*16+b*.5,0],[b*17,3],[b*17+b*.5,2],
+        [b*18,0],[b*18+b*.25,1],[b*18+b*.5,2],[b*18+b*.75,3],
+        [b*20,2],[b*20+b*.5,0],[b*21,1],[b*21+b*.5,3],
+        [b*22,0],[b*22+b*.5,2],[b*23,3],[b*23+b*.5,1],
+        [b*24,2],[b*24+b*.5,1],[b*25,0],[b*25+b*.5,3],
+        [b*26,1],[b*26+b*.25,2],[b*26+b*.5,3],[b*27,0],
+        [b*28,3],[b*28+b*.5,1],[b*29,0],[b*29+b*.5,2],
+        [b*30,0],[b*30+b*.5,3],[b*31,1],[b*31+b*.5,2],
+        [b*32,2],[b*32+b*.25,1],[b*32+b*.5,0],[b*33,3],
+        [b*34,1],[b*34+b*.5,0],[b*35,2],[b*35+b*.5,3],
+      ];
+    })()
+  },
+  {
+    id: 'butter',
+    name: 'Butter',
+    bpm: 110,
+    diff: '⭐ Facile',
+    youtubeId: 'WMweEpGlu_U',
+    notes: (function(){
+      const b = 545;
+      return [
+        [b*4,1],[b*4+b*.5,3],[b*5,0],[b*5+b*.5,2],
+        [b*6,3],[b*6+b*.5,1],[b*7,0],[b*7+b*.5,2],
+        [b*8,0],[b*8+b*.5,1],[b*9,2],[b*9+b*.5,3],
+        [b*10,1],[b*10+b*.25,0],[b*10+b*.5,3],[b*11,2],
+        [b*12,0],[b*12+b*.5,2],[b*13,1],[b*13+b*.5,3],
+        [b*14,2],[b*14+b*.5,0],[b*15,3],[b*15+b*.5,1],
+        [b*16,1],[b*16+b*.5,3],[b*17,0],[b*17+b*.5,2],
+        [b*18,3],[b*18+b*.25,2],[b*18+b*.5,1],[b*19,0],
+        [b*20,2],[b*20+b*.5,0],[b*21,3],[b*21+b*.5,1],
+        [b*22,0],[b*22+b*.5,2],[b*23,1],[b*23+b*.5,3],
+        [b*24,1],[b*24+b*.25,0],[b*24+b*.5,3],[b*25,2],
+        [b*26,3],[b*26+b*.5,1],[b*27,0],[b*27+b*.5,2],
+        [b*28,2],[b*28+b*.5,3],[b*29,1],[b*29+b*.5,0],
+        [b*30,0],[b*30+b*.5,1],[b*31,2],[b*31+b*.5,3],
+        [b*32,3],[b*32+b*.25,2],[b*32+b*.5,1],[b*33,0],
+        [b*34,0],[b*34+b*.5,2],[b*35,3],[b*35+b*.5,1],
+      ];
+    })()
+  },
+  {
+    id: 'springday',
+    name: 'Spring Day',
+    bpm: 76,
+    diff: '⭐ Facile',
+    youtubeId: 'xEeFrLSkMm8',
+    notes: (function(){
+      const b = 789;
+      return [
+        [b*4,0],[b*5,2],[b*6,1],[b*7,3],
+        [b*8,2],[b*8+b*.5,0],[b*9,3],[b*10,1],
+        [b*11,0],[b*12,2],[b*12+b*.5,1],[b*13,3],
+        [b*14,1],[b*15,0],[b*16,3],[b*16+b*.5,2],
+        [b*17,0],[b*18,1],[b*19,2],[b*19+b*.5,3],
+        [b*20,3],[b*21,0],[b*22,2],[b*22+b*.5,1],
+        [b*23,1],[b*24,3],[b*25,0],[b*25+b*.5,2],
+        [b*26,2],[b*27,1],[b*28,3],[b*28+b*.5,0],
+        [b*29,0],[b*30,2],[b*31,1],[b*31+b*.5,3],
+        [b*32,3],[b*33,0],[b*34,2],[b*34+b*.5,1],
+        [b*35,1],[b*36,3],[b*37,0],[b*37+b*.5,2],
+        [b*38,2],[b*38+b*.5,0],[b*39,3],[b*40,1],
+      ];
+    })()
+  },
+  {
+    id: 'fakelove',
+    name: 'Fake Love',
+    bpm: 100,
+    diff: '⭐⭐ Moyen',
+    youtubeId: '7C2z4GqqS5E',
+    notes: (function(){
+      const b = 600;
+      return [
+        [b*4,0],[b*4+b*.5,1],[b*5,2],[b*5+b*.5,3],
+        [b*6,1],[b*6+b*.25,0],[b*6+b*.5,2],[b*7,3],
+        [b*7+b*.5,1],[b*8,0],[b*8+b*.5,3],[b*9,2],
+        [b*9+b*.25,1],[b*9+b*.5,0],[b*10,3],[b*10+b*.5,1],
+        [b*11,2],[b*11+b*.25,3],[b*11+b*.5,0],[b*12,1],
+        [b*12+b*.5,2],[b*13,3],[b*13+b*.5,0],[b*14,1],
+        [b*14+b*.25,2],[b*14+b*.5,3],[b*15,0],[b*15+b*.5,2],
+        [b*16,1],[b*16+b*.25,3],[b*16+b*.5,0],[b*17,2],
+        [b*17+b*.5,1],[b*18,3],[b*18+b*.25,0],[b*18+b*.5,2],
+        [b*19,1],[b*19+b*.5,3],[b*20,0],[b*20+b*.25,1],
+        [b*20+b*.5,2],[b*21,3],[b*21+b*.5,1],[b*22,0],
+        [b*22+b*.25,2],[b*22+b*.5,3],[b*23,1],[b*23+b*.5,0],
+        [b*24,2],[b*24+b*.25,3],[b*24+b*.5,1],[b*25,0],
+        [b*25+b*.5,2],[b*26,3],[b*26+b*.5,0],[b*27,1],
+      ];
+    })()
+  },
+  {
+    id: 'micdrop',
+    name: 'MIC Drop',
+    bpm: 130,
+    diff: '⭐⭐ Moyen',
+    youtubeId: 'kTlv5_Bs8aw',
+    notes: (function(){
+      const b = 461;
+      return [
+        [b*4,0],[b*4+b*.25,1],[b*4+b*.5,2],[b*5,3],
+        [b*5+b*.5,0],[b*6,2],[b*6+b*.25,1],[b*6+b*.5,3],
+        [b*7,0],[b*7+b*.25,3],[b*7+b*.5,1],[b*8,2],
+        [b*8+b*.25,0],[b*8+b*.5,3],[b*9,1],[b*9+b*.25,2],
+        [b*9+b*.5,0],[b*10,3],[b*10+b*.25,1],[b*10+b*.5,2],
+        [b*11,0],[b*11+b*.25,3],[b*11+b*.5,2],[b*12,1],
+        [b*12+b*.25,0],[b*12+b*.5,3],[b*13,2],[b*13+b*.25,1],
+        [b*13+b*.5,0],[b*14,3],[b*14+b*.25,2],[b*14+b*.5,1],
+        [b*15,0],[b*15+b*.25,1],[b*15+b*.5,2],[b*16,3],
+        [b*16+b*.25,0],[b*16+b*.5,1],[b*17,2],[b*17+b*.25,3],
+        [b*17+b*.5,0],[b*18,2],[b*18+b*.25,1],[b*18+b*.5,3],
+        [b*19,0],[b*19+b*.25,2],[b*19+b*.5,1],[b*20,3],
+        [b*20+b*.25,0],[b*20+b*.5,2],[b*21,3],[b*21+b*.25,1],
+        [b*21+b*.5,0],[b*22,2],[b*22+b*.25,3],[b*22+b*.5,1],
+        [b*23,0],[b*23+b*.25,2],[b*23+b*.5,3],[b*24,1],
+      ];
+    })()
+  },
+];
+
+/* ── Variables d'état ── */
+let rgSong = null;
+let rgNotes = [];
+let rgActiveArrows = [];
+let rgScore = 0;
+let rgCombo = 0;
+let rgMaxCombo = 0;
+let rgPerfect = 0;
+let rgGood = 0;
+let rgMiss = 0;
+let rgStartTime = 0;
+let rgRunning = false;
+let rgAnimFrame = null;
+let rgYtPlayer = null;
+let rgYtReady = false;
+let rgNextNoteIdx = 0;
+let rgTotalNotes = 0;
+
+/* Hauteur du champ (px) sans la zone de touche */
+const RG_FIELD_H = 408; // 480 - 72
+const RG_HIT_Y   = 72;  // distance du bas pour la ligne de frappe
+const RG_FALL_MS = 1200; // ms pour traverser tout le champ
+
+/* ── Sélection chanson ── */
+function rgBuildSongGrid() {
+  const grid = document.getElementById('rg-song-grid');
+  grid.innerHTML = RG_SONGS.map((s,i) => `
+    <div class="rg-song-card" onclick="rgSelectSong(${i})">
+      <div class="rg-song-name">${s.name}</div>
+      <div class="rg-song-bpm">${s.bpm} BPM</div>
+      <div class="rg-song-diff">${s.diff}</div>
+    </div>
+  `).join('');
+}
+
+function rgSelectSong(idx) {
+  rgSong = RG_SONGS[idx];
+  document.getElementById('rg-select').style.display = 'none';
+  document.getElementById('rg-game').style.display   = 'flex';
+  document.getElementById('rg-song-label').textContent = rgSong.name;
+  rgInitGame();
+}
+
+/* ── Initialisation ── */
+function rgInitGame() {
+  rgScore = rgCombo = rgMaxCombo = rgPerfect = rgGood = rgMiss = 0;
+  rgNextNoteIdx = 0;
+  rgActiveArrows = [];
+  rgRunning = false;
+  rgTotalNotes = rgSong.notes.length;
+
+  // Vider les lanes
+  for (let i=0;i<4;i++) {
+    const lane = document.getElementById('rg-lane-'+i);
+    lane.innerHTML = '';
+  }
+
+  // Overlay compte à rebours
+  const overlay = document.getElementById('rg-overlay');
+  overlay.style.display = 'flex';
+  overlay.innerHTML = '<div class="rg-countdown" id="rg-countdown">3</div>';
+
+  rgUpdateHUD();
+  rgCountdown(3);
+}
+
+function rgCountdown(n) {
+  const el = document.getElementById('rg-countdown');
+  if (!el) return;
+  el.textContent = n > 0 ? n : 'GO !';
+  if (n > 0) {
+    setTimeout(() => rgCountdown(n-1), 800);
+  } else {
+    setTimeout(() => {
+      document.getElementById('rg-overlay').style.display = 'none';
+      rgStartTime = performance.now();
+      rgRunning = true;
+      rgTryPlayYT();
+      rgLoop();
+    }, 500);
+  }
+}
+
+/* ── Lecture YouTube ── */
+function rgLoadYTAPI() {
+  if (window.YT && window.YT.Player) { rgYtReady = true; return; }
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+}
+window.onYouTubeIframeAPIReady = function() {
+  rgYtReady = true;
+};
+
+function rgTryPlayYT() {
+  if (!rgSong || !rgSong.youtubeId) return;
+  const create = () => {
+    if (rgYtPlayer) {
+      try { rgYtPlayer.destroy(); } catch(e){}
+    }
+    rgYtPlayer = new YT.Player('rg-yt-player', {
+      height: '1', width: '1',
+      videoId: rgSong.youtubeId,
+      playerVars: { autoplay: 1, controls: 0, disablekb: 1, fs: 0, modestbranding: 1, rel: 0 },
+      events: {
+        onReady: e => { try { e.target.setVolume(70); e.target.playVideo(); } catch(err){} },
+        onError: () => {} // silencieux si bloqué
+      }
+    });
+  };
+  if (rgYtReady && window.YT && window.YT.Player) {
+    create();
+  } else {
+    const wait = setInterval(() => {
+      if (rgYtReady && window.YT && window.YT.Player) { clearInterval(wait); create(); }
+    }, 200);
+  }
+}
+
+function rgStopYT() {
+  try { if (rgYtPlayer) { rgYtPlayer.stopVideo(); rgYtPlayer.destroy(); rgYtPlayer = null; } } catch(e){}
+}
+
+/* ── Boucle principale ── */
+function rgLoop() {
+  if (!rgRunning) return;
+  const now = performance.now() - rgStartTime;
+
+  // Spawn nouvelles flèches
+  while (rgNextNoteIdx < rgSong.notes.length) {
+    const [t, lane] = rgSong.notes[rgNextNoteIdx];
+    // On spawn la flèche RG_FALL_MS avant son temps de frappe
+    if (now >= t - RG_FALL_MS) {
+      rgSpawnArrow(lane, t);
+      rgNextNoteIdx++;
+    } else break;
+  }
+
+  // Mettre à jour positions
+  const field = document.getElementById('rg-field');
+  const fieldH = field ? field.clientHeight : 480;
+  const hitY = fieldH - 72; // position Y de la hit-line en px depuis le haut
+
+  for (let i = rgActiveArrows.length-1; i >= 0; i--) {
+    const arrow = rgActiveArrows[i];
+    const elapsed = now - (arrow.spawnTime);
+    const progress = elapsed / RG_FALL_MS; // 0 → 1
+    const topPx = progress * hitY - 19; // centrer la flèche (hauteur 38px)
+    arrow.el.style.top = topPx + 'px';
+
+    // Miss automatique si trop tard (>200ms après le temps de frappe)
+    if (now > arrow.hitTime + 200 && !arrow.hit) {
+      rgRegisterMiss(arrow);
+    }
+    // Supprimer les flèches passées
+    if (now > arrow.hitTime + 400) {
+      arrow.el.remove();
+      rgActiveArrows.splice(i,1);
+    }
+  }
+
+  // Progression
+  const lastNote = rgSong.notes[rgSong.notes.length-1];
+  const totalDur = lastNote[0] + 2000;
+  document.getElementById('rg-progress-fill').style.width = Math.min(100, now/totalDur*100) + '%';
+
+  // Fin de chanson
+  if (now > totalDur && rgActiveArrows.length === 0) {
+    rgEnd();
+    return;
+  }
+
+  rgAnimFrame = requestAnimationFrame(rgLoop);
+}
+
+/* ── Spawn flèche ── */
+const RG_EMOJIS = ['←','↑','↓','→'];
+function rgSpawnArrow(lane, hitTime) {
+  const laneEl = document.getElementById('rg-lane-'+lane);
+  if (!laneEl) return;
+  const el = document.createElement('div');
+  el.className = 'rg-arrow';
+  el.setAttribute('data-lane', lane);
+  el.textContent = RG_EMOJIS[lane];
+  el.style.top = '-38px';
+  laneEl.appendChild(el);
+
+  const spawnTime = performance.now() - rgStartTime;
+  const obj = { el, lane, hitTime, spawnTime: hitTime - RG_FALL_MS, hit: false };
+  rgActiveArrows.push(obj);
+}
+
+/* ── Frappe ── */
+const RG_KEY_MAP = { ArrowLeft:0, KeyD:0, ArrowUp:1, KeyF:1, ArrowDown:2, KeyJ:2, ArrowRight:3, KeyK:3 };
+
+function rgHandleKey(lane) {
+  if (!rgRunning) return;
+  const now = performance.now() - rgStartTime;
+
+  // Flash visuel de la touche
+  const keyEl = document.getElementById('rg-key-'+lane);
+  if (keyEl) { keyEl.classList.add('pressed'); setTimeout(()=>keyEl.classList.remove('pressed'),120); }
+
+  // Chercher la flèche la plus proche dans ce lane
+  let best = null, bestDelta = Infinity;
+  for (const arrow of rgActiveArrows) {
+    if (arrow.hit || arrow.lane !== lane) continue;
+    const delta = Math.abs(now - arrow.hitTime);
+    if (delta < bestDelta) { bestDelta = delta; best = arrow; }
+  }
+
+  if (!best || bestDelta > 300) {
+    // Frappe dans le vide
+    rgShowFeedback('miss');
+    return;
+  }
+
+  best.hit = true;
+  best.el.style.opacity = '0';
+
+  if (bestDelta < 80) {
+    rgPerfect++; rgScore += 100 + rgCombo*2;
+    rgCombo++; rgShowFeedback('perfect');
+  } else {
+    rgGood++; rgScore += 50 + rgCombo;
+    rgCombo++; rgShowFeedback('good');
+  }
+  rgMaxCombo = Math.max(rgMaxCombo, rgCombo);
+  rgUpdateHUD();
+}
+
+function rgRegisterMiss(arrow) {
+  if (arrow.hit) return;
+  arrow.hit = true;
+  rgMiss++; rgCombo = 0;
+  rgUpdateHUD();
+}
+
+/* ── Feedback visuel ── */
+let rgFbTimer = null;
+function rgShowFeedback(type) {
+  const el = document.getElementById('rg-feedback');
+  if (!el) return;
+  el.className = 'rg-feedback show ' + type;
+  el.textContent = type === 'perfect' ? '✦ PERFECT' : type === 'good' ? 'GOOD' : 'MISS';
+  clearTimeout(rgFbTimer);
+  rgFbTimer = setTimeout(()=>{ el.classList.remove('show'); }, 450);
+}
+
+/* ── HUD ── */
+function rgUpdateHUD() {
+  const sd = document.getElementById('rg-score-display');
+  const cd = document.getElementById('rg-combo-display');
+  if (sd) sd.textContent = rgScore + ' pts';
+  if (cd) cd.textContent = rgCombo >= 5 ? '×'+rgCombo+' combo' : '';
+}
+
+/* ── Fin de partie ── */
+function rgEnd() {
+  rgRunning = false;
+  cancelAnimationFrame(rgAnimFrame);
+  rgStopYT();
+
+  const accuracy = rgTotalNotes > 0 ? Math.round((rgPerfect + rgGood*0.5) / rgTotalNotes * 100) : 0;
+  let grade, gradeEmoji;
+  if (accuracy >= 95) { grade = 'S'; gradeEmoji = '🏆'; }
+  else if (accuracy >= 80) { grade = 'A'; gradeEmoji = '⭐'; }
+  else if (accuracy >= 60) { grade = 'B'; gradeEmoji = '💫'; }
+  else if (accuracy >= 40) { grade = 'C'; gradeEmoji = '💜'; }
+  else { grade = 'D'; gradeEmoji = '💪'; }
+
+  const overlay = document.getElementById('rg-overlay');
+  overlay.style.display = 'flex';
+  overlay.innerHTML = `
+    <div class="rg-result-grade">${gradeEmoji}</div>
+    <div class="rg-result-title">Rang ${grade}</div>
+    <div class="rg-result-stats">
+      Score : ${rgScore} pts<br>
+      Précision : ${accuracy}%<br>
+      Perfect : ${rgPerfect} &nbsp; Good : ${rgGood} &nbsp; Miss : ${rgMiss}<br>
+      Max combo : ×${rgMaxCombo}
+    </div>
+    <div style="display:flex;gap:8px;margin-top:.5rem">
+      <button class="rg-btn rg-btn-primary" onclick="rgReplay()">↺ Rejouer</button>
+      <button class="rg-btn" onclick="rgQuit()">☰ Sélection</button>
+    </div>
+  `;
+}
+
+function rgReplay() {
+  // Vider les flèches restantes
+  for (let i=0;i<4;i++) {
+    const l = document.getElementById('rg-lane-'+i);
+    if (l) l.innerHTML = '';
+  }
+  rgActiveArrows = [];
+  rgInitGame();
+}
+
+function rgQuit() {
+  rgRunning = false;
+  cancelAnimationFrame(rgAnimFrame);
+  rgStopYT();
+  document.getElementById('rg-game').style.display = 'none';
+  document.getElementById('rg-select').style.display = 'block';
+}
+
+/* ── Contrôles clavier ── */
+document.addEventListener('keydown', e => {
+  const lane = RG_KEY_MAP[e.code];
+  if (lane !== undefined) { e.preventDefault(); rgHandleKey(lane); }
+});
+
+/* ── Contrôles tactiles (boutons) ── */
+for (let i=0;i<4;i++) {
+  const key = document.getElementById('rg-key-'+i);
+  if (key) {
+    key.addEventListener('pointerdown', e => { e.preventDefault(); rgHandleKey(i); });
+  }
+}
+
+/* ── Init ── */
+rgLoadYTAPI();
+rgBuildSongGrid();
+
+/* Rendu initial des autres onglets */
+danceRenderPas();
+danceRenderPractice();
+danceRenderTutos();
+danceRenderJustDance();
+
+</script>
+
+</body>
+</html>

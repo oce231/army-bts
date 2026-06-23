@@ -1,0 +1,429 @@
+/* ══════════════════════════════════════════════
+   DANCE ACADEMY — STYLES
+══════════════════════════════════════════════ */
+
+.dance-hero {
+  position: relative;
+  min-height: 26vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding: 2.5rem 1.5rem;
+  background: var(--hero-gradient);
+  border-bottom: 1px solid var(--border);
+}
+.dance-back {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--text3);
+  text-decoration: none;
+  margin-bottom: 1rem;
+  transition: color .2s;
+}
+.dance-back:hover { color: var(--hero-pretitle); }
+
+.dance-main {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+/* ── Sélecteur d'onglets (réutilise le pattern games-tab) ── */
+.dance-selector {
+  display: flex; gap: 6px; flex-wrap: wrap; justify-content: center;
+  margin-bottom: 2rem;
+}
+.dance-tab {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; letter-spacing: .1em;
+  background: none;
+  border: 1px solid var(--border2);
+  color: var(--text3);
+  padding: 9px 16px; border-radius: 20px;
+  cursor: pointer; transition: all .2s;
+}
+.dance-tab:hover { color: var(--text); border-color: var(--overlay-12); }
+.dance-tab.active {
+  background: rgba(123,95,212,.15);
+  border-color: rgba(123,95,212,.5);
+  color: var(--hero-pretitle);
+}
+
+.dance-hidden { display: none !important; }
+
+/* ── Intro de section ── */
+.dance-section-intro {
+  text-align: center;
+  max-width: 620px;
+  margin: 0 auto 2rem;
+}
+.dance-section-emoji { font-size: 36px; margin-bottom: .6rem; }
+.dance-section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(20px, 4vw, 26px); font-weight: 500;
+  color: var(--text); margin-bottom: .5rem;
+}
+.dance-section-desc {
+  font-size: 12px; line-height: 1.7; color: var(--text2);
+}
+
+/* ── Filtres (par membre / par niveau / par chanson) ── */
+.dance-filters {
+  display: flex; gap: 6px; flex-wrap: wrap; justify-content: center;
+  margin-bottom: 1.8rem;
+}
+.dance-filter {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: .08em; text-transform: uppercase;
+  background: var(--overlay-3);
+  border: 1px solid var(--border);
+  color: var(--text3);
+  padding: 6px 13px; border-radius: 14px;
+  cursor: pointer; transition: all .2s;
+}
+.dance-filter:hover { color: var(--text); border-color: var(--overlay-12); }
+.dance-filter.active {
+  background: rgba(201,169,110,.15);
+  border-color: rgba(201,169,110,.5);
+  color: var(--accent);
+}
+
+/* ── Grille de cartes vidéo ── */
+.dance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.3rem;
+}
+
+.dance-card {
+  background: var(--overlay-3);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform .25s ease, border-color .25s ease;
+}
+.dance-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(123,95,212,.4);
+}
+
+/* Conteneur vidéo responsive 16:9 */
+.dance-video-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* ratio 16:9 */
+  background: var(--bg-deep);
+  overflow: hidden;
+}
+.dance-video-wrap iframe {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  border: 0;
+}
+/* Placeholder tant qu'aucun lien n'est renseigné */
+.dance-video-placeholder {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: .5rem;
+  color: var(--text3);
+  background: var(--bg-deep);
+}
+.dance-video-placeholder .ph-icon { font-size: 26px; opacity: .6; }
+.dance-video-placeholder .ph-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: .1em; text-transform: uppercase;
+}
+
+.dance-card-body { padding: 1rem 1.1rem 1.2rem; }
+.dance-card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; font-weight: 600;
+  color: var(--text);
+  margin-bottom: .3rem;
+  line-height: 1.3;
+}
+.dance-card-meta {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-bottom: .5rem;
+}
+.dance-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; letter-spacing: .08em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 10px;
+  background: var(--overlay-6);
+  color: var(--text3);
+}
+.dance-tag.level-debutant { background: rgba(110,200,140,.12); color: #6fcf8e; }
+.dance-tag.level-intermediaire { background: rgba(201,169,110,.15); color: var(--accent); }
+.dance-tag.level-avance { background: rgba(224,88,120,.12); color: #e08a9a; }
+
+.dance-card-desc {
+  font-size: 11px; line-height: 1.6;
+  color: var(--text2);
+}
+.dance-card-creator {
+  margin-top: .6rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: .04em;
+  color: var(--text3);
+}
+.dance-card-creator a { color: var(--hero-pretitle); text-decoration: none; }
+.dance-card-creator a:hover { text-decoration: underline; }
+
+/* État vide (section pas encore remplie) */
+.dance-empty {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--text3);
+  font-size: 12px;
+  border: 1px dashed var(--border2);
+  border-radius: 14px;
+}
+.dance-empty .ph-icon { font-size: 32px; display: block; margin-bottom: .6rem; opacity: .5; }
+
+@media (max-width: 600px) {
+  .dance-grid { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════════════
+   JEU DE DANSE — RHYTHM GAME
+══════════════════════════════════════════════ */
+
+/* ── Écran de sélection de chanson ── */
+.rg-select-screen { max-width: 680px; margin: 0 auto; }
+.rg-song-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: .9rem;
+  margin-top: 1.4rem;
+}
+.rg-song-card {
+  background: var(--overlay-3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  cursor: pointer;
+  transition: transform .2s, border-color .2s, background .2s;
+  text-align: left;
+}
+.rg-song-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(123,95,212,.45);
+  background: var(--overlay-6);
+}
+.rg-song-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; font-weight: 600;
+  color: var(--text); margin-bottom: .3rem;
+}
+.rg-song-bpm {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: .1em;
+  color: var(--text3);
+}
+.rg-song-diff {
+  margin-top: .5rem;
+  font-size: 11px; color: var(--text2);
+}
+
+/* ── Zone de jeu ── */
+.rg-game-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.rg-top-bar {
+  width: 100%; max-width: 520px;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: .5rem 0;
+}
+.rg-song-title-display {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; color: var(--text);
+}
+.rg-score-display {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px; color: var(--accent);
+}
+.rg-combo-display {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; color: var(--hero-pretitle);
+  min-width: 80px; text-align: right;
+}
+
+/* ── Terrain de jeu ── */
+.rg-field {
+  position: relative;
+  width: 340px; height: 480px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--bg-deep);
+  border: 1px solid var(--border2);
+  user-select: none;
+}
+.rg-lanes {
+  position: absolute; inset: 0;
+  display: flex;
+}
+.rg-lane {
+  flex: 1;
+  border-right: 1px solid var(--border);
+  position: relative;
+}
+.rg-lane:last-child { border-right: none; }
+
+/* Ligne de frappe */
+.rg-hit-line {
+  position: absolute;
+  bottom: 72px;
+  left: 0; right: 0;
+  height: 2px;
+  background: rgba(201,169,110,.35);
+  pointer-events: none;
+}
+
+/* Zones de frappe (boutons bas) */
+.rg-keys {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 72px;
+  display: flex;
+  border-top: 1px solid var(--border2);
+}
+.rg-key {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background .08s;
+  border-right: 1px solid var(--border2);
+  background: var(--overlay-3);
+  -webkit-tap-highlight-color: transparent;
+}
+.rg-key:last-child { border-right: none; }
+.rg-key.pressed { background: rgba(123,95,212,.25); }
+.rg-key[data-lane="0"] .rg-key-label { color: #e06878; }
+.rg-key[data-lane="1"] .rg-key-label { color: #c9a96e; }
+.rg-key[data-lane="2"] .rg-key-label { color: #4dbfa8; }
+.rg-key[data-lane="3"] .rg-key-label { color: #7b5fd4; }
+.rg-key-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; letter-spacing: .05em;
+  pointer-events: none;
+}
+
+/* Flèches tombantes */
+.rg-arrow {
+  position: absolute;
+  width: calc(100% - 10px);
+  left: 5px;
+  height: 38px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  transition: opacity .1s;
+  pointer-events: none;
+}
+.rg-arrow[data-lane="0"] { background: rgba(224,104,120,.55); border: 1px solid rgba(224,104,120,.8); }
+.rg-arrow[data-lane="1"] { background: rgba(201,169,110,.5); border: 1px solid rgba(201,169,110,.8); }
+.rg-arrow[data-lane="2"] { background: rgba(77,191,168,.5); border: 1px solid rgba(77,191,168,.8); }
+.rg-arrow[data-lane="3"] { background: rgba(123,95,212,.55); border: 1px solid rgba(123,95,212,.8); }
+
+/* Feedback de frappe */
+.rg-feedback {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  bottom: 100px;
+  font-family: 'Space Mono', monospace;
+  font-size: 15px; font-weight: 700;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .15s;
+  white-space: nowrap;
+  z-index: 10;
+}
+.rg-feedback.show { opacity: 1; }
+.rg-feedback.perfect { color: #c9a96e; }
+.rg-feedback.good    { color: #4dbfa8; }
+.rg-feedback.miss    { color: #e06878; }
+
+/* Indicateur de progression */
+.rg-progress-bar-wrap {
+  width: 340px;
+  height: 4px;
+  background: var(--overlay-6);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.rg-progress-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width .3s linear;
+  width: 0%;
+}
+
+/* Écrans de compte à rebours / résultat */
+.rg-overlay {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: rgba(7,7,13,.88);
+  z-index: 20;
+  gap: .8rem;
+}
+.rg-countdown {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 72px; font-weight: 600;
+  color: #f5f0ff;
+  text-shadow: 0 0 30px rgba(123,95,212,.6);
+}
+.rg-result-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; font-weight: 600;
+  color: var(--hero-title);
+}
+.rg-result-stats {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; line-height: 2;
+  color: var(--text2);
+  text-align: center;
+}
+.rg-result-grade {
+  font-size: 52px;
+  margin-bottom: .2rem;
+}
+.rg-btn {
+  margin-top: .5rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; letter-spacing: .1em;
+  padding: 9px 20px; border-radius: 20px;
+  border: 1px solid var(--border2);
+  background: none; color: var(--text2);
+  cursor: pointer; transition: all .2s;
+}
+.rg-btn:hover { border-color: var(--accent); color: var(--accent); }
+.rg-btn-primary {
+  background: rgba(123,95,212,.2);
+  border-color: rgba(123,95,212,.5);
+  color: var(--hero-pretitle);
+}
+.rg-btn-primary:hover { background: rgba(123,95,212,.35); }
+
+/* ── Lecteur YouTube caché ── */
+#rg-yt-player { width: 1px; height: 1px; position: absolute; opacity: 0; pointer-events: none; }
+
+/* ── Instruction clavier ── */
+.rg-kb-hint {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: .08em;
+  color: var(--text3);
+  text-align: center;
+  margin-top: .3rem;
+}
+
+@media (max-width: 400px) {
+  .rg-field { width: 300px; }
+  .rg-progress-bar-wrap { width: 300px; }
+}
