@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+<script>
+  (function(){
+    try {
+      var saved = localStorage.getItem('bts-theme');
+      var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch(e){}
+  })();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Étudier avec BTS · ARMY Lounge</title>
@@ -19,6 +28,7 @@
   </button>
   <a class="logo" href="index.html" style="text-decoration:none">BTS <small>방탄소년단 Archive</small></a>
   <div style="flex:1"></div>
+  <button id="theme-toggle-btn" onclick="toggleTheme()" title="Changer de thème" aria-label="Basculer thème clair/sombre">🌙</button>
   <a class="hub-switch" href="hub.html">💜 Lounge</a>
 </header>
 
@@ -77,42 +87,42 @@
     <p class="study-intro">Des mix longs, parfaits pour les sessions de révision. Clique pour ouvrir sur YouTube.</p>
 
     <div class="study-grid">
-      <a class="study-card" href="https://www.youtube.com/watch?v=eN9fKcCZ9Jg" target="_blank">
+      <a class="study-card" href="#" data-yt="eN9fKcCZ9Jg" onclick="openStudyPlayer(event,this)">
         <div class="study-card-icon">🌙</div>
         <div class="study-card-title">Milky Skies — BTS Lofi Mix</div>
         <div class="study-card-desc">Lofi nocturne et apaisant, parfait pour les révisions tardives.</div>
         <div class="study-card-tag">Lofi · Long mix</div>
       </a>
 
-      <a class="study-card" href="https://www.youtube.com/watch?v=CtKiYK4BAFc" target="_blank">
+      <a class="study-card" href="#" data-yt="CtKiYK4BAFc" onclick="openStudyPlayer(event,this)">
         <div class="study-card-icon">☕</div>
         <div class="study-card-title">BTS Lofi — Chill, Study, Relax</div>
         <div class="study-card-desc">Mix lofi varié pour accompagner toute une session de travail.</div>
         <div class="study-card-tag">Lofi · ARMY</div>
       </a>
 
-      <a class="study-card" href="https://www.youtube.com/watch?v=qlJzmdC5GWc" target="_blank">
+      <a class="study-card" href="#" data-yt="qlJzmdC5GWc" onclick="openStudyPlayer(event,this)">
         <div class="study-card-icon">🎹</div>
         <div class="study-card-title">2H Piano Collection — Best of BTS</div>
         <div class="study-card-desc">Deux heures de covers piano instrumentaux, idéal pour la concentration profonde.</div>
         <div class="study-card-tag">Piano · 2h</div>
       </a>
 
-      <a class="study-card" href="https://www.youtube.com/watch?v=tOnZxO_qBnE" target="_blank">
+      <a class="study-card" href="#" data-yt="tOnZxO_qBnE" onclick="openStudyPlayer(event,this)">
         <div class="study-card-icon">📖</div>
         <div class="study-card-title">8H Piano BTS — Depuis les débuts</div>
         <div class="study-card-desc">Un immense mix piano couvrant toute la discographie, pour les longues sessions.</div>
         <div class="study-card-tag">Piano · 8h</div>
       </a>
 
-      <a class="study-card" href="https://youtu.be/BTzLt-1WZvE?si=qYfJv_nEsTc01e7r" target="_blank">
+      <a class="study-card" href="#" data-yt="BTzLt-1WZvE" onclick="openStudyPlayer(event,this)">
         <div class="study-card-icon">🌸</div>
         <div class="study-card-title">The Best of BTS — 1H Piano</div>
         <div class="study-card-desc">Une heure de piano doux, parfait pour démarrer une session courte.</div>
         <div class="study-card-tag">Piano · 1h</div>
       </a>
 
-      <a class="study-card" href="https://youtu.be/BTzLt-1WZvE?si=OKzcVm1-hOhcrh-H" target="_blank">
+      <a class="study-card" href="#" data-yt="BTzLt-1WZvE" onclick="openStudyPlayer(event,this)">
         <div class="study-card-icon">✨</div>
         <div class="study-card-title">BTS - ARIRANG Full Album LoFi Mix 🎧 [+Come Over]</div>
         <div class="study-card-desc">Ambiance chill / study / relax, pour ne pas se laisser distraire.</div>
@@ -163,6 +173,47 @@
   </div>
 
 </div>
+
+<!-- ══════════════════════════════════════════════
+     LECTEUR INTÉGRÉ PLEIN ÉCRAN
+══════════════════════════════════════════════ -->
+<div id="study-player-overlay" class="study-player-overlay" aria-hidden="true">
+  <button id="study-player-close" class="study-player-close" onclick="closeStudyPlayer()" aria-label="Fermer le lecteur" title="Fermer">✕</button>
+  <div class="study-player-frame-wrap">
+    <iframe id="study-player-iframe" class="study-player-iframe"
+      src="" title="Lecteur d'étude" frameborder="0"
+      allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   LECTEUR D'ÉTUDE — modal plein écran intégré au site
+══════════════════════════════════════════════ */
+function openStudyPlayer(e, el) {
+  e.preventDefault();
+  var videoId = el.getAttribute('data-yt');
+  if (!videoId) return;
+  var overlay = document.getElementById('study-player-overlay');
+  var iframe = document.getElementById('study-player-iframe');
+  // rel=0 : pas de suggestions d'autres chaînes à la fin
+  // modestbranding=1 : marque YouTube discrète
+  // autoplay=1 : démarre immédiatement (le clic = interaction utilisateur, donc autorisé avec le son)
+  iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeStudyPlayer() {
+  var overlay = document.getElementById('study-player-overlay');
+  var iframe = document.getElementById('study-player-iframe');
+  overlay.classList.remove('open');
+  iframe.src = ''; // stoppe la lecture
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape') closeStudyPlayer();
+});
+</script>
 
 <script>
 /* ══════════════════════════════════════════════
@@ -306,7 +357,25 @@
     const saved = JSON.parse(localStorage.getItem('bts_cursor'));
     if (saved) currentEmoji = saved.emoji || null;
   } catch(e) {}
-})();
+</script>
+
+<!-- Thème clair / sombre -->
+<script>
+function updateThemeBtn() {
+  var btn = document.getElementById('theme-toggle-btn');
+  if (!btn) return;
+  var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  btn.textContent = isLight ? '☀️' : '🌙';
+  btn.title = isLight ? 'Passer en mode sombre' : 'Passer en mode clair';
+}
+function toggleTheme() {
+  var current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  var next = current === 'light' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('bts-theme', next); } catch(e){}
+  updateThemeBtn();
+}
+document.addEventListener('DOMContentLoaded', updateThemeBtn);
 </script>
 
 </body>
