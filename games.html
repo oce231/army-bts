@@ -451,12 +451,12 @@
       <div class="gq-intro-emoji">🔍</div>
       <div class="gq-intro-title">Devine le membre</div>
       <p class="gq-intro-desc">Des indices se révèlent un par un. Devine le bon membre le plus vite possible pour maximiser ton score !</p>
-      <button class="gq-btn gq-btn-main" onclick="dmStart()">Commencer — 8 manches</button>
+      <button class="gq-btn gq-btn-main" onclick="dmStart()">Commencer — 7 manches</button>
     </div>
 
     <div id="dm-game" style="display:none;">
       <div class="gq-progress-wrap">
-        <div class="gq-progress-info"><span id="dm-q-num">Manche 1/8</span><span id="dm-score-live">⭐ 0</span></div>
+        <div class="gq-progress-info"><span id="dm-q-num">Manche 1/7</span><span id="dm-score-live">⭐ 0</span></div>
         <div class="gq-progress-bar"><div class="gq-progress-fill" id="dm-progress"></div></div>
       </div>
 
@@ -476,7 +476,7 @@
 
     <div id="dm-result" style="display:none;text-align:center;">
       <span id="dm-res-emoji" style="font-size:52px;display:block;margin-bottom:.8rem;"></span>
-      <div class="gq-result-score"><span id="dm-res-score">0</span><span class="gq-result-max">/8</span></div>
+      <div class="gq-result-score"><span id="dm-res-score">0</span><span class="gq-result-max" id="dm-res-max">/7</span></div>
       <div id="dm-res-level" style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:.6rem;color:var(--text);"></div>
       <p id="dm-res-desc" style="font-size:12px;color:var(--text2);line-height:1.7;max-width:420px;margin:0 auto 1.4rem;"></p>
       <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
@@ -2274,9 +2274,10 @@ function dmStart() {
 function _dmRenderRound() {
   _dmClueIdx = 0; _dmAnswered = false;
   var member = _dmRounds[_dmCurrent];
-  document.getElementById('dm-q-num').textContent = 'Manche ' + (_dmCurrent+1) + '/8';
+  var total = DM_MEMBERS.length;
+  document.getElementById('dm-q-num').textContent = 'Manche ' + (_dmCurrent+1) + '/' + total;
   document.getElementById('dm-score-live').textContent = '⭐ ' + _dmScore;
-  document.getElementById('dm-progress').style.width = (_dmCurrent/8*100) + '%';
+  document.getElementById('dm-progress').style.width = (_dmCurrent/total*100) + '%';
   document.getElementById('dm-feedback').style.display = 'none';
   document.getElementById('dm-next-round').style.display = 'none';
 
@@ -2349,7 +2350,7 @@ function dmAnswer(choice, btn) {
 
 function dmNextRound() {
   _dmCurrent++;
-  if (_dmCurrent >= 8) { _dmShowResult(); return; }
+  if (_dmCurrent >= DM_MEMBERS.length) { _dmShowResult(); return; }
   _dmRenderRound();
 }
 
@@ -2358,7 +2359,8 @@ function _dmShowResult() {
   document.getElementById('dm-result').style.display = 'block';
   document.getElementById('dm-res-score').textContent = _dmScore;
 
-  var maxScore = 32;
+  var maxScore = DM_MEMBERS.length * 4; // 4 indices max par manche, 1er indice = 4 pts
+  document.getElementById('dm-res-max').textContent = '/' + maxScore;
   var pct = _dmScore / maxScore;
   var emoji, level, desc;
   if (pct >= .8)      { emoji='🏆'; level='Expert ARMY !';      desc='Score impressionnant ! Tu reconnais les membres dès le premier indice.'; }
@@ -2370,7 +2372,7 @@ function _dmShowResult() {
   document.getElementById('dm-res-desc').textContent  = desc;
 
   _dmResData = { emoji: emoji, level: level, score: _dmScore, max: maxScore };
-  lbSubmitScore('devine', _dmScore, 32, {});
+  lbSubmitScore('devine', _dmScore, maxScore, {});
 }
 
 function dmRestart() {
