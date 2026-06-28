@@ -9295,9 +9295,19 @@ window.showRandomFact = function() {
     const errEl = document.getElementById('login-error');
     errEl.textContent = '';
     if (!email || !password) { errEl.textContent = 'Remplis tous les champs.'; return; }
-    const { error } = await sb.auth.signInWithPassword({ email, password });
-    if (error) errEl.textContent = error.message.includes('Invalid') ? 'Email ou mot de passe incorrect.' : error.message;
-    else authClosePanel();
+    try {
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) {
+        if (error.message && error.message.includes('Invalid')) errEl.textContent = 'Email ou mot de passe incorrect.';
+        else if (error.message && error.message.includes('confirm')) errEl.textContent = 'Vérifie ton email pour confirmer ton compte.';
+        else errEl.textContent = error.message || 'Erreur de connexion. Réessaie.';
+      } else {
+        authClosePanel();
+      }
+    } catch(e) {
+      errEl.textContent = 'Erreur inattendue. Vérifie ta connexion.';
+      console.error('Login error:', e);
+    }
   };
 
   window.authRegister = async function() {
@@ -9309,12 +9319,29 @@ window.showRandomFact = function() {
     errEl.textContent = '';
     if (!pseudo) { errEl.textContent = 'Choisis un pseudo.'; return; }
     if (!email) { errEl.textContent = 'Entre ton email.'; return; }
-    if (password.length < 6) { errEl.textContent = 'Mot de passe trop court (min 6 caractères).'; return; }
-    const { data, error } = await sb.auth.signUp({ email, password });
-    if (error) { errEl.textContent = error.message; return; }
-    if (data.user) await sb.from('profiles').insert({ id: data.user.id, pseudo, avatar });
-    document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-    document.getElementById('auth-form-success').classList.add('active');
+    if (password.length < 6) { errEl.textContent = 'Mot de passe trop court (min 6 car.).'; return; }
+
+    try {
+      const { data, error } = await sb.auth.signUp({ email, password });
+      if (error) {
+        errEl.textContent = error.message || 'Erreur lors de l\'inscription. Réessaie.';
+        return;
+      }
+      // Insère le profil si l'utilisateur est créé
+      if (data && data.user) {
+        const { error: profileError } = await sb.from('profiles').insert({
+          id: data.user.id,
+          pseudo: pseudo,
+          avatar: avatar,
+        });
+        if (profileError) console.warn('Profile insert error:', profileError.message);
+      }
+      document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+      document.getElementById('auth-form-success').classList.add('active');
+    } catch(e) {
+      errEl.textContent = 'Erreur inattendue. Vérifie ta connexion et réessaie.';
+      console.error('Register error:', e);
+    }
   };
 
   window.authSignOut = async function() {
