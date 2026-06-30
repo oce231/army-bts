@@ -9547,6 +9547,16 @@ window.showRandomFact = function() {
     const thumb = card.querySelector('.v-thumb');
     if (!thumb) return;
 
+    const isFav = favoriteSet.has(title);
+    const isSeen = watchedSet.has(title);
+
+    // Évite tout travail DOM si l'état n'a pas changé depuis la dernière décoration
+    if (card.dataset.favState === (isFav ? '1' : '0') && card.dataset.seenState === (isSeen ? '1' : '0')) {
+      return;
+    }
+    card.dataset.favState = isFav ? '1' : '0';
+    card.dataset.seenState = isSeen ? '1' : '0';
+
     // Bouton favori (créé une seule fois par carte)
     let favBtn = thumb.querySelector('.v-fav-btn');
     if (!favBtn) {
@@ -9561,15 +9571,15 @@ window.showRandomFact = function() {
       });
       thumb.appendChild(favBtn);
     }
-    favBtn.textContent = favoriteSet.has(title) ? '⭐' : '☆';
-    favBtn.classList.toggle('is-fav', favoriteSet.has(title));
-    const favLabel = favoriteSet.has(title) ? 'Retirer des favoris' : 'Ajouter aux favoris';
+    favBtn.textContent = isFav ? '⭐' : '☆';
+    favBtn.classList.toggle('is-fav', isFav);
+    const favLabel = isFav ? 'Retirer des favoris' : 'Ajouter aux favoris';
     favBtn.setAttribute('aria-label', favLabel);
     favBtn.setAttribute('title', favLabel);
 
     // Badge "déjà vu"
     let seenBadge = thumb.querySelector('.v-seen-badge');
-    if (watchedSet.has(title)) {
+    if (isSeen) {
       if (!seenBadge) {
         seenBadge = document.createElement('span');
         seenBadge.className = 'v-seen-badge';
@@ -9660,9 +9670,26 @@ window.showRandomFact = function() {
     decorateCard(card);
   });
 
-  // Ré-applique les badges/boutons quand de nouvelles cartes apparaissent dans le DOM
-  // (changement d'era, d'onglet, contenu chargé dynamiquement)
-  const _vcardObserver = new MutationObserver(function(){ markAllCards(); });
+  // Ré-applique les badges/boutons uniquement quand de NOUVELLES cartes apparaissent
+  // (évite la boucle infinie : on ignore les mutations causées par decorateCard lui-même)
+  let _vcardObserverPaused = false;
+  const _vcardObserver = new MutationObserver(function(mutations){
+    if (_vcardObserverPaused) return;
+    let hasNewCard = false;
+    for (const m of mutations) {
+      for (const node of m.addedNodes) {
+        if (node.nodeType !== 1) continue;
+        if (node.classList && node.classList.contains('v-card')) { hasNewCard = true; break; }
+        if (node.querySelector && node.querySelector('.v-card')) { hasNewCard = true; break; }
+      }
+      if (hasNewCard) break;
+    }
+    if (!hasNewCard) return;
+    _vcardObserverPaused = true;
+    markAllCards();
+    // Laisse le temps au DOM de se stabiliser avant de réécouter
+    setTimeout(function(){ _vcardObserverPaused = false; }, 50);
+  });
   _vcardObserver.observe(document.body, { childList: true, subtree: true });
 
   window.getCurrentUser = () => currentUser;
