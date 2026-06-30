@@ -7456,8 +7456,6 @@ document.addEventListener('DOMContentLoaded', updateThemeBtn);
       ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
     });
     ctx.globalAlpha=1;
-    var introEl = document.getElementById('intro');
-    if (introEl && introEl.classList.contains('gone')) return; // stoppe la boucle une fois l'intro quittée
     requestAnimationFrame(draw);
   }
   window.addEventListener('resize',resize);resize();draw();
@@ -7500,7 +7498,6 @@ document.addEventListener('DOMContentLoaded', updateThemeBtn);
       ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
     });
     ctx.globalAlpha=1;
-    if (hp.classList.contains('hp-hidden')) { started = false; return; } // stoppe la boucle si la homepage est masquée
     requestAnimationFrame(draw);
   }
   // Démarrer quand la homepage devient visible
@@ -9550,7 +9547,7 @@ window.showRandomFact = function() {
     const isFav = favoriteSet.has(title);
     const isSeen = watchedSet.has(title);
 
-    // Évite tout travail DOM si l'état n'a pas changé depuis la dernière décoration
+    // Évite tout travail DOM si l'état n'a pas changé (2e barrière anti-boucle)
     if (card.dataset.favState === (isFav ? '1' : '0') && card.dataset.seenState === (isSeen ? '1' : '0')) {
       return;
     }
@@ -9671,7 +9668,8 @@ window.showRandomFact = function() {
   });
 
   // Ré-applique les badges/boutons uniquement quand de NOUVELLES cartes apparaissent
-  // (évite la boucle infinie : on ignore les mutations causées par decorateCard lui-même)
+  // (évite la boucle infinie : markAllCards() modifie le DOM, ce qui sans cette
+  // protection redéclenche l'observer indéfiniment et fait planter la page)
   let _vcardObserverPaused = false;
   const _vcardObserver = new MutationObserver(function(mutations){
     if (_vcardObserverPaused) return;
@@ -9687,7 +9685,6 @@ window.showRandomFact = function() {
     if (!hasNewCard) return;
     _vcardObserverPaused = true;
     markAllCards();
-    // Laisse le temps au DOM de se stabiliser avant de réécouter
     setTimeout(function(){ _vcardObserverPaused = false; }, 50);
   });
   _vcardObserver.observe(document.body, { childList: true, subtree: true });
