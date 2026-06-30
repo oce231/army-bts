@@ -7456,6 +7456,8 @@ document.addEventListener('DOMContentLoaded', updateThemeBtn);
       ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
     });
     ctx.globalAlpha=1;
+    var introEl = document.getElementById('intro');
+    if (introEl && introEl.classList.contains('gone')) return; // stoppe la boucle une fois l'intro quittée
     requestAnimationFrame(draw);
   }
   window.addEventListener('resize',resize);resize();draw();
@@ -7498,6 +7500,7 @@ document.addEventListener('DOMContentLoaded', updateThemeBtn);
       ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
     });
     ctx.globalAlpha=1;
+    if (hp.classList.contains('hp-hidden')) { started = false; return; } // stoppe la boucle si la homepage est masquée
     requestAnimationFrame(draw);
   }
   // Démarrer quand la homepage devient visible
