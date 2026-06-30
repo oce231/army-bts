@@ -1,0 +1,19 @@
+{
+  "name": "BTS Archive Universe",
+  "short_name": "BTS Archive",
+  "description": "L'archive complète dédiée à BTS — eras, lives, jeux et plus.",
+  "start_url": "/army-bts/index.html",
+  "scope": "/army-bts/",
+  "display": "standalone",
+  "background_color": "#0a0a12",
+  "theme_color": "#0a0a12",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "Photo/Preview.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}

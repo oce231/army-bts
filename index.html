@@ -21,6 +21,12 @@
 <meta name="google-site-verification" content="bhBEl_l6vUboeI1Oxv3kbUlib_3ghDq54C5HTTsOoRA" />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a0a12">
+<link rel="apple-touch-icon" href="Photo/Preview.jpg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BTS Archive">
   <script defer src="https://cloud.umami.is/script.js" data-website-id="05ed87e3-dc67-44d8-a5b7-133005178a72"></script>
 </head>
 <body>
@@ -9262,8 +9268,16 @@ window.showRandomFact = function() {
 
   async function onSignedIn(user) {
     currentUser = user;
-    const { data } = await sb.from('profiles').select('*').eq('id', user.id).single();
-    currentProfile = data;
+    const { data, error } = await sb.from('profiles').select('*').eq('id', user.id).single();
+    if (error || !data) {
+      console.warn('Profil introuvable pour cet utilisateur, création d\'un profil de secours.', error && error.message);
+      // Profil de secours pour ne pas bloquer l'UI si la ligne profiles n'existe pas
+      currentProfile = { pseudo: user.email ? user.email.split('@')[0] : 'ARMY', avatar: '💜', created_at: user.created_at };
+      // Tente de créer la ligne manquante pour la prochaine fois
+      sb.from('profiles').insert({ id: user.id, pseudo: currentProfile.pseudo, avatar: currentProfile.avatar }).then(() => {});
+    } else {
+      currentProfile = data;
+    }
     personalizationEnabled = localStorage.getItem('personalization') !== 'false';
     updateAuthUI(true);
   }
@@ -9280,13 +9294,15 @@ window.showRandomFact = function() {
     const menu = document.getElementById('auth-menu');
     const sideLabel = document.getElementById('sidebar-account-label');
     const sideBtn = document.getElementById('sidebar-account-btn');
-    if (loggedIn && currentProfile) {
-      btn.textContent = currentProfile.avatar || '💜';
+    if (loggedIn && currentUser) {
+      const avatar = (currentProfile && currentProfile.avatar) || '💜';
+      const pseudo = (currentProfile && currentProfile.pseudo) || (currentUser.email ? currentUser.email.split('@')[0] : 'ARMY');
+      btn.textContent = avatar;
       btn.classList.add('logged-in');
-      document.getElementById('auth-menu-avatar').textContent = currentProfile.avatar || '💜';
-      document.getElementById('auth-menu-pseudo').textContent = currentProfile.pseudo;
+      document.getElementById('auth-menu-avatar').textContent = avatar;
+      document.getElementById('auth-menu-pseudo').textContent = pseudo;
       btn.onclick = () => { menu.style.display = menu.style.display === 'none' ? 'block' : 'none'; };
-      if (sideLabel) sideLabel.textContent = currentProfile.pseudo || 'Mon profil';
+      if (sideLabel) sideLabel.textContent = pseudo;
       if (sideBtn) sideBtn.onclick = () => { closeSidebar(); authShowProfile(); };
     } else {
       btn.textContent = '👤';
@@ -9386,11 +9402,12 @@ window.showRandomFact = function() {
 
   window.authShowProfile = function() {
     document.getElementById('auth-menu').style.display = 'none';
-    if (!currentUser || !currentProfile) return;
-    document.getElementById('profile-avatar-big').textContent = currentProfile.avatar || '💜';
-    document.getElementById('profile-pseudo-display').textContent = currentProfile.pseudo;
+    if (!currentUser) return;
+    const profile = currentProfile || { pseudo: 'ARMY', avatar: '💜', created_at: currentUser.created_at };
+    document.getElementById('profile-avatar-big').textContent = profile.avatar || '💜';
+    document.getElementById('profile-pseudo-display').textContent = profile.pseudo || 'ARMY';
     document.getElementById('profile-email-display').textContent = currentUser.email;
-    const since = new Date(currentProfile.created_at);
+    const since = profile.created_at ? new Date(profile.created_at) : new Date();
     document.getElementById('profile-since').textContent = 'Membre depuis le ' + since.toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' });
     document.getElementById('personalization-toggle').checked = personalizationEnabled;
     loadProfileStats();
