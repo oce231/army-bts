@@ -26,7 +26,7 @@
 <body>
 <div id="subtitle-notice" style="display:none; position:relative; z-index:9999; background:linear-gradient(90deg,#7c3aed,#a855f7); color:#fff; padding:12px 44px; font-size:14px; line-height:1.5; text-align:center; font-family:inherit;">
   <span>⚠️ <strong>Note :</strong> la majorité des vidéos (MV, lives, interviews...) ne sont <strong>pas sous-titrées en français</strong> — certaines ont des sous-titres anglais uniquement, d'autres aucun sous-titre. Les liens viennent d'archives anglophones (merci à <a href="https://btsarchive.com" target="_blank" style="color:#fff; text-decoration:underline;">btsarchive.com</a>). Des sous-titres FR seront ajoutés progressivement au fil de mes trouvailles 💜</span>
-  <button onclick="document.getElementById('subtitle-notice').style.display='none'; try{localStorage.setItem('bts_subtitle_notice_dismissed','1')}catch(e){}" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.2); border:none; color:#fff; width:26px; height:26px; border-radius:50%; cursor:pointer; font-size:14px;">✕</button>
+  <button onclick="document.getElementById('subtitle-notice').style.display='none'; try{localStorage.setItem('bts_subtitle_notice_dismissed','1')}catch(e){}" aria-label="Fermer cette note" title="Fermer" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.2); border:none; color:#fff; width:26px; height:26px; border-radius:50%; cursor:pointer; font-size:14px;">✕</button>
 </div>
 <script>
   try {
@@ -236,18 +236,18 @@
   <button class="hamburger" id="ham" onclick="toggleSidebar()" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
-  <div class="logo" id="logo-ot7" onclick="ot7Click()">BTS <small>방탄소년단 Archive</small></div>
+  <div class="logo" id="logo-ot7" onclick="ot7Click()" role="button" tabindex="0" aria-label="Easter egg OT7">BTS <small>방탄소년단 Archive</small></div>
   <div id="search-wrap">
-    <span id="search-icon">🔍</span>
-    <input type="text" id="search-input" placeholder="Rechercher un titre, album, épisode…" autocomplete="off" oninput="searchSite(this.value)" onfocus="showSearchResults()" />
-    <button id="search-clear" onclick="clearSearch()" style="display:none">✕</button>
+    <span id="search-icon" aria-hidden="true">🔍</span>
+    <input type="text" id="search-input" placeholder="Rechercher un titre, album, épisode…" autocomplete="off" oninput="searchSite(this.value)" onfocus="showSearchResults()" aria-label="Rechercher sur le site" />
+    <button id="search-clear" onclick="clearSearch()" style="display:none" aria-label="Effacer la recherche">✕</button>
   </div>
-  <button id="cursor-toggle-btn" onclick="document.getElementById('cursor-picker').classList.toggle('open')" title="Choisir mon curseur">🖱️</button>
+  <button id="cursor-toggle-btn" onclick="document.getElementById('cursor-picker').classList.toggle('open')" title="Choisir mon curseur" aria-label="Choisir mon curseur">🖱️</button>
   <button id="theme-toggle-btn" onclick="toggleTheme()" title="Changer de thème" aria-label="Basculer thème clair/sombre">🌙</button>
   <a class="hub-switch" href="hub.html">💜 Lounge</a>
-  <button id="auth-btn" onclick="authTogglePanel()" title="Mon compte">👤</button>
+  <button id="auth-btn" onclick="authTogglePanel()" title="Mon compte" aria-label="Mon compte">👤</button>
   <div id="auth-menu" style="display:none">
-    <div id="auth-menu-avatar"></div>
+    <div id="auth-menu-avatar" aria-hidden="true"></div>
     <div id="auth-menu-pseudo"></div>
     <button class="auth-menu-item" onclick="authShowProfile()">👤 Mon profil</button>
     <button class="auth-menu-item auth-menu-logout" onclick="authSignOut()">↩ Se déconnecter</button>
@@ -261,7 +261,7 @@
 <div id="auth-overlay" onclick="authClosePanel()"></div>
 
 <div id="auth-panel">
-  <button id="auth-panel-close" onclick="authClosePanel()">✕</button>
+  <button id="auth-panel-close" onclick="authClosePanel()" aria-label="Fermer la fenêtre de connexion">✕</button>
   <div class="auth-tabs">
     <button class="auth-tab active" id="auth-tab-login" onclick="authSwitchTab('login')">Connexion</button>
     <button class="auth-tab" id="auth-tab-register" onclick="authSwitchTab('register')">Inscription</button>
@@ -284,14 +284,14 @@
     <input type="password" id="reg-password" class="auth-input" placeholder="Mot de passe (min 6 car.)" autocomplete="new-password">
     <div class="auth-avatar-label">Choisis ton avatar</div>
     <div class="auth-avatar-grid">
-      <button class="auth-avatar-opt active" data-emoji="💜" onclick="authSelectAvatar(this)">💜</button>
-      <button class="auth-avatar-opt" data-emoji="🐨" onclick="authSelectAvatar(this)">🐨</button>
-      <button class="auth-avatar-opt" data-emoji="🐹" onclick="authSelectAvatar(this)">🐹</button>
-      <button class="auth-avatar-opt" data-emoji="🐱" onclick="authSelectAvatar(this)">🐱</button>
-      <button class="auth-avatar-opt" data-emoji="🐿️" onclick="authSelectAvatar(this)">🐿️</button>
-      <button class="auth-avatar-opt" data-emoji="🐥" onclick="authSelectAvatar(this)">🐥</button>
-      <button class="auth-avatar-opt" data-emoji="🐯" onclick="authSelectAvatar(this)">🐯</button>
-      <button class="auth-avatar-opt" data-emoji="🐰" onclick="authSelectAvatar(this)">🐰</button>
+      <button class="auth-avatar-opt active" data-emoji="💜" onclick="authSelectAvatar(this)" aria-label="Avatar ARMY violet">💜</button>
+      <button class="auth-avatar-opt" data-emoji="🐨" onclick="authSelectAvatar(this)" aria-label="Avatar RM, koala">🐨</button>
+      <button class="auth-avatar-opt" data-emoji="🐹" onclick="authSelectAvatar(this)" aria-label="Avatar Jin, hamster">🐹</button>
+      <button class="auth-avatar-opt" data-emoji="🐱" onclick="authSelectAvatar(this)" aria-label="Avatar SUGA, chat">🐱</button>
+      <button class="auth-avatar-opt" data-emoji="🐿️" onclick="authSelectAvatar(this)" aria-label="Avatar j-hope, écureuil">🐿️</button>
+      <button class="auth-avatar-opt" data-emoji="🐥" onclick="authSelectAvatar(this)" aria-label="Avatar Jimin, poussin">🐥</button>
+      <button class="auth-avatar-opt" data-emoji="🐯" onclick="authSelectAvatar(this)" aria-label="Avatar V, tigre">🐯</button>
+      <button class="auth-avatar-opt" data-emoji="🐰" onclick="authSelectAvatar(this)" aria-label="Avatar Jung Kook, lapin">🐰</button>
     </div>
     <div class="auth-error" id="reg-error"></div>
     <button class="auth-submit" onclick="authRegister()">Créer mon compte</button>
@@ -327,6 +327,14 @@
       <div class="profile-stat"><div class="profile-stat-val" id="stat-quiz">—</div><div class="profile-stat-lbl">Quiz complétés</div></div>
       <div class="profile-stat"><div class="profile-stat-val" id="stat-bt">—</div><div class="profile-stat-lbl">Blind Tests</div></div>
     </div>
+    <div class="profile-section-title" style="margin-top:1.5rem">⭐ Mes favoris</div>
+    <div class="profile-recos" id="profile-favorites">
+      <div class="profile-reco-empty">Aucun favori pour l'instant — clique sur ☆ sur une vidéo pour la garder ici 💜</div>
+    </div>
+    <div class="profile-section-title" style="margin-top:1.5rem">✨ Recommandé pour toi</div>
+    <div class="profile-recos" id="profile-recos">
+      <div class="profile-reco-empty" id="profile-reco-empty">Regarde quelques vidéos pour débloquer des recommandations personnalisées 💜</div>
+    </div>
     <div class="profile-section-title" style="margin-top:1.5rem">⚙️ Paramètres</div>
     <div class="profile-setting">
       <div class="profile-setting-label">
@@ -359,6 +367,25 @@
 
 <!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
+
+  <!-- Section mobile uniquement : Lounge + Compte (cachés du header sous 768px) -->
+  <div id="sidebar-mobile-extra">
+    <div class="sidebar-label">Navigation</div>
+    <a class="era-btn" href="hub.html" style="text-decoration:none">
+      <span class="era-icon">💜</span>
+      <span class="era-text">
+        <span class="era-name">ARMY Lounge</span>
+        <span class="era-years">Étudier, danser, jouer…</span>
+      </span>
+    </a>
+    <button class="era-btn" id="sidebar-account-btn">
+      <span class="era-icon">👤</span>
+      <span class="era-text">
+        <span class="era-name" id="sidebar-account-label">Mon compte</span>
+        <span class="era-years">Connexion · Profil</span>
+      </span>
+    </button>
+  </div>
 
   <!-- Section BTS (visible par défaut) -->
   <div id="sidebar-bts">
@@ -612,7 +639,7 @@
       <div class="cp-title">💌 Suggestions & Contact</div>
       <div class="cp-subtitle">Une demande ? Une reco ? Je lis tout !</div>
     </div>
-    <button class="cp-close" onclick="toggleContactPanel()">✕</button>
+    <button class="cp-close" onclick="toggleContactPanel()" aria-label="Fermer le panneau de contact">✕</button>
   </div>
 
   <div class="cp-body" id="cp-body">
@@ -6591,6 +6618,7 @@ function showEra(idx) {
   if (idx === 16) { renderLives(); }
   if (idx === 17) { setTimeout(function(){ initWheel(); }, 50); }
   if (typeof setEraBg === 'function') setEraBg(idx);
+  if (typeof trackProgress === 'function') trackProgress('era_visited', String(idx));
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
@@ -8072,7 +8100,7 @@ function switchLoreTab(tab, btn) {
       <div id="spotify-bar-track">—</div>
       <div id="spotify-bar-album">BTS</div>
     </div>
-    <button id="spotify-bar-close" onclick="closeSpotifyBar()" title="Fermer">✕</button>
+    <button id="spotify-bar-close" onclick="closeSpotifyBar()" title="Fermer" aria-label="Fermer le lecteur Spotify">✕</button>
   </div>
   <div id="spotify-embed-wrap"></div>
   <div id="spotify-no-link" style="display:none">
@@ -8084,7 +8112,7 @@ function switchLoreTab(tab, btn) {
   <div id="dyk-header">
     <span id="dyk-icon">💜</span>
     <span id="dyk-label">Did You Know ?</span>
-    <button id="dyk-close" onclick="dykDismiss()">✕</button>
+    <button id="dyk-close" onclick="dykDismiss()" aria-label="Fermer cette info">✕</button>
   </div>
   <div id="dyk-text"></div>
   <div id="dyk-member"></div>
@@ -9225,7 +9253,7 @@ window.showRandomFact = function() {
 
   async function init() {
     const { data: { session } } = await sb.auth.getSession();
-    if (session) await onSignedIn(session.user);
+    if (session) { await onSignedIn(session.user); } else { updateAuthUI(false); }
     sb.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_IN' && session) await onSignedIn(session.user);
       if (event === 'SIGNED_OUT') onSignedOut();
@@ -9250,18 +9278,25 @@ window.showRandomFact = function() {
   function updateAuthUI(loggedIn) {
     const btn = document.getElementById('auth-btn');
     const menu = document.getElementById('auth-menu');
+    const sideLabel = document.getElementById('sidebar-account-label');
+    const sideBtn = document.getElementById('sidebar-account-btn');
     if (loggedIn && currentProfile) {
       btn.textContent = currentProfile.avatar || '💜';
       btn.classList.add('logged-in');
       document.getElementById('auth-menu-avatar').textContent = currentProfile.avatar || '💜';
       document.getElementById('auth-menu-pseudo').textContent = currentProfile.pseudo;
       btn.onclick = () => { menu.style.display = menu.style.display === 'none' ? 'block' : 'none'; };
+      if (sideLabel) sideLabel.textContent = currentProfile.pseudo || 'Mon profil';
+      if (sideBtn) sideBtn.onclick = () => { closeSidebar(); authShowProfile(); };
     } else {
       btn.textContent = '👤';
       btn.classList.remove('logged-in');
       btn.onclick = authTogglePanel;
       menu.style.display = 'none';
+      if (sideLabel) sideLabel.textContent = 'Mon compte';
+      if (sideBtn) sideBtn.onclick = () => { closeSidebar(); authTogglePanel(); };
     }
+    if (typeof loadFavoritesAndWatched === 'function') loadFavoritesAndWatched();
   }
 
   document.addEventListener('click', function(e) {
@@ -9374,6 +9409,91 @@ window.showRandomFact = function() {
     document.getElementById('stat-eras').textContent = new Set(data.filter(d => d.type === 'era_visited').map(d => d.value)).size || '0';
     document.getElementById('stat-quiz').textContent = data.filter(d => d.type === 'quiz_completed').length || '0';
     document.getElementById('stat-bt').textContent = data.filter(d => d.type === 'blindtest_score').length || '0';
+    renderRecommendations(data);
+    loadFavoritesList();
+  }
+
+  // ══════════════════════════════════════════════
+  // RECOMMANDATIONS — basées sur l'historique réel
+  // (pas d'IA externe : on compte les eras/types les plus
+  // regardés et on suggère des vidéos du même profil pas
+  // encore vues. 100% gratuit, tourne en local.)
+  // ══════════════════════════════════════════════
+  function renderRecommendations(progressData) {
+    const wrap = document.getElementById('profile-recos');
+    const emptyMsg = document.getElementById('profile-reco-empty');
+    if (!wrap) return;
+
+    const watched = progressData
+      .filter(d => d.type === 'video_watched')
+      .map(d => { try { return JSON.parse(d.value); } catch(e){ return null; } })
+      .filter(Boolean);
+
+    if (watched.length < 2) {
+      wrap.innerHTML = '<div class="profile-reco-empty">Regarde quelques vidéos pour débloquer des recommandations personnalisées 💜</div>';
+      return;
+    }
+
+    const watchedTitles = new Set(watched.map(w => w.title));
+
+    // Compte les eras et types les plus regardés
+    const eraCounts = {};
+    const typeCounts = {};
+    watched.forEach(w => {
+      if (w.era !== '') eraCounts[w.era] = (eraCounts[w.era] || 0) + 1;
+      if (w.vtype) typeCounts[w.vtype] = (typeCounts[w.vtype] || 0) + 1;
+    });
+    const topEras = Object.keys(eraCounts).sort((a,b) => eraCounts[b]-eraCounts[a]).slice(0,3);
+    const topTypes = Object.keys(typeCounts).sort((a,b) => typeCounts[b]-typeCounts[a]).slice(0,2);
+
+    // Cherche dans le DOM des vidéos du même profil pas encore vues
+    const candidates = [];
+    document.querySelectorAll('.v-card[href]').forEach(card => {
+      const titleEl = card.querySelector('.v-title');
+      if (!titleEl) return;
+      const title = titleEl.textContent.trim();
+      if (watchedTitles.has(title)) return;
+
+      const eraSection = card.closest('[id^="era-"]');
+      const eraIdx = eraSection ? eraSection.id.replace('era-', '') : '';
+      const pane = card.closest('.tab-pane');
+      const paneId = pane ? pane.id : '';
+      let vtype = 'other';
+      if (/concerts/.test(paneId)) vtype = 'concert';
+      else if (/variety/.test(paneId)) vtype = 'variety';
+      else if (/music|albums/.test(paneId)) vtype = 'mv';
+      else if (/fansign/.test(paneId)) vtype = 'fansign';
+      else if (/interview/.test(paneId)) vtype = 'interview';
+
+      let score = 0;
+      if (topEras.includes(eraIdx)) score += 2;
+      if (topTypes.includes(vtype)) score += 1;
+      if (score > 0) candidates.push({ title, href: card.getAttribute('href'), eraIdx, score });
+    });
+
+    candidates.sort((a,b) => b.score - a.score);
+    const top = candidates.slice(0, 6);
+
+    if (!top.length) {
+      wrap.innerHTML = '<div class="profile-reco-empty">Tu as déjà vu tout ce qui correspond à tes goûts ! Explore une nouvelle era 💜</div>';
+      return;
+    }
+
+    wrap.innerHTML = top.map(item => {
+      const RECO_ERA_NAMES = [
+        'Pre-Debut','School Trilogy','Dark & Wild','HYYH Pt.1','HYYH Pt.2',
+        'Young Forever','Wings','YNWA','Her','Tear','Answer',
+        'Persona','7','BE','Butter','Arirang','Lives & Streams','Roue Aléatoire'
+      ];
+      const eraName = RECO_ERA_NAMES[item.eraIdx] || 'BTS';
+      return '<a class="profile-reco-card" href="' + item.href + '" target="_blank">' +
+        '<span class="profile-reco-icon">▶</span>' +
+        '<span class="profile-reco-info">' +
+          '<span class="profile-reco-title">' + item.title + '</span>' +
+          '<span class="profile-reco-era">' + eraName + '</span>' +
+        '</span>' +
+      '</a>';
+    }).join('');
   }
 
   window.authTogglePersonalization = function(checkbox) {
@@ -9385,6 +9505,162 @@ window.showRandomFact = function() {
     if (!currentUser || !personalizationEnabled) return;
     await sb.from('user_progress').insert({ user_id: currentUser.id, type, value });
   };
+
+  // ══════════════════════════════════════════════
+  // FAVORIS + DÉJÀ VU
+  // (réutilise user_progress : type 'favorite' / 'video_watched')
+  // ══════════════════════════════════════════════
+  let favoriteSet = new Set();   // titres en favoris
+  let watchedSet = new Set();    // titres déjà vus
+
+  async function loadFavoritesAndWatched() {
+    favoriteSet = new Set();
+    watchedSet = new Set();
+    if (!currentUser) { markAllCards(); return; }
+    const { data } = await sb.from('user_progress').select('type,value').eq('user_id', currentUser.id);
+    if (!data) { markAllCards(); return; }
+    data.forEach(row => {
+      if (row.type === 'favorite') favoriteSet.add(row.value);
+      if (row.type === 'video_watched') {
+        try { const parsed = JSON.parse(row.value); if (parsed.title) watchedSet.add(parsed.title); }
+        catch(e) {}
+      }
+    });
+    markAllCards();
+  }
+
+  function vcardTitle(card) {
+    const t = card.querySelector('.v-title');
+    return t ? t.textContent.trim() : null;
+  }
+
+  function markAllCards() {
+    document.querySelectorAll('.v-card').forEach(decorateCard);
+  }
+
+  function decorateCard(card) {
+    const title = vcardTitle(card);
+    if (!title) return;
+    const thumb = card.querySelector('.v-thumb');
+    if (!thumb) return;
+
+    // Bouton favori (créé une seule fois par carte)
+    let favBtn = thumb.querySelector('.v-fav-btn');
+    if (!favBtn) {
+      favBtn = document.createElement('button');
+      favBtn.className = 'v-fav-btn';
+      favBtn.setAttribute('aria-label', 'Ajouter aux favoris');
+      favBtn.setAttribute('title', 'Ajouter aux favoris');
+      favBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleFavorite(title, favBtn);
+      });
+      thumb.appendChild(favBtn);
+    }
+    favBtn.textContent = favoriteSet.has(title) ? '⭐' : '☆';
+    favBtn.classList.toggle('is-fav', favoriteSet.has(title));
+    const favLabel = favoriteSet.has(title) ? 'Retirer des favoris' : 'Ajouter aux favoris';
+    favBtn.setAttribute('aria-label', favLabel);
+    favBtn.setAttribute('title', favLabel);
+
+    // Badge "déjà vu"
+    let seenBadge = thumb.querySelector('.v-seen-badge');
+    if (watchedSet.has(title)) {
+      if (!seenBadge) {
+        seenBadge = document.createElement('span');
+        seenBadge.className = 'v-seen-badge';
+        seenBadge.textContent = '✓ Vu';
+        thumb.appendChild(seenBadge);
+      }
+    } else if (seenBadge) {
+      seenBadge.remove();
+    }
+  }
+
+  async function toggleFavorite(title, btnEl) {
+    if (!currentUser) {
+      authTogglePanel();
+      return;
+    }
+    if (favoriteSet.has(title)) {
+      favoriteSet.delete(title);
+      await sb.from('user_progress').delete().eq('user_id', currentUser.id).eq('type', 'favorite').eq('value', title);
+    } else {
+      favoriteSet.add(title);
+      await sb.from('user_progress').insert({ user_id: currentUser.id, type: 'favorite', value: title });
+    }
+    document.querySelectorAll('.v-card').forEach(card => {
+      if (vcardTitle(card) === title) decorateCard(card);
+    });
+    if (document.getElementById('profile-section').classList.contains('active')) loadFavoritesList();
+  }
+
+  async function loadFavoritesList() {
+    const wrap = document.getElementById('profile-favorites');
+    if (!wrap || !currentUser) return;
+    if (!favoriteSet.size) {
+      wrap.innerHTML = '<div class="profile-reco-empty">Aucun favori pour l\'instant — clique sur ☆ sur une vidéo pour la garder ici 💜</div>';
+      return;
+    }
+    // Cherche les cartes du DOM correspondant aux titres favoris (avec leur lien + era)
+    const items = [];
+    const seenTitles = new Set();
+    document.querySelectorAll('.v-card[href]').forEach(card => {
+      const title = vcardTitle(card);
+      if (!title || !favoriteSet.has(title) || seenTitles.has(title)) return;
+      seenTitles.add(title);
+      const eraSection = card.closest('[id^="era-"]');
+      const eraIdx = eraSection ? eraSection.id.replace('era-', '') : '';
+      items.push({ title, href: card.getAttribute('href'), eraIdx });
+    });
+    if (!items.length) {
+      wrap.innerHTML = '<div class="profile-reco-empty">Aucun favori pour l\'instant — clique sur ☆ sur une vidéo pour la garder ici 💜</div>';
+      return;
+    }
+    const RECO_ERA_NAMES = [
+      'Pre-Debut','School Trilogy','Dark & Wild','HYYH Pt.1','HYYH Pt.2',
+      'Young Forever','Wings','YNWA','Her','Tear','Answer',
+      'Persona','7','BE','Butter','Arirang','Lives & Streams','Roue Aléatoire'
+    ];
+    wrap.innerHTML = items.map(item => {
+      const eraName = RECO_ERA_NAMES[item.eraIdx] || 'BTS';
+      return '<a class="profile-reco-card" href="' + item.href + '" target="_blank">' +
+        '<span class="profile-reco-icon">⭐</span>' +
+        '<span class="profile-reco-info">' +
+          '<span class="profile-reco-title">' + item.title + '</span>' +
+          '<span class="profile-reco-era">' + eraName + '</span>' +
+        '</span>' +
+      '</a>';
+    }).join('');
+  }
+
+  // Tracking des vidéos regardées (clic sur une carte .v-card, quel que soit son comportement de navigation)
+  document.addEventListener('click', function(e) {
+    const card = e.target.closest('.v-card[href]');
+    if (!card) return;
+    const titleEl = card.querySelector('.v-title');
+    if (!titleEl) return;
+    const pane = card.closest('.tab-pane');
+    const paneId = pane ? pane.id : '';
+    let vtype = 'other';
+    if (/concerts/.test(paneId)) vtype = 'concert';
+    else if (/variety/.test(paneId)) vtype = 'variety';
+    else if (/music|albums/.test(paneId)) vtype = 'mv';
+    else if (/fansign/.test(paneId)) vtype = 'fansign';
+    else if (/interview/.test(paneId)) vtype = 'interview';
+    const eraSection = card.closest('[id^="era-"]');
+    const eraIdx = eraSection ? eraSection.id.replace('era-', '') : '';
+    const title = titleEl.textContent.trim();
+    trackProgress('video_watched', JSON.stringify({ title: title, vtype: vtype, era: eraIdx }));
+    watchedSet.add(title);
+    decorateCard(card);
+  });
+
+  // Ré-applique les badges/boutons quand de nouvelles cartes apparaissent dans le DOM
+  // (changement d'era, d'onglet, contenu chargé dynamiquement)
+  const _vcardObserver = new MutationObserver(function(){ markAllCards(); });
+  _vcardObserver.observe(document.body, { childList: true, subtree: true });
 
   window.getCurrentUser = () => currentUser;
   window.getCurrentProfile = () => currentProfile;
