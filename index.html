@@ -575,6 +575,26 @@
     </div>
   </div>
 
+  <!-- Installer le site comme application (mobile + ordinateur) -->
+  <div id="sidebar-install-wrap">
+    <button class="era-btn" id="install-app-btn" onclick="handleInstallClick()">
+      <span class="era-icon">📲</span>
+      <span class="era-text">
+        <span class="era-name">Installer l'app</span>
+        <span class="era-years" id="install-app-sub">Accès direct depuis l'écran d'accueil</span>
+      </span>
+    </button>
+  </div>
+
+</div>
+
+<!-- MODALE D'INSTALLATION (instructions manuelles si le navigateur ne propose pas d'install automatique) -->
+<div id="install-overlay" onclick="closeInstallModal()"></div>
+<div id="install-modal">
+  <button id="install-modal-close" onclick="closeInstallModal()" aria-label="Fermer">✕</button>
+  <div class="install-modal-emoji">📲</div>
+  <div class="install-modal-title">Installer BTS Archive</div>
+  <div id="install-modal-body"></div>
 </div>
 
 <!-- ARTIST FAB -->
@@ -8289,6 +8309,16 @@ function switchLoreTab(tab, btn) {
     'apobangpo':   'eggAPOBANGPO',
     '0613':        'egg0613',
     'merci bts':   'eggMERCI',
+    'spring day':  'eggSPRINGDAY',
+    'springday':   'eggSPRINGDAY',
+    '봄날':          'eggSPRINGDAY',
+    'dynamite':    'eggDYNAMITE',
+    'black swan':  'eggBLACKSWAN',
+    'blackswan':   'eggBLACKSWAN',
+    'festa':       'eggFESTA',
+    'army bomb':   'eggARMYBOMB',
+    'armybomb':    'eggARMYBOMB',
+    'purple ocean':'eggARMYBOMB',
   };
   // Membres : déclenchés seulement avec Entrée (géré via keydown plus bas)
   const EGG_ENTER = {
@@ -9003,6 +9033,94 @@ function switchLoreTab(tab, btn) {
     });
   };
 
+  // ── SPRING DAY ────────────────────────────────
+  window.eggSPRINGDAY = function() {
+    showEgg({
+      emoji: '🌸',
+      msg: 'Tu sais que les jours passent tous comme ça…',
+      sub: '봄날 · Spring Day, 2017',
+      bg: '#0a1428',
+      particles: ['🌸','❄️','🌸','✨','⚪','🌸']
+    });
+  };
+
+  // ── DYNAMITE ──────────────────────────────────
+  window.eggDYNAMITE = function() {
+    showEgg({
+      emoji: '💥',
+      msg: "'Cause I, I, I'm in the stars tonight ✨",
+      sub: 'Dynamite, 2020 — 1er n°1 sur le Billboard Hot 100',
+      bg: '#241005',
+      particles: ['✨','💥','⭐','🕺','✨','💫']
+    });
+  };
+
+  // ── BLACK SWAN ────────────────────────────────
+  window.eggBLACKSWAN = function() {
+    showEgg({
+      emoji: '🖤',
+      msg: 'Quand la musique ne me fait plus vibrer, ce sera ma première mort.',
+      sub: 'Black Swan, 2020',
+      bg: '#020204',
+      particles: ['🖤','🕊️','🖤','✨','🖤']
+    });
+  };
+
+  // ── FESTA ─────────────────────────────────────
+  window.eggFESTA = function() {
+    showEgg({
+      emoji: '🎉',
+      msg: 'Chaque année en juin, ARMY et BTS célèbrent leur histoire ensemble.',
+      sub: 'FESTA — Anniversaire de débuts',
+      bg: '#1a0f28',
+      particles: ['🎉','🎂','💜','🎊','✨','💜']
+    });
+  };
+
+  // ── ARMY BOMB / PURPLE OCEAN ──────────────────
+  window.eggARMYBOMB = function() {
+    showEgg({
+      emoji: '💡',
+      msg: 'Un océan violet à perte de vue.',
+      sub: 'ARMY Bomb — Purple Ocean',
+      bg: '#05040f',
+      draw: drawPurpleOcean,
+      particles: ['💜','✨','💜']
+    });
+  };
+
+  function drawPurpleOcean() {
+    resizeCanvas();
+    const W = canvas.width, H = canvas.height;
+    const cols = Math.ceil(W / 26), rows = Math.ceil(H / 26);
+    const lights = [];
+    for (let i = 0; i < cols; i++) {
+      for (let j = 0; j < rows; j++) {
+        lights.push({ x: i*26 + 13, y: j*26 + 13, phase: Math.random()*Math.PI*2 });
+      }
+    }
+    let t = 0;
+    function frame() {
+      if (!overlay.classList.contains('active')) return;
+      ctx.clearRect(0,0,W,H);
+      t += 0.03;
+      lights.forEach(function(l) {
+        const wave = Math.sin(t + l.x*0.02 + l.y*0.015);
+        const glow = 0.4 + 0.6*Math.max(0, wave);
+        const r = 3 + glow*4;
+        const grd = ctx.createRadialGradient(l.x,l.y,0,l.x,l.y,r*3);
+        grd.addColorStop(0, `rgba(180,120,255,${glow*0.9})`);
+        grd.addColorStop(1, 'rgba(180,120,255,0)');
+        ctx.beginPath(); ctx.arc(l.x,l.y,r*3,0,Math.PI*2);
+        ctx.fillStyle = grd; ctx.fill();
+        ctx.beginPath(); ctx.arc(l.x,l.y,r,0,Math.PI*2);
+        ctx.fillStyle = `rgba(230,200,255,${glow})`; ctx.fill();
+      });
+      animFrame = requestAnimationFrame(frame);
+    }
+    animFrame = requestAnimationFrame(frame);
+  }
+
   // ── MEMBRES ───────────────────────────────────
   window.eggJIMIN = function() {
     showEgg({ emoji:'🐥', msg:'Une pluie de Mochi 🐥', sub:'Park Jimin · 박지민', bg:'#12040a',
@@ -9710,6 +9828,111 @@ window.showRandomFact = function() {
   window.getCurrentProfile = () => currentProfile;
 
   init();
+})();
+</script>
+
+<!-- ══════════════════════════════════════════════
+     INSTALLATION DE L'APP (PWA)
+══════════════════════════════════════════════ -->
+<script>
+(function(){
+  let deferredPrompt = null;
+
+  window.addEventListener('beforeinstallprompt', function(e){
+    e.preventDefault();
+    deferredPrompt = e;
+  });
+
+  window.addEventListener('appinstalled', function(){
+    deferredPrompt = null;
+    const sub = document.getElementById('install-app-sub');
+    if (sub) sub.textContent = 'App installée ✓';
+  });
+
+  function isStandalone() {
+    return window.matchMedia('(display-mode: standalone)').matches
+      || window.navigator.standalone === true;
+  }
+
+  function detectPlatform() {
+    const ua = navigator.userAgent || '';
+    const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(ua);
+    const isAndroid = /Android/.test(ua);
+    const isFirefox = /Firefox|FxiOS/.test(ua);
+    if (isIOS && isSafari) return 'ios-safari';
+    if (isIOS) return 'ios-other';
+    if (isAndroid) return 'android-other';
+    if (isFirefox) return 'desktop-firefox';
+    return 'desktop-other';
+  }
+
+  const INSTRUCTIONS = {
+    'ios-safari': [
+      'Appuie sur le bouton <b>Partager</b> <span style="opacity:.7">(carré avec une flèche vers le haut)</span> en bas de Safari.',
+      'Fais défiler et appuie sur <b>« Sur l\'écran d\'accueil »</b>.',
+      'Confirme avec <b>Ajouter</b>. L\'icône apparaît sur ton écran d\'accueil 💜'
+    ],
+    'ios-other': [
+      'Ouvre ce site dans <b>Safari</b> (l\'installation ne fonctionne que depuis Safari sur iPhone/iPad).',
+      'Appuie sur <b>Partager</b> → <b>« Sur l\'écran d\'accueil »</b>.'
+    ],
+    'android-other': [
+      'Ouvre le menu <b>⋮</b> de ton navigateur (en haut à droite).',
+      'Appuie sur <b>« Installer l\'application »</b> ou <b>« Ajouter à l\'écran d\'accueil »</b>.'
+    ],
+    'desktop-firefox': [
+      'Firefox ne permet pas encore d\'installer les sites en app.',
+      'Pour une vraie installation, ouvre ce site avec <b>Chrome</b> ou <b>Edge</b>.'
+    ],
+    'desktop-other': [
+      'Repère l\'icône d\'installation <b>⊕</b> ou <b>💻</b> tout à droite de la barre d\'adresse.',
+      'Clique dessus puis confirme <b>« Installer »</b>.',
+      'Si tu ne la vois pas : menu <b>⋮</b> → <b>« Installer BTS Archive Universe »</b>.'
+    ]
+  };
+
+  function renderInstructions(platform) {
+    const steps = INSTRUCTIONS[platform] || INSTRUCTIONS['desktop-other'];
+    return steps.map(function(s, i){
+      return '<div class="install-step"><span class="install-num">' + (i+1) + '</span><span>' + s + '</span></div>';
+    }).join('');
+  }
+
+  window.handleInstallClick = async function() {
+    closeSidebar();
+
+    if (isStandalone()) {
+      openInstallModal('<div class="install-step"><span>L\'app est déjà installée sur cet appareil 💜</span></div>');
+      return;
+    }
+
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const choice = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      return;
+    }
+
+    openInstallModal(renderInstructions(detectPlatform()));
+  };
+
+  function openInstallModal(html) {
+    document.getElementById('install-modal-body').innerHTML = html;
+    document.getElementById('install-overlay').classList.add('open');
+    document.getElementById('install-modal').classList.add('open');
+  }
+  window.closeInstallModal = function() {
+    document.getElementById('install-overlay').classList.remove('open');
+    document.getElementById('install-modal').classList.remove('open');
+  };
+
+  if (isStandalone()) {
+    document.addEventListener('DOMContentLoaded', function(){
+      const sub = document.getElementById('install-app-sub');
+      if (sub) sub.textContent = 'App installée ✓';
+    });
+  }
 })();
 </script>
 
