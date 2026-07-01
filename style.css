@@ -105,6 +105,9 @@
   box-shadow: 0 0 0 1.5px var(--era-c);
 }
 
+/* Cachée par défaut sur desktop — accès via header (.hub-switch / #auth-btn) */
+#sidebar-mobile-extra { display: none; }
+
 /* ─── MOBILE — sidebar en drawer ─── */
 @media (max-width: 768px) {
   .sidebar {
@@ -121,14 +124,14 @@
   .era-btn .era-thumb { width: 22px; height: 22px; }
   .era-btn { padding: .75rem 1rem; }
 
-  /* Section Lounge + Compte, visible uniquement en mobile
+  /* Section Lounge + Compte, visible uniquement en mobile, en bas du menu
      (remplace l'accès header masqué : .hub-switch et #auth-btn) */
-  #sidebar-mobile-extra { display: block; margin-bottom: .5rem; }
-  #sidebar-mobile-extra + #sidebar-bts { border-top: 1px solid var(--border); padding-top: .5rem; }
+  #sidebar-mobile-extra {
+    display: block;
+    margin-top: .8rem; padding-top: .8rem;
+    border-top: 1px solid var(--border);
+  }
 }
-
-/* Cachée par défaut sur desktop — accès via header (.hub-switch / #auth-btn) */
-#sidebar-mobile-extra { display: none; }
 
 /* ── Recommandations profil ── */
 .profile-recos {
@@ -383,6 +386,62 @@ header{
 }
 .sidebar::-webkit-scrollbar{width:2px}
 .sidebar::-webkit-scrollbar-thumb{background:var(--border2)}
+
+/* ── Bouton "Installer l'app" — toujours visible, mobile + desktop ── */
+#sidebar-install-wrap{
+  margin-top:.8rem;padding-top:.8rem;
+  border-top:1px solid var(--border);
+}
+#install-app-btn{
+  border-left-color:transparent;
+}
+#install-app-btn .era-icon{ color:#c9a96e; }
+#install-app-btn:hover{
+  color:#c9a96e;background:rgba(201,169,110,.08);
+  border-left-color:#c9a96e;
+}
+
+#install-overlay{
+  display:none;position:fixed;inset:0;z-index:9200;
+  background:rgba(0,0,0,.6);backdrop-filter:blur(4px);
+}
+#install-overlay.open{display:block}
+#install-modal{
+  display:none;position:fixed;z-index:9201;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  width:min(340px,88vw);
+  background:var(--bg2,#101018);
+  border:1px solid var(--border2);
+  border-radius:16px;
+  padding:1.8rem 1.5rem 1.5rem;
+  text-align:center;
+  box-shadow:0 12px 48px rgba(0,0,0,.6);
+}
+#install-modal.open{display:block}
+#install-modal-close{
+  position:absolute;top:10px;right:12px;
+  background:none;border:none;color:var(--text3);
+  font-size:14px;cursor:pointer;
+}
+.install-modal-emoji{font-size:36px;margin-bottom:.6rem}
+.install-modal-title{
+  font-family:'Cormorant Garamond',serif;font-size:20px;
+  color:#c9a96e;margin-bottom:1rem;
+}
+#install-modal-body{
+  font-size:11px;line-height:1.9;color:var(--text2);
+  text-align:left;
+}
+#install-modal-body b{color:var(--text)}
+#install-modal-body .install-step{
+  display:flex;gap:.6rem;align-items:flex-start;
+  margin-bottom:.7rem;
+}
+#install-modal-body .install-num{
+  flex-shrink:0;width:18px;height:18px;border-radius:50%;
+  background:rgba(201,169,110,.15);color:#c9a96e;
+  font-size:9px;display:flex;align-items:center;justify-content:center;
+}
 
 .sidebar-label{
   padding:.5rem 1rem .6rem;

@@ -20,7 +20,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="google-site-verification" content="bhBEl_l6vUboeI1Oxv3kbUlib_3ghDq54C5HTTsOoRA" />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=4">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a0a12">
 <link rel="apple-touch-icon" href="Photo/Preview.jpg">
@@ -373,25 +373,6 @@
 <!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
 
-  <!-- Section mobile uniquement : Lounge + Compte (cachés du header sous 768px) -->
-  <div id="sidebar-mobile-extra">
-    <div class="sidebar-label">Navigation</div>
-    <a class="era-btn" href="hub.html" style="text-decoration:none">
-      <span class="era-icon">💜</span>
-      <span class="era-text">
-        <span class="era-name">ARMY Lounge</span>
-        <span class="era-years">Étudier, danser, jouer…</span>
-      </span>
-    </a>
-    <button class="era-btn" id="sidebar-account-btn">
-      <span class="era-icon">👤</span>
-      <span class="era-text">
-        <span class="era-name" id="sidebar-account-label">Mon compte</span>
-        <span class="era-years">Connexion · Profil</span>
-      </span>
-    </button>
-  </div>
-
   <!-- Section BTS (visible par défaut) -->
   <div id="sidebar-bts">
 <div class="sidebar-label">Eras Groupe</div>
@@ -573,6 +554,25 @@
     <div style="margin-top:1rem;padding:.6rem .8rem;border-top:1px solid var(--border)">
       <button onclick="switchArtist('bts');closeSidebar()" style="width:100%;background:none;border:1px solid var(--border);color:var(--text2);font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.15em;padding:.5rem;border-radius:3px;cursor:pointer;text-transform:uppercase;transition:all .15s" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">← Retour BTS</button>
     </div>
+  </div>
+
+  <!-- Section mobile uniquement : Lounge + Compte, en bas du menu (cachés du header sous 768px) -->
+  <div id="sidebar-mobile-extra">
+    <div class="sidebar-label">Navigation</div>
+    <a class="era-btn" href="hub.html" style="text-decoration:none">
+      <span class="era-icon">💜</span>
+      <span class="era-text">
+        <span class="era-name">ARMY Lounge</span>
+        <span class="era-years">Étudier, danser, jouer…</span>
+      </span>
+    </a>
+    <button class="era-btn" id="sidebar-account-btn">
+      <span class="era-icon">👤</span>
+      <span class="era-text">
+        <span class="era-name" id="sidebar-account-label">Mon compte</span>
+        <span class="era-years">Connexion · Profil</span>
+      </span>
+    </button>
   </div>
 
   <!-- Installer le site comme application (mobile + ordinateur) -->
