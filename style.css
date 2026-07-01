@@ -246,6 +246,7 @@ header{
   font-family:'Cormorant Garamond',serif;
   font-size:20px;font-weight:300;
   letter-spacing:.35em;color:var(--accent);
+  flex-shrink:0;white-space:nowrap;
 }
 .logo small{
   font-size:10px;letter-spacing:.08em;
@@ -256,6 +257,7 @@ header{
 /* ── SEARCH BAR ── */
 #search-wrap {
   flex: 1;
+  min-width: 0;
   max-width: 420px;
   margin-left: auto;
   position: relative;
@@ -360,8 +362,12 @@ header{
 }
 
 @media(max-width:768px){
+  header { gap: .5rem; padding: 0 .7rem; }
+  .logo small { display: none; }
   #search-wrap { max-width: none; }
   #search-results { left: 0; right: 0; }
+  /* Lounge + Compte passent par le menu ☰ sur mobile (voir #sidebar-mobile-extra) */
+  .hub-switch { display: none; }
 }
 
 /* ─── SIDEBAR ─── */
@@ -2804,7 +2810,7 @@ body:has(#spotify-bar.visible) #dyk-card {
   border-bottom: 1px solid rgba(201,169,110,.2);
 }
 .profile-stats {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: .8rem;
 }
 .profile-stat {
   background: rgba(255,255,255,.03);

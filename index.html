@@ -330,8 +330,7 @@
     <div class="profile-section-title">✦ Ma progression</div>
     <div class="profile-stats" id="profile-stats">
       <div class="profile-stat"><div class="profile-stat-val" id="stat-eras">—</div><div class="profile-stat-lbl">Eras visitées</div></div>
-      <div class="profile-stat"><div class="profile-stat-val" id="stat-quiz">—</div><div class="profile-stat-lbl">Quiz complétés</div></div>
-      <div class="profile-stat"><div class="profile-stat-val" id="stat-bt">—</div><div class="profile-stat-lbl">Blind Tests</div></div>
+      <div class="profile-stat"><div class="profile-stat-val" id="stat-eggs">—</div><div class="profile-stat-lbl">Easter eggs trouvés</div></div>
     </div>
     <div class="profile-section-title" style="margin-top:1.5rem">⭐ Mes favoris</div>
     <div class="profile-recos" id="profile-favorites">
@@ -8301,6 +8300,7 @@ function switchLoreTab(tab, btn) {
   function fireEgg(fnName) {
     if (typeof window[fnName] === 'function') {
       window[fnName]();
+      if (typeof trackProgress === 'function') trackProgress('easter_egg_found', fnName);
       setTimeout(function(){
         document.getElementById('search-input').value = '';
         document.getElementById('search-clear').style.display = 'none';
@@ -8437,6 +8437,7 @@ function switchLoreTab(tab, btn) {
   function launchOT7() {
     document.getElementById('ot7-overlay').classList.add('active');
     startHearts();
+    if (typeof trackProgress === 'function') trackProgress('easter_egg_found', 'eggOT7');
   }
   window.startHeartsGlobal = startHearts;
   window.closeOT7 = function(e) {
@@ -9424,8 +9425,7 @@ window.showRandomFact = function() {
     const { data } = await sb.from('user_progress').select('type,value').eq('user_id', currentUser.id);
     if (!data) return;
     document.getElementById('stat-eras').textContent = new Set(data.filter(d => d.type === 'era_visited').map(d => d.value)).size || '0';
-    document.getElementById('stat-quiz').textContent = data.filter(d => d.type === 'quiz_completed').length || '0';
-    document.getElementById('stat-bt').textContent = data.filter(d => d.type === 'blindtest_score').length || '0';
+    document.getElementById('stat-eggs').textContent = new Set(data.filter(d => d.type === 'easter_egg_found').map(d => d.value)).size || '0';
     renderRecommendations(data);
     loadFavoritesList();
   }
