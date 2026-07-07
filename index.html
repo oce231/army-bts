@@ -20,7 +20,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="google-site-verification" content="bhBEl_l6vUboeI1Oxv3kbUlib_3ghDq54C5HTTsOoRA" />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=5">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a0a12">
 <link rel="apple-touch-icon" href="Photo/Preview.jpg">
@@ -28,6 +28,24 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="BTS Archive">
   <script defer src="https://cloud.umami.is/script.js" data-website-id="05ed87e3-dc67-44d8-a5b7-133005178a72"></script>
+<style>
+/* ═══ Filet de sécurité : garantit le bon rendu même si style.css reste en cache ═══ */
+#install-overlay{display:none !important;position:fixed !important;inset:0 !important;z-index:9200 !important;background:rgba(0,0,0,.6) !important;backdrop-filter:blur(4px);}
+#install-overlay.open{display:block !important;}
+#install-modal{display:none !important;position:fixed !important;top:50% !important;left:50% !important;transform:translate(-50%,-50%) !important;z-index:9201 !important;width:min(340px,88vw);background:#101018;border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:1.8rem 1.5rem 1.5rem;text-align:center;box-shadow:0 12px 48px rgba(0,0,0,.6);font-family:'Space Mono',monospace;}
+#install-modal.open{display:block !important;}
+#install-modal-close{position:absolute;top:10px;right:12px;background:none;border:none;color:#8a8a95;font-size:14px;cursor:pointer;}
+.install-modal-emoji{font-size:36px;margin-bottom:.6rem;}
+.install-modal-title{font-family:'Cormorant Garamond',serif;font-size:20px;color:#c9a96e;margin-bottom:1rem;}
+#install-modal-body{font-size:11px;line-height:1.9;color:#c8c8d0;text-align:left;}
+#install-modal-body b{color:#fff;}
+#install-modal-body .install-step{display:flex;gap:.6rem;align-items:flex-start;margin-bottom:.7rem;}
+#install-modal-body .install-num{flex-shrink:0;width:18px;height:18px;border-radius:50%;background:rgba(201,169,110,.15);color:#c9a96e;font-size:9px;display:flex;align-items:center;justify-content:center;}
+@media (max-width: 768px){
+  #sidebar-mobile-extra{display:block !important;}
+  .hub-switch{display:none !important;}
+}
+</style>
 </head>
 <body>
 <div id="subtitle-notice" style="display:none; position:relative; z-index:9999; background:linear-gradient(90deg,#7c3aed,#a855f7); color:#fff; padding:12px 44px; font-size:14px; line-height:1.5; text-align:center; font-family:inherit;">
