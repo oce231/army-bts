@@ -20,7 +20,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="google-site-verification" content="bhBEl_l6vUboeI1Oxv3kbUlib_3ghDq54C5HTTsOoRA" />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a0a12">
 <link rel="apple-touch-icon" href="Photo/Preview.jpg">
@@ -62,94 +62,78 @@
   }
 </script>
 <div id="onboarding-overlay">
+  <div class="onb-bg-orb onb-orb-1"></div>
+  <div class="onb-bg-orb onb-orb-2"></div>
   <button id="onb-skip" onclick="onbSkip()">Passer ✕</button>
 
   <div class="onb-slides" id="onb-slides">
 
     <!-- Slide 1 — Bienvenue -->
     <div class="onb-slide active" data-slide="0">
-      <div class="onb-visual onb-visual-1">
-        <div class="onb-glow"></div>
-        <div class="onb-logo-demo">BTS <small>방탄소년단 Archive</small></div>
-      </div>
-      <div class="onb-pretitle">Bienvenue 💜</div>
-      <h2 class="onb-title">L'archive complète de BTS</h2>
-      <p class="onb-text">Toutes les eras, tous les membres, toute l'histoire — réunis dans un seul endroit. Fais une visite rapide pour découvrir comment naviguer.</p>
+      <div class="onb-illus"><div class="onb-illus-glow"></div><div class="onb-illus-icon">💜</div></div>
+      <div class="onb-pretitle">✦ Bienvenue</div>
+      <h2 class="onb-title">Bienvenue dans l'univers BTS 💜</h2>
+      <p class="onb-text">Découvre des centaines de contenus, des théories, des jeux et une communauté réunis au même endroit. Fais glisser pour découvrir tout ce que le site propose.</p>
     </div>
 
-    <!-- Slide 2 — Les Eras -->
+    <!-- Slide 2 — Les vidéos par Era -->
     <div class="onb-slide" data-slide="1">
-      <div class="onb-visual onb-visual-2">
-        <div class="onb-era-demo">
-          <div class="onb-era-card" style="--c:#c45a3a">2013</div>
-          <div class="onb-era-card" style="--c:#3a78c4">HYYH</div>
-          <div class="onb-era-card" style="--c:#8b5fd4">Wings</div>
-          <div class="onb-era-card" style="--c:#c9a96e">2026</div>
-        </div>
-      </div>
-      <div class="onb-pretitle">📖 16 eras</div>
-      <h2 class="onb-title">Explore chaque ère de BTS</h2>
-      <p class="onb-text">Ouvre le menu (en haut à gauche) pour naviguer entre les 16 eras du groupe — des débuts en 2013 jusqu'à aujourd'hui. Chaque era contient clips, albums, lives, anecdotes et plus.</p>
+      <div class="onb-illus"><div class="onb-illus-glow"></div><div class="onb-illus-icon">🎬</div></div>
+      <div class="onb-pretitle">✦ 16 eras</div>
+      <h2 class="onb-title">Explore chaque Era</h2>
+      <p class="onb-text">Retrouve les clips, performances, émissions, concerts, Bangtan Bombs et bien plus encore, classés par Era pour suivre toute l'évolution de BTS.</p>
     </div>
 
-    <!-- Slide 3 — Recherche -->
+    <!-- Slide 3 — Recherche & Easter Eggs -->
     <div class="onb-slide" data-slide="2">
-      <div class="onb-visual onb-visual-3">
-        <div class="onb-search-demo">
-          <span class="onb-search-icon">🔍</span>
-          <span class="onb-search-text">Dynamite</span>
-        </div>
-        <div class="onb-search-results">
-          <div class="onb-search-result">🎵 Dynamite — MV</div>
-          <div class="onb-search-result">💿 Dynamite — Single</div>
-        </div>
-      </div>
-      <div class="onb-pretitle">🔍 Recherche instantanée</div>
-      <h2 class="onb-title">Trouve n'importe quel contenu</h2>
-      <p class="onb-text">La barre de recherche en haut te permet de trouver directement un titre, un album ou un épisode — et te ramène pile à l'endroit concerné.</p>
+      <div class="onb-illus"><div class="onb-illus-glow"></div><div class="onb-illus-icon">🔍</div></div>
+      <div class="onb-pretitle">✦ Recherche & surprises</div>
+      <h2 class="onb-title">Cherche… ou surprends-toi !</h2>
+      <p class="onb-text">Utilise la barre de recherche pour trouver rapidement n'importe quel contenu. Certains mots-clés ou actions déclenchent également des Easter Eggs cachés à découvrir.</p>
     </div>
 
-    <!-- Slide 4 — Quiz, Blind Test, Lore -->
+    <!-- Slide 4 — Lore & Théories -->
     <div class="onb-slide" data-slide="3">
-      <div class="onb-visual onb-visual-4">
-        <div class="onb-tool-demo">✨ Quiz</div>
-        <div class="onb-tool-demo">🎵 Blind Test</div>
-        <div class="onb-tool-demo">📖 Lore & Théories</div>
-        <div class="onb-tool-demo">🥚 Easter eggs</div>
-      </div>
-      <div class="onb-pretitle">🎮 Espaces interactifs</div>
-      <h2 class="onb-title">Joue et apprends</h2>
-      <p class="onb-text">Découvre quelle era te correspond avec le Quiz, teste tes connaissances musicales avec le Blind Test, plonge dans l'univers narratif de BTS avec Lore & Théories — et débusque les easter eggs cachés un peu partout sur le site (essaie de taper "borahae" dans la recherche 👀).</p>
+      <div class="onb-illus"><div class="onb-illus-glow"></div><div class="onb-illus-icon">📖</div></div>
+      <div class="onb-pretitle">✦ BTS Universe</div>
+      <h2 class="onb-title">Plonge dans le BTS Universe</h2>
+      <p class="onb-text">Découvre les analyses, les théories et les explications du lore présent dans les clips, les histoires des membres et les nombreux indices cachés.</p>
     </div>
 
-    <!-- Slide 5 — ARMY Lounge -->
+    <!-- Slide 5 — Roue aléatoire -->
     <div class="onb-slide" data-slide="4">
-      <div class="onb-visual onb-visual-5">
-        <div class="onb-lounge-demo">
-          <div class="onb-lounge-icon">👤</div>
-          <div class="onb-lounge-name">Mon compte</div>
-        </div>
-      </div>
-      <div class="onb-pretitle">👤 Ton profil ARMY</div>
-      <h2 class="onb-title">Crée ton compte</h2>
-      <p class="onb-text">Connecte-toi pour suivre ta progression : eras visitées, easter eggs trouvés, favoris… Accessible via le menu ☰ sur mobile, ou le bouton "Mon compte" dans le header sur ordinateur.</p>
+      <div class="onb-illus"><div class="onb-illus-glow"></div><div class="onb-illus-icon onb-spin">🎡</div></div>
+      <div class="onb-pretitle">✦ Un doute ?</div>
+      <h2 class="onb-title">Tu ne sais pas quoi regarder ?</h2>
+      <p class="onb-text">Fais tourner la roue et laisse le hasard choisir ton prochain contenu BTS à découvrir.</p>
     </div>
 
+    <!-- Slide 6 — Mon compte -->
     <div class="onb-slide" data-slide="5">
-      <div class="onb-visual onb-visual-5">
-        <div class="onb-lounge-demo">
-          <div class="onb-lounge-icon">💜</div>
-          <div class="onb-lounge-name">ARMY Lounge</div>
-        </div>
-      </div>
-      <div class="onb-pretitle">✦ Et ce n'est pas tout</div>
-      <h2 class="onb-title">Découvre l'ARMY Lounge</h2>
-      <p class="onb-text">Un espace communautaire t'attend : playlists d'étude, karaoké, et surtout des <b>jeux avec classements</b> pour savoir si tu connais vraiment BTS, plus un onglet <b>Community</b> pour discuter avec d'autres ARMY.</p>
-      <div style="display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-top:.6rem">
-        <a href="hub.html" class="onb-lounge-btn">💜 Lounge →</a>
+      <div class="onb-illus"><div class="onb-illus-glow"></div><div class="onb-illus-icon">👤</div></div>
+      <div class="onb-pretitle">✦ Ton espace</div>
+      <h2 class="onb-title">Mon Compte</h2>
+      <p class="onb-text">Garde une trace de ce que tu as déjà regardé, ajoute tes vidéos préférées en favoris et retrouve facilement tout ton historique.</p>
+    </div>
+
+    <!-- Slide 7 — Jeux & Communauté -->
+    <div class="onb-slide" data-slide="6">
+      <div class="onb-illus"><div class="onb-illus-glow"></div><div class="onb-illus-icon">🎮</div></div>
+      <div class="onb-pretitle">✦ ARMY Lounge</div>
+      <h2 class="onb-title">Joue et échange avec les ARMY</h2>
+      <p class="onb-text">Découvre plusieurs mini-jeux avec un classement mondial, puis rejoins la communauté grâce aux différents salons de discussion pour échanger avec d'autres fans.</p>
+      <div class="onb-link-row">
         <a href="games.html" class="onb-lounge-btn">🎮 Jeux & classements</a>
         <a href="community.html" class="onb-lounge-btn">💬 Community</a>
       </div>
+    </div>
+
+    <!-- Slide 8 — Prêt à commencer -->
+    <div class="onb-slide" data-slide="7">
+      <div class="onb-illus"><div class="onb-illus-glow"></div><div class="onb-illus-icon">🚀</div></div>
+      <div class="onb-pretitle">✦ C'est parti</div>
+      <h2 class="onb-title">L'aventure commence maintenant 💜</h2>
+      <p class="onb-text">Explore le site, découvre tous les contenus et amuse-toi avec la communauté ARMY.</p>
     </div>
 
   </div>
@@ -163,6 +147,8 @@
       <span class="onb-dot" onclick="onbGoTo(3)"></span>
       <span class="onb-dot" onclick="onbGoTo(4)"></span>
       <span class="onb-dot" onclick="onbGoTo(5)"></span>
+      <span class="onb-dot" onclick="onbGoTo(6)"></span>
+      <span class="onb-dot" onclick="onbGoTo(7)"></span>
     </div>
     <div class="onb-buttons">
       <button class="onb-btn onb-btn-prev" id="onb-prev" onclick="onbPrev()" style="visibility:hidden">← Précédent</button>
@@ -386,6 +372,13 @@
         <input type="checkbox" id="personalization-toggle" checked onchange="authTogglePersonalization(this)">
         <span class="auth-toggle-slider"></span>
       </label>
+    </div>
+    <div class="profile-setting">
+      <div class="profile-setting-label">
+        <span>Visite guidée</span>
+        <span class="profile-setting-desc">Revoir la présentation du site</span>
+      </div>
+      <button class="profile-mini-btn" onclick="onbRestart()">↺ Revoir</button>
     </div>
     <button class="profile-logout-btn" onclick="authSignOut()">↩ Se déconnecter</button>
   </div>
@@ -9326,7 +9319,7 @@ window.showRandomFact = function() {
 
  <script>
 (function(){
-  const TOTAL_SLIDES = 6;
+  const TOTAL_SLIDES = 8;
   let current = 0;
 
   function shouldShow() {
@@ -9346,7 +9339,7 @@ window.showRandomFact = function() {
       d.classList.toggle('active', i === current);
     });
     document.getElementById('onb-prev').style.visibility = current === 0 ? 'hidden' : 'visible';
-    document.getElementById('onb-next').textContent = current === TOTAL_SLIDES - 1 ? 'Terminer ✓' : 'Suivant →';
+    document.getElementById('onb-next').textContent = current === TOTAL_SLIDES - 1 ? 'Commencer 💜' : 'Suivant →';
   }
 
   window.onbNext = function() {
@@ -9387,8 +9380,7 @@ window.showRandomFact = function() {
     document.getElementById('onboarding-overlay').style.display = 'none';
   }
 
-  // Pour relancer la visite plus tard depuis un bouton :
-  // onclick="onbRestart()"
+  // Relance la visite guidée (bouton dans Paramètres du profil)
   window.onbRestart = function() {
     current = 0;
     updateSlide();
@@ -9397,6 +9389,31 @@ window.showRandomFact = function() {
     overlay.classList.remove('onb-closing');
     overlay.classList.add('active');
   };
+
+  // ── Swipe tactile (mobile) ──
+  const slidesWrap = document.getElementById('onb-slides');
+  let touchStartX = 0, touchDeltaX = 0, isTouching = false;
+
+  slidesWrap.addEventListener('touchstart', function(e){
+    touchStartX = e.touches[0].clientX;
+    isTouching = true;
+  }, { passive: true });
+
+  slidesWrap.addEventListener('touchmove', function(e){
+    if (!isTouching) return;
+    touchDeltaX = e.touches[0].clientX - touchStartX;
+  }, { passive: true });
+
+  slidesWrap.addEventListener('touchend', function(){
+    if (!isTouching) return;
+    isTouching = false;
+    if (touchDeltaX < -50 && current < TOTAL_SLIDES - 1) {
+      current++; updateSlide();
+    } else if (touchDeltaX > 50 && current > 0) {
+      current--; updateSlide();
+    }
+    touchDeltaX = 0;
+  });
 })();
 </script>
 
