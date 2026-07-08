@@ -37,29 +37,55 @@
   </div>
 
   <!-- ══════════════════════════════════════════════
-       SETUP PSEUDO (première visite)
+       PORTE D'ENTRÉE — connexion avec le vrai compte ARMY Archive
   ══════════════════════════════════════════════ -->
   <div class="comm-setup" id="comm-setup">
     <div class="comm-setup-card">
-      <div class="comm-setup-title">✦ Choisis ton identité ARMY</div>
-      <p class="comm-setup-sub">Ce pseudo et cet avatar resteront sauvegardés sur cet appareil.</p>
-
-      <input type="text" id="setup-pseudo" class="comm-input" placeholder="Ton pseudo (max 20 caractères)" maxlength="20">
-
-      <div class="comm-setup-label">Choisis ton avatar BT21</div>
-      <div class="avatar-grid" id="avatar-grid">
-        <button class="avatar-opt active" data-emoji="🐨" onclick="selectAvatar(this)">🐨</button>
-        <button class="avatar-opt" data-emoji="🐹" onclick="selectAvatar(this)">🐹</button>
-        <button class="avatar-opt" data-emoji="🐱" onclick="selectAvatar(this)">🐱</button>
-        <button class="avatar-opt" data-emoji="🐿️" onclick="selectAvatar(this)">🐿️</button>
-        <button class="avatar-opt" data-emoji="🐥" onclick="selectAvatar(this)">🐥</button>
-        <button class="avatar-opt" data-emoji="🐯" onclick="selectAvatar(this)">🐯</button>
-        <button class="avatar-opt" data-emoji="🐰" onclick="selectAvatar(this)">🐰</button>
-        <button class="avatar-opt" data-emoji="💜" onclick="selectAvatar(this)">💜</button>
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="auth-tab-login" onclick="authSwitchTab('login')">Connexion</button>
+        <button class="auth-tab" id="auth-tab-register" onclick="authSwitchTab('register')">Inscription</button>
       </div>
 
-      <button class="comm-setup-btn" onclick="saveIdentity()">Entrer dans le Lounge 💜</button>
-      <div class="comm-setup-error" id="setup-error"></div>
+      <div class="auth-form active" id="auth-form-login">
+        <div class="auth-title">Rejoins la conversation 💜</div>
+        <div class="auth-subtitle">Connecte-toi avec ton compte ARMY Archive : ton pseudo et ton avatar te suivent partout sur le site.</div>
+        <input type="email" id="login-email" class="auth-input" placeholder="Adresse email" autocomplete="email">
+        <input type="password" id="login-password" class="auth-input" placeholder="Mot de passe" autocomplete="current-password">
+        <div class="auth-error" id="login-error"></div>
+        <button class="auth-submit" onclick="authLogin()">Se connecter</button>
+        <div class="auth-switch">Pas encore de compte ? <button onclick="authSwitchTab('register')">S'inscrire</button></div>
+      </div>
+
+      <div class="auth-form" id="auth-form-register">
+        <div class="auth-title">Bienvenue ARMY 💜</div>
+        <div class="auth-subtitle">Crée ton compte pour discuter avec ta propre identité, partout sur le site.</div>
+        <input type="text" id="reg-pseudo" class="auth-input" placeholder="Ton pseudo (max 20 car.)" maxlength="20" autocomplete="username">
+        <input type="email" id="reg-email" class="auth-input" placeholder="Adresse email" autocomplete="email">
+        <input type="password" id="reg-password" class="auth-input" placeholder="Mot de passe (min 6 car.)" autocomplete="new-password">
+        <div class="auth-avatar-label">Choisis ton avatar</div>
+        <div class="auth-avatar-grid">
+          <button class="auth-avatar-opt active" data-emoji="💜" onclick="authSelectAvatar(this)" aria-label="Avatar ARMY violet">💜</button>
+          <button class="auth-avatar-opt" data-emoji="🐨" onclick="authSelectAvatar(this)" aria-label="Avatar RM, koala">🐨</button>
+          <button class="auth-avatar-opt" data-emoji="🐹" onclick="authSelectAvatar(this)" aria-label="Avatar Jin, hamster">🐹</button>
+          <button class="auth-avatar-opt" data-emoji="🐱" onclick="authSelectAvatar(this)" aria-label="Avatar SUGA, chat">🐱</button>
+          <button class="auth-avatar-opt" data-emoji="🐿️" onclick="authSelectAvatar(this)" aria-label="Avatar j-hope, écureuil">🐿️</button>
+          <button class="auth-avatar-opt" data-emoji="🐥" onclick="authSelectAvatar(this)" aria-label="Avatar Jimin, poussin">🐥</button>
+          <button class="auth-avatar-opt" data-emoji="🐯" onclick="authSelectAvatar(this)" aria-label="Avatar V, tigre">🐯</button>
+          <button class="auth-avatar-opt" data-emoji="🐰" onclick="authSelectAvatar(this)" aria-label="Avatar Jung Kook, lapin">🐰</button>
+        </div>
+        <div class="auth-error" id="reg-error"></div>
+        <button class="auth-submit" onclick="authRegister()">Créer mon compte</button>
+        <div class="auth-switch">Déjà un compte ? <button onclick="authSwitchTab('login')">Se connecter</button></div>
+      </div>
+
+      <div class="auth-form" id="auth-form-success">
+        <div style="text-align:center;padding:2rem 0">
+          <div style="font-size:48px;margin-bottom:1rem">💜</div>
+          <div class="auth-title">Compte créé !</div>
+          <div class="auth-subtitle">Vérifie ton email pour confirmer ton inscription, puis connecte-toi.</div>
+          <button class="auth-submit" style="margin-top:1.5rem" onclick="authSwitchTab('login')">Aller à la connexion</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -74,7 +100,10 @@
         <span class="comm-profile-avatar" id="profile-avatar"></span>
         <span class="comm-profile-name" id="profile-name"></span>
       </div>
-      <button class="comm-profile-edit" onclick="editIdentity()">✎ Modifier</button>
+      <div style="display:flex;gap:6px">
+        <a class="comm-profile-edit" href="index.html" style="text-decoration:none">✎ Gérer mon profil</a>
+        <button class="comm-profile-edit" onclick="commSignOut()">⎋ Déconnexion</button>
+      </div>
     </div>
 
     <!-- Sélecteur de salons -->
@@ -155,61 +184,115 @@ const ROOM_DESCRIPTIONS = {
 let currentRoom = 'general';
 let currentChannel = null;
 let reportTargetId = null;
+let currentUser = null;
+let currentProfile = null;
 
 /* ══════════════════════════════════════════════
-   IDENTITÉ (pseudo + avatar)
+   AUTHENTIFICATION — même compte que le reste du site
 ══════════════════════════════════════════════ */
-function getIdentity() {
-  try { return JSON.parse(localStorage.getItem('army_identity')); }
-  catch(e) { return null; }
+async function initAuth() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) { await onSignedIn(session.user); } else { showGate(); }
+  sb.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_IN' && session) await onSignedIn(session.user);
+    if (event === 'SIGNED_OUT') { currentUser = null; currentProfile = null; showGate(); }
+  });
 }
 
-window.selectAvatar = function(btn) {
-  document.querySelectorAll('.avatar-opt').forEach(b => b.classList.remove('active'));
+async function onSignedIn(user) {
+  currentUser = user;
+  const { data, error } = await sb.from('profiles').select('*').eq('id', user.id).single();
+  if (error || !data) {
+    currentProfile = { pseudo: user.email ? user.email.split('@')[0] : 'ARMY', avatar: '💜' };
+    sb.from('profiles').insert({ id: user.id, pseudo: currentProfile.pseudo, avatar: currentProfile.avatar }).then(() => {});
+  } else {
+    currentProfile = data;
+  }
+  initApp();
+}
+
+function showGate() {
+  document.getElementById('comm-app').style.display = 'none';
+  document.getElementById('comm-setup').style.display = 'flex';
+  if (currentChannel) { sb.removeChannel(currentChannel); currentChannel = null; }
+}
+
+window.authSwitchTab = function(tab) {
+  document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+  document.getElementById('auth-tab-' + tab).classList.add('active');
+  document.getElementById('auth-form-' + tab).classList.add('active');
+};
+
+window.authSelectAvatar = function(btn) {
+  document.querySelectorAll('.auth-avatar-opt').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 };
 
-window.saveIdentity = function() {
-  const pseudo = document.getElementById('setup-pseudo').value.trim();
-  const errorEl = document.getElementById('setup-error');
-  if (!pseudo) {
-    errorEl.textContent = 'Choisis un pseudo pour continuer.';
-    return;
+window.authLogin = async function() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const errEl = document.getElementById('login-error');
+  errEl.textContent = '';
+  if (!email || !password) { errEl.textContent = 'Remplis tous les champs.'; return; }
+  try {
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    if (error) {
+      if (error.message && error.message.includes('Invalid')) errEl.textContent = 'Email ou mot de passe incorrect.';
+      else if (error.message && error.message.includes('confirm')) errEl.textContent = 'Vérifie ton email pour confirmer ton compte.';
+      else errEl.textContent = error.message || 'Erreur de connexion. Réessaie.';
+    }
+  } catch(e) {
+    errEl.textContent = 'Erreur inattendue. Vérifie ta connexion.';
+    console.error('Login error:', e);
   }
-  if (pseudo.length > 20) {
-    errorEl.textContent = 'Le pseudo doit faire moins de 20 caractères.';
-    return;
-  }
-  errorEl.textContent = '';
-  const avatar = document.querySelector('.avatar-opt.active').dataset.emoji;
-  localStorage.setItem('army_identity', JSON.stringify({ pseudo, avatar }));
-  initApp();
 };
 
-window.editIdentity = function() {
-  const identity = getIdentity();
-  document.getElementById('comm-app').style.display = 'none';
-  document.getElementById('comm-setup').style.display = 'flex';
-  if (identity) {
-    document.getElementById('setup-pseudo').value = identity.pseudo;
-    document.querySelectorAll('.avatar-opt').forEach(b => {
-      b.classList.toggle('active', b.dataset.emoji === identity.avatar);
-    });
+window.authRegister = async function() {
+  const pseudo = document.getElementById('reg-pseudo').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const password = document.getElementById('reg-password').value;
+  const avatar = document.querySelector('.auth-avatar-opt.active')?.dataset.emoji || '💜';
+  const errEl = document.getElementById('reg-error');
+  errEl.textContent = '';
+  if (!pseudo) { errEl.textContent = 'Choisis un pseudo.'; return; }
+  if (!email) { errEl.textContent = 'Entre ton email.'; return; }
+  if (password.length < 6) { errEl.textContent = 'Mot de passe trop court (min 6 car.).'; return; }
+
+  try {
+    const { data, error } = await sb.auth.signUp({ email, password });
+    if (error) {
+      errEl.textContent = error.message || 'Erreur lors de l\'inscription. Réessaie.';
+      return;
+    }
+    if (data && data.user) {
+      const { error: profileError } = await sb.from('profiles').insert({
+        id: data.user.id,
+        pseudo: pseudo,
+        avatar: avatar,
+      });
+      if (profileError) console.warn('Profile insert error:', profileError.message);
+    }
+    document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+    document.getElementById('auth-form-success').classList.add('active');
+  } catch(e) {
+    errEl.textContent = 'Erreur inattendue. Vérifie ta connexion et réessaie.';
+    console.error('Register error:', e);
   }
-  if (currentChannel) sb.removeChannel(currentChannel);
+};
+
+window.commSignOut = async function() {
+  await sb.auth.signOut();
 };
 
 /* ══════════════════════════════════════════════
-   INITIALISATION
+   INITIALISATION DU CHAT
 ══════════════════════════════════════════════ */
 function initApp() {
-  const identity = getIdentity();
-  if (!identity) return;
-
   document.getElementById('comm-setup').style.display = 'none';
   document.getElementById('comm-app').style.display = 'block';
-  document.getElementById('profile-avatar').textContent = identity.avatar;
-  document.getElementById('profile-name').textContent = identity.pseudo;
+  document.getElementById('profile-avatar').textContent = currentProfile.avatar || '💜';
+  document.getElementById('profile-name').textContent = currentProfile.pseudo || 'ARMY';
 
   switchRoom('general', document.querySelector('.room-tab[data-room="general"]'));
 }
@@ -279,8 +362,7 @@ function subscribeToRoom(room) {
 
 function renderMessage(msg) {
   const container = document.getElementById('chat-messages');
-  const identity = getIdentity();
-  const isMine = identity && msg.pseudo === identity.pseudo && msg.avatar === identity.avatar;
+  const isMine = currentProfile && msg.pseudo === currentProfile.pseudo && msg.avatar === currentProfile.avatar;
 
   const div = document.createElement('div');
   div.className = 'chat-msg' + (isMine ? ' chat-msg-mine' : '');
@@ -326,15 +408,14 @@ window.sendMessage = async function() {
     return;
   }
 
-  const identity = getIdentity();
-  if (!identity) return;
+  if (!currentUser || !currentProfile) return;
 
   input.disabled = true;
   try {
     const { error } = await sb.from('lounge_messages').insert({
       room: currentRoom,
-      pseudo: identity.pseudo,
-      avatar: identity.avatar,
+      pseudo: currentProfile.pseudo,
+      avatar: currentProfile.avatar,
       content: content
     });
     if (error) throw error;
@@ -372,17 +453,7 @@ window.confirmReport = async function() {
 /* ══════════════════════════════════════════════
    DÉMARRAGE
 ══════════════════════════════════════════════ */
-(function(){
-  const identity = getIdentity();
-  if (identity) {
-    document.querySelectorAll('.avatar-opt').forEach(b => {
-      b.classList.toggle('active', b.dataset.emoji === identity.avatar);
-    });
-    initApp();
-  } else {
-    document.getElementById('comm-setup').style.display = 'flex';
-  }
-})();
+initAuth();
 </script>
 
 <!-- Curseur emoji (réutilise le système de l'Archive) -->
