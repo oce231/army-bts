@@ -20,7 +20,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="google-site-verification" content="bhBEl_l6vUboeI1Oxv3kbUlib_3ghDq54C5HTTsOoRA" />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a0a12">
 <link rel="apple-touch-icon" href="Photo/Preview.jpg">
@@ -347,8 +347,31 @@
       <div class="profile-email" id="profile-email-display"></div>
       <div class="profile-since" id="profile-since"></div>
     </div>
+    <button class="profile-edit-btn" id="profile-edit-toggle" onclick="openEditProfile()">✎ Modifier</button>
   </div>
-  <div class="profile-body">
+
+  <!-- Formulaire d'édition pseudo + avatar -->
+  <div id="profile-edit-form" style="display:none">
+    <input type="text" id="edit-pseudo-input" class="auth-input" placeholder="Ton pseudo (max 20 car.)" maxlength="20">
+    <div class="auth-avatar-label">Choisis ton avatar</div>
+    <div class="auth-avatar-grid" id="edit-avatar-grid">
+      <button class="auth-avatar-opt" data-emoji="💜" onclick="editSelectAvatar(this)">💜</button>
+      <button class="auth-avatar-opt" data-emoji="🐨" onclick="editSelectAvatar(this)">🐨</button>
+      <button class="auth-avatar-opt" data-emoji="🐹" onclick="editSelectAvatar(this)">🐹</button>
+      <button class="auth-avatar-opt" data-emoji="🐱" onclick="editSelectAvatar(this)">🐱</button>
+      <button class="auth-avatar-opt" data-emoji="🐿️" onclick="editSelectAvatar(this)">🐿️</button>
+      <button class="auth-avatar-opt" data-emoji="🐥" onclick="editSelectAvatar(this)">🐥</button>
+      <button class="auth-avatar-opt" data-emoji="🐯" onclick="editSelectAvatar(this)">🐯</button>
+      <button class="auth-avatar-opt" data-emoji="🐰" onclick="editSelectAvatar(this)">🐰</button>
+    </div>
+    <div class="auth-error" id="edit-profile-error"></div>
+    <div style="display:flex;gap:8px;margin-top:.8rem">
+      <button class="auth-submit" style="flex:1" onclick="saveEditProfile()">Enregistrer</button>
+      <button class="profile-edit-btn" style="flex:0 0 auto" onclick="cancelEditProfile()">Annuler</button>
+    </div>
+  </div>
+
+  <div class="profile-body" id="profile-body-content">
     <div class="profile-section-title">✦ Ma progression</div>
     <div class="profile-stats" id="profile-stats">
       <div class="profile-stat"><div class="profile-stat-val" id="stat-eras">—</div><div class="profile-stat-lbl">Eras visitées</div></div>
@@ -9592,6 +9615,57 @@ window.showRandomFact = function() {
       document.getElementById('auth-menu').style.display = 'none';
     }
   });
+
+  /* ══════════════════════════════════════════════
+     MODIFIER PSEUDO & AVATAR
+  ══════════════════════════════════════════════ */
+  window.openEditProfile = function() {
+    if (!currentUser || !currentProfile) return;
+    document.getElementById('edit-pseudo-input').value = currentProfile.pseudo || '';
+    document.querySelectorAll('#edit-avatar-grid .auth-avatar-opt').forEach(function(b){
+      b.classList.toggle('active', b.dataset.emoji === currentProfile.avatar);
+    });
+    document.getElementById('edit-profile-error').textContent = '';
+    document.getElementById('profile-body-content').style.display = 'none';
+    document.getElementById('profile-edit-toggle').style.display = 'none';
+    document.getElementById('profile-edit-form').style.display = 'block';
+  };
+
+  window.cancelEditProfile = function() {
+    document.getElementById('profile-edit-form').style.display = 'none';
+    document.getElementById('profile-body-content').style.display = 'block';
+    document.getElementById('profile-edit-toggle').style.display = 'inline-block';
+  };
+
+  window.editSelectAvatar = function(btn) {
+    document.querySelectorAll('#edit-avatar-grid .auth-avatar-opt').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+  };
+
+  window.saveEditProfile = async function() {
+    const pseudo = document.getElementById('edit-pseudo-input').value.trim();
+    const errEl = document.getElementById('edit-profile-error');
+    const avatarBtn = document.querySelector('#edit-avatar-grid .auth-avatar-opt.active');
+    const avatar = avatarBtn ? avatarBtn.dataset.emoji : (currentProfile.avatar || '💜');
+    errEl.textContent = '';
+
+    if (!pseudo) { errEl.textContent = 'Choisis un pseudo.'; return; }
+    if (pseudo.length > 20) { errEl.textContent = 'Le pseudo doit faire moins de 20 caractères.'; return; }
+
+    try {
+      const { error } = await sb.from('profiles').update({ pseudo, avatar }).eq('id', currentUser.id);
+      if (error) throw error;
+      currentProfile.pseudo = pseudo;
+      currentProfile.avatar = avatar;
+      document.getElementById('profile-avatar-big').textContent = avatar;
+      document.getElementById('profile-pseudo-display').textContent = pseudo;
+      updateAuthUI(true);
+      cancelEditProfile();
+    } catch(e) {
+      errEl.textContent = 'Erreur lors de la sauvegarde. Réessaie.';
+      console.error('saveEditProfile error:', e);
+    }
+  };
 
   window.authTogglePanel = function() {
     document.getElementById('auth-panel').classList.toggle('open');

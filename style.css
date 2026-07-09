@@ -2915,6 +2915,25 @@ body:has(#spotify-bar.visible) #dyk-card {
   color: rgba(201,169,110,.6); margin-top: 4px;
 }
 
+.profile-edit-btn {
+  flex-shrink: 0;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: .1em; text-transform: uppercase;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  padding: 7px 12px; border-radius: 16px;
+  cursor: pointer; transition: all .2s;
+  align-self: flex-start;
+}
+.profile-edit-btn:hover { color: var(--text); border-color: var(--overlay-12); }
+
+#profile-edit-form {
+  padding: 1.4rem 1.5rem;
+  background: rgba(255,255,255,.02);
+  border-bottom: 1px solid var(--border);
+}
+
 .profile-body { max-width: 600px; margin: 0 auto; padding: 1.5rem; }
 .profile-section-title {
   font-family: 'Cormorant Garamond', serif;
