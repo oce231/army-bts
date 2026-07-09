@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Espace Collaboratif · ARMY Lounge</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=2">
 <link rel="stylesheet" href="hub.css">
-<link rel="stylesheet" href="community.css">
+<link rel="stylesheet" href="community.css?v=2">
   <script defer src="https://cloud.umami.is/script.js" data-website-id="05ed87e3-dc67-44d8-a5b7-133005178a72"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -186,6 +186,12 @@ let currentChannel = null;
 let reportTargetId = null;
 let currentUser = null;
 let currentProfile = null;
+
+async function trackProgress(type, value) {
+  if (!currentUser) return;
+  try { await sb.from('user_progress').insert({ user_id: currentUser.id, type, value }); }
+  catch(e) { console.warn('trackProgress error:', e); }
+}
 
 /* ══════════════════════════════════════════════
    AUTHENTIFICATION — même compte que le reste du site
@@ -420,6 +426,8 @@ window.sendMessage = async function() {
     });
     if (error) throw error;
     input.value = '';
+    checkChatEasterEggs(content);
+    trackSentMessage();
   } catch(e) {
     errorEl.textContent = 'Erreur lors de l\'envoi. Réessaie.';
     console.error(e);
@@ -428,6 +436,78 @@ window.sendMessage = async function() {
     input.focus();
   }
 };
+
+/* ══════════════════════════════════════════════
+   EASTER EGGS DU CHAT
+══════════════════════════════════════════════ */
+
+// Réactions visuelles selon des mots-clés dans le message envoyé
+const CHAT_KEYWORD_REACTIONS = {
+  borahae:      ['💜','💜','✨','💜'],
+  'purple ocean': ['💜','✨','💜','✨'],
+  ot7:          ['💜','✨','🎉','✨'],
+  army:         ['💜','✨','💜'],
+  borahaeee:    ['💜','💜','💜','✨'],
+};
+function checkChatEasterEggs(content) {
+  const clean = content.toLowerCase();
+  for (const key in CHAT_KEYWORD_REACTIONS) {
+    if (clean.includes(key)) {
+      burstEmojis(CHAT_KEYWORD_REACTIONS[key]);
+      break;
+    }
+  }
+}
+function burstEmojis(emojis) {
+  for (let i = 0; i < 14; i++) {
+    const el = document.createElement('span');
+    el.className = 'comm-burst-emoji';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = (45 + Math.random() * 10) + 'vw';
+    el.style.setProperty('--dx', (Math.random() * 200 - 100) + 'px');
+    el.style.animationDelay = (Math.random() * 0.3) + 's';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1600);
+  }
+}
+
+// Jalons de messages envoyés (compteur local par compte)
+const MSG_MILESTONES = [10, 25, 50, 100];
+function trackSentMessage() {
+  if (!currentUser) return;
+  const key = 'army_msgcount_' + currentUser.id;
+  const badgeKey = 'army_msgbadges_' + currentUser.id;
+  let count = parseInt(localStorage.getItem(key) || '0', 10) + 1;
+  localStorage.setItem(key, String(count));
+
+  let badges = [];
+  try { badges = JSON.parse(localStorage.getItem(badgeKey)) || []; } catch(e) {}
+
+  if (MSG_MILESTONES.includes(count) && !badges.includes(count)) {
+    badges.push(count);
+    localStorage.setItem(badgeKey, JSON.stringify(badges));
+    showCommToast(milestoneMessage(count));
+    if (typeof trackProgress === 'function') trackProgress('easter_egg_found', 'eggCHAT' + count);
+  }
+}
+function milestoneMessage(count) {
+  if (count === 10)  return '🎉 10 messages envoyés ! Tu deviens un pilier de la communauté ARMY 💜';
+  if (count === 25)  return '✨ 25 messages ! Tu commences vraiment à faire partie des murs ici.';
+  if (count === 50)  return '💬 50 messages… on dirait presque que tu vis dans ce chat 😄💜';
+  if (count === 100) return '🏆 100 messages ! Officiellement une légende de l\'Espace Collaboratif.';
+  return '💜 Merci de faire vivre la communauté !';
+}
+function showCommToast(msg) {
+  const toast = document.createElement('div');
+  toast.className = 'comm-toast';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('show'));
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 400);
+  }, 4200);
+}
 
 /* ══════════════════════════════════════════════
    SIGNALEMENT

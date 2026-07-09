@@ -20,7 +20,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="google-site-verification" content="bhBEl_l6vUboeI1Oxv3kbUlib_3ghDq54C5HTTsOoRA" />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="stylesheet" href="style.css?v=7">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a0a12">
 <link rel="apple-touch-icon" href="Photo/Preview.jpg">
@@ -352,8 +352,13 @@
     <div class="profile-section-title">✦ Ma progression</div>
     <div class="profile-stats" id="profile-stats">
       <div class="profile-stat"><div class="profile-stat-val" id="stat-eras">—</div><div class="profile-stat-lbl">Eras visitées</div></div>
-      <div class="profile-stat"><div class="profile-stat-val" id="stat-eggs">—</div><div class="profile-stat-lbl">Easter eggs trouvés</div></div>
+      <div class="profile-stat">
+        <div class="profile-stat-val" id="stat-eggs">—</div>
+        <div class="profile-stat-lbl">Easter eggs trouvés</div>
+        <button class="egg-hint-btn" onclick="hintEasterEgg()">💡 Indice</button>
+      </div>
     </div>
+    <div class="egg-hint-text" id="egg-hint-text"></div>
     <div class="profile-section-title" style="margin-top:1.5rem">⭐ Mes favoris</div>
     <div class="profile-recos" id="profile-favorites">
       <div class="profile-reco-empty">Aucun favori pour l'instant — clique sur ☆ sur une vidéo pour la garder ici 💜</div>
@@ -8348,6 +8353,20 @@ function switchLoreTab(tab, btn) {
     'army bomb':   'eggARMYBOMB',
     'armybomb':    'eggARMYBOMB',
     'purple ocean':'eggARMYBOMB',
+    'compte':      'eggCOMPTE',
+    'mon compte':  'eggCOMPTE',
+    'lounge':      'eggLOUNGE',
+    'army lounge': 'eggLOUNGE',
+    'jeux':        'eggGAMES',
+    'games':       'eggGAMES',
+    'classement':  'eggGAMES',
+    'leaderboard': 'eggGAMES',
+    'community':   'eggCOMMUNITY',
+    'communaute':  'eggCOMMUNITY',
+    'communauté':  'eggCOMMUNITY',
+    'installer':   'eggPWA',
+    'install':     'eggPWA',
+    'pwa':         'eggPWA',
   };
   // Membres : déclenchés seulement avec Entrée (géré via keydown plus bas)
   const EGG_ENTER = {
@@ -9150,6 +9169,87 @@ function switchLoreTab(tab, btn) {
     animFrame = requestAnimationFrame(frame);
   }
 
+  // ── MON COMPTE ────────────────────────────────
+  window.eggCOMPTE = function() {
+    showEgg({
+      emoji: '👤',
+      msg: 'Ton profil ARMY t\'attend.',
+      sub: 'Connecte-toi pour débloquer ta progression, tes favoris… et ce compteur d\'easter eggs.',
+      bg: '#0a0814',
+      particles: ['👤','✨','💜','✨']
+    });
+  };
+
+  // ── ARMY LOUNGE ───────────────────────────────
+  window.eggLOUNGE = function() {
+    showEgg({
+      emoji: '💜',
+      msg: 'Un salon secret rien que pour toi.',
+      sub: 'ARMY Lounge — jeux, classements, playlists et bien plus',
+      bg: '#0f0818',
+      particles: ['💜','🎮','✨','💜']
+    });
+  };
+
+  // ── JEUX & CLASSEMENTS ────────────────────────
+  window.eggGAMES = function() {
+    showEgg({
+      emoji: '🏆',
+      msg: 'Prête à grimper au classement ?',
+      sub: 'Quiz, Blind Test et bien d\'autres jeux t\'attendent dans l\'ARMY Lounge',
+      bg: '#120a08',
+      particles: ['🏆','🎮','✨','🥇']
+    });
+  };
+
+  // ── COMMUNITY ─────────────────────────────────
+  window.eggCOMMUNITY = function() {
+    showEgg({
+      emoji: '💬',
+      msg: 'Quelque part, des ARMY discutent en ce moment même.',
+      sub: 'Rejoins un salon dans l\'Espace Collaboratif',
+      bg: '#080a14',
+      particles: ['💬','💜','✨','💬']
+    });
+  };
+
+  // ── INSTALLER L'APP ───────────────────────────
+  window.eggPWA = function() {
+    showEgg({
+      emoji: '📲',
+      msg: 'Tu peux m\'emporter avec toi.',
+      sub: 'Installe le site comme une app depuis le menu ☰',
+      bg: '#06060c',
+      particles: ['📲','✨','💜']
+    });
+  };
+
+  // ── KONAMI CODE ───────────────────────────────
+  window.eggKONAMI = function() {
+    showEgg({
+      emoji: '🕹️',
+      msg: 'Code légendaire activé.',
+      sub: 'Un·e vrai·e gamer ARMY reconnaît toujours un classique',
+      bg: '#08060f',
+      particles: ['🕹️','✨','💜','🎮','✨']
+    });
+  };
+
+  // Détection du Konami Code (↑ ↑ ↓ ↓ ← → ← → B A)
+  (function(){
+    const SEQ = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+    let pos = 0;
+    document.addEventListener('keydown', function(e){
+      const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+      if (key === SEQ[pos]) {
+        pos++;
+        if (pos === SEQ.length) { fireEgg('eggKONAMI'); pos = 0; }
+      } else {
+        pos = (key === SEQ[0]) ? 1 : 0;
+      }
+    });
+  })();
+
   // ── MEMBRES ───────────────────────────────────
   window.eggJIMIN = function() {
     showEgg({ emoji:'🐥', msg:'Une pluie de Mochi 🐥', sub:'Park Jimin · 박지민', bg:'#12040a',
@@ -9591,12 +9691,76 @@ window.showRandomFact = function() {
     window.scrollTo({top:0, behavior:'smooth'});
   };
 
+  const ALL_EGG_NAMES = [
+    'eggBTS','eggARMY','eggBANGTAN','eggBORAHAE','eggOT7','eggMIKROKOSMOS',
+    'eggMAGICSHOP','eggWHALIEN','eggAPOBANGPO','egg0613','eggMERCI',
+    'eggSPRINGDAY','eggDYNAMITE','eggBLACKSWAN','eggFESTA','eggARMYBOMB',
+    'eggCOMPTE','eggLOUNGE','eggGAMES','eggCOMMUNITY','eggPWA','eggKONAMI',
+    'eggJIMIN','eggJIN','eggSUGA','eggJHOPE','eggV','eggJK','eggRM',
+    'eggCHAT10','eggCHAT25','eggCHAT50','eggCHAT100'
+  ];
+  const EGG_HINTS = {
+    eggBTS: 'Tape le nom du groupe, tout simplement 💜',
+    eggARMY: 'Comment s\'appelle le fandom de BTS ?',
+    eggBANGTAN: 'Le nom coréen du groupe avant l\'anglais...',
+    eggBORAHAE: 'Un mot inventé par V, mélange de "violet" et "je t\'aime" en coréen.',
+    eggOT7: 'Ce sigle veut dire "One True 7". Essaie-le, ou clique 7 fois sur le logo BTS.',
+    eggMIKROKOSMOS: 'Le titre d\'une chanson de l\'album Map of the Soul: 7.',
+    eggMAGICSHOP: 'Un lieu imaginaire évoqué dans une chanson de Map of the Soul: Wings.',
+    eggWHALIEN: 'Une baleine (traduit en français) qui donne son nom à une chanson de 2015.',
+    eggAPOBANGPO: 'Le titre coréen de la chanson "Dis-moi ton nom" (2 Cool 4 Skool).',
+    egg0613: 'La date de débuts de BTS, au format JJMM.',
+    eggMERCI: 'Tape "merci bts", tout simplement.',
+    eggSPRINGDAY: 'Le titre (en anglais) d\'une chanson émouvante sur l\'amitié, sortie en 2017.',
+    eggDYNAMITE: 'Le premier n°1 de BTS sur le Billboard Hot 100.',
+    eggBLACKSWAN: 'Le titre (en anglais) d\'une chanson sur la peur de perdre sa passion pour la musique.',
+    eggFESTA: 'Le nom de la célébration annuelle des débuts de BTS, chaque juin.',
+    eggARMYBOMB: 'Le nom du bâton lumineux officiel des ARMY (ou tape "purple ocean").',
+    eggCOMPTE: 'Le mot pour ton espace personnel sur le site.',
+    eggLOUNGE: 'Le nom de l\'espace communautaire du site (indice : violet 💜).',
+    eggGAMES: 'Le mot pour tous les mini-jeux du site (ou tape "classement").',
+    eggCOMMUNITY: 'Le nom (en anglais) de l\'espace de discussion entre ARMY.',
+    eggPWA: 'Le verbe qu\'on utilise pour ajouter le site sur son écran d\'accueil.',
+    eggKONAMI: 'Un code de manette culte : ↑ ↑ ↓ ↓ ← → ← → B A. Essaie-le sur ton clavier !',
+    eggJIMIN: 'Tape le prénom du membre né à Busan, puis Entrée.',
+    eggJIN: 'Tape le prénom de l\'aîné du groupe, puis Entrée.',
+    eggSUGA: 'Tape le nom de scène du rappeur de Daegu, puis Entrée.',
+    eggJHOPE: 'Tape le nom de scène du danseur principal, puis Entrée.',
+    eggV: 'Tape le nom de scène du trainee resté secret, puis Entrée.',
+    eggJK: 'Tape le prénom du maknae du groupe, puis Entrée.',
+    eggRM: 'Tape le nom de scène du leader, puis Entrée.',
+    eggCHAT10: 'Un jalon caché dans l\'Espace Collaboratif… envoie des messages dans le chat 💬',
+    eggCHAT25: 'Encore un jalon du chat — continue de discuter dans la Community 💬',
+    eggCHAT50: 'Un jalon du chat réservé aux ARMY très bavard·es 💬',
+    eggCHAT100: 'Le jalon ultime du chat. Bonne chance 😄💬',
+  };
+
+  window.hintEasterEgg = function() {
+    const el = document.getElementById('egg-hint-text');
+    if (!currentUser) {
+      el.textContent = 'Connecte-toi pour suivre ta progression et débloquer des indices 👤';
+      el.classList.add('show');
+      return;
+    }
+    const remaining = ALL_EGG_NAMES.filter(function(n){ return !foundEggsSet.has(n); });
+    if (remaining.length === 0) {
+      el.textContent = 'Bravo, tu as trouvé les ' + ALL_EGG_NAMES.length + ' easter eggs ! 🏆💜';
+    } else {
+      const pick = remaining[Math.floor(Math.random() * remaining.length)];
+      el.textContent = '💡 ' + (EGG_HINTS[pick] || 'Un easter egg t\'attend encore...');
+    }
+    el.classList.add('show');
+  };
+
+  let foundEggsSet = new Set();
+
   async function loadProfileStats() {
     if (!currentUser) return;
     const { data } = await sb.from('user_progress').select('type,value').eq('user_id', currentUser.id);
     if (!data) return;
     document.getElementById('stat-eras').textContent = new Set(data.filter(d => d.type === 'era_visited').map(d => d.value)).size || '0';
-    document.getElementById('stat-eggs').textContent = new Set(data.filter(d => d.type === 'easter_egg_found').map(d => d.value)).size || '0';
+    foundEggsSet = new Set(data.filter(d => d.type === 'easter_egg_found').map(d => d.value));
+    document.getElementById('stat-eggs').textContent = foundEggsSet.size + ' / ' + ALL_EGG_NAMES.length;
     renderRecommendations(data);
     loadFavoritesList();
   }
