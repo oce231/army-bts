@@ -204,6 +204,35 @@
 .chat-msg-mine .chat-msg-pseudo { color: var(--hero-pretitle); }
 .chat-msg-mine .chat-msg-avatar { background: rgba(123,95,212,.15); }
 
+/* Citation d'un message répondu */
+.chat-msg-reply-quote {
+  display: flex; flex-direction: column; gap: 1px;
+  border-left: 2px solid rgba(123,95,212,.5);
+  padding: 3px 8px;
+  margin-bottom: 4px;
+  background: rgba(123,95,212,.06);
+  border-radius: 0 6px 6px 0;
+}
+.chat-msg-reply-pseudo { font-size: 9px; font-weight: 600; color: var(--hero-pretitle); }
+.chat-msg-reply-text {
+  font-size: 10px; color: var(--text3);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* Actions sur un message (répondre, signaler) */
+.chat-msg-actions {
+  display: flex; flex-direction: column; gap: 4px;
+  flex-shrink: 0;
+}
+.chat-msg-reply-btn {
+  background: none; border: none;
+  color: var(--text3); font-size: 12px;
+  cursor: pointer; opacity: .4;
+  padding: 2px;
+  transition: opacity .2s, color .2s;
+}
+.chat-msg-reply-btn:hover { opacity: 1; color: var(--hero-pretitle); }
+
 .chat-msg-report {
   background: none; border: none;
   color: var(--text3); font-size: 11px;
@@ -213,8 +242,69 @@
 }
 .chat-msg-report:hover { opacity: 1; color: #e08080; }
 
+/* Barre "en train de répondre à…" */
+.reply-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px;
+  background: rgba(123,95,212,.08);
+  border: 1px solid rgba(123,95,212,.3);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  padding: 7px 12px;
+}
+.reply-bar-content { min-width: 0; display: flex; flex-direction: column; }
+.reply-bar-label { font-size: 10px; color: var(--hero-pretitle); }
+.reply-bar-label b { font-weight: 700; }
+.reply-bar-preview {
+  font-size: 10px; color: var(--text3);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%;
+}
+.reply-bar-cancel {
+  background: none; border: none;
+  color: var(--text3); font-size: 13px;
+  cursor: pointer; flex-shrink: 0; padding: 2px 4px;
+}
+.reply-bar-cancel:hover { color: var(--text); }
+
 /* Input */
 .chat-input-bar { display: flex; gap: 8px; }
+.chat-attach-btn {
+  flex-shrink: 0;
+  background: var(--overlay-4);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  font-size: 15px;
+  width: 40px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.chat-attach-btn:hover { border-color: rgba(123,95,212,.5); background: rgba(123,95,212,.1); }
+
+/* Aperçu de la pièce jointe avant envoi */
+.media-preview-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px;
+  background: rgba(123,95,212,.08);
+  border: 1px solid rgba(123,95,212,.3);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  padding: 7px 12px;
+}
+.media-preview-content { display: flex; align-items: center; min-width: 0; }
+.media-preview-loading { font-size: 10px; color: var(--text3); }
+.media-preview-thumb {
+  height: 44px; max-width: 90px;
+  border-radius: 6px; object-fit: cover;
+}
+
+/* Image / vidéo dans un message */
+.chat-msg-media {
+  display: block;
+  max-width: 240px; max-height: 240px;
+  border-radius: 10px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+}
 .chat-send-btn {
   font-family: 'Space Mono', monospace;
   font-size: 10px; letter-spacing: .1em; text-transform: uppercase;

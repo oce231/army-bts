@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=2">
 <link rel="stylesheet" href="hub.css">
-<link rel="stylesheet" href="community.css?v=2">
+<link rel="stylesheet" href="community.css?v=4">
   <script defer src="https://cloud.umami.is/script.js" data-website-id="05ed87e3-dc67-44d8-a5b7-133005178a72"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -136,8 +136,25 @@
       <div class="chat-loading" id="chat-loading">Chargement des messages…</div>
     </div>
 
+    <!-- Barre "en train de répondre à…" -->
+    <div class="reply-bar" id="reply-bar" style="display:none">
+      <div class="reply-bar-content">
+        <span class="reply-bar-label">↩ Réponse à <b id="reply-bar-pseudo"></b></span>
+        <span class="reply-bar-preview" id="reply-bar-preview"></span>
+      </div>
+      <button class="reply-bar-cancel" onclick="cancelReply()" aria-label="Annuler la réponse">✕</button>
+    </div>
+
+    <!-- Aperçu du fichier joint avant envoi -->
+    <div class="media-preview-bar" id="media-preview-bar" style="display:none">
+      <div class="media-preview-content" id="media-preview-content"></div>
+      <button class="reply-bar-cancel" onclick="cancelMedia()" aria-label="Annuler la pièce jointe">✕</button>
+    </div>
+
     <!-- Input -->
     <div class="chat-input-bar">
+      <input type="file" id="chat-file-input" accept="image/*,video/*" style="display:none" onchange="handleFileSelect(event)">
+      <button class="chat-attach-btn" onclick="document.getElementById('chat-file-input').click()" title="Joindre une photo ou vidéo">📎</button>
       <input type="text" id="chat-input" class="comm-input" placeholder="Écris ton message…" maxlength="500" onkeydown="if(event.key==='Enter')sendMessage()">
       <button class="chat-send-btn" onclick="sendMessage()">Envoyer</button>
     </div>
@@ -376,6 +393,19 @@ function renderMessage(msg) {
 
   const time = new Date(msg.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 
+  const replyHtml = msg.reply_to ? `
+      <div class="chat-msg-reply-quote">
+        <span class="chat-msg-reply-pseudo">${escapeHtml(msg.reply_pseudo || 'ARMY')}</span>
+        <span class="chat-msg-reply-text">${escapeHtml(msg.reply_preview || '')}</span>
+      </div>` : '';
+
+  let mediaHtml = '';
+  if (msg.media_url && msg.media_type === 'image') {
+    mediaHtml = `<a href="${escapeHtml(msg.media_url)}" target="_blank" rel="noopener"><img class="chat-msg-media" src="${escapeHtml(msg.media_url)}" alt="Image partagée" loading="lazy"></a>`;
+  } else if (msg.media_url && msg.media_type === 'video') {
+    mediaHtml = `<video class="chat-msg-media" src="${escapeHtml(msg.media_url)}" controls preload="metadata"></video>`;
+  }
+
   div.innerHTML = `
     <span class="chat-msg-avatar">${escapeHtml(msg.avatar || '💜')}</span>
     <div class="chat-msg-body">
@@ -383,9 +413,14 @@ function renderMessage(msg) {
         <span class="chat-msg-pseudo">${escapeHtml(msg.pseudo)}</span>
         <span class="chat-msg-time">${time}</span>
       </div>
-      <div class="chat-msg-text">${escapeHtml(msg.content)}</div>
+      ${replyHtml}
+      ${msg.content ? `<div class="chat-msg-text">${escapeHtml(msg.content)}</div>` : ''}
+      ${mediaHtml}
     </div>
-    <button class="chat-msg-report" onclick="openReportModal(${msg.id})" title="Signaler">⚑</button>
+    <div class="chat-msg-actions">
+      <button class="chat-msg-reply-btn" onclick='startReply(${msg.id}, ${JSON.stringify(msg.pseudo)}, ${JSON.stringify(msg.content)})' title="Répondre">↩</button>
+      <button class="chat-msg-report" onclick="openReportModal(${msg.id})" title="Signaler">⚑</button>
+    </div>
   `;
   container.appendChild(div);
 }
@@ -400,6 +435,91 @@ function scrollToBottom() {
 }
 
 /* ══════════════════════════════════════════════
+   RÉPONDRE À UN MESSAGE
+══════════════════════════════════════════════ */
+let replyingTo = null; // { id, pseudo, preview }
+
+window.startReply = function(id, pseudo, content) {
+  const preview = content.length > 80 ? content.slice(0, 80) + '…' : content;
+  replyingTo = { id, pseudo, preview };
+  document.getElementById('reply-bar-pseudo').textContent = pseudo;
+  document.getElementById('reply-bar-preview').textContent = preview;
+  document.getElementById('reply-bar').style.display = 'flex';
+  document.getElementById('chat-input').focus();
+};
+
+window.cancelReply = function() {
+  replyingTo = null;
+  document.getElementById('reply-bar').style.display = 'none';
+};
+
+/* ══════════════════════════════════════════════
+   PIÈCES JOINTES (photo / vidéo)
+══════════════════════════════════════════════ */
+let pendingMedia = null; // { url, type }
+const MEDIA_MAX_SIZE = { image: 5 * 1024 * 1024, video: 25 * 1024 * 1024 }; // 5 Mo / 25 Mo
+
+window.handleFileSelect = async function(event) {
+  const file = event.target.files[0];
+  event.target.value = ''; // permet de re-sélectionner le même fichier ensuite
+  if (!file) return;
+
+  const errorEl = document.getElementById('chat-error');
+  errorEl.textContent = '';
+
+  const isImage = file.type.startsWith('image/');
+  const isVideo = file.type.startsWith('video/');
+  if (!isImage && !isVideo) {
+    errorEl.textContent = 'Seules les photos et vidéos sont acceptées.';
+    return;
+  }
+  const kind = isImage ? 'image' : 'video';
+  if (file.size > MEDIA_MAX_SIZE[kind]) {
+    errorEl.textContent = kind === 'image'
+      ? 'Photo trop lourde (5 Mo max).'
+      : 'Vidéo trop lourde (25 Mo max).';
+    return;
+  }
+  if (!currentUser) return;
+
+  showMediaPreview('⏳ Envoi en cours…', null);
+
+  try {
+    const ext = file.name.split('.').pop().toLowerCase();
+    const path = currentUser.id + '/' + Date.now() + '.' + ext;
+    const { error: uploadError } = await sb.storage.from('chat-media').upload(path, file);
+    if (uploadError) throw uploadError;
+
+    const { data: urlData } = sb.storage.from('chat-media').getPublicUrl(path);
+    pendingMedia = { url: urlData.publicUrl, type: kind };
+    showMediaPreview(null, pendingMedia);
+  } catch(e) {
+    console.error('Upload error:', e);
+    errorEl.textContent = 'Erreur lors de l\'envoi du fichier. Réessaie.';
+    cancelMedia();
+  }
+};
+
+function showMediaPreview(loadingText, media) {
+  const bar = document.getElementById('media-preview-bar');
+  const content = document.getElementById('media-preview-content');
+  bar.style.display = 'flex';
+  if (loadingText) {
+    content.innerHTML = `<span class="media-preview-loading">${loadingText}</span>`;
+  } else if (media) {
+    content.innerHTML = media.type === 'image'
+      ? `<img src="${media.url}" class="media-preview-thumb">`
+      : `<video src="${media.url}" class="media-preview-thumb" muted></video>`;
+  }
+}
+
+window.cancelMedia = function() {
+  pendingMedia = null;
+  document.getElementById('media-preview-bar').style.display = 'none';
+  document.getElementById('media-preview-content').innerHTML = '';
+};
+
+/* ══════════════════════════════════════════════
    ENVOI
 ══════════════════════════════════════════════ */
 window.sendMessage = async function() {
@@ -408,7 +528,7 @@ window.sendMessage = async function() {
   const errorEl = document.getElementById('chat-error');
   errorEl.textContent = '';
 
-  if (!content) return;
+  if (!content && !pendingMedia) return;
   if (content.length > 500) {
     errorEl.textContent = 'Message trop long (500 caractères max).';
     return;
@@ -418,14 +538,26 @@ window.sendMessage = async function() {
 
   input.disabled = true;
   try {
-    const { error } = await sb.from('lounge_messages').insert({
+    const payload = {
       room: currentRoom,
       pseudo: currentProfile.pseudo,
       avatar: currentProfile.avatar,
       content: content
-    });
+    };
+    if (replyingTo) {
+      payload.reply_to = replyingTo.id;
+      payload.reply_pseudo = replyingTo.pseudo;
+      payload.reply_preview = replyingTo.preview;
+    }
+    if (pendingMedia) {
+      payload.media_url = pendingMedia.url;
+      payload.media_type = pendingMedia.type;
+    }
+    const { error } = await sb.from('lounge_messages').insert(payload);
     if (error) throw error;
     input.value = '';
+    cancelReply();
+    cancelMedia();
     checkChatEasterEggs(content);
     trackSentMessage();
   } catch(e) {
