@@ -19,9 +19,9 @@
 <meta property="og:url" content="https://oce231.github.io/">
 <meta name="twitter:card" content="summary_large_image">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=2">
 <link rel="stylesheet" href="hub.css">
-<link rel="stylesheet" href="dance.css">
+<link rel="stylesheet" href="dance.css?v=2">
   <script defer src="https://cloud.umami.is/script.js" data-website-id="05ed87e3-dc67-44d8-a5b7-133005178a72"></script>
 </head>
 <body>
@@ -161,6 +161,7 @@
         <button class="rg-btn" onclick="rgQuit()">✕ Quitter</button>
         <!-- Lecteur YT caché -->
         <div id="rg-yt-player"></div>
+        <audio id="rg-audio-player" preload="auto"></audio>
       </div>
     </div>
 
@@ -352,6 +353,8 @@ const RG_SONGS = [
     bpm: 114,
     diff: '⭐ Facile',
     youtubeId: 'gdZLi9oWNZg', // MV officiel — à tester
+    itunesQuery: 'BTS Dynamite', // utilisé pour trouver l'extrait audio iTunes (30s, sans pub)
+    start: 0, // secondes où le rythme démarre vraiment dans le clip (à ajuster si besoin)
     // Chaque note : [temps en ms, lane 0-3]
     // Pattern calé sur 114 BPM (~526ms/beat)
     notes: (function(){
@@ -382,6 +385,8 @@ const RG_SONGS = [
     bpm: 110,
     diff: '⭐ Facile',
     youtubeId: 'WMweEpGlu_U',
+    itunesQuery: 'BTS Butter',
+    start: 14, // saute l'intro parlée/dansée avant le vrai rythme (à ajuster si besoin)
     notes: (function(){
       const b = 545;
       return [
@@ -410,6 +415,8 @@ const RG_SONGS = [
     bpm: 76,
     diff: '⭐ Facile',
     youtubeId: 'xEeFrLSkMm8',
+    itunesQuery: 'BTS Spring Day',
+    start: 53, // Spring Day a une longue intro cinématique avant les paroles (à ajuster si besoin)
     notes: (function(){
       const b = 789;
       return [
@@ -422,9 +429,7 @@ const RG_SONGS = [
         [b*23,1],[b*24,3],[b*25,0],[b*25+b*.5,2],
         [b*26,2],[b*27,1],[b*28,3],[b*28+b*.5,0],
         [b*29,0],[b*30,2],[b*31,1],[b*31+b*.5,3],
-        [b*32,3],[b*33,0],[b*34,2],[b*34+b*.5,1],
-        [b*35,1],[b*36,3],[b*37,0],[b*37+b*.5,2],
-        [b*38,2],[b*38+b*.5,0],[b*39,3],[b*40,1],
+        [b*32,3],[b*33,0],[b*34,2],
       ];
     })()
   },
@@ -434,6 +439,8 @@ const RG_SONGS = [
     bpm: 100,
     diff: '⭐⭐ Moyen',
     youtubeId: '7C2z4GqqS5E',
+    itunesQuery: 'BTS Fake Love',
+    start: 33, // saute l'intro avant l'entrée des paroles (à ajuster si besoin)
     notes: (function(){
       const b = 600;
       return [
@@ -460,6 +467,8 @@ const RG_SONGS = [
     bpm: 130,
     diff: '⭐⭐ Moyen',
     youtubeId: 'kTlv5_Bs8aw',
+    itunesQuery: 'BTS MIC Drop',
+    start: 15, // saute la courte intro avant le vrai rythme (à ajuster si besoin)
     notes: (function(){
       const b = 461;
       return [
@@ -527,11 +536,21 @@ function rgSelectSong(idx) {
 }
 
 /* ── Initialisation ── */
+let rgYtPlayerReady = false;
+let rgWaitingForPlay = false;
+let rgPlayFallbackTimer = null;
+let rgReadyFallbackTimer = null;
+let rgAudioMode = false; // true si on utilise l'extrait iTunes (sans pub), false = repli YouTube
+const rgPreviewCache = {}; // évite de refaire la recherche iTunes à chaque partie
+
 function rgInitGame() {
   rgScore = rgCombo = rgMaxCombo = rgPerfect = rgGood = rgMiss = 0;
   rgNextNoteIdx = 0;
   rgActiveArrows = [];
   rgRunning = false;
+  rgWaitingForPlay = false;
+  clearTimeout(rgPlayFallbackTimer);
+  clearTimeout(rgReadyFallbackTimer);
   rgTotalNotes = rgSong.notes.length;
 
   // Vider les lanes
@@ -540,33 +559,88 @@ function rgInitGame() {
     lane.innerHTML = '';
   }
 
-  // Overlay compte à rebours
+  // Overlay de chargement
   const overlay = document.getElementById('rg-overlay');
   overlay.style.display = 'flex';
-  overlay.innerHTML = '<div class="rg-countdown" id="rg-countdown">3</div>';
+  overlay.innerHTML = '<div class="rg-countdown" id="rg-countdown" style="font-size:20px">Chargement de la musique…</div>';
 
   rgUpdateHUD();
-  rgCountdown(3);
+  rgPrepareAudio();
 }
 
 function rgCountdown(n) {
   const el = document.getElementById('rg-countdown');
   if (!el) return;
+  el.style.fontSize = '';
   el.textContent = n > 0 ? n : 'GO !';
   if (n > 0) {
     setTimeout(() => rgCountdown(n-1), 800);
   } else {
     setTimeout(() => {
       document.getElementById('rg-overlay').style.display = 'none';
-      rgStartTime = performance.now();
-      rgRunning = true;
-      rgTryPlayYT();
-      rgLoop();
+      rgLaunchAudioAndGame();
     }, 500);
   }
 }
 
-/* ── Lecture YouTube ── */
+/* ══════════════════════════════════════════════
+   MODE 1 — Extrait audio iTunes (prioritaire)
+   Fichier audio direct, 30s, sans pub, démarrage quasi instantané.
+══════════════════════════════════════════════ */
+async function rgFetchPreviewUrl(query) {
+  if (rgPreviewCache[query] !== undefined) return rgPreviewCache[query];
+  try {
+    const res = await fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(query) + '&media=music&entity=song&limit=1');
+    if (!res.ok) throw new Error('itunes http ' + res.status);
+    const data = await res.json();
+    const url = (data.results && data.results[0] && data.results[0].previewUrl) || null;
+    rgPreviewCache[query] = url;
+    return url;
+  } catch(e) {
+    console.warn('Recherche iTunes indisponible, repli sur YouTube :', e);
+    rgPreviewCache[query] = null;
+    return null;
+  }
+}
+
+async function rgPrepareAudio() {
+  rgYtPlayerReady = false;
+  if (!rgSong) return;
+
+  const previewUrl = rgSong.itunesQuery ? await rgFetchPreviewUrl(rgSong.itunesQuery) : null;
+
+  if (previewUrl) {
+    rgAudioMode = true;
+    const audio = document.getElementById('rg-audio-player');
+    audio.pause();
+    audio.src = previewUrl;
+    audio.currentTime = 0;
+    audio.volume = 0.7;
+
+    const onReady = () => {
+      audio.removeEventListener('canplaythrough', onReady);
+      rgYtPlayerReady = true;
+      clearTimeout(rgReadyFallbackTimer);
+      rgCountdown(3);
+    };
+    audio.addEventListener('canplaythrough', onReady, { once: true });
+    audio.load();
+
+    // Filet de sécurité si l'extrait iTunes ne charge jamais
+    clearTimeout(rgReadyFallbackTimer);
+    rgReadyFallbackTimer = setTimeout(() => {
+      if (!rgYtPlayerReady) { rgYtPlayerReady = true; rgCountdown(3); }
+    }, 5000);
+  } else {
+    // Repli : pas d'extrait trouvé → ancien système YouTube
+    rgAudioMode = false;
+    rgPrepareYT();
+  }
+}
+
+/* ══════════════════════════════════════════════
+   MODE 2 — Repli YouTube (si pas d'extrait iTunes trouvé)
+══════════════════════════════════════════════ */
 function rgLoadYTAPI() {
   if (window.YT && window.YT.Player) { rgYtReady = true; return; }
   const tag = document.createElement('script');
@@ -577,19 +651,55 @@ window.onYouTubeIframeAPIReady = function() {
   rgYtReady = true;
 };
 
-function rgTryPlayYT() {
-  if (!rgSong || !rgSong.youtubeId) return;
+// Prépare le lecteur AVANT le compte à rebours : le charge, le cale précisément
+// au bon endroit (fin de l'intro du clip) et le laisse en pause, prêt à démarrer.
+function rgPrepareYT() {
+  rgYtPlayerReady = false;
+  if (!rgSong || !rgSong.youtubeId) { rgCountdown(3); return; }
+
   const create = () => {
-    if (rgYtPlayer) {
-      try { rgYtPlayer.destroy(); } catch(e){}
-    }
+    if (rgYtPlayer) { try { rgYtPlayer.destroy(); } catch(e){} rgYtPlayer = null; }
     rgYtPlayer = new YT.Player('rg-yt-player', {
       height: '1', width: '1',
       videoId: rgSong.youtubeId,
-      playerVars: { autoplay: 1, controls: 0, disablekb: 1, fs: 0, modestbranding: 1, rel: 0 },
+      playerVars: {
+        autoplay: 0, controls: 0, disablekb: 1, fs: 0, modestbranding: 1, rel: 0,
+        start: Math.floor(rgSong.start || 0)
+      },
       events: {
-        onReady: e => { try { e.target.setVolume(70); e.target.playVideo(); } catch(err){} },
-        onError: () => {} // silencieux si bloqué
+        onReady: e => {
+          try {
+            e.target.setVolume(70);
+            e.target.seekTo(rgSong.start || 0, true);
+            e.target.pauseVideo();
+          } catch(err){}
+          rgYtPlayerReady = true;
+          clearTimeout(rgReadyFallbackTimer);
+          rgCountdown(3);
+        },
+        onStateChange: e => {
+          if (e.data === YT.PlayerState.PLAYING && rgWaitingForPlay) {
+            rgWaitingForPlay = false;
+            clearTimeout(rgPlayFallbackTimer);
+            rgStartTime = performance.now();
+            rgRunning = true;
+            rgLoop();
+          }
+        },
+        onError: () => {
+          // Vidéo bloquée/indisponible : on démarre quand même le jeu, en silence
+          if (rgWaitingForPlay) {
+            rgWaitingForPlay = false;
+            clearTimeout(rgPlayFallbackTimer);
+            rgStartTime = performance.now();
+            rgRunning = true;
+            rgLoop();
+          } else if (!rgYtPlayerReady) {
+            rgYtPlayerReady = true;
+            clearTimeout(rgReadyFallbackTimer);
+            rgCountdown(3);
+          }
+        }
       }
     });
   };
@@ -602,9 +712,62 @@ function rgTryPlayYT() {
   }
 }
 
+// Appelé une fois le "GO !" affiché : démarre l'audio (iTunes ou YouTube),
+// et n'affiche la première flèche que lorsque la lecture réelle est confirmée.
+function rgLaunchAudioAndGame() {
+  rgWaitingForPlay = true;
+
+  if (rgAudioMode) {
+    const audio = document.getElementById('rg-audio-player');
+    const onPlaying = () => {
+      audio.removeEventListener('playing', onPlaying);
+      if (rgWaitingForPlay) {
+        rgWaitingForPlay = false;
+        clearTimeout(rgPlayFallbackTimer);
+        rgStartTime = performance.now();
+        rgRunning = true;
+        rgLoop();
+      }
+    };
+    audio.addEventListener('playing', onPlaying);
+    audio.currentTime = 0;
+    const p = audio.play();
+    if (p && p.catch) p.catch(() => {}); // géré par le filet de sécurité ci-dessous
+  } else {
+    try {
+      if (rgYtPlayer) {
+        rgYtPlayer.seekTo(rgSong.start || 0, true);
+        rgYtPlayer.playVideo();
+      } else {
+        rgWaitingForPlay = false;
+        rgStartTime = performance.now();
+        rgRunning = true;
+        rgLoop();
+        return;
+      }
+    } catch(e){}
+  }
+
+  clearTimeout(rgPlayFallbackTimer);
+  rgPlayFallbackTimer = setTimeout(() => {
+    if (rgWaitingForPlay) {
+      rgWaitingForPlay = false;
+      rgStartTime = performance.now();
+      rgRunning = true;
+      rgLoop();
+    }
+  }, 4000);
+}
+
 function rgStopYT() {
+  try {
+    const audio = document.getElementById('rg-audio-player');
+    audio.pause();
+    audio.currentTime = 0;
+  } catch(e){}
   try { if (rgYtPlayer) { rgYtPlayer.stopVideo(); rgYtPlayer.destroy(); rgYtPlayer = null; } } catch(e){}
 }
+
 
 /* ── Boucle principale ── */
 function rgLoop() {
