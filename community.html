@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=2">
 <link rel="stylesheet" href="hub.css">
-<link rel="stylesheet" href="community.css?v=4">
+<link rel="stylesheet" href="community.css?v=8">
   <script defer src="https://cloud.umami.is/script.js" data-website-id="05ed87e3-dc67-44d8-a5b7-133005178a72"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -101,6 +101,7 @@
         <span class="comm-profile-name" id="profile-name"></span>
       </div>
       <div style="display:flex;gap:6px">
+        <button class="comm-profile-edit" onclick="openFriendsModal()">👥 Amis <span id="friends-badge" class="friends-badge" style="display:none">0</span></button>
         <a class="comm-profile-edit" href="index.html" style="text-decoration:none">✎ Gérer mon profil</a>
         <button class="comm-profile-edit" onclick="commSignOut()">⎋ Déconnexion</button>
       </div>
@@ -155,7 +156,12 @@
     <div class="chat-input-bar">
       <input type="file" id="chat-file-input" accept="image/*,video/*" style="display:none" onchange="handleFileSelect(event)">
       <button class="chat-attach-btn" onclick="document.getElementById('chat-file-input').click()" title="Joindre une photo ou vidéo">📎</button>
-      <input type="text" id="chat-input" class="comm-input" placeholder="Écris ton message…" maxlength="500" onkeydown="if(event.key==='Enter')sendMessage()">
+      <div class="mention-autocomplete-wrap">
+        <input type="text" id="chat-input" class="comm-input" placeholder="Écris ton message…" maxlength="500"
+          oninput="handleMentionInput(event)"
+          onkeydown="if(event.key==='Enter'){ if(mentionAutocompleteVisible()){ event.preventDefault(); selectMention(0); } else { sendMessage(); } } else if(event.key==='Escape'){ closeMentionAutocomplete(); }">
+        <div class="mention-autocomplete" id="mention-autocomplete" style="display:none"></div>
+      </div>
       <button class="chat-send-btn" onclick="sendMessage()">Envoyer</button>
     </div>
     <div class="chat-error" id="chat-error"></div>
@@ -178,6 +184,51 @@
       <button class="report-cancel" onclick="closeReportModal()">Annuler</button>
       <button class="report-confirm" onclick="confirmReport()">Signaler</button>
     </div>
+  </div>
+</div>
+
+<!-- Modal Amis -->
+<div class="report-modal" id="friends-modal">
+  <div class="report-modal-card friends-modal-card">
+    <button id="friends-modal-close" onclick="closeFriendsModal()" aria-label="Fermer">✕</button>
+    <div class="report-modal-title">👥 Mes amis</div>
+
+    <div class="friends-tabs">
+      <button class="friends-tab active" id="friends-tab-list" onclick="switchFriendsTab('list')">Amis</button>
+      <button class="friends-tab" id="friends-tab-requests" onclick="switchFriendsTab('requests')">Demandes <span id="friends-req-count" class="friends-badge" style="display:none">0</span></button>
+      <button class="friends-tab" id="friends-tab-search" onclick="switchFriendsTab('search')">Ajouter</button>
+    </div>
+
+    <div class="friends-panel active" id="friends-panel-list">
+      <div id="friends-list-content" class="friends-list"></div>
+    </div>
+
+    <div class="friends-panel" id="friends-panel-requests">
+      <div id="friends-requests-content" class="friends-list"></div>
+    </div>
+
+    <div class="friends-panel" id="friends-panel-search">
+      <input type="text" id="friends-search-input" class="comm-input" placeholder="Pseudo à rechercher…" oninput="searchFriendCandidates(this.value)">
+      <div id="friends-search-results" class="friends-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Message privé -->
+<div class="report-modal" id="dm-modal">
+  <div class="report-modal-card dm-modal-card">
+    <div class="dm-header">
+      <button class="dm-back-btn" onclick="closeDM()" aria-label="Retour">←</button>
+      <span class="dm-header-avatar" id="dm-header-avatar"></span>
+      <span class="dm-header-pseudo" id="dm-header-pseudo"></span>
+      <button id="dm-modal-close" onclick="closeDMModal()" aria-label="Fermer">✕</button>
+    </div>
+    <div class="dm-messages" id="dm-messages"></div>
+    <div class="dm-input-bar">
+      <input type="text" id="dm-input" class="comm-input" placeholder="Écris un message privé…" maxlength="500" onkeydown="if(event.key==='Enter')sendDM()">
+      <button class="chat-send-btn" onclick="sendDM()">Envoyer</button>
+    </div>
+    <div class="chat-error" id="dm-error"></div>
   </div>
 </div>
 
@@ -238,6 +289,7 @@ function showGate() {
   document.getElementById('comm-app').style.display = 'none';
   document.getElementById('comm-setup').style.display = 'flex';
   if (currentChannel) { sb.removeChannel(currentChannel); currentChannel = null; }
+  if (dmChannel) { sb.removeChannel(dmChannel); dmChannel = null; }
 }
 
 window.authSwitchTab = function(tab) {
@@ -318,7 +370,371 @@ function initApp() {
   document.getElementById('profile-name').textContent = currentProfile.pseudo || 'ARMY';
 
   switchRoom('general', document.querySelector('.room-tab[data-room="general"]'));
+  loadFriendsData();
+  loadDMUnreadCounts();
+  subscribeToDMs();
 }
+
+/* ══════════════════════════════════════════════
+   AMIS
+══════════════════════════════════════════════ */
+// friendsCache : Map(otherUserId -> { rowId, status: 'accepted' | 'pending_sent' | 'pending_received', pseudo, avatar })
+let friendsCache = new Map();
+
+async function loadFriendsData() {
+  if (!currentUser) return;
+  try {
+    const { data, error } = await sb
+      .from('friendships')
+      .select('*')
+      .or('user_id.eq.' + currentUser.id + ',friend_id.eq.' + currentUser.id);
+    if (error) throw error;
+
+    friendsCache = new Map();
+    const otherIds = [];
+    (data || []).forEach(row => {
+      const isSender = row.user_id === currentUser.id;
+      const otherId = isSender ? row.friend_id : row.user_id;
+      let status = row.status;
+      if (status === 'pending') status = isSender ? 'pending_sent' : 'pending_received';
+      friendsCache.set(otherId, { rowId: row.id, status });
+      otherIds.push(otherId);
+    });
+
+    if (otherIds.length > 0) {
+      const { data: profiles } = await sb.from('profiles').select('id,pseudo,avatar').in('id', otherIds);
+      (profiles || []).forEach(p => {
+        const entry = friendsCache.get(p.id);
+        if (entry) { entry.pseudo = p.pseudo; entry.avatar = p.avatar; }
+      });
+    }
+
+    updateFriendsBadges();
+    renderFriendsList();
+    renderFriendsRequests();
+  } catch(e) {
+    console.warn('loadFriendsData error:', e);
+  }
+}
+
+function updateFriendsBadges() {
+  let pendingReceived = 0;
+  friendsCache.forEach(f => { if (f.status === 'pending_received') pendingReceived++; });
+  let unreadDMs = 0;
+  dmUnreadCounts.forEach(n => unreadDMs += n);
+
+  const headerBadge = document.getElementById('friends-badge');
+  const modalBadge = document.getElementById('friends-req-count');
+  const total = pendingReceived + unreadDMs;
+  if (headerBadge) {
+    if (total > 0) { headerBadge.textContent = total; headerBadge.style.display = 'inline-block'; }
+    else { headerBadge.style.display = 'none'; }
+  }
+  if (modalBadge) {
+    if (pendingReceived > 0) { modalBadge.textContent = pendingReceived; modalBadge.style.display = 'inline-block'; }
+    else { modalBadge.style.display = 'none'; }
+  }
+}
+
+window.openFriendsModal = function() {
+  document.getElementById('friends-modal').classList.add('open');
+  loadFriendsData();
+};
+window.closeFriendsModal = function() {
+  document.getElementById('friends-modal').classList.remove('open');
+};
+window.switchFriendsTab = function(tab) {
+  document.querySelectorAll('.friends-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.friends-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('friends-tab-' + tab).classList.add('active');
+  document.getElementById('friends-panel-' + tab).classList.add('active');
+};
+
+function renderFriendsList() {
+  const box = document.getElementById('friends-list-content');
+  const accepted = Array.from(friendsCache.entries()).filter(([id, f]) => f.status === 'accepted');
+  if (accepted.length === 0) {
+    box.innerHTML = '<div class="friends-empty">Pas encore d\'amis — va dans l\'onglet "Ajouter" pour en chercher 💜</div>';
+    return;
+  }
+  box.innerHTML = accepted.map(([id, f]) => `
+    <div class="friend-row">
+      <span class="friend-avatar">${escapeHtml(f.avatar || '💜')}</span>
+      <span class="friend-pseudo">${escapeHtml(f.pseudo || 'ARMY')}</span>
+      ${dmUnreadCounts.get(id) > 0 ? `<span class="friends-badge">${dmUnreadCounts.get(id)}</span>` : ''}
+      <button class="friend-action-btn friend-action-accept" onclick='openDM(${JSON.stringify(id)}, ${JSON.stringify(f.pseudo || "ARMY")}, ${JSON.stringify(f.avatar || "💜")})'>💬 Message</button>
+      <button class="friend-action-btn friend-action-remove" onclick="removeFriend('${id}')">Retirer</button>
+    </div>
+  `).join('');
+}
+
+function renderFriendsRequests() {
+  const box = document.getElementById('friends-requests-content');
+  const received = Array.from(friendsCache.entries()).filter(([id, f]) => f.status === 'pending_received');
+  const sent = Array.from(friendsCache.entries()).filter(([id, f]) => f.status === 'pending_sent');
+
+  let html = '';
+  if (received.length > 0) {
+    html += '<div class="friends-subtitle">Demandes reçues</div>';
+    html += received.map(([id, f]) => `
+      <div class="friend-row">
+        <span class="friend-avatar">${escapeHtml(f.avatar || '💜')}</span>
+        <span class="friend-pseudo">${escapeHtml(f.pseudo || 'ARMY')}</span>
+        <button class="friend-action-btn friend-action-accept" onclick="acceptFriendRequest('${id}')">✓ Accepter</button>
+        <button class="friend-action-btn friend-action-remove" onclick="removeFriend('${id}')">✕</button>
+      </div>
+    `).join('');
+  }
+  if (sent.length > 0) {
+    html += '<div class="friends-subtitle">Demandes envoyées</div>';
+    html += sent.map(([id, f]) => `
+      <div class="friend-row">
+        <span class="friend-avatar">${escapeHtml(f.avatar || '💜')}</span>
+        <span class="friend-pseudo">${escapeHtml(f.pseudo || 'ARMY')}</span>
+        <span class="friend-status">⏳ En attente</span>
+        <button class="friend-action-btn friend-action-remove" onclick="removeFriend('${id}')">Annuler</button>
+      </div>
+    `).join('');
+  }
+  if (!html) html = '<div class="friends-empty">Aucune demande pour le moment.</div>';
+  box.innerHTML = html;
+}
+
+let searchDebounce = null;
+window.searchFriendCandidates = function(query) {
+  clearTimeout(searchDebounce);
+  const box = document.getElementById('friends-search-results');
+  const q = query.trim();
+  if (q.length < 2) { box.innerHTML = ''; return; }
+  searchDebounce = setTimeout(async () => {
+    try {
+      const { data, error } = await sb.from('profiles').select('id,pseudo,avatar').ilike('pseudo', '%' + q + '%').limit(10);
+      if (error) throw error;
+      const results = (data || []).filter(p => p.id !== currentUser.id);
+      if (results.length === 0) { box.innerHTML = '<div class="friends-empty">Aucun résultat.</div>'; return; }
+      box.innerHTML = results.map(p => {
+        const f = friendsCache.get(p.id);
+        let actionHtml;
+        if (!f) actionHtml = `<button class="friend-action-btn friend-action-add" onclick='sendFriendRequest(${JSON.stringify(p.id)}, ${JSON.stringify(p.pseudo)}, ${JSON.stringify(p.avatar)})'>➕ Ajouter</button>`;
+        else if (f.status === 'accepted') actionHtml = `<span class="friend-status">✓ Déjà ami</span>`;
+        else if (f.status === 'pending_sent') actionHtml = `<span class="friend-status">⏳ En attente</span>`;
+        else actionHtml = `<button class="friend-action-btn friend-action-accept" onclick="acceptFriendRequest('${p.id}')">✓ Accepter</button>`;
+        return `
+          <div class="friend-row">
+            <span class="friend-avatar">${escapeHtml(p.avatar || '💜')}</span>
+            <span class="friend-pseudo">${escapeHtml(p.pseudo)}</span>
+            ${actionHtml}
+          </div>`;
+      }).join('');
+    } catch(e) {
+      box.innerHTML = '<div class="friends-empty">Erreur de recherche.</div>';
+      console.error(e);
+    }
+  }, 300);
+};
+
+window.sendFriendRequest = async function(targetId, targetPseudo, targetAvatar) {
+  if (!currentUser || targetId === currentUser.id) return;
+  try {
+    const { error } = await sb.from('friendships').insert({ user_id: currentUser.id, friend_id: targetId, status: 'pending' });
+    if (error) throw error;
+    showCommToast('✅ Demande d\'ami envoyée à ' + targetPseudo);
+    await loadFriendsData();
+    document.getElementById('friends-search-input').dispatchEvent(new Event('input'));
+  } catch(e) {
+    console.error('sendFriendRequest error:', e);
+    showCommToast('Impossible d\'envoyer la demande (déjà envoyée ?)');
+  }
+};
+
+window.quickAddFriend = async function(targetId, targetPseudo, targetAvatar) {
+  if (!currentUser || targetId === currentUser.id) return;
+  const f = friendsCache.get(targetId);
+  if (!f) {
+    await sendFriendRequest(targetId, targetPseudo, targetAvatar);
+  } else if (f.status === 'accepted') {
+    showCommToast('💜 Toi et ' + targetPseudo + ' êtes déjà amis');
+  } else if (f.status === 'pending_sent') {
+    showCommToast('⏳ Demande déjà envoyée à ' + targetPseudo);
+  } else if (f.status === 'pending_received') {
+    showCommToast(targetPseudo + ' t\'a déjà envoyé une demande — ouvre 👥 Amis pour l\'accepter');
+  }
+};
+
+window.acceptFriendRequest = async function(otherId) {
+  const f = friendsCache.get(otherId);
+  if (!f) return;
+  try {
+    const { error } = await sb.from('friendships').update({ status: 'accepted' }).eq('id', f.rowId);
+    if (error) throw error;
+    showCommToast('💜 Vous êtes maintenant amis avec ' + (f.pseudo || 'cette personne'));
+    await loadFriendsData();
+  } catch(e) {
+    console.error('acceptFriendRequest error:', e);
+  }
+};
+
+window.removeFriend = async function(otherId) {
+  const f = friendsCache.get(otherId);
+  if (!f) return;
+  try {
+    const { error } = await sb.from('friendships').delete().eq('id', f.rowId);
+    if (error) throw error;
+    await loadFriendsData();
+    const searchInput = document.getElementById('friends-search-input');
+    if (searchInput.value.trim()) searchInput.dispatchEvent(new Event('input'));
+  } catch(e) {
+    console.error('removeFriend error:', e);
+  }
+};
+
+/* ══════════════════════════════════════════════
+   MESSAGES PRIVÉS (MP)
+══════════════════════════════════════════════ */
+let dmUnreadCounts = new Map(); // friendId -> nombre de messages non lus
+let dmCurrentFriend = null; // { id, pseudo, avatar }
+let dmChannel = null;
+
+function subscribeToDMs() {
+  if (!currentUser) return;
+  dmChannel = sb
+    .channel('dm-' + currentUser.id)
+    .on('postgres_changes', {
+      event: 'INSERT', schema: 'public', table: 'direct_messages'
+    }, (payload) => {
+      const msg = payload.new;
+      const isForMe = msg.receiver_id === currentUser.id;
+      const isFromMe = msg.sender_id === currentUser.id;
+      if (!isForMe && !isFromMe) return;
+      const otherId = isFromMe ? msg.receiver_id : msg.sender_id;
+
+      if (dmCurrentFriend && dmCurrentFriend.id === otherId) {
+        renderDMMessage(msg);
+        scrollDMToBottom();
+        if (isForMe) markDMRead(otherId);
+      } else if (isForMe) {
+        dmUnreadCounts.set(otherId, (dmUnreadCounts.get(otherId) || 0) + 1);
+        updateFriendsBadges();
+        renderFriendsList();
+        const f = friendsCache.get(otherId);
+        showCommToast('💬 Nouveau message privé de ' + (f && f.pseudo ? f.pseudo : 'un·e ami·e'));
+      }
+    })
+    .subscribe();
+}
+
+async function loadDMUnreadCounts() {
+  if (!currentUser) return;
+  try {
+    const { data } = await sb.from('direct_messages').select('sender_id').eq('receiver_id', currentUser.id).eq('read', false);
+    dmUnreadCounts = new Map();
+    (data || []).forEach(row => {
+      dmUnreadCounts.set(row.sender_id, (dmUnreadCounts.get(row.sender_id) || 0) + 1);
+    });
+    updateFriendsBadges();
+  } catch(e) { console.warn('loadDMUnreadCounts error:', e); }
+}
+
+window.openDM = async function(friendId, pseudo, avatar) {
+  dmCurrentFriend = { id: friendId, pseudo, avatar };
+  document.getElementById('dm-header-avatar').textContent = avatar || '💜';
+  document.getElementById('dm-header-pseudo').textContent = pseudo || 'ARMY';
+  document.getElementById('dm-messages').innerHTML = '<div class="chat-loading">Chargement…</div>';
+  document.getElementById('friends-modal').classList.remove('open');
+  document.getElementById('dm-modal').classList.add('open');
+
+  try {
+    const { data, error } = await sb
+      .from('direct_messages')
+      .select('*')
+      .or('and(sender_id.eq.' + currentUser.id + ',receiver_id.eq.' + friendId + '),and(sender_id.eq.' + friendId + ',receiver_id.eq.' + currentUser.id + ')')
+      .order('created_at', { ascending: true })
+      .limit(200);
+    if (error) throw error;
+    const box = document.getElementById('dm-messages');
+    box.innerHTML = '';
+    if (!data || data.length === 0) {
+      box.innerHTML = '<div class="chat-empty">Aucun message pour le moment. Dis bonjour 💜</div>';
+    } else {
+      data.forEach(renderDMMessage);
+      scrollDMToBottom();
+    }
+  } catch(e) {
+    document.getElementById('dm-messages').innerHTML = '<div class="chat-error-msg">Impossible de charger la conversation.</div>';
+    console.error(e);
+  }
+
+  markDMRead(friendId);
+};
+
+async function markDMRead(friendId) {
+  if (!currentUser) return;
+  dmUnreadCounts.delete(friendId);
+  updateFriendsBadges();
+  renderFriendsList();
+  try {
+    await sb.from('direct_messages').update({ read: true }).eq('sender_id', friendId).eq('receiver_id', currentUser.id).eq('read', false);
+  } catch(e) { console.warn('markDMRead error:', e); }
+}
+
+function renderDMMessage(msg) {
+  const box = document.getElementById('dm-messages');
+  const empty = box.querySelector('.chat-empty');
+  if (empty) empty.remove();
+
+  const isMine = msg.sender_id === currentUser.id;
+  const time = new Date(msg.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+  const div = document.createElement('div');
+  div.className = 'chat-msg' + (isMine ? ' chat-msg-mine' : '');
+  div.innerHTML = `
+    <div class="chat-msg-body">
+      <div class="chat-msg-text">${escapeHtml(msg.content)}</div>
+      <span class="chat-msg-time">${time}</span>
+    </div>
+  `;
+  box.appendChild(div);
+}
+
+function scrollDMToBottom() {
+  const box = document.getElementById('dm-messages');
+  box.scrollTop = box.scrollHeight;
+}
+
+window.sendDM = async function() {
+  const input = document.getElementById('dm-input');
+  const content = input.value.trim();
+  const errorEl = document.getElementById('dm-error');
+  errorEl.textContent = '';
+  if (!content || !dmCurrentFriend || !currentUser) return;
+  if (content.length > 500) { errorEl.textContent = 'Message trop long (500 caractères max).'; return; }
+
+  input.disabled = true;
+  try {
+    const { error } = await sb.from('direct_messages').insert({
+      sender_id: currentUser.id,
+      receiver_id: dmCurrentFriend.id,
+      content: content
+    });
+    if (error) throw error;
+    input.value = '';
+  } catch(e) {
+    errorEl.textContent = 'Erreur lors de l\'envoi. Réessaie.';
+    console.error(e);
+  } finally {
+    input.disabled = false;
+    input.focus();
+  }
+};
+
+window.closeDM = function() {
+  document.getElementById('dm-modal').classList.remove('open');
+  dmCurrentFriend = null;
+  document.getElementById('friends-modal').classList.add('open');
+};
+window.closeDMModal = function() {
+  document.getElementById('dm-modal').classList.remove('open');
+  dmCurrentFriend = null;
+};
 
 /* ══════════════════════════════════════════════
    SALONS
@@ -379,16 +795,124 @@ function subscribeToRoom(room) {
       if (empty) empty.remove();
       renderMessage(payload.new);
       scrollToBottom();
+      checkMentionPing(payload.new);
+    })
+    .on('postgres_changes', {
+      event: 'DELETE', schema: 'public', table: 'lounge_messages', filter: `room=eq.${room}`
+    }, (payload) => {
+      const el = document.querySelector('.chat-msg[data-id="' + payload.old.id + '"]');
+      if (el) el.remove();
     })
     .subscribe();
 }
 
+/* ══════════════════════════════════════════════
+   SUPPRESSION D'UN MESSAGE
+══════════════════════════════════════════════ */
+window.deleteMessage = async function(id) {
+  if (!currentUser) return;
+  if (!confirm('Supprimer ce message ?')) return;
+  try {
+    const { error } = await sb.from('lounge_messages').delete().eq('id', id).eq('user_id', currentUser.id);
+    if (error) throw error;
+    const el = document.querySelector('.chat-msg[data-id="' + id + '"]');
+    if (el) el.remove();
+  } catch(e) {
+    console.error('Delete error:', e);
+    alert('Impossible de supprimer ce message. Réessaie.');
+  }
+};
+
+/* ══════════════════════════════════════════════
+   NOTIFICATIONS DE MENTION (@everyone / @pseudo)
+══════════════════════════════════════════════ */
+function checkMentionPing(msg) {
+  if (!currentProfile) return;
+  const isOwnMessage = msg.pseudo === currentProfile.pseudo && msg.avatar === currentProfile.avatar;
+  if (isOwnMessage) return;
+
+  const content = (msg.content || '');
+  const mentionsEveryone = /@everyone\b/i.test(content);
+  const mentionsMe = new RegExp('@' + escapeRegExp(currentProfile.pseudo) + '\\b', 'i').test(content);
+
+  if (mentionsEveryone) {
+    showCommToast('📢 ' + msg.pseudo + ' a mentionné @everyone dans #' + roomLabel(msg.room));
+  } else if (mentionsMe) {
+    showCommToast('🔔 ' + msg.pseudo + ' t\'a mentionné·e !');
+  }
+}
+function escapeRegExp(s) {
+  return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+function roomLabel(room) {
+  const labels = { general:'Général', theories:'Théories & Lore', study:'Entraide & Études', creative:'Créations', music:'Découvertes musicales', wellbeing:'Bien-être' };
+  return labels[room] || room;
+}
+
+/* ══════════════════════════════════════════════
+   AUTOCOMPLÉTION DES MENTIONS (@)
+══════════════════════════════════════════════ */
+const knownPseudos = new Set();
+let mentionMatches = [];
+
+window.handleMentionInput = function(e) {
+  const input = e.target;
+  const cursor = input.selectionStart;
+  const text = input.value.slice(0, cursor);
+  const match = text.match(/@([a-zA-Z0-9_À-ÿ]{0,20})$/);
+
+  if (!match) { closeMentionAutocomplete(); return; }
+
+  const query = match[1].toLowerCase();
+  const candidates = ['everyone', ...Array.from(knownPseudos)].filter(function(p, i, arr) {
+    return arr.indexOf(p) === i && p.toLowerCase().startsWith(query);
+  }).slice(0, 5);
+
+  if (candidates.length === 0) { closeMentionAutocomplete(); return; }
+
+  mentionMatches = candidates;
+  const box = document.getElementById('mention-autocomplete');
+  box.innerHTML = candidates.map(function(p, i) {
+    const label = p === 'everyone' ? '📢 @everyone — tout le monde' : '@' + p;
+    return '<div class="mention-suggestion" onmousedown="event.preventDefault();selectMention(' + i + ')">' + label + '</div>';
+  }).join('');
+  box.style.display = 'block';
+};
+
+window.selectMention = function(index) {
+  const input = document.getElementById('chat-input');
+  const cursor = input.selectionStart;
+  const text = input.value.slice(0, cursor);
+  const match = text.match(/@([a-zA-Z0-9_À-ÿ]{0,20})$/);
+  if (!match) return;
+  const before = input.value.slice(0, match.index);
+  const after = input.value.slice(cursor);
+  const pseudo = mentionMatches[index];
+  input.value = before + '@' + pseudo + ' ' + after;
+  input.focus();
+  const newPos = (before + '@' + pseudo + ' ').length;
+  input.setSelectionRange(newPos, newPos);
+  closeMentionAutocomplete();
+};
+
+window.mentionAutocompleteVisible = function() {
+  return document.getElementById('mention-autocomplete').style.display === 'block';
+};
+window.closeMentionAutocomplete = function() {
+  const box = document.getElementById('mention-autocomplete');
+  box.style.display = 'none';
+  box.innerHTML = '';
+  mentionMatches = [];
+};
+
 function renderMessage(msg) {
   const container = document.getElementById('chat-messages');
   const isMine = currentProfile && msg.pseudo === currentProfile.pseudo && msg.avatar === currentProfile.avatar;
+  knownPseudos.add(msg.pseudo);
 
   const div = document.createElement('div');
-  div.className = 'chat-msg' + (isMine ? ' chat-msg-mine' : '');
+  const mentionsMe = currentProfile && new RegExp('@' + escapeRegExp(currentProfile.pseudo) + '\\b', 'i').test(msg.content || '');
+  div.className = 'chat-msg' + (isMine ? ' chat-msg-mine' : '') + (mentionsMe && !isMine ? ' chat-msg-mentioned' : '');
   div.dataset.id = msg.id;
 
   const time = new Date(msg.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
@@ -406,20 +930,24 @@ function renderMessage(msg) {
     mediaHtml = `<video class="chat-msg-media" src="${escapeHtml(msg.media_url)}" controls preload="metadata"></video>`;
   }
 
+  const pseudoHtml = (!isMine && msg.user_id)
+    ? `<span class="chat-msg-pseudo chat-msg-pseudo-clickable" onclick='quickAddFriend(${JSON.stringify(msg.user_id)}, ${JSON.stringify(msg.pseudo)}, ${JSON.stringify(msg.avatar)})' title="Ajouter en ami">${escapeHtml(msg.pseudo)}</span>`
+    : `<span class="chat-msg-pseudo">${escapeHtml(msg.pseudo)}</span>`;
+
   div.innerHTML = `
     <span class="chat-msg-avatar">${escapeHtml(msg.avatar || '💜')}</span>
     <div class="chat-msg-body">
       <div class="chat-msg-head">
-        <span class="chat-msg-pseudo">${escapeHtml(msg.pseudo)}</span>
+        ${pseudoHtml}
         <span class="chat-msg-time">${time}</span>
       </div>
       ${replyHtml}
-      ${msg.content ? `<div class="chat-msg-text">${escapeHtml(msg.content)}</div>` : ''}
+      ${msg.content ? `<div class="chat-msg-text">${formatMentions(escapeHtml(msg.content))}</div>` : ''}
       ${mediaHtml}
     </div>
     <div class="chat-msg-actions">
       <button class="chat-msg-reply-btn" onclick='startReply(${msg.id}, ${JSON.stringify(msg.pseudo)}, ${JSON.stringify(msg.content)})' title="Répondre">↩</button>
-      <button class="chat-msg-report" onclick="openReportModal(${msg.id})" title="Signaler">⚑</button>
+      ${isMine ? `<button class="chat-msg-delete" onclick="deleteMessage(${msg.id})" title="Supprimer">🗑️</button>` : `<button class="chat-msg-report" onclick="openReportModal(${msg.id})" title="Signaler">⚑</button>`}
     </div>
   `;
   container.appendChild(div);
@@ -427,6 +955,17 @@ function renderMessage(msg) {
 
 function escapeHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Colore les mentions dans un texte déjà échappé (HTML-safe)
+function formatMentions(escapedContent) {
+  return escapedContent.replace(/@([a-zA-Z0-9_À-ÿ]{1,20})/g, function(match, name) {
+    if (name.toLowerCase() === 'everyone') {
+      return '<span class="chat-mention chat-mention-everyone">@everyone</span>';
+    }
+    const isMe = currentProfile && name.toLowerCase() === currentProfile.pseudo.toLowerCase();
+    return '<span class="chat-mention' + (isMe ? ' chat-mention-me' : '') + '">@' + name + '</span>';
+  });
 }
 
 function scrollToBottom() {
@@ -542,7 +1081,8 @@ window.sendMessage = async function() {
       room: currentRoom,
       pseudo: currentProfile.pseudo,
       avatar: currentProfile.avatar,
-      content: content
+      content: content,
+      user_id: currentUser.id
     };
     if (replyingTo) {
       payload.reply_to = replyingTo.id;
@@ -556,6 +1096,7 @@ window.sendMessage = async function() {
     const { error } = await sb.from('lounge_messages').insert(payload);
     if (error) throw error;
     input.value = '';
+    closeMentionAutocomplete();
     cancelReply();
     cancelMedia();
     checkChatEasterEggs(content);
