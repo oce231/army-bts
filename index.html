@@ -20,7 +20,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="google-site-verification" content="bhBEl_l6vUboeI1Oxv3kbUlib_3ghDq54C5HTTsOoRA" />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="style.css?v=9">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a0a12">
 <link rel="apple-touch-icon" href="Photo/Preview.jpg">
@@ -407,6 +407,13 @@
         <span class="profile-setting-desc">Revoir la présentation du site</span>
       </div>
       <button class="profile-mini-btn" onclick="onbRestart()">↺ Revoir</button>
+    </div>
+    <div class="profile-setting">
+      <div class="profile-setting-label">
+        <span>Notifications</span>
+        <span class="profile-setting-desc" id="push-status-desc">Pings, messages privés, demandes d'amis</span>
+      </div>
+      <button class="profile-mini-btn" id="push-toggle-btn" onclick="togglePushFromProfile()">🔔 Activer</button>
     </div>
     <button class="profile-logout-btn" onclick="authSignOut()">↩ Se déconnecter</button>
   </div>
@@ -3224,11 +3231,7 @@
       </a>
       <a class="v-card" href="https://www.youtube.com/watch?v=bagj78IQ3l0" target="_blank">
         <div class="v-thumb"><img src="https://img.youtube.com/vi/bagj78IQ3l0/maxresdefault.jpg" onerror="this.parentNode.innerHTML='<div class=v-thumb-fallback>⚡</div>'"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div><span class="v-badge badge-mv">MV</span></div>
-        <div class="v-info"><div class="v-title">Danger — MV</div><div class="v-foot"><span class="v-date">19 Août 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/xGOJGKDRIBo" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/xGOJGKDRIBo/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div><span class="v-badge badge-mv">MV</span></div>
-        <div class="v-info"><div class="v-title">Boy In Luv — MV (Japanese Ver.)</div><div class="v-foot"><span class="v-date">16 Juil. 2014</span><span class="v-link">Voir →</span></div></div>
+        <div class="v-info"><div class="v-title">Danger — MV</div><div class="v-foot"><span class="v-date">Août 2014</span><span class="v-link">Voir →</span></div></div>
       </a>
       <a class="v-card" href="https://www.youtube.com/watch?v=XQmpVHUi-0A" target="_blank">
         <div class="v-thumb"><img src="https://img.youtube.com/vi/XQmpVHUi-0A/maxresdefault.jpg" onerror="this.parentNode.innerHTML='<div class=v-thumb-fallback>🔥</div>'"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div><span class="v-badge badge-mv">MV</span></div>
@@ -3245,24 +3248,24 @@
         <div class="v-thumb"><img src="https://img.youtube.com/vi/sm4FFFBgbmg/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div><span class="v-badge badge-yt">PRACTICE</span></div>
         <div class="v-info"><div class="v-title">2014 FESTA — "Beautiful" Dance Practice</div><div class="v-foot"><span class="v-date">6 Juin 2014</span><span class="v-link">Voir →</span></div></div>
       </a>
-      <a class="v-card" href="https://youtu.be/ceMydJpMmD8" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/ceMydJpMmD8/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div><span class="v-badge badge-yt">PRACTICE</span></div>
-        <div class="v-info"><div class="v-title">Danger — Dance Practice</div><div class="v-foot"><span class="v-date">2014</span><span class="v-link">Voir →</span></div></div>
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Danger+dance+practice+2014" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🕺</div><span class="v-badge badge-yt">PRACTICE</span></div>
+        <div class="v-info"><div class="v-title">Danger — Dance Practice</div><div class="v-foot"><span class="v-date">2014</span><span class="v-link">Chercher →</span></div></div>
       </a>
-      <a class="v-card" href="https://youtu.be/U3mmG4DUl6I" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/U3mmG4DUl6I/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div><span class="v-badge badge-yt">PRACTICE</span></div>
-        <div class="v-info"><div class="v-title">War of Hormone — Dance Practice</div><div class="v-foot"><span class="v-date">2014</span><span class="v-link">Voir →</span></div></div>
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+War+of+Hormone+dance+practice" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🕺</div><span class="v-badge badge-yt">PRACTICE</span></div>
+        <div class="v-info"><div class="v-title">War of Hormone — Dance Practice</div><div class="v-foot"><span class="v-date">2014</span><span class="v-link">Chercher →</span></div></div>
       </a>
     </div>
     <div class="sec-hd"><span class="sec-hd-title">Performances & Archives</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://youtu.be/YAe8EKJ4OJE" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/YAe8EKJ4OJE/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Dark & Wild Showcase Rerun — Danger + War of Hormone + Let Me Know (1theK)</div><div class="v-foot"><span class="v-date">21 Août 2014</span><span class="v-link">Voir →</span></div></div>
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Danger+live+stage+2014" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎤</div></div>
+        <div class="v-info"><div class="v-title">Danger — Stages musicaux</div><div class="v-foot"><span class="v-date">2014</span><span class="v-link">Chercher →</span></div></div>
       </a>
-      <a class="v-card" href="https://youtu.be/ReC8sbCLFkQ" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/ReC8sbCLFkQ/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Global Request Show: A Song For You 3 — Ep.12</div><div class="v-foot"><span class="v-date">18 Juil. 2014 (diffusé Oct. 2014)</span><span class="v-link">Voir →</span></div></div>
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Let+Me+Know+live+2014" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💔</div></div>
+        <div class="v-info"><div class="v-title">Let Me Know — Live performances</div><div class="v-foot"><span class="v-date">2014</span><span class="v-link">Chercher →</span></div></div>
       </a>
     </div>
   </div>
@@ -3328,39 +3331,6 @@
         <a class="ep-row" href="https://www.dailymotion.com/video/x4ezxiq" target="_blank"><span class="ep-num">▶</span><span class="ep-title">[NOW2] BTS en Europe & Amérique — Making Film (Pt.1)</span><span class="ep-date">27 Juil. 2014</span><span class="ep-play">▶</span></a>
         <a class="ep-row" href="https://www.dailymotion.com/video/x4fnuvn" target="_blank"><span class="ep-num">▶</span><span class="ep-title">[NOW2] BTS en Europe & Amérique — Making Film (Pt.2)</span><span class="ep-date">27 Juil. 2014</span><span class="ep-play">▶</span></a>
         <a class="ep-row" href="https://youtu.be/j_r7tlHJ0Kg" target="_blank"><span class="ep-num">▶</span><span class="ep-title">BTS run way! (95z cam #2)</span><span class="ep-date">29 Juil. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/gRlEhEAlSt0" target="_blank"><span class="ep-num">▶</span><span class="ep-title">Go! BTS (feat. Team USA)</span><span class="ep-date">3 Août 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/y5c3Dao4_4E" target="_blank"><span class="ep-num">▶</span><span class="ep-title">Dark & Wild — Jacket Photo Shooting Making Film</span><span class="ep-date">20 Août 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/aAHMtPzO79E" target="_blank"><span class="ep-num">▶</span><span class="ep-title">I'm glad I hung my socks — Pt.1</span><span class="ep-date">22 Août 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/cMiRD2Mxua0" target="_blank"><span class="ep-num">▶</span><span class="ep-title">I'm glad I hung my socks — Pt.2</span><span class="ep-date">23 Août 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/kbohvRiDPwA" target="_blank"><span class="ep-num">▶</span><span class="ep-title">BTS Dance Showcase!</span><span class="ep-date">24 Août 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/kTzCBLGimIY" target="_blank"><span class="ep-num">▶</span><span class="ep-title">BTS Idol — Jimin danse à la manière d'EXO</span><span class="ep-date">25 Août 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/ZkyJbKWH3S0" target="_blank"><span class="ep-num">▶</span><span class="ep-title">J-Hope recommande des chansons (VJ cam)</span><span class="ep-date">28 Août 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/NkHCVfMIONk" target="_blank"><span class="ep-num">▶</span><span class="ep-title">Danger — Appeal ver. by BTS</span><span class="ep-date">3 Sept. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/B7F6YO7l6EM" target="_blank"><span class="ep-num">▶</span><span class="ep-title">Touch My Body — Cover SISTAR</span><span class="ep-date">4 Sept. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/X-fJMkMiHbQ" target="_blank"><span class="ep-num">▶</span><span class="ep-title">BTS se bat !</span><span class="ep-date">6 Sept. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/-QiLVt5mS_I" target="_blank"><span class="ep-num">▶</span><span class="ep-title">[EPISODE] Dark & Wild — MV Shooting Sketch</span><span class="ep-date">8 Sept. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/p_8t05TDXXE" target="_blank"><span class="ep-num">▶</span><span class="ep-title">Selfie enregistrement (J-Hope)</span><span class="ep-date">10 Sept. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/iq2BybnN_sc" target="_blank"><span class="ep-num">▶</span><span class="ep-title">BTS Match — Round 1</span><span class="ep-date">15 Sept. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/QEPjF01fAEU" target="_blank"><span class="ep-num">▶</span><span class="ep-title">BTS Match — Round 2</span><span class="ep-date">16 Sept. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/wFX0B9lsBzk" target="_blank"><span class="ep-num">▶</span><span class="ep-title">SUGA est libre !</span><span class="ep-date">17 Sept. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/V6T0-S5y_XE" target="_blank"><span class="ep-num">▶</span><span class="ep-title">War of Hormone — Shooting Sketch</span><span class="ep-date">22 Sept. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/LHHBXIRqKuA" target="_blank"><span class="ep-num">▶</span><span class="ep-title">A Little Dangerous Chuseok</span><span class="ep-date">23 Sept. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/7FhvlHNa8bU" target="_blank"><span class="ep-num">▶</span><span class="ep-title">BTS Beatbox</span><span class="ep-date">25 Sept. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/6zxKZ4Z8Kks" target="_blank"><span class="ep-num">▶</span><span class="ep-title">War of Hormone — Appeal ver.</span><span class="ep-date">30 Sept. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/e_WFaVqK2r8" target="_blank"><span class="ep-num">▶</span><span class="ep-title">Jimin's dance detail practice</span><span class="ep-date">6 Oct. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/F_GDl5Gqxns" target="_blank"><span class="ep-num">▶</span><span class="ep-title">Drop That NaeNae ! (Dance 1)</span><span class="ep-date">25 Oct. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/Y2Kc8oymxb8" target="_blank"><span class="ep-num">▶</span><span class="ep-title">Wiggle ! (Dance 2)</span><span class="ep-date">25 Oct. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/gH3u84HDMOA" target="_blank"><span class="ep-num">▶</span><span class="ep-title">[EPISODE] The Red Bullet in Seoul — Préparatifs & Behind</span><span class="ep-date">28 Oct. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/yvbDDIz8TIA" target="_blank"><span class="ep-num">▶</span><span class="ep-title">War of Hormone — MV Shooting Sketch</span><span class="ep-date">29 Oct. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/oTYSvCs7EIs" target="_blank"><span class="ep-num">▶</span><span class="ep-title">MPD Mission "War of Hormone"</span><span class="ep-date">31 Oct. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/6P04r7UJJGE" target="_blank"><span class="ep-num">▶</span><span class="ep-title">Jimin est au téléphone avec une A.R.M.Y.</span><span class="ep-date">3 Nov. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/7_xNPvDjEAc" target="_blank"><span class="ep-num">▶</span><span class="ep-title">War of Hormone in Halloween</span><span class="ep-date">4 Nov. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/QRLY0VfULYM" target="_blank"><span class="ep-num">▶</span><span class="ep-title">Beautiful — BTS ver.</span><span class="ep-date">10 Nov. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/Nh8U3BX7-7k" target="_blank"><span class="ep-num">▶</span><span class="ep-title">Enjoy 2014 Halloween</span><span class="ep-date">10 Nov. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/6tSaX_5Qnsk" target="_blank"><span class="ep-num">▶</span><span class="ep-title">How to take a selfie</span><span class="ep-date">10 Nov. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/qN9aK2jbFbI" target="_blank"><span class="ep-num">▶</span><span class="ep-title">[EPISODE] The Red Bullet in Japon</span><span class="ep-date">24 Nov. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/C9Ii-vBTETg" target="_blank"><span class="ep-num">▶</span><span class="ep-title">Starcast Bangtan Room + Season Greetings 2015</span><span class="ep-date">10 Nov. 2014</span><span class="ep-play">▶</span></a>
-        <a class="ep-row" href="https://youtu.be/8VNOzpJo_TM" target="_blank"><span class="ep-num">▶</span><span class="ep-title">Vœux de fin d'année — BTS Noël 2014</span><span class="ep-date">24 Déc. 2014</span><span class="ep-play">▶</span></a>
       </div></div>
     </div>
     <div class="show-card">
@@ -3400,38 +3370,17 @@
         <div class="v-thumb"><img src="https://img.youtube.com/vi/Sjy9d56Us8A/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
         <div class="v-info"><div class="v-title">Naver Star Cast — Commentaire sur leur perf. au Gayo Daejeon</div><div class="v-foot"><span class="v-date">14 Juil. 2014</span><span class="v-link">Voir →</span></div></div>
       </a>
-      <a class="v-card" href="https://drive.google.com/drive/folders/1ym2T7Y9XSILOo3WZhLtcrYtKE7IV_y30" target="_blank">
+      <a class="v-card" href="https://youtu.be/_gYQC3Oay6k" target="_blank">
+        <div class="v-thumb"><img src="https://img.youtube.com/vi/_gYQC3Oay6k/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
+        <div class="v-info"><div class="v-title">Oricon Style Vol.10 — Jacket Making</div><div class="v-foot"><span class="v-date">23 Juil. 2014</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://btsdiary.wordpress.com/2014/07/31/interview-bts-at-the-rwel8-showcase-in-berlin-with-mcm-buzz-140727/" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">📰</div></div>
-        <div class="v-info"><div class="v-title">Oricon Style Vol.7</div><div class="v-foot"><span class="v-date">2 Juil. 2014</span><span class="v-link">Voir →</span></div></div>
+        <div class="v-info"><div class="v-title">Interview exclusive avec MCM Buzz (Berlin)</div><div class="v-foot"><span class="v-date">27 Juil. 2014</span><span class="v-link">Voir →</span></div></div>
       </a>
-      <a class="v-card" href="https://youtu.be/B7V4QAmz9ic" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">📻</div></div>
-        <div class="v-info"><div class="v-title">Kstyle — Interview août 2014</div><div class="v-foot"><span class="v-date">19 Août 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/O4r5VJK4DFc" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/O4r5VJK4DFc/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">MPD — Danger MV Commentary</div><div class="v-foot"><span class="v-date">Août 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/lS5pkMD_AuQ" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/lS5pkMD_AuQ/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Pops in Seoul — Interview Danger</div><div class="v-foot"><span class="v-date">4 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/k3oRBwJOYXY" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/k3oRBwJOYXY/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">KBS Cool FM — Sunny FM (Radio)</div><div class="v-foot"><span class="v-date">5 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/4SoxhbfCOGg" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/4SoxhbfCOGg/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">JJang — Episode BTS Danger 위험해!</div><div class="v-foot"><span class="v-date">13 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/B-YQJM7E9jo" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/B-YQJM7E9jo/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">KBS Cool FM — Yoo In Na's Volume Up (Radio)</div><div class="v-foot"><span class="v-date">18 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/HjWo1mnvv38" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/HjWo1mnvv38/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">10Asia — War of Hormone Preview Interview</div><div class="v-foot"><span class="v-date">23 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
+    </div>
+    <div class="sec-hd"><span class="sec-hd-title">Interviews</span></div>
+    <div class="v-grid">
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Danger+interview+2014" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
         <div class="v-info"><div class="v-title">Interviews promotions Danger</div><div class="v-foot"><span class="v-date">Août 2014</span><span class="v-link">Chercher →</span></div></div>
@@ -3612,254 +3561,11 @@
         <div class="v-info"><div class="v-title">1er Fan Meeting "Are We Late?" — Stockholm, Suède</div><div class="v-foot"><span class="v-date">29 Juil. 2014</span><span class="v-link">Voir →</span></div></div>
       </a>
     </div>
-    <div class="sec-hd"><span class="sec-hd-title">Août 2014 — Debut Anniversary + KCON</span></div>
-    <div class="v-grid">
-      <a class="v-card" href="https://youtu.be/hS8VFKmLiIs" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/hS8VFKmLiIs/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">M Countdown 2 Nights — KCON 2014 LA (interview + perf.)</div><div class="v-foot"><span class="v-date">10 Août 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/o0j8fOxN7e0" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/o0j8fOxN7e0/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">KCON 2014 — Performance complète</div><div class="v-foot"><span class="v-date">10 Août 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/lQPkPzYeFnE" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/lQPkPzYeFnE/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Dark & Wild Showcase — Blue Square Samsung Card Hall (Seoul)</div><div class="v-foot"><span class="v-date">19 Août 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/oWGiQIVfM8M" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/oWGiQIVfM8M/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">M Countdown — Danger (Comeback Stage)</div><div class="v-foot"><span class="v-date">21 Août 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/JwqHxMv0bW4" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/JwqHxMv0bW4/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Music Bank — Danger</div><div class="v-foot"><span class="v-date">22 Août 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/s7eCL5M8v6k" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/s7eCL5M8v6k/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Music Core — Danger</div><div class="v-foot"><span class="v-date">23 Août 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/W0cZRBvFe_s" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/W0cZRBvFe_s/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Inkigayo — Danger</div><div class="v-foot"><span class="v-date">24 Août 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/4yBqSYkOVAo" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/4yBqSYkOVAo/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">MTV The Show — Danger</div><div class="v-foot"><span class="v-date">26 Août 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/9KBgTiOMDQA" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/9KBgTiOMDQA/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Show Champion — Danger</div><div class="v-foot"><span class="v-date">27 Août 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/3kCFqGxbfvY" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/3kCFqGxbfvY/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">M Countdown — Danger</div><div class="v-foot"><span class="v-date">28 Août 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/CtBJJ9V8bD0" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/CtBJJ9V8bD0/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Music Bank — Danger</div><div class="v-foot"><span class="v-date">29 Août 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/E_P7bHBjFAA" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/E_P7bHBjFAA/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Music Core — Danger</div><div class="v-foot"><span class="v-date">30 Août 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/9q7GZ4YXFTY" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/9q7GZ4YXFTY/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Inkigayo — Danger</div><div class="v-foot"><span class="v-date">31 Août 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-    </div>
     <div class="sec-hd"><span class="sec-hd-title">Concerts</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://youtu.be/Xu_AXX1q1Ls" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/Xu_AXX1q1Ls/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">The Red Bullet Tour — Full Concert (Séoul)</div><div class="v-foot"><span class="v-date">Oct.–Déc. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-    </div>
-    <div class="sec-hd"><span class="sec-hd-title">Septembre 2014 — Danger & War of Hormone</span></div>
-    <div class="v-grid">
-      <a class="v-card" href="https://youtu.be/0MxMgFJMLQM" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/0MxMgFJMLQM/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Show Champion — Danger</div><div class="v-foot"><span class="v-date">3 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/FkJIjIcYaLY" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/FkJIjIcYaLY/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">M Countdown — Danger</div><div class="v-foot"><span class="v-date">4 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/Hp6pmIJQOEU" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/Hp6pmIJQOEU/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Music Bank — Danger + Let Me Know</div><div class="v-foot"><span class="v-date">5 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/IHZIhEIb4Yc" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/IHZIhEIb4Yc/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Music Core — Danger</div><div class="v-foot"><span class="v-date">6 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/VvusFEjvMpE" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/VvusFEjvMpE/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Inkigayo — Danger</div><div class="v-foot"><span class="v-date">7 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/JmDiW8FCTTU" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/JmDiW8FCTTU/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Simply K-Pop — Danger + Intro + Let Me Know</div><div class="v-foot"><span class="v-date">9 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/KwX1TbJv3rg" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/KwX1TbJv3rg/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">MTV The Show — Danger</div><div class="v-foot"><span class="v-date">9 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/1JbVWRFVqUo" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/1JbVWRFVqUo/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Show Champion — Danger</div><div class="v-foot"><span class="v-date">10 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/LX7SWZq8RiA" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/LX7SWZq8RiA/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">2014 Incheon Korean Music Wave</div><div class="v-foot"><span class="v-date">13 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/mNe-DFUO2ZM" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/mNe-DFUO2ZM/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">M Countdown — Danger</div><div class="v-foot"><span class="v-date">18 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/NixEa3AO9hM" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/NixEa3AO9hM/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Music Bank — Danger</div><div class="v-foot"><span class="v-date">19 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/e5xFHDUiNao" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/e5xFHDUiNao/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Music Core — Danger</div><div class="v-foot"><span class="v-date">20 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/sQoG4JNmfp0" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/sQoG4JNmfp0/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Inkigayo — Danger</div><div class="v-foot"><span class="v-date">21 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/QkFXxFJ1fmg" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/QkFXxFJ1fmg/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">The Brave Concert — Danger + N.O + No More Dream</div><div class="v-foot"><span class="v-date">22 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/rW_S6RcFrX4" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/rW_S6RcFrX4/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Show Champion — War of Hormone (Comeback Stage)</div><div class="v-foot"><span class="v-date">24 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/xq0Vu0sLVn0" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/xq0Vu0sLVn0/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">M Countdown — War of Hormone</div><div class="v-foot"><span class="v-date">25 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/GZhR6fCfBXo" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/GZhR6fCfBXo/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Music Bank — War of Hormone</div><div class="v-foot"><span class="v-date">26 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/A4NJpo56OYI" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/A4NJpo56OYI/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Music Core — War of Hormone</div><div class="v-foot"><span class="v-date">27 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/Cn3_FaJjhgs" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/Cn3_FaJjhgs/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Inkigayo — War of Hormone</div><div class="v-foot"><span class="v-date">28 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-    </div>
-    <div class="sec-hd"><span class="sec-hd-title">Octobre 2014 — 1er Concert Solo + Red Bullet Tour</span></div>
-    <div class="v-grid">
-      <a class="v-card" href="https://youtu.be/okrNvPBiCIQ" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/okrNvPBiCIQ/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Suwon Women's College Festival</div><div class="v-foot"><span class="v-date">1 Oct. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/Gv9rNv7FLLY" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/Gv9rNv7FLLY/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Show Champion — War of Hormone</div><div class="v-foot"><span class="v-date">8 Oct. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/T1TkBjuGIkM" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/T1TkBjuGIkM/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">M Countdown — War of Hormone</div><div class="v-foot"><span class="v-date">9 Oct. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/Dv6cJSTvLsU" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/Dv6cJSTvLsU/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Music Bank — War of Hormone</div><div class="v-foot"><span class="v-date">10 Oct. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/XKRzp_WGsqw" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/XKRzp_WGsqw/maxresdefault.jpg" onerror="this.parentNode.innerHTML='&lt;div class=v-thumb-fallback&gt;🎤&lt;/div&gt;'"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Music Core — War of Hormone</div><div class="v-foot"><span class="v-date">11 Oct. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/H_WmHv8aRkU" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/H_WmHv8aRkU/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Inkigayo — War of Hormone</div><div class="v-foot"><span class="v-date">12 Oct. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/e4t-_3B4WEA" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/e4t-_3B4WEA/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Music Bank — War of Hormone</div><div class="v-foot"><span class="v-date">17 Oct. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/hLf5TqxQ5yA" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/hLf5TqxQ5yA/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">KBS Music Bank — War of Hormone</div><div class="v-foot"><span class="v-date">24 Oct. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/g4cSmJBGFnk" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/g4cSmJBGFnk/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">🔴 1er Concert Solo — BTS Live Trilogy Ep.II The Red Bullet (Séoul)</div><div class="v-foot"><span class="v-date">24 Oct. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/mA_3xaBGVxo" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/mA_3xaBGVxo/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Gyeosangnam-do Youth Festival</div><div class="v-foot"><span class="v-date">25 Oct. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/8-fh4cPNz-c" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/8-fh4cPNz-c/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Inkigayo — War of Hormone</div><div class="v-foot"><span class="v-date">26 Oct. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/rqiL6i3Rri8" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/rqiL6i3Rri8/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Music Bank in Mexico (KBS)</div><div class="v-foot"><span class="v-date">30 Oct. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/e_f7lLRjBGE" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/e_f7lLRjBGE/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Music Bank — MPD Mission War of Hormone</div><div class="v-foot"><span class="v-date">31 Oct. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-    </div>
-    <div class="sec-hd"><span class="sec-hd-title">Novembre 2014 — Red Bullet Asie + Music Shows</span></div>
-    <div class="v-grid">
-      <a class="v-card" href="https://youtu.be/v4D3YwJHRXw" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/v4D3YwJHRXw/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Show Champion — War of Hormone</div><div class="v-foot"><span class="v-date">5 Nov. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/3p-1YMjqcEQ" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/3p-1YMjqcEQ/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Music Core — V Special MC</div><div class="v-foot"><span class="v-date">8 Nov. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/4fjH2yCGAn4" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/4fjH2yCGAn4/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">M Countdown — Good Bye Stage (War of Hormone)</div><div class="v-foot"><span class="v-date">6 Nov. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/Wv3pIJZCwms" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/Wv3pIJZCwms/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">🔴 The Red Bullet — Kobe, Japon (Fancam compilation)</div><div class="v-foot"><span class="v-date">13–14 Nov. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/9i6wUETN1qE" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/9i6wUETN1qE/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">🔴 The Red Bullet — Tokyo, Japon</div><div class="v-foot"><span class="v-date">16 Nov. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/sxuMoZf2OKk" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/sxuMoZf2OKk/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">16th Korea-China Song Festival (KBS)</div><div class="v-foot"><span class="v-date">26 Nov. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-    </div>
-    <div class="sec-hd"><span class="sec-hd-title">Décembre 2014 — Red Bullet + Gayos de fin d'année</span></div>
-    <div class="v-grid">
-      <a class="v-card" href="https://youtu.be/YPhS4qpvBMs" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/YPhS4qpvBMs/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">🔴 The Red Bullet — Manila, Philippines</div><div class="v-foot"><span class="v-date">7 Déc. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/GY0pLdZflk4" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/GY0pLdZflk4/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">🔴 The Red Bullet — Singapour</div><div class="v-foot"><span class="v-date">13 Déc. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/HvAJFHCaHb4" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/HvAJFHCaHb4/maxresdefault.jpg" onerror="this.parentNode.innerHTML='&lt;div class=v-thumb-fallback&gt;🔴&lt;/div&gt;'"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">🔴 The Red Bullet — Thaïlande</div><div class="v-foot"><span class="v-date">20 Déc. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/gDVhzBFztaU" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/gDVhzBFztaU/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">M Countdown Christmas Special — Just One Day + War of Hormone</div><div class="v-foot"><span class="v-date">25 Déc. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/jC8oRpJLHFI" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/jC8oRpJLHFI/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">SBS Awards Festival — No More Dream + Danger + Boy In Luv + War of Hormone</div><div class="v-foot"><span class="v-date">23 Déc. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/5RcB7nRxNwE" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/5RcB7nRxNwE/maxresdefault.jpg"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Melon Music Awards 2014 — War of Hormone + Danger + Cypher Pt.3</div><div class="v-foot"><span class="v-date">Déc. 2014</span><span class="v-link">Voir →</span></div></div>
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+The+Red+Bullet+concert+2014" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🔴</div></div>
+        <div class="v-info"><div class="v-title">The Red Bullet Tour — 2014</div><div class="v-foot"><span class="v-date">Oct.–Déc. 2014</span><span class="v-link">Chercher →</span></div></div>
       </a>
     </div>
   </div>
@@ -3904,82 +3610,6 @@
       <a class="v-card" href="https://youtu.be/BBcUJu9NJlQ" target="_blank">
         <div class="v-thumb"><img src="https://img.youtube.com/vi/BBcUJu9NJlQ/maxresdefault.jpg" onerror="this.parentNode.innerHTML='&lt;div class=v-thumb-fallback&gt;✍️&lt;/div&gt;'"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
         <div class="v-info"><div class="v-title">BTS Mwave Meet N Greet</div><div class="v-foot"><span class="v-date">23 Juin 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-    </div>
-    <div class="sec-hd"><span class="sec-hd-title">Fansigns — Septembre 2014</span></div>
-    <div class="v-grid">
-      <a class="v-card" href="https://youtu.be/kqX7i8lFRoU" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/kqX7i8lFRoU/maxresdefault.jpg" onerror="this.parentNode.innerHTML='&lt;div class=v-thumb-fallback&gt;✍️&lt;/div&gt;'"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Fan Signing — Ilsan</div><div class="v-foot"><span class="v-date">6 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://youtu.be/6-mHBVGphAc" target="_blank">
-        <div class="v-thumb"><img src="https://img.youtube.com/vi/6-mHBVGphAc/maxresdefault.jpg" onerror="this.parentNode.innerHTML='&lt;div class=v-thumb-fallback&gt;✍️&lt;/div&gt;'"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div></div>
-        <div class="v-info"><div class="v-title">Fan Signing — Yeouido</div><div class="v-foot"><span class="v-date">7 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://drive.google.com/drive/folders/1SKnf74ow2M6NZ3gfSZ9JM9FBq7Yb52r5?usp=drive_link" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
-        <div class="v-info"><div class="v-title">Fan Signing — Yeongdeungpo</div><div class="v-foot"><span class="v-date">13 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://drive.google.com/drive/folders/1rFaX7AXKM0pxdcS4G-u9MJjqrVQHKREL?usp=drive_link" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
-        <div class="v-info"><div class="v-title">Fan Signing — Jongro</div><div class="v-foot"><span class="v-date">19 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://drive.google.com/drive/folders/1u4Y8JyxNXEO36_aZ9XHVrI96UlP_M14a?usp=drive_link" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
-        <div class="v-info"><div class="v-title">Fan Signing — Sinchon</div><div class="v-foot"><span class="v-date">20 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://drive.google.com/drive/folders/1vCZ_qJeikXbFLgf36gWQ1OXlHzHrXC83?usp=drive_link" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
-        <div class="v-info"><div class="v-title">Fan Signing — Mokdong</div><div class="v-foot"><span class="v-date">21 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://drive.google.com/drive/folders/1jR5EcKKYFuXcBLnYH-zxVBaFN85vbxfL?usp=drive_link" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
-        <div class="v-info"><div class="v-title">Fan Signing — Yongsan + Daegu + Daejeon</div><div class="v-foot"><span class="v-date">27–28 Sept. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-    </div>
-    <div class="sec-hd"><span class="sec-hd-title">Fansigns — Octobre 2014</span></div>
-    <div class="v-grid">
-      <a class="v-card" href="https://drive.google.com/drive/folders/1B3SivQ4jrMXIhY15VzRYRf1jWrqmGF1X?usp=drive_link" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
-        <div class="v-info"><div class="v-title">1st Fanmeeting & Fansigning in China — Beijing (Yinyuetai)</div><div class="v-foot"><span class="v-date">5–7 Oct. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://drive.google.com/drive/folders/1tgqd-0Kwa5VK0Oa0XuYRwFvHoZ5QQsQv?usp=drive_link" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
-        <div class="v-info"><div class="v-title">Fan Signing — Guro</div><div class="v-foot"><span class="v-date">11 Oct. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://drive.google.com/drive/folders/1a0PcMKb4p7dD1XJGE0Vs4jnO6c0-56-z?usp=drive_link" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
-        <div class="v-info"><div class="v-title">Fan Signing — Busan + Daegu</div><div class="v-foot"><span class="v-date">18–19 Oct. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-    </div>
-    <div class="sec-hd"><span class="sec-hd-title">Fansigns — Novembre 2014</span></div>
-    <div class="v-grid">
-      <a class="v-card" href="https://drive.google.com/drive/folders/1EHZ_AaGiKxPFNv-fxAaknpvXFbKS-8XK?usp=drive_link" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
-        <div class="v-info"><div class="v-title">Fan Signing — Gimpo</div><div class="v-foot"><span class="v-date">3 Nov. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://drive.google.com/drive/folders/1gHD5_5MONi0uBx1JeMk1AXLfmfCd29UJ?usp=drive_link" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
-        <div class="v-info"><div class="v-title">Fan Signing — Cheongnyangni</div><div class="v-foot"><span class="v-date">6 Nov. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://drive.google.com/drive/folders/1HH3lO1LMFhB-XJJT_TF78WPKCGvjVW2?usp=drive_link" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
-        <div class="v-info"><div class="v-title">Fan Signing — Jamsil (Dark & Wild 1st Album)</div><div class="v-foot"><span class="v-date">19 Nov. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://drive.google.com/drive/folders/1l7d1y6G-0mIXPB9lIRHBjT_sYXJxLbv7?usp=drive_link" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
-        <div class="v-info"><div class="v-title">Fan Signing — Suwon</div><div class="v-foot"><span class="v-date">30 Nov. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-    </div>
-    <div class="sec-hd"><span class="sec-hd-title">Fansigns — Décembre 2014</span></div>
-    <div class="v-grid">
-      <a class="v-card" href="https://drive.google.com/drive/folders/1dA-x_H25iZIGX5UQ1SLwWGrK5H2EPEF9?usp=drive_link" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
-        <div class="v-info"><div class="v-title">Fan Signing — Busan</div><div class="v-foot"><span class="v-date">6 Déc. 2014</span><span class="v-link">Voir →</span></div></div>
-      </a>
-      <a class="v-card" href="https://drive.google.com/drive/folders/1Rbi0yLDhtipB5hxEuASF1eXiJJvjECAq?usp=drive_link" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
-        <div class="v-info"><div class="v-title">Fan Signing — Yeongdeungpo</div><div class="v-foot"><span class="v-date">20 Déc. 2014</span><span class="v-link">Voir →</span></div></div>
       </a>
     </div>
   </div>
@@ -9919,6 +9549,7 @@ window.showRandomFact = function() {
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="push.js"></script>
 <script>
 (function(){
   const SUPABASE_URL = 'https://hutkkaubvjpmsjqhqfzi.supabase.co';
@@ -10134,6 +9765,7 @@ window.showRandomFact = function() {
     document.getElementById('profile-since').textContent = 'Membre depuis le ' + since.toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' });
     document.getElementById('personalization-toggle').checked = personalizationEnabled;
     loadProfileStats();
+    refreshPushButton();
     document.querySelectorAll('.era-section').forEach(s => s.classList.remove('active'));
     document.getElementById('lore-section') && document.getElementById('lore-section').classList.remove('active');
     document.getElementById('about-section') && document.getElementById('about-section').classList.remove('active');
@@ -10204,6 +9836,46 @@ window.showRandomFact = function() {
   };
 
   let foundEggsSet = new Set();
+
+  /* ══════════════════════════════════════════════
+     NOTIFICATIONS PUSH
+  ══════════════════════════════════════════════ */
+  async function refreshPushButton() {
+    const btn = document.getElementById('push-toggle-btn');
+    const desc = document.getElementById('push-status-desc');
+    if (!btn || typeof getPushStatus !== 'function') return;
+    const status = await getPushStatus();
+    if (status === 'enabled') {
+      btn.textContent = '🔕 Désactiver';
+      desc.textContent = 'Activées sur cet appareil';
+    } else if (status === 'denied') {
+      btn.textContent = 'Bloquées';
+      btn.disabled = true;
+      desc.textContent = 'Autorise les notifications dans les réglages du navigateur';
+    } else if (status === 'unsupported') {
+      btn.textContent = 'Non supporté';
+      btn.disabled = true;
+      desc.textContent = 'Ton navigateur ne supporte pas les notifications';
+    } else {
+      btn.textContent = '🔔 Activer';
+      desc.textContent = 'Pings, messages privés, demandes d\'amis';
+    }
+  }
+
+  window.togglePushFromProfile = async function() {
+    if (!currentUser) return;
+    const btn = document.getElementById('push-toggle-btn');
+    btn.disabled = true;
+    btn.textContent = '…';
+    const status = await getPushStatus();
+    if (status === 'enabled') {
+      await disablePushNotifications(sb);
+    } else {
+      await enablePushNotifications(sb, currentUser.id);
+    }
+    btn.disabled = false;
+    refreshPushButton();
+  };
 
   async function loadProfileStats() {
     if (!currentUser) return;

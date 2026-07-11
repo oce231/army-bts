@@ -3001,6 +3001,7 @@ body:has(#spotify-bar.visible) #dyk-card {
   cursor: pointer; transition: background .2s;
 }
 .profile-mini-btn:hover { background: rgba(139,95,212,.25); }
+.profile-mini-btn:disabled { opacity: .5; cursor: not-allowed; }
 
 .profile-logout-btn {
   width: 100%; margin-top: 2rem;
