@@ -31,10 +31,10 @@
 .study-section-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(20px, 3.5vw, 28px); font-weight: 400;
-  color: #c9a96e;
+  color: #8265ff;
   margin-bottom: .6rem;
   padding-bottom: .5rem;
-  border-bottom: 1px solid rgba(201,169,110,.2);
+  border-bottom: 1px solid rgba(130, 101, 255,.2);
 }
 .study-intro {
   font-size: 11px; color: var(--text3); line-height: 1.7;
@@ -115,7 +115,7 @@
   font-size: 10px; letter-spacing: .1em;
   color: var(--text3);
 }
-.pomo-cycles span { color: #c9a96e; font-weight: 700; }
+.pomo-cycles span { color: #8265ff; font-weight: 700; }
 
 .pomo-message {
   font-family: 'Cormorant Garamond', serif;
@@ -142,7 +142,7 @@
 }
 .study-card:hover {
   transform: translateY(-3px);
-  border-color: rgba(201,169,110,.35);
+  border-color: rgba(130, 101, 255,.35);
   background: var(--overlay-4);
 }
 .study-card-icon { font-size: 24px; margin-bottom: .5rem; }
@@ -157,7 +157,7 @@
 .study-card-tag {
   font-family: 'Space Mono', monospace;
   font-size: 8px; letter-spacing: .15em; text-transform: uppercase;
-  color: rgba(201,169,110,.6);
+  color: rgba(130, 101, 255,.6);
 }
 
 /* ── DISCOURS ── */
@@ -197,8 +197,8 @@
   text-align: center;
 }
 .quote-rotator {
-  background: rgba(201,169,110,.05);
-  border: 1px solid rgba(201,169,110,.2);
+  background: rgba(130, 101, 255,.05);
+  border: 1px solid rgba(130, 101, 255,.2);
   border-radius: 12px;
   padding: 1.4rem 1.6rem;
   margin-bottom: .8rem;
@@ -218,7 +218,7 @@
 .quote-member {
   font-family: 'Space Mono', monospace;
   font-size: 9px; letter-spacing: .15em;
-  color: #c9a96e;
+  color: #8265ff;
 }
 .quote-next-btn {
   font-family: 'Space Mono', monospace;
@@ -229,7 +229,7 @@
   padding: 7px 16px; border-radius: 18px;
   cursor: pointer; transition: all .2s;
 }
-.quote-next-btn:hover { border-color: rgba(201,169,110,.4); color: #c9a96e; }
+.quote-next-btn:hover { border-color: rgba(130, 101, 255,.4); color: #8265ff; }
 
 /* ── LECTEUR D'ÉTUDE PLEIN ÉCRAN ── */
 .study-player-overlay {

@@ -84,8 +84,8 @@
 }
 .dance-filter:hover { color: var(--text); border-color: var(--overlay-12); }
 .dance-filter.active {
-  background: rgba(201,169,110,.15);
-  border-color: rgba(201,169,110,.5);
+  background: rgba(130, 101, 255,.15);
+  border-color: rgba(130, 101, 255,.5);
   color: var(--accent);
 }
 
@@ -155,7 +155,7 @@
   color: var(--text3);
 }
 .dance-tag.level-debutant { background: rgba(110,200,140,.12); color: #6fcf8e; }
-.dance-tag.level-intermediaire { background: rgba(201,169,110,.15); color: var(--accent); }
+.dance-tag.level-intermediaire { background: rgba(130, 101, 255,.15); color: var(--accent); }
 .dance-tag.level-avance { background: rgba(224,88,120,.12); color: #e08a9a; }
 
 .dance-card-desc {
@@ -280,7 +280,7 @@
   bottom: 72px;
   left: 0; right: 0;
   height: 2px;
-  background: rgba(201,169,110,.35);
+  background: rgba(130, 101, 255,.35);
   pointer-events: none;
 }
 
@@ -305,8 +305,8 @@
 .rg-key:last-child { border-right: none; }
 .rg-key.pressed { background: rgba(123,95,212,.25); }
 .rg-key[data-lane="0"] .rg-key-label { color: #e06878; }
-.rg-key[data-lane="1"] .rg-key-label { color: #c9a96e; }
-.rg-key[data-lane="2"] .rg-key-label { color: #4dbfa8; }
+.rg-key[data-lane="1"] .rg-key-label { color: #8265ff; }
+.rg-key[data-lane="2"] .rg-key-label { color: #c9c6d6; }
 .rg-key[data-lane="3"] .rg-key-label { color: #7b5fd4; }
 .rg-key-label {
   font-family: 'Space Mono', monospace;
@@ -327,8 +327,8 @@
   pointer-events: none;
 }
 .rg-arrow[data-lane="0"] { background: rgba(224,104,120,.55); border: 1px solid rgba(224,104,120,.8); }
-.rg-arrow[data-lane="1"] { background: rgba(201,169,110,.5); border: 1px solid rgba(201,169,110,.8); }
-.rg-arrow[data-lane="2"] { background: rgba(77,191,168,.5); border: 1px solid rgba(77,191,168,.8); }
+.rg-arrow[data-lane="1"] { background: rgba(130, 101, 255,.5); border: 1px solid rgba(130, 101, 255,.8); }
+.rg-arrow[data-lane="2"] { background: rgba(201, 198, 214,.5); border: 1px solid rgba(201, 198, 214,.8); }
 .rg-arrow[data-lane="3"] { background: rgba(123,95,212,.55); border: 1px solid rgba(123,95,212,.8); }
 
 /* Feedback de frappe */
@@ -345,8 +345,8 @@
   z-index: 10;
 }
 .rg-feedback.show { opacity: 1; }
-.rg-feedback.perfect { color: #c9a96e; }
-.rg-feedback.good    { color: #4dbfa8; }
+.rg-feedback.perfect { color: #8265ff; }
+.rg-feedback.good    { color: #c9c6d6; }
 .rg-feedback.miss    { color: #e06878; }
 
 /* Indicateur de progression */

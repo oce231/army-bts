@@ -36,11 +36,11 @@
 #install-modal.open{display:block !important;}
 #install-modal-close{position:absolute;top:10px;right:12px;background:none;border:none;color:#8a8a95;font-size:14px;cursor:pointer;}
 .install-modal-emoji{font-size:36px;margin-bottom:.6rem;}
-.install-modal-title{font-family:'Cormorant Garamond',serif;font-size:20px;color:#c9a96e;margin-bottom:1rem;}
+.install-modal-title{font-family:'Cormorant Garamond',serif;font-size:20px;color:#8265ff;margin-bottom:1rem;}
 #install-modal-body{font-size:11px;line-height:1.9;color:#c8c8d0;text-align:left;}
 #install-modal-body b{color:#fff;}
 #install-modal-body .install-step{display:flex;gap:.6rem;align-items:flex-start;margin-bottom:.7rem;}
-#install-modal-body .install-num{flex-shrink:0;width:18px;height:18px;border-radius:50%;background:rgba(201,169,110,.15);color:#c9a96e;font-size:9px;display:flex;align-items:center;justify-content:center;}
+#install-modal-body .install-num{flex-shrink:0;width:18px;height:18px;border-radius:50%;background:rgba(130, 101, 255,.15);color:#8265ff;font-size:9px;display:flex;align-items:center;justify-content:center;}
 @media (max-width: 768px){
   #sidebar-mobile-extra{display:block !important;}
   .hub-switch{display:none !important;}
@@ -205,6 +205,26 @@
     </div>
   </div>
 
+  <div class="hp-section hp-today-section">
+    <div class="hp-section-header">
+      <div class="hp-section-label">Chaque jour</div>
+      <div class="hp-section-title">Today in BTS</div>
+    </div>
+    <div class="today-card" id="todayCard">
+      <div class="today-fx" id="todayFx"></div>
+      <div class="today-date" id="todayDateBox">
+        <span class="today-day" id="todayDay"></span>
+        <span class="today-month" id="todayMonth"></span>
+      </div>
+      <div class="today-body">
+        <div class="today-tag" id="todayTag"></div>
+        <div class="today-title" id="todayTitle"></div>
+        <div class="today-desc" id="todayDesc"></div>
+        <div class="today-links" id="todayLinks"></div>
+      </div>
+    </div>
+  </div>
+
   <div class="hp-section">
     <div class="hp-section-header">
       <div class="hp-section-label">Explorer par Eras</div>
@@ -228,7 +248,7 @@
         <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(12)" style="--ec:#4868d8"><div class="hp-era-card-cover"><img src="Photo/Map-of-the-soul-seven.jpg" onerror="this.src='https://img.youtube.com/vi/gwMa6gpoE9Y/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">13</div><div class="hp-era-card-name">7</div><div class="hp-era-card-date">2020</div></div></div>
         <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(13)" style="--ec:#52a060"><div class="hp-era-card-cover"><img src="Photo/Be.jpg" onerror="this.src='https://img.youtube.com/vi/WbaRpBbX5fo/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">14</div><div class="hp-era-card-name">BE</div><div class="hp-era-card-date">2020</div></div></div>
         <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(14)" style="--ec:#d8b828"><div class="hp-era-card-cover"><img src="Photo/Butter.png" onerror="this.src='https://img.youtube.com/vi/WMweEpGlu_U/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">15</div><div class="hp-era-card-name">Butter</div><div class="hp-era-card-date">2021</div></div></div>
-        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(15)" style="--ec:#c9a96e"><div class="hp-era-card-cover"><img src="Photo/Arirang.jpg" onerror="this.src='https://img.youtube.com/vi/vHjOQaZXlFQ/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">16</div><div class="hp-era-card-name">Arirang</div><div class="hp-era-card-date">2026</div></div></div>
+        <div class="hp-era-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(15)" style="--ec:#8265ff"><div class="hp-era-card-cover"><img src="Photo/Arirang.jpg" onerror="this.src='https://img.youtube.com/vi/vHjOQaZXlFQ/maxresdefault.jpg'"><div class="hp-era-card-overlay"></div></div><div class="hp-era-card-body"><div class="hp-era-card-num">16</div><div class="hp-era-card-name">Arirang</div><div class="hp-era-card-date">2026</div></div></div>
       </div>
       <button class="hp-carousel-arrow" onclick="document.getElementById('hp-carousel').scrollBy({left:480,behavior:'smooth'})">›</button>
     </div>
@@ -245,8 +265,8 @@
       <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('suga')" style="--mc:#9060e0"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="Photo/Suga.jpg" onerror="this.parentNode.innerHTML='🎸'"></div><div class="hp-member-name">SUGA</div><div class="hp-member-kr">민윤기</div></div>
       <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('jhope')" style="--mc:#d4a830"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="Photo/Jhope.jpg" onerror="this.parentNode.innerHTML='☀️'"></div><div class="hp-member-name">j-hope</div><div class="hp-member-kr">정호석</div></div>
       <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('jimin')" style="--mc:#cc6888"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="Photo/Jimin.jpg" onerror="this.parentNode.innerHTML='🐥'"></div><div class="hp-member-name">Jimin</div><div class="hp-member-kr">박지민</div></div>
-      <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('v')" style="--mc:#4dbfa8"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="Photo/V.jpg" onerror="this.parentNode.innerHTML='🐯'"></div><div class="hp-member-name">V</div><div class="hp-member-kr">김태형</div></div>
-      <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('jk')" style="--mc:#c9a96e"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="Photo/Jk.cover.jpg" onerror="this.parentNode.innerHTML='✨'"></div><div class="hp-member-name">Jung Kook</div><div class="hp-member-kr">전정국</div></div>
+      <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('v')" style="--mc:#c9c6d6"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="Photo/V.jpg" onerror="this.parentNode.innerHTML='🐯'"></div><div class="hp-member-name">V</div><div class="hp-member-kr">김태형</div></div>
+      <div class="hp-member" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('jk')" style="--mc:#8265ff"><div class="hp-member-ring"></div><div class="hp-member-avatar"><img src="Photo/Jk.cover.jpg" onerror="this.parentNode.innerHTML='✨'"></div><div class="hp-member-name">Jung Kook</div><div class="hp-member-kr">전정국</div></div>
     </div>
   </div>
 
@@ -422,14 +442,14 @@
 <!-- CURSEUR PICKER — hors header, overflow visible -->
 <div id="cursor-picker">
   <div id="cursor-picker-title">✨ Choisis ton curseur</div>
-  <div class="cursor-option active" data-emoji="" data-color="#c9a96e" onclick="selectCursor(this)"><span class="cursor-option-emoji">⭐</span><span class="cursor-option-label">Défaut (doré)</span><span class="cursor-option-dot" style="--co-color:#c9a96e"></span></div>
+  <div class="cursor-option active" data-emoji="" data-color="#8265ff" onclick="selectCursor(this)"><span class="cursor-option-emoji">⭐</span><span class="cursor-option-label">Défaut (doré)</span><span class="cursor-option-dot" style="--co-color:#8265ff"></span></div>
   <div class="cursor-option" data-emoji="🐨" data-color="#4a90e8" onclick="selectCursor(this)"><span class="cursor-option-emoji">🐨</span><span class="cursor-option-label">RM — Namjoon</span><span class="cursor-option-dot" style="--co-color:#4a90e8"></span></div>
   <div class="cursor-option" data-emoji="🐹" data-color="#e05878" onclick="selectCursor(this)"><span class="cursor-option-emoji">🐹</span><span class="cursor-option-label">Jin — Seokjin</span><span class="cursor-option-dot" style="--co-color:#e05878"></span></div>
   <div class="cursor-option" data-emoji="🐱" data-color="#9060e0" onclick="selectCursor(this)"><span class="cursor-option-emoji">🐱</span><span class="cursor-option-label">SUGA — Yoongi</span><span class="cursor-option-dot" style="--co-color:#9060e0"></span></div>
   <div class="cursor-option" data-emoji="🐿️" data-color="#d4a830" onclick="selectCursor(this)"><span class="cursor-option-emoji">🐿️</span><span class="cursor-option-label">j-hope — Hoseok</span><span class="cursor-option-dot" style="--co-color:#d4a830"></span></div>
   <div class="cursor-option" data-emoji="🐥" data-color="#cc6888" onclick="selectCursor(this)"><span class="cursor-option-emoji">🐥</span><span class="cursor-option-label">Jimin</span><span class="cursor-option-dot" style="--co-color:#cc6888"></span></div>
-  <div class="cursor-option" data-emoji="🐯" data-color="#4dbfa8" onclick="selectCursor(this)"><span class="cursor-option-emoji">🐯</span><span class="cursor-option-label">V — Taehyung</span><span class="cursor-option-dot" style="--co-color:#4dbfa8"></span></div>
-  <div class="cursor-option" data-emoji="🐰" data-color="#c9a96e" onclick="selectCursor(this)"><span class="cursor-option-emoji">🐰</span><span class="cursor-option-label">Jung Kook</span><span class="cursor-option-dot" style="--co-color:#c9a96e"></span></div>
+  <div class="cursor-option" data-emoji="🐯" data-color="#c9c6d6" onclick="selectCursor(this)"><span class="cursor-option-emoji">🐯</span><span class="cursor-option-label">V — Taehyung</span><span class="cursor-option-dot" style="--co-color:#c9c6d6"></span></div>
+  <div class="cursor-option" data-emoji="🐰" data-color="#8265ff" onclick="selectCursor(this)"><span class="cursor-option-emoji">🐰</span><span class="cursor-option-label">Jung Kook</span><span class="cursor-option-dot" style="--co-color:#8265ff"></span></div>
   <div class="cursor-option" data-emoji="💜" data-color="#7b5fd4" onclick="selectCursor(this)"><span class="cursor-option-emoji">💜</span><span class="cursor-option-label">ARMY — Violet</span><span class="cursor-option-dot" style="--co-color:#7b5fd4"></span></div>
 </div>
 <!-- DRIVE PANEL -->
@@ -1049,7 +1069,7 @@
       <div class="lore-member-mvs">Clips liés au lore : Lie, Filter, Black Swan</div>
     </div>
 
-    <div class="lore-member-card" style="--mc:#4dbfa8">
+    <div class="lore-member-card" style="--mc:#c9c6d6">
       <div class="lore-member-header">
         <div class="lore-member-emoji">🌊</div>
         <div>
@@ -1063,7 +1083,7 @@
       <div class="lore-member-mvs">Clips liés au lore : Stigma, I Need U, Run</div>
     </div>
 
-    <div class="lore-member-card" style="--mc:#c9a96e">
+    <div class="lore-member-card" style="--mc:#8265ff">
       <div class="lore-member-header">
         <div class="lore-member-emoji">🦋</div>
         <div>
@@ -1181,7 +1201,7 @@
         <div class="lore-bt21-desc">Un chiot jaune toujours vêtu d'un hoodie BT21. CHIMMY est enthousiaste, loyal et légèrement surexcité. Il veut toujours être inclus. Jimin l'a imaginé comme le représentant parfait de son énergie et de son désir de connexion avec les autres.</div>
       </div>
 
-      <div class="lore-bt21-card" style="--btc:#4dbfa8">
+      <div class="lore-bt21-card" style="--btc:#c9c6d6">
         <div class="lore-bt21-emoji">🐯</div>
         <div class="lore-bt21-name">TATA</div>
         <div class="lore-bt21-member">V</div>
@@ -3796,6 +3816,7 @@
       <span class="meta-chip">1ères victoires MAMA</span>
     </div>
     <div class="hero-desc">La suite de la plus belle ère de BTS. "Run" est la continuation du récit HYYH — la fuite, le chaos, l'amitié toxique et sublime. "Butterfly" est l'une des chansons les plus douloureuses qu'ils aient composées. L'ARMY mondiale continue de grandir à une vitesse vertigineuse, et BTS commence à remporter ses premières grandes récompenses.</div>
+    <div class="hero-savoir-label">💡 À savoir</div>
     <div class="anecdote-box">
       <div class="anecdote-lbl">✦ Run — le tournage en hiver</div>
       <p>Le MV de "Run" a été tourné en plein hiver coréen dans une villa et sur des décors extérieurs en bord de mer. Plusieurs membres ont souffert d'hypothermie légère pendant le tournage. V a insisté pour faire toutes les prises de la scène d'eau sans doublure.</p>
@@ -3808,11 +3829,15 @@
   <div class="tabs-bar" id="tb-4">
     <button class="tab-btn active" onclick="showTab(4,'music')">🎵 Musiques</button>
     <button class="tab-btn" onclick="showTab(4,'albums')">💿 Albums</button>
+    <button class="tab-btn" onclick="showTab(4,'bombs')">💣 Bangtan Bombs</button>
+    <button class="tab-btn" onclick="showTab(4,'concepts')">📸 Concepts</button>
+    <button class="tab-btn" onclick="showTab(4,'fansign')">🖊️ Fansigns</button>
     <button class="tab-btn" onclick="showTab(4,'variety')">🎬 Divertissement</button>
     <button class="tab-btn" onclick="showTab(4,'interview')">🎙 Interviews</button>
     <button class="tab-btn" onclick="showTab(4,'concerts')">🎟 Concerts</button>
     <button class="tab-btn" onclick="showTab(4,'timeline')">📅 Timeline</button>
     <button class="tab-btn" onclick="showTab(4,'facts')">✨ Anecdotes</button>
+    <button class="tab-btn" onclick="showTab(4,'lore')">🌌 Lore &amp; Théories</button>
   </div>
   <div class="tab-pane active" id="tp-4-music">
     <div class="sec-hd"><span class="sec-hd-title">MV Officiels</span></div>
@@ -3828,22 +3853,39 @@
     </div>
     <div class="sec-hd"><span class="sec-hd-title">Dance Practices</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Run+dance+practice+2015" target="_blank">
+      <a class="v-card" href="https://youtu.be/9S3ZhJGv8JM" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🕺</div><span class="v-badge badge-yt">PRACTICE</span></div>
-        <div class="v-info"><div class="v-title">Run — Dance Practice</div><div class="v-foot"><span class="v-date">2015</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">Run — Dance Practice (Choreography ver.)</div><div class="v-foot"><span class="v-date">9 déc. 2015</span><span class="v-link">Voir →</span></div></div>
       </a>
     </div>
     <div class="sec-hd"><span class="sec-hd-title">Performances & Archives</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Run+live+stage+2015" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">🎤</div></div>
-        <div class="v-info"><div class="v-title">Run — Stages musicaux</div><div class="v-foot"><span class="v-date">2015</span><span class="v-link">Chercher →</span></div></div>
-      </a>
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+MAMA+2015+performance+Run" target="_blank">
+      <a class="v-card" href="https://youtu.be/0cN_-K_NpH4" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
-        <div class="v-info"><div class="v-title">MAMA 2015 — Performance + Victoire</div><div class="v-foot"><span class="v-date">Déc. 2015</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">MAMA 2015 — Victoire World Performer</div><div class="v-foot"><span class="v-date">2 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/-AbORM7RVrk" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎤</div></div>
+        <div class="v-info"><div class="v-title">MAMA 2015 — Discours de victoire</div><div class="v-foot"><span class="v-date">2 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/HidTYR8B6qU" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎵</div></div>
+        <div class="v-info"><div class="v-title">Music Bank — Run</div><div class="v-foot"><span class="v-date">4 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/xW5y2uJBdgM" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎵</div></div>
+        <div class="v-info"><div class="v-title">MBC Music Core — Run</div><div class="v-foot"><span class="v-date">5 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/lz-_cfI1Vdc" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎵</div></div>
+        <div class="v-info"><div class="v-title">MBC Music Core — Butterfly</div><div class="v-foot"><span class="v-date">5 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/WriU1IUgiWE" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">Music Bank — 3e victoire pour "Run"</div><div class="v-foot"><span class="v-date">11 déc. 2015</span><span class="v-link">Voir →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2015-2/december-2015/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
   <div class="tab-pane" id="tp-4-albums">
     <div class="sec-hd"><span class="sec-hd-title">Discographie</span></div>
@@ -3894,24 +3936,84 @@
   <div class="tab-pane" id="tp-4-interview">
     <div class="sec-hd"><span class="sec-hd-title">Interviews</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Run+interview+HYYH+Pt2+2015" target="_blank">
+      <a class="v-card" href="https://www.bangtansubs.com/videos/2015/12/6/151206-inkigayo-comeback-interview?rq=1512" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
-        <div class="v-info"><div class="v-title">Interviews HYYH Pt.2 & Run</div><div class="v-foot"><span class="v-date">Nov. 2015</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">Inkigayo — Comeback Interview</div><div class="v-foot"><span class="v-date">6 déc. 2015</span><span class="v-link">Voir →</span></div></div>
       </a>
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+MAMA+2015+speech+BTS+Universe" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">🎤</div></div>
-        <div class="v-info"><div class="v-title">BTS explique le BTS Universe (MAMA 2015)</div><div class="v-foot"><span class="v-date">Déc. 2015</span><span class="v-link">Chercher →</span></div></div>
+      <a class="v-card" href="https://youtu.be/ER1aoT9pH0E" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
+        <div class="v-info"><div class="v-title">MBC Weekly Idol</div><div class="v-foot"><span class="v-date">6 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.dailymotion.com/video/x3ivmnr" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
+        <div class="v-info"><div class="v-title">Music Bank — Comeback Interview (MC Jin)</div><div class="v-foot"><span class="v-date">8 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.bangtansubs.com/videos/2015/12/15/151215-bts-explanation-of-run-mv?rq=1512" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
+        <div class="v-info"><div class="v-title">BTS explique le MV "Run"</div><div class="v-foot"><span class="v-date">15 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.youtube.com/watch?v=d1pCqElHwWU" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
+        <div class="v-info"><div class="v-title">TVB Interview — Star Talk (Hong Kong)</div><div class="v-foot"><span class="v-date">19 déc. 2015</span><span class="v-link">Voir →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2015-2/december-2015/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
   <div class="tab-pane" id="tp-4-concerts">
     <div class="sec-hd"><span class="sec-hd-title">Concerts</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+HYYH+On+Stage+Epilogue+concert+2016" target="_blank">
+      <a class="v-card" href="https://youtu.be/KLlc6yEbIq4" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎟</div></div>
-        <div class="v-info"><div class="v-title">HYYH On Stage : Epilogue — 2016</div><div class="v-foot"><span class="v-date">Fév.–Mars 2016</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">화양연화 On Stage — SK Olympic Handball Gymnasium</div><div class="v-foot"><span class="v-date">27 nov. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/NEPa7h8quTM" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
+        <div class="v-info"><div class="v-title">HYYH On Stage — Concert Making</div><div class="v-foot"><span class="v-date">27 nov. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/p4u13VMX2pI" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎟</div></div>
+        <div class="v-info"><div class="v-title">花樣年華 On Stage — Japan Edition, Kobe World Hall</div><div class="v-foot"><span class="v-date">26 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+HYYH+On+Stage+Epilogue+February+2016" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎟</div></div>
+        <div class="v-info"><div class="v-title">HYYH On Stage : Epilogue — dates additionnelles à Séoul</div><div class="v-foot"><span class="v-date">Fév.–Mars 2016</span><span class="v-link">Chercher →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2015-2/november-2015/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-4-fansign">
+    <div class="sec-hd"><span class="sec-hd-title">Fansigns — Tournée HYYH Pt.2</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/jmTrVG2crg8" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
+        <div class="v-info"><div class="v-title">Fansign — Sinchon</div><div class="v-foot"><span class="v-date">11 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/p5qdIAhb6zg" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
+        <div class="v-info"><div class="v-title">Fansign — Gwanghwamun</div><div class="v-foot"><span class="v-date">13 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/hVFQuPaE0i0" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
+        <div class="v-info"><div class="v-title">Fansign — COEX Gangnam</div><div class="v-foot"><span class="v-date">17 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/RGk4Cumkd-Q" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
+        <div class="v-info"><div class="v-title">Fansign — Apgujeong</div><div class="v-foot"><span class="v-date">19 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/ER63d83ue7w" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
+        <div class="v-info"><div class="v-title">Fansign — Incheon</div><div class="v-foot"><span class="v-date">20 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/1Uz47Y2WDbM" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
+        <div class="v-info"><div class="v-title">Fansign — Jongno</div><div class="v-foot"><span class="v-date">21 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.youtube.com/playlist?list=PLrLbO_XXMoN9vys07lUtC0Gm4UV3QbmUn" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
+        <div class="v-info"><div class="v-title">Fansign — Gimpo</div><div class="v-foot"><span class="v-date">22 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2015-2/december-2015/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
   <div class="tab-pane" id="tp-4-timeline">
     <div class="sec-hd"><span class="sec-hd-title">Chronologie</span></div>
@@ -3928,6 +4030,80 @@
       <div class="fact-card"><div class="fact-title">Ma City — hommage aux villes natales</div><div class="fact-text">Chaque membre cite sa ville natale dans "Ma City" : Gwangju (J-Hope/Jimin), Daegu (Suga/V), Ilsan (RM), Gwacheon (Jin), Busan (Jungkook). Un moment rare d'authenticité géographique qui a touché des millions de fans.</div></div>
       <div class="fact-card"><div class="fact-title">Butterfly — composition en 2h</div><div class="fact-text">Selon RM, "Butterfly" a été composée en environ deux heures lors d'une session nocturne avec Slow Rabbit. La mélodie est venue instantanément. C'est l'une des rares fois où les membres ont ressenti que "la chanson s'était écrite elle-même".</div></div>
     </div>
+  </div>
+  <div class="tab-pane" id="tp-4-bombs">
+    <div class="sec-hd"><span class="sec-hd-title">Bangtan Bombs de l'era</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/OwNKJnRxOc0" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Know-how for making a handsome look (ft. Jungkook)</div><div class="v-foot"><span class="v-date">21 nov. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/gv9nCQqNqlg" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Music Bank — V special MC</div><div class="v-foot"><span class="v-date">7 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/ZEym_6-xeY4" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Inkigayo — Rap Monster, débuts en tant que MC spécial</div><div class="v-foot"><span class="v-date">11 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/Q9Ydizxs0Cg" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Jimin's self camera (RUN ver.)</div><div class="v-foot"><span class="v-date">14 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/eHr2BoCDL_g" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Playing the rhythm game (...and V's making a song)</div><div class="v-foot"><span class="v-date">16 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/frk0E8Po5rM" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">2 brushes for Jung Kook's teeth</div><div class="v-foot"><span class="v-date">22 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/8VumRI_wIdU" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Sleeping Baby bothered with Jin</div><div class="v-foot"><span class="v-date">23 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/M8NpILYFhGk" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Sleepy j-hope</div><div class="v-foot"><span class="v-date">30 déc. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via l'archive chronologique de <a href="https://btsarchive.com/2015-2/november-2015/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-4-concepts">
+    <div class="sec-hd"><span class="sec-hd-title">Concept Photos</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://www.facebook.com/media/set/?set=a.1171238066224787&type=3" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">📸</div></div>
+        <div class="v-info"><div class="v-title">Concept photos officielles — HYYH Pt.2</div><div class="v-foot"><span class="v-date">23 nov. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/eIUum9MFlD4" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
+        <div class="v-info"><div class="v-title">'RUN' Official Teaser</div><div class="v-foot"><span class="v-date">25 nov. 2015</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">💡 À savoir</div>
+      <p>L'édition physique de HYYH Pt.2 incluait un photobook et des photocards distribuées aléatoirement — un procédé qui deviendra un standard de l'industrie K-pop et une source de collection pour les ARMY du monde entier.</p>
+    </div>
+    <p class="tab-note">Source : <a href="https://btsarchive.com/2015-2/november-2015/" target="_blank">btsarchive.com</a>, utilisée avec l'accord de sa propriétaire.</p>
+  </div>
+  <div class="tab-pane" id="tp-4-lore">
+    <div class="sec-hd"><span class="sec-hd-title">Lore &amp; Théories associées</span></div>
+    <div class="lore-theory-card">
+      <div class="lore-theory-header">
+        <div class="lore-theory-badge">🦋 SYMBOLE</div>
+        <div class="lore-theory-title">Le papillon de Run</div>
+      </div>
+      <p>Dans le BTS Universe, le papillon est le symbole personnel de Jungkook — transformation, légèreté, mais aussi fragilité éphémère. La scène des papillons dans "Run" est l'une des plus analysées de tout le BU, et donne son nom à "Butterfly".</p>
+    </div>
+    <div class="lore-theory-card">
+      <div class="lore-theory-header">
+        <div class="lore-theory-badge">🏆 THÉORIE PRINCIPALE</div>
+        <div class="lore-theory-title">La Boucle Temporelle de Jin</div>
+      </div>
+      <p>"Run" fait partie des clips qui nourrissent la théorie de la boucle temporelle de Jin — une tentative répétée de sauver ses amis d'un destin tragique. Le concert HYYH On Stage : Epilogue (voir l'onglet Concerts) prolonge directement cette trame.</p>
+    </div>
+    <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('theories')" style="margin-top:12px">Explorer toutes les théories du BTS Universe →</button>
   </div>
 
   <div class="era-nav-bar"><button class="era-nav-prev" onclick="showEra(3)">← <span class="nav-era-name">HYYH Pt.1</span></button><div class="era-nav-label-wrap"><div class="era-nav-label">Era 5 / 18</div><div class="era-nav-name-center">HYYH Pt.2</div></div><button class="era-nav-next" onclick="showEra(5)" ><span class="nav-era-name">Young Forever</span> →</button></div>
@@ -5916,7 +6092,7 @@
     <div class="modal-video-wrap" id="modal-video-wrap"></div>
     <div class="modal-footer">
       <span class="modal-source-label" id="modal-source-label">YouTube</span>
-      <button id="modal-skip-btn" onclick="changeSkip()" style="display:none;align-items:center;gap:4px;background:rgba(201,169,110,.1);border:1px solid rgba(201,169,110,.3);color:var(--accent);font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;padding:3px 10px;border-radius:2px;cursor:pointer;transition:background .15s" onmouseover="this.style.background='rgba(201,169,110,.2)'" onmouseout="this.style.background='rgba(201,169,110,.1)'">⏭ Passer l'intro</button>
+      <button id="modal-skip-btn" onclick="changeSkip()" style="display:none;align-items:center;gap:4px;background:rgba(130, 101, 255,.1);border:1px solid rgba(130, 101, 255,.3);color:var(--accent);font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;padding:3px 10px;border-radius:2px;cursor:pointer;transition:background .15s" onmouseover="this.style.background='rgba(130, 101, 255,.2)'" onmouseout="this.style.background='rgba(130, 101, 255,.1)'">⏭ Passer l'intro</button>
       <a class="modal-ext-link" id="modal-ext-link" href="#" target="_blank">Ouvrir dans l'onglet →</a>
     </div>
   </div>
@@ -6041,7 +6217,7 @@ function showFallback(wrap, href, reason) {
          style="display:inline-block;padding:.65rem 1.8rem;border:1px solid var(--accent);color:var(--accent);
                 font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;
                 border-radius:2px;text-decoration:none;transition:background .15s;"
-         onmouseover="this.style.background='rgba(201,169,110,.1)'"
+         onmouseover="this.style.background='rgba(130, 101, 255,.1)'"
          onmouseout="this.style.background='none'">
         ${label} →
       </a>
@@ -6505,7 +6681,7 @@ let wheelSegments = [];
 let wheelAngle = 0;
 let isSpinning = false;
 let wheelResult = null;
-const WHEEL_COLORS = ['#c9a96e','#7b5fd4','#4dbfa8','#e06878','#e07840','#4080d4','#b87fcf','#40a078','#d4b060','#6b4fc8','#3da890','#c85868','#c86830','#3070c4','#a86fbf','#309068'];
+const WHEEL_COLORS = ['#8265ff','#7b5fd4','#c9c6d6','#e06878','#e07840','#4080d4','#b87fcf','#40a078','#d4b060','#6b4fc8','#3da890','#c85868','#c86830','#3070c4','#a86fbf','#309068'];
 
 function setWheelFilter(btn, filter) {
   document.querySelectorAll('.wf-btn').forEach(b => b.classList.remove('active'));
@@ -6568,7 +6744,7 @@ function drawWheel(winnerIdx) {
     ctx.moveTo(cx, cy);
     ctx.arc(cx, cy, r, angleStart, angleEnd);
     ctx.closePath();
-    ctx.fillStyle = isWinner ? '#c9a96e' : WHEEL_COLORS[i % WHEEL_COLORS.length];
+    ctx.fillStyle = isWinner ? '#8265ff' : WHEEL_COLORS[i % WHEEL_COLORS.length];
     ctx.globalAlpha = isWinner ? 1 : 0.82;
     ctx.fill();
     ctx.globalAlpha = 1;
@@ -6597,12 +6773,12 @@ function drawWheel(winnerIdx) {
   ctx.arc(cx, cy, 20, 0, 2 * Math.PI);
   ctx.fillStyle = '#09090e';
   ctx.fill();
-  ctx.strokeStyle = '#c9a96e';
+  ctx.strokeStyle = '#8265ff';
   ctx.lineWidth = 2;
   ctx.stroke();
 
   // Icône ✦ au centre
-  ctx.fillStyle = '#c9a96e';
+  ctx.fillStyle = '#8265ff';
   ctx.font = 'bold 13px serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -6726,6 +6902,13 @@ function showTab(eraIdx, tabId) {
   });
 }
 
+// Raccourci : depuis une page era, sauter directement vers un onglet du BTS Universe (Lore & Théories)
+function goToLoreTab(tab) {
+  showEra(18);
+  const btn = document.querySelector('.lore-tab[onclick*="' + tab + "'" + '"]');
+  if (btn) switchLoreTab(tab, btn);
+}
+
 // ══════════════════════════════════════════════
 // ARTIST SWITCHER
 // ══════════════════════════════════════════════
@@ -6799,7 +6982,7 @@ const SOLO_DATA = {
 
   rm: {
     name:'RM', kr:'김남준', emoji:'🌿',
-    color:'rgba(77,191,168,.12)',
+    color:'rgba(201, 198, 214,.12)',
     desc:'Leader de BTS, rappeur, compositeur et artiste visuel. Passionné d\'art et de philosophie, ses projets solos explorent l\'identité, la solitude et la beauté du quotidien.',
     eras:[
       {
@@ -7304,7 +7487,7 @@ function renderSoloArchive(artistId) {
   const artist = SOLO_DATA[artistId];
   if (!artist) return;
   const sa = document.getElementById('solo-archive');
-  sa.style.setProperty('--member-color', artist.color || 'rgba(201,169,110,.1)');
+  sa.style.setProperty('--member-color', artist.color || 'rgba(130, 101, 255,.1)');
 
   const erasNav = artist.eras.map((era, i) =>
     `<button class="solo-era-btn${i===0?' active':''}" onclick="showSoloEra('${artistId}',${i})">${era.emoji} ${era.title}</button>`
@@ -7541,7 +7724,7 @@ document.addEventListener('DOMContentLoaded', updateThemeBtn);
     t+=.006;
     stars.forEach(function(s){
       ctx.globalAlpha=s.o*(Math.sin(t*s.s*5+s.p)*.3+.7)*(light?0.55:1);
-      ctx.fillStyle=s.g?'#c9a96e':(light?'#7a6a50':'#fff');
+      ctx.fillStyle=s.g?'#8265ff':(light?'#7a6a50':'#fff');
       ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
     });
     ctx.globalAlpha=1;
@@ -7583,7 +7766,7 @@ document.addEventListener('DOMContentLoaded', updateThemeBtn);
     t+=.006;
     stars.forEach(function(s){
       ctx.globalAlpha=s.o*(Math.sin(t*s.s*5+s.p)*.3+.7)*(light?0.55:1);
-      ctx.fillStyle=s.g?'#c9a96e':(light?'#7a6a50':'#fff');
+      ctx.fillStyle=s.g?'#8265ff':(light?'#7a6a50':'#fff');
       ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
     });
     ctx.globalAlpha=1;
@@ -7841,9 +8024,9 @@ function closeSpotifyBar() {
     { type:'galaxy',    c1:'#4860c8', c2:'#88aaff' }, // 12 MAP 7
     { type:'petals',    c1:'#508858', c2:'#a0d888' }, // 13 BE
     { type:'confetti',  c1:'#c8b028', c2:'#fff060' }, // 14 Butter
-    { type:'fireflies', c1:'#c9a96e', c2:'#fff0cc' }, // 15 Arirang/Proof
+    { type:'fireflies', c1:'#8265ff', c2:'#fff0cc' }, // 15 Arirang/Proof
     { type:'galaxy',    c1:'#6050e8', c2:'#b090ff' }, // 16 Lives
-    { type:'sparks',    c1:'#c9a96e', c2:'#ffffff' }, // 17 Wheel
+    { type:'sparks',    c1:'#8265ff', c2:'#ffffff' }, // 17 Wheel
   ];
 
   function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
@@ -7970,14 +8153,14 @@ function closeSpotifyBar() {
   // Emoji par choix
   const CURSORS = {
     'none':    null,
-    '#c9a96e': '✦',   // Défaut
+    '#8265ff': '✦',   // Défaut
     '#4a90e8': '🐨',  // RM
     '#e05878': '🐹',  // Jin
     '#9060e0': '🐱',  // SUGA
     '#d4a830': '🐿️', // j-hope
     '#cc6888': '🐥',  // Jimin
-    '#4dbfa8': '🐯',  // V
-    '#c9a96e_jk': '🐰', // Jung Kook
+    '#c9c6d6': '🐯',  // V
+    '#8265ff_jk': '🐰', // Jung Kook
     '#7b5fd4': '💜',  // ARMY
   };
 
@@ -8009,7 +8192,7 @@ function closeSpotifyBar() {
     document.querySelectorAll('.cursor-option').forEach(o => o.classList.remove('active'));
     el.classList.add('active');
     const emoji = el.dataset.emoji || null;
-    const color = el.dataset.color || '#c9a96e';
+    const color = el.dataset.color || '#8265ff';
     currentEmoji = emoji || null;
     try { localStorage.setItem('bts_cursor', JSON.stringify({ emoji, color })); } catch(e) {}
     document.getElementById('cursor-picker').classList.remove('open');
@@ -8706,7 +8889,7 @@ function switchLoreTab(tab, btn) {
 
       // Porte gauche
       ctx.fillStyle = '#0d0b1a';
-      ctx.strokeStyle = '#c9a96e';
+      ctx.strokeStyle = '#8265ff';
       ctx.lineWidth = 2;
       ctx.fillRect(0, 0, cx - open, H);
       ctx.strokeRect(0, 0, cx - open, H);
@@ -8717,7 +8900,7 @@ function switchLoreTab(tab, btn) {
 
       // Poignées
       if (progress < 0.98) {
-        ctx.fillStyle = '#c9a96e';
+        ctx.fillStyle = '#8265ff';
         ctx.beginPath(); ctx.arc(cx - open + 18, cy, 6, 0, Math.PI*2); ctx.fill();
         ctx.beginPath(); ctx.arc(cx + open - 18, cy, 6, 0, Math.PI*2); ctx.fill();
       }
@@ -8757,7 +8940,7 @@ function switchLoreTab(tab, btn) {
                   'Persona','7','BE','Butter','Arirang'];
     const colors = ['#c45a3a','#c47830','#c47890','#3a78c4','#c4506e',
                     '#c4a030','#c4b820','#8b5fd4','#a04880','#d04060',
-                    '#c06830','#6850d8','#4860c8','#508858','#c8b028','#c9a96e'];
+                    '#c06830','#6850d8','#4860c8','#508858','#c8b028','#8265ff'];
     let idx = 0, alpha = 0, dir = 1;
 
     function frame() {
@@ -8840,7 +9023,7 @@ function switchLoreTab(tab, btn) {
   function drawSevenStars() {
     resizeCanvas();
     const W = canvas.width, H = canvas.height;
-    const memberColors = ['#4a90e8','#e05878','#9060e0','#d4a830','#cc6888','#4dbfa8','#c9a96e'];
+    const memberColors = ['#4a90e8','#e05878','#9060e0','#d4a830','#cc6888','#c9c6d6','#8265ff'];
     let t = 0;
     const stars = Array.from({length:7}, function(_,i){
       const angle = (i/7)*Math.PI*2 - Math.PI/2;
@@ -8892,7 +9075,7 @@ function switchLoreTab(tab, btn) {
     const stars = Array.from({length:220}, function(){
       return { x:Math.random()*W, y:Math.random()*H, r:Math.random()*2.2+0.3,
                speed:0.2+Math.random()*0.5, phase:Math.random()*Math.PI*2,
-               color: Math.random()<0.15 ? '#c9a96e' : '#ffffff' };
+               color: Math.random()<0.15 ? '#8265ff' : '#ffffff' };
     });
     let t=0, mx=W/2, my=H/2;
     overlay.addEventListener('mousemove', function(e){ mx=e.clientX; my=e.clientY; });
@@ -8961,7 +9144,7 @@ function switchLoreTab(tab, btn) {
       // Cadre de porte
       const dw=160, dh=240, dx=cx-dw/2, dy=cy-dh/2+20;
       const grd = ctx.createLinearGradient(dx,dy,dx+dw,dy+dh);
-      grd.addColorStop(0,'#c9a96e'); grd.addColorStop(1,'#8b5fd4');
+      grd.addColorStop(0,'#8265ff'); grd.addColorStop(1,'#8b5fd4');
       ctx.strokeStyle=grd; ctx.lineWidth=3;
       ctx.strokeRect(dx,dy,dw,dh);
       // Arche
@@ -8986,7 +9169,7 @@ function switchLoreTab(tab, btn) {
         const sx = cx + Math.cos(t*0.8+i*1.2)*60*ease;
         const sy = cy - 40 - i*15*ease + Math.sin(t+i)*10;
         ctx.font='14px serif'; ctx.textAlign='center';
-        ctx.fillStyle='#c9a96e'; ctx.fillText('✦',sx,sy);
+        ctx.fillStyle='#8265ff'; ctx.fillText('✦',sx,sy);
       }
       ctx.restore();
 
@@ -9065,7 +9248,7 @@ function switchLoreTab(tab, btn) {
     resizeCanvas();
     const W = canvas.width, H = canvas.height;
     const particles = [];
-    const purples = ['#7b5fd4','#c9a96e','#9b80f0','#e0c0ff','#ffffff','#cc88ff'];
+    const purples = ['#7b5fd4','#8265ff','#9b80f0','#e0c0ff','#ffffff','#cc88ff'];
 
     function burst(x,y) {
       for(let i=0;i<60;i++){
@@ -9550,6 +9733,7 @@ window.showRandomFact = function() {
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="push.js"></script>
+<script src="data/bts-calendar-data.js"></script>
 <script>
 (function(){
   const SUPABASE_URL = 'https://hutkkaubvjpmsjqhqfzi.supabase.co';
@@ -10273,6 +10457,116 @@ window.showRandomFact = function() {
       if (sub) sub.textContent = 'App installée ✓';
     });
   }
+})();
+</script>
+
+<script>
+(function(){
+  // ── Today in BTS : carte du jour sur la homepage ──
+  const MEMBER_SLUG = { 'RM':'rm', 'Jin':'jin', 'Suga':'suga', 'J-Hope':'jhope', 'Jimin':'jimin', 'V':'v', 'Jungkook':'jk' };
+  const MONTH_NAMES = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  const MONTHS_FR3 = ['JAN','FÉV','MAR','AVR','MAI','JUIN','JUIL','AOÛT','SEP','OCT','NOV','DÉC'];
+
+  function findTodayEntry(){
+    if (!window.BTS_CALENDAR) return null;
+    const now = new Date();
+    const month = now.getMonth() + 1;
+    const day = now.getDate();
+    const list = BTS_CALENDAR.filter(e => e.month === month && e.day === day);
+    if (list.length === 0) return null;
+    return list.find(e => e.primary) || list[0];
+  }
+
+  let fxInterval = null;
+  function spawnFx(kind){
+    const fx = document.getElementById('todayFx');
+    if (!fx) return;
+    const el = document.createElement('span');
+    if (kind === 'heart'){
+      el.className = 'fx-heart';
+      el.textContent = '💜';
+      el.style.left = (30 + Math.random()*40) + '%';
+      el.style.top = (55 + Math.random()*15) + '%';
+    } else {
+      el.className = 'fx-sparkle';
+      el.textContent = '✨';
+      el.style.left = (10 + Math.random()*80) + '%';
+      el.style.top = (15 + Math.random()*65) + '%';
+    }
+    fx.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  }
+  function startFx(type){
+    if (fxInterval) { clearInterval(fxInterval); fxInterval = null; }
+    if (type === 'special'){
+      spawnFx('heart');
+      fxInterval = setInterval(() => spawnFx('heart'), 2400);
+    } else if (type === 'birthday'){
+      spawnFx('sparkle'); spawnFx('sparkle');
+      fxInterval = setInterval(() => spawnFx('sparkle'), 550);
+    }
+  }
+
+  function renderTodayCard(){
+    const card = document.getElementById('todayCard');
+    if (!card) return;
+    const now = new Date();
+    const month = now.getMonth() + 1;
+    const day = now.getDate();
+
+    document.getElementById('todayDay').textContent = day;
+    document.getElementById('todayMonth').textContent = MONTHS_FR3[month-1];
+
+    const e = findTodayEntry();
+    const tagEl = document.getElementById('todayTag');
+    const titleEl = document.getElementById('todayTitle');
+    const descEl = document.getElementById('todayDesc');
+    const linksEl = document.getElementById('todayLinks');
+
+    if (!e){
+      card.setAttribute('data-type', 'historic');
+      tagEl.textContent = '📅 Ce jour-là';
+      titleEl.textContent = 'À découvrir';
+      descEl.textContent = '';
+      linksEl.innerHTML = '';
+      return;
+    }
+
+    card.setAttribute('data-type', e.type);
+    startFx(e.type);
+
+    if (e.type === 'birthday'){
+      tagEl.textContent = '🎂 Anniversaire';
+      titleEl.textContent = e.fullname || e.member;
+      descEl.textContent = `Né le ${day} ${MONTH_NAMES[month-1]} ${e.birthyear} à ${e.city}.` + (e.extra ? ' ' + e.extra : '');
+      const slug = MEMBER_SLUG[e.member];
+      linksEl.innerHTML = slug
+        ? `<span class="today-chip" onclick="document.getElementById('homepage').classList.add('hp-hidden');switchArtist('${slug}')">Voir le profil de ${e.member}</span>`
+        : '';
+    } else if (e.type === 'special'){
+      tagEl.textContent = '⭐ ' + (e.label === 'BTS Debut Day' ? 'BTS Debut Day' : 'ARMY Day');
+      titleEl.textContent = e.label === 'BTS Debut Day' ? 'Jour du début officiel de BTS' : 'Anniversaire officiel des ARMY';
+      descEl.textContent = e.text;
+      linksEl.innerHTML = '';
+    } else if (e.type === 'military'){
+      tagEl.textContent = '🎖️ Service militaire';
+      titleEl.textContent = `${e.year}`;
+      descEl.textContent = e.text;
+      linksEl.innerHTML = '';
+    } else if (e.type === 'historic_major'){
+      tagEl.textContent = '🏆 Date historique';
+      titleEl.textContent = `${e.year}`;
+      descEl.textContent = e.text;
+      linksEl.innerHTML = '';
+    } else {
+      tagEl.textContent = '📅 Ce jour-là';
+      titleEl.textContent = `${e.year}`;
+      descEl.textContent = e.text;
+      linksEl.innerHTML = '';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', renderTodayCard);
 })();
 </script>
 

@@ -54,7 +54,7 @@
 .comm-setup-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: 20px; font-weight: 500;
-  color: #c9a96e; margin-bottom: .4rem; text-align: center;
+  color: #8265ff; margin-bottom: .4rem; text-align: center;
 }
 .comm-setup-sub {
   font-size: 10px; color: var(--text3); text-align: center;
@@ -149,8 +149,8 @@
 
 .room-desc {
   font-size: 10px; line-height: 1.6; color: var(--text3);
-  background: rgba(201,169,110,.05);
-  border: 1px solid rgba(201,169,110,.15);
+  background: rgba(130, 101, 255,.05);
+  border: 1px solid rgba(130, 101, 255,.15);
   border-radius: 8px;
   padding: 8px 12px;
   margin-bottom: 1rem;
@@ -194,7 +194,7 @@
 }
 .chat-msg-body { flex: 1; min-width: 0; }
 .chat-msg-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 2px; }
-.chat-msg-pseudo { font-size: 11px; font-weight: 600; color: #c9a96e; }
+.chat-msg-pseudo { font-size: 11px; font-weight: 600; color: #8265ff; }
 .chat-msg-time { font-family: 'Space Mono', monospace; font-size: 8px; color: var(--text3); }
 .chat-msg-text {
   font-size: 12px; line-height: 1.55; color: var(--text2);
@@ -206,8 +206,8 @@
 
 /* Message qui te mentionne */
 .chat-msg-mentioned {
-  background: rgba(201,169,110,.06);
-  border-left: 2px solid rgba(201,169,110,.5);
+  background: rgba(130, 101, 255,.06);
+  border-left: 2px solid rgba(130, 101, 255,.5);
   padding-left: 6px;
   border-radius: 0 8px 8px 0;
 }
@@ -226,7 +226,7 @@
 }
 .chat-mention-me {
   color: var(--accent);
-  background: rgba(201,169,110,.18);
+  background: rgba(130, 101, 255,.18);
 }
 
 /* Citation d'un message répondu */
@@ -569,7 +569,7 @@
   transform: translate(-50%, 20px);
   max-width: 90vw; width: max-content;
   background: var(--bg2, #101018);
-  border: 1px solid rgba(201,169,110,.4);
+  border: 1px solid rgba(130, 101, 255,.4);
   border-radius: 24px;
   padding: 12px 20px;
   font-size: 11px; color: var(--text);
