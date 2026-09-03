@@ -229,7 +229,8 @@ body{
 header{
   position:fixed;top:0;left:0;right:0;z-index:450;
   height:var(--header-h);
-  background:rgba(9,9,14,0.96);
+  background:var(--bg-deep);
+  background:color-mix(in srgb, var(--bg-deep) 96%, transparent);
   backdrop-filter:blur(16px);
   border-bottom:1px solid var(--border);
   display:flex;align-items:center;
@@ -1531,7 +1532,8 @@ body:has(#spotify-bar.visible) #dyk-card {
   position:sticky;bottom:0;z-index:90;
   display:flex;align-items:center;justify-content:space-between;
   padding:.6rem 1.5rem;
-  background:rgba(7,7,13,.92);
+  background:var(--bg-deep);
+  background:color-mix(in srgb, var(--bg-deep) 92%, transparent);
   backdrop-filter:blur(16px);
   border-top:1px solid var(--overlay-6);
   gap:1rem;
