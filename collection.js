@@ -522,14 +522,21 @@
   /* ────────────────── OUVERTURE DEPUIS LE RESTE DU SITE ────────────────── */
 
   async function openCollectionPage() {
+    if (!currentUser) {
+      if (typeof window.authTogglePanel === 'function') window.authTogglePanel();
+      return;
+    }
     await ensureLoaded();
     document.querySelectorAll('.era-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.era-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('lore-section') && document.getElementById('lore-section').classList.remove('active');
     document.getElementById('about-section') && document.getElementById('about-section').classList.remove('active');
     document.getElementById('profile-section') && document.getElementById('profile-section').classList.remove('active');
+    document.getElementById('homepage') && document.getElementById('homepage').classList.add('hp-hidden');
     const page = document.getElementById('collection-page');
     if (page) page.classList.add('active');
     renderCollectionPage();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function closeCollectionPage() {
