@@ -295,6 +295,11 @@
     ['eggV', 'Secret — V', 'epic', '🐯'],
     ['eggJK', 'Secret — Jung Kook', 'epic', '🐰'],
     ['eggRM', 'Secret — RM', 'epic', '🐨'],
+    ['eggKONAMI', 'Konami Code', 'epic', '🎮'],
+    ['eggCHAT10', 'Bavard·e — 10 messages', 'common', '💬'],
+    ['eggCHAT25', 'Bavard·e — 25 messages', 'rare', '💬'],
+    ['eggCHAT50', 'Bavard·e — 50 messages', 'epic', '💬'],
+    ['eggCHAT100', 'Bavard·e — 100 messages', 'legendary', '💬'],
   ];
   EGGS.forEach(([fnName, name, rarity, emoji]) => {
     add('secret_' + fnName, 'secret', 'Secret', name, rarity, null, emoji,
