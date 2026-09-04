@@ -7376,10 +7376,6 @@ function showEra(idx) {
   if (idx === 17) { setTimeout(function(){ initWheel(); }, 50); }
   if (typeof setEraBg === 'function') setEraBg(idx);
   if (typeof trackProgress === 'function') trackProgress('era_visited', String(idx));
-  if (typeof CollectionSystem !== 'undefined') {
-    CollectionSystem.unlockEraVisit(idx);
-    CollectionSystem.grantPackUnlock('era', String(idx));
-  }
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
@@ -10837,6 +10833,10 @@ window.showRandomFact = function() {
     const eraIdx = eraSection ? eraSection.id.replace('era-', '') : '';
     const title = titleEl.textContent.trim();
     trackProgress('video_watched', JSON.stringify({ title: title, vtype: vtype, era: eraIdx }));
+    if (typeof CollectionSystem !== 'undefined' && eraIdx !== '') {
+      CollectionSystem.unlockEraVisit(eraIdx);
+      CollectionSystem.grantPackUnlock('era', String(eraIdx));
+    }
     watchedSet.add(title);
     decorateCard(card);
   });

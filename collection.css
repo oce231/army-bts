@@ -91,6 +91,8 @@
   transition: transform .15s ease, box-shadow .15s ease;
 }
 .coll-pack-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(130,101,255,0.25); }
+.coll-pack-card.disabled { opacity: .5; filter: grayscale(.4); cursor: default; }
+.coll-pack-card.disabled:hover { transform: none; box-shadow: none; }
 .coll-pack-icon { font-size: 2rem; margin-bottom: 6px; }
 .coll-pack-name { font-weight: 700; color: var(--text); font-size: .88rem; }
 .coll-pack-status { color: var(--text3); font-size: .74rem; margin-top: 4px; }
@@ -125,7 +127,7 @@
 }
 .coll-card {
   position: relative;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 5 / 7;
   border-radius: 14px;
   border: 1px solid var(--border2);
   background: var(--bg-card2);
@@ -139,8 +141,8 @@
 .coll-card:hover { transform: translateY(-4px) scale(1.02); }
 .coll-card.locked { filter: grayscale(1) brightness(.55); opacity: .7; }
 
-.coll-card-media { width: 68%; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; }
-.coll-card-media img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+.coll-card-media { width: 100%; flex: 1 1 auto; aspect-ratio: 5/7; display: flex; align-items: center; justify-content: center; }
+.coll-card-media img { width: 100%; height: 100%; object-fit: cover; object-position: top center; border-radius: 10px; }
 .coll-card-emoji { font-size: 2rem; }
 .coll-card-name { font-size: .72rem; text-align: center; color: var(--text); font-weight: 600; line-height: 1.15; }
 .coll-card-dupe {
@@ -208,8 +210,8 @@
   background: none; border: none; color: var(--text2);
   font-size: 1.1rem; cursor: pointer;
 }
-.coll-detail-media { width: 60%; margin: 0 auto 14px; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; }
-.coll-detail-media img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+.coll-detail-media { width: 55%; margin: 0 auto 14px; aspect-ratio: 5/7; display: flex; align-items: center; justify-content: center; }
+.coll-detail-media img { width: 100%; height: 100%; object-fit: cover; object-position: top center; border-radius: 14px; }
 .coll-detail-name { font-weight: 800; font-size: 1.1rem; color: var(--text); margin-bottom: 8px; }
 .coll-detail-meta { margin-bottom: 10px; }
 .coll-detail-desc { color: var(--text2); font-size: .88rem; line-height: 1.5; margin-bottom: 16px; }
@@ -221,6 +223,11 @@
   cursor: pointer; margin-top: 8px;
 }
 .coll-detail-btn-explore { background: var(--accent4); }
+.coll-detail-hint {
+  color: var(--text3); font-size: .82rem;
+  border: 1px dashed var(--border2); border-radius: 10px;
+  padding: 8px; margin-top: 8px;
+}
 
 /* ── Ouverture de pack ── */
 .coll-pack-anim { text-align: center; color: var(--text); }

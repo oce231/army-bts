@@ -25,6 +25,9 @@
   CARDS.forEach(c => { CARD_BY_ID[c.id] = c; });
 
   const PITY_THRESHOLD = 8; // packs sans nouvelle carte avant un "Lucky Pack"
+  const DUPES_PER_LEVEL = 2;  // doublons nécessaires pour passer au niveau suivant
+  const MAX_LEVEL = 3;
+  const ERA_PACK_COST = 5;    // diamants pour ouvrir un Era Pack débloqué
 
   let sb = null;
   let currentUser = null;
@@ -131,15 +134,14 @@
     const entry = owned.get(cardId);
     const card = CARD_BY_ID[cardId];
     if (!entry || !card) return { ok: false, reason: 'not_owned' };
-    if (entry.level >= 4) return { ok: false, reason: 'max_level' };
-    const nextLevel = entry.level + 1;
-    const cost = LEVEL_COST[nextLevel === 4 ? 'master' : nextLevel];
-    if (wallet.fragments < cost) return { ok: false, reason: 'not_enough_fragments', cost };
-    wallet.fragments -= cost;
-    entry.level = nextLevel;
-    await sb.from('card_collection').update({ level: nextLevel }).eq('user_id', currentUser.id).eq('card_id', cardId);
-    await saveWallet();
-    return { ok: true, level: nextLevel };
+    if (entry.level >= MAX_LEVEL) return { ok: false, reason: 'max_level' };
+    if (entry.count < DUPES_PER_LEVEL + 1) {
+      return { ok: false, reason: 'not_enough_dupes', needed: (DUPES_PER_LEVEL + 1) - entry.count };
+    }
+    entry.count -= DUPES_PER_LEVEL;
+    entry.level += 1;
+    await sb.from('card_collection').update({ level: entry.level, count: entry.count }).eq('user_id', currentUser.id).eq('card_id', cardId);
+    return { ok: true, level: entry.level };
   }
 
   /* ────────────────── PACKS ────────────────── */
@@ -186,6 +188,10 @@
     if (!currentUser) return { ok: false, reason: 'not_logged_in' };
     if (!canOpenPack(packType)) return { ok: false, reason: 'unavailable' };
 
+    if (packType.startsWith('era:')) {
+      wallet.fragments -= ERA_PACK_COST; // le coût est prélevé ici ; canOpenPack a déjà vérifié le solde
+    }
+
     let draws = [drawOne(packType), drawOne(packType), drawOne(packType)];
 
     // Système anti-frustration : garantit une nouvelle carte après PITY_THRESHOLD packs
@@ -211,7 +217,10 @@
 
   function canOpenPack(packType) {
     if (packType === 'daily') return wallet.last_daily_claim !== todayStr();
-    if (packType.startsWith('era:')) return wallet.unlocked_packs.era.includes(packType.split(':')[1]);
+    if (packType.startsWith('era:')) {
+      const idx = packType.split(':')[1];
+      return wallet.unlocked_packs.era.includes(idx) && wallet.fragments >= ERA_PACK_COST;
+    }
     if (packType.startsWith('member:')) return wallet.unlocked_packs.member.includes(packType.split(':')[1]);
     if (packType === 'lore') return !!wallet.unlocked_packs.lore;
     if (packType === 'event') return (wallet.unlocked_packs.event || []).length > 0;
@@ -220,10 +229,8 @@
 
   function markPackConsumed(packType) {
     if (packType === 'daily') wallet.last_daily_claim = todayStr();
-    if (packType.startsWith('era:')) {
-      const idx = packType.split(':')[1];
-      wallet.unlocked_packs.era = wallet.unlocked_packs.era.filter(x => x !== idx);
-    }
+    // Les Era Packs restent débloqués une fois obtenus : seul le coût en diamants
+    // est prélevé à chaque ouverture (voir openPack). Rien à retirer ici.
     if (packType.startsWith('member:')) {
       const slug = packType.split(':')[1];
       wallet.unlocked_packs.member = wallet.unlocked_packs.member.filter(x => x !== slug);
@@ -316,22 +323,29 @@
   function cardVisualClass(card, entry) {
     let cls = 'coll-card rarity-' + card.rarity;
     if (!entry) cls += ' locked';
-    else if (entry.level >= 4) cls += ' level-master';
+    else if (entry.level >= MAX_LEVEL) cls += ' level-master';
     else cls += ' level-' + entry.level;
     return cls;
   }
 
-  function cardMediaHtml(card) {
-    if (card.img) return '<img src="' + card.img + '" alt="" onerror="this.style.display=\'none\'">';
+  function cardImageSrc(card, entry) {
+    const lvl = entry ? Math.min(entry.level, MAX_LEVEL) : 1;
+    if (card.imgLevels && card.imgLevels[lvl - 1]) return card.imgLevels[lvl - 1];
+    return card.img;
+  }
+
+  function cardMediaHtml(card, entry) {
+    const src = cardImageSrc(card, entry);
+    if (src) return '<img src="' + src + '" alt="" onerror="this.style.display=\'none\'">';
     return '<span class="coll-card-emoji">' + card.emoji + '</span>';
   }
 
   function renderCardTile(card) {
     const entry = owned.get(card.id);
-    const stars = entry ? '⭐'.repeat(Math.min(entry.level, 3)) + (entry.level >= 4 ? ' ✦' : '') : '';
+    const stars = entry ? '⭐'.repeat(entry.level) : '';
     return '' +
       '<button class="' + cardVisualClass(card, entry) + '" data-card-id="' + card.id + '" onclick="CollectionSystem.openCardDetail(\'' + card.id + '\')">' +
-        '<span class="coll-card-media">' + (entry ? cardMediaHtml(card) : '<span class="coll-card-emoji">❔</span>') + '</span>' +
+        '<span class="coll-card-media">' + (entry ? cardMediaHtml(card, entry) : '<span class="coll-card-emoji">❔</span>') + '</span>' +
         '<span class="coll-card-name">' + (entry ? card.name : '???') + '</span>' +
         (entry && entry.count > 1 ? '<span class="coll-card-dupe">x' + entry.count + '</span>' : '') +
         (stars ? '<span class="coll-card-stars">' + stars + '</span>' : '') +
@@ -392,9 +406,10 @@
 
     wallet.unlocked_packs.era.forEach(idx => {
       const eraCard = CARD_BY_ID['era_' + idx];
-      html += '<div class="coll-pack-card" onclick="CollectionSystem.startPackOpening(\'era:' + idx + '\')">';
+      const affordable = wallet.fragments >= ERA_PACK_COST;
+      html += '<div class="coll-pack-card' + (affordable ? '' : ' disabled') + '" onclick="' + (affordable ? "CollectionSystem.startPackOpening('era:" + idx + "')" : '') + '">';
       html += '<div class="coll-pack-icon">🌌</div><div class="coll-pack-name">' + (eraCard ? eraCard.name : 'Era') + ' Pack</div>';
-      html += '<div class="coll-pack-status">Disponible</div></div>';
+      html += '<div class="coll-pack-status">' + ERA_PACK_COST + ' 💎 — ' + (affordable ? 'Ouvrir' : 'Pas assez de diamants') + '</div></div>';
     });
     wallet.unlocked_packs.member.forEach(slug => {
       html += '<div class="coll-pack-card" onclick="CollectionSystem.startPackOpening(\'member:' + slug + '\')">';
@@ -432,21 +447,23 @@
       overlay.onclick = function (e) { if (e.target === overlay) closeCardDetail(); };
       document.body.appendChild(overlay);
     }
-    const nextLevel = entry ? entry.level + 1 : null;
-    const cost = entry && entry.level < 4 ? LEVEL_COST[nextLevel === 4 ? 'master' : nextLevel] : null;
+    const canLevel = entry && entry.level < MAX_LEVEL;
+    const dupesNeeded = canLevel ? Math.max(0, (DUPES_PER_LEVEL + 1) - entry.count) : 0;
+    const readyToLevel = canLevel && dupesNeeded === 0;
 
     overlay.innerHTML = '' +
       '<div class="coll-detail-card ' + cardVisualClass(card, entry) + '">' +
         '<button class="coll-detail-close" onclick="CollectionSystem.closeCardDetail()">✕</button>' +
-        '<div class="coll-detail-media">' + (entry ? cardMediaHtml(card) : '<span class="coll-card-emoji">❔</span>') + '</div>' +
+        '<div class="coll-detail-media">' + (entry ? cardMediaHtml(card, entry) : '<span class="coll-card-emoji">❔</span>') + '</div>' +
         '<div class="coll-detail-name">' + (entry ? card.name : '??? — Carte non découverte') + '</div>' +
         '<div class="coll-detail-meta">' +
           '<span class="coll-badge rarity-' + card.rarity + '">' + RARITY[card.rarity].label + '</span>' +
-          (entry ? '<span class="coll-badge">Niveau ' + Math.min(entry.level, 4) + (entry.level >= 4 ? ' (MASTER)' : '') + '</span>' : '') +
+          (entry ? '<span class="coll-badge">Niveau ' + entry.level + ' / ' + MAX_LEVEL + '</span>' : '') +
           (entry && entry.count > 1 ? '<span class="coll-badge">x' + entry.count + ' obtenues</span>' : '') +
         '</div>' +
         '<div class="coll-detail-desc">' + (entry ? card.desc : card.obtainHint) + '</div>' +
-        (entry && cost ? '<button class="coll-detail-btn" onclick="CollectionSystem.tryLevelUp(\'' + cardId + '\')">⬆️ Améliorer (' + cost + ' 💎)</button>' : '') +
+        (canLevel && readyToLevel ? '<button class="coll-detail-btn" onclick="CollectionSystem.tryLevelUp(\'' + cardId + '\')">⬆️ Améliorer (2 doublons)</button>' : '') +
+        (canLevel && !readyToLevel ? '<div class="coll-detail-hint">♻️ Encore ' + dupesNeeded + ' doublon(s) pour passer au niveau ' + (entry.level + 1) + '</div>' : '') +
         (entry && card.action ? '<button class="coll-detail-btn coll-detail-btn-explore" onclick="CollectionSystem.exploreCard(\'' + cardId + '\')">🔗 EXPLORE THIS CONTENT</button>' : '') +
       '</div>';
     overlay.classList.add('open');
@@ -463,8 +480,8 @@
       renderToast('⬆️ Amélioration réussie', CARD_BY_ID[cardId].name + ' — niveau ' + res.level);
       openCardDetail(cardId);
       renderCollectionPage();
-    } else if (res.reason === 'not_enough_fragments') {
-      renderToast('💎 Fragments insuffisants', 'Il te faut ' + res.cost + ' fragments.');
+    } else if (res.reason === 'not_enough_dupes') {
+      renderToast('♻️ Doublons insuffisants', 'Il te faut ' + res.needed + ' doublon(s) de plus.');
     }
   }
 
@@ -503,7 +520,7 @@
     results.forEach((r, i) => {
       const rarityGlow = (r.card.rarity === 'legendary') ? ' legendary-glow' : (r.card.rarity === 'epic' ? ' epic-glow' : '');
       html += '<div class="coll-reveal-card rarity-' + r.card.rarity + rarityGlow + '" style="animation-delay:' + (animationsEnabled ? i * 0.25 : 0) + 's">';
-      html += '<span class="coll-card-media">' + cardMediaHtml(r.card) + '</span>';
+      html += '<span class="coll-card-media">' + cardMediaHtml(r.card, { level: 1 }) + '</span>';
       html += '<span class="coll-card-name">' + r.card.name + '</span>';
       html += '<span class="coll-badge rarity-' + r.card.rarity + '">' + RARITY[r.card.rarity].label + '</span>';
       html += r.isNew ? '<span class="coll-reveal-new">NEW!</span>' : '<span class="coll-reveal-dupe">+' + r.fragmentsGained + ' 💎</span>';
