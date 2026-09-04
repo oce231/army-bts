@@ -36,13 +36,14 @@
     legendary: { label: 'Legendary', weight: 2,  fragments: 50, color: '#e0a83a' },
   };
 
-  // Coût en fragments pour passer au niveau supérieur (identique pour toutes
-  // les raretés — seul l'aspect visuel change, pas la puissance).
+  // Coût en fragments : conservé uniquement pour un usage futur éventuel.
+  // Le passage de niveau se fait désormais via les DOUBLONS (voir collection.js) :
+  // 1 exemplaire = Niveau 1 ; +2 doublons = Niveau 2 ; +2 doublons de plus = Niveau 3.
   const LEVEL_UP_COST = { 2: 40, 3: 90, master: 160 };
 
   const CARDS = [];
-  function add(id, cat, sub, name, rarity, img, emoji, desc, action, source, obtainHint) {
-    CARDS.push({ id, cat, sub, name, rarity, img: img || null, emoji: emoji || '💜', desc, action: action || null, source, obtainHint: obtainHint || '' });
+  function add(id, cat, sub, name, rarity, img, emoji, desc, action, source, obtainHint, imgLevels) {
+    CARDS.push({ id, cat, sub, name, rarity, img: img || null, emoji: emoji || '💜', desc, action: action || null, source, obtainHint: obtainHint || '', imgLevels: imgLevels || null });
   }
 
   /* ────────────────────────────────────────────
@@ -106,12 +107,28 @@
       ['standingnext', 'Jung Kook — Standing Next to You', 'rare', null, "Titre extrait de GOLDEN, tournée de promotion mondiale."],
     ]],
   ];
+  // Tes vrais visuels "bébé" (Photo/Photocard/), un triptyque de 3 niveaux par membre.
+  // ⚠️ À confirmer : mapping supposé nom-de-fichier → membre (dis-moi si je me trompe) :
+  //   Baby-Leader → RM · Baby-Worldwide → Jin · Baby-Rapper → SUGA · Baby-Dancer → j-hope
+  //   Baby-Mochi → Jimin · Baby-Good-Boy → V · Baby-Maknae → Jung Kook
+  const BABY_ART = {
+    rm: 'Baby-Leader', jin: 'Baby-Worldwide', suga: 'Baby-Rapper', jhope: 'Baby-Dancer',
+    jimin: 'Baby-Mochi', v: 'Baby-Good-Boy', jk: 'Baby-Maknae',
+  };
+  function babyLevels(slug) {
+    const base = BABY_ART[slug];
+    if (!base) return null;
+    return [1, 2, 3].map(n => 'Photo/Photocard/' + base + '-Niv' + n + '.png');
+  }
+
   M.forEach(([slug, memberName, emoji, list]) => {
     list.forEach(([key, name, rarity, eraIdx, desc]) => {
+      const isDebut = key === 'debut';
       add('mem_' + slug + '_' + key, 'members', memberName, name, rarity,
-        'Photo/' + (slug === 'jk' ? 'Jk.cover' : slug.charAt(0).toUpperCase() + slug.slice(1)) + '.jpg',
+        isDebut ? null : 'Photo/' + (slug === 'jk' ? 'Jk.cover' : slug.charAt(0).toUpperCase() + slug.slice(1)) + '.jpg',
         emoji, desc, eraIdx !== null ? { type: 'era', idx: eraIdx } : null, 'pack',
-        'Ouvre des packs ' + memberName + ' ou explore l\'Archive pour la débloquer.');
+        'Ouvre des packs ' + memberName + ' ou explore l\'Archive pour la débloquer.',
+        isDebut ? babyLevels(slug) : null);
     });
   });
 
