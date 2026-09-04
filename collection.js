@@ -289,6 +289,21 @@
     loadedOnce = true;
   }
 
+  /* ────────────────── RÉINITIALISATION (mode test) ────────────────── */
+
+  async function resetCollection() {
+    if (!sb || !currentUser) return { ok: false };
+    await sb.from('card_collection').delete().eq('user_id', currentUser.id);
+    await sb.from('user_wallet').delete().eq('user_id', currentUser.id);
+    owned = new Map();
+    wallet = { fragments: 0, last_daily_claim: null, pity_counter: 0, unlocked_packs: { era: [], member: [], lore: false, event: [] }, quests: {} };
+    await sb.from('user_wallet').insert({ user_id: currentUser.id });
+    renderToast('🔄 Collection réinitialisée', 'Repars de zéro à tout moment.');
+    const page = document.getElementById('collection-page');
+    if (page && page.classList.contains('active')) renderCollectionPage();
+    return { ok: true };
+  }
+
   /* ────────────────── UI : TOASTS ────────────────── */
 
   function ensureToastRoot() {
@@ -450,18 +465,23 @@
     const canLevel = entry && entry.level < MAX_LEVEL;
     const dupesNeeded = canLevel ? Math.max(0, (DUPES_PER_LEVEL + 1) - entry.count) : 0;
     const readyToLevel = canLevel && dupesNeeded === 0;
+    const descText = entry ? card.desc : card.obtainHint;
+    const hasImage = !!cardImageSrc(card, entry);
 
     overlay.innerHTML = '' +
       '<div class="coll-detail-card ' + cardVisualClass(card, entry) + '">' +
         '<button class="coll-detail-close" onclick="CollectionSystem.closeCardDetail()">✕</button>' +
-        '<div class="coll-detail-media">' + (entry ? cardMediaHtml(card, entry) : '<span class="coll-card-emoji">❔</span>') + '</div>' +
+        '<div class="coll-detail-media"' + (entry && hasImage ? ' onclick="CollectionSystem.openFullscreen(\'' + cardId + '\')"' : '') + '>' +
+          (entry ? cardMediaHtml(card, entry) : '<span class="coll-card-emoji">❔</span>') +
+          (entry && hasImage ? '<span class="coll-detail-zoom">🔍</span>' : '') +
+        '</div>' +
         '<div class="coll-detail-name">' + (entry ? card.name : '??? — Carte non découverte') + '</div>' +
         '<div class="coll-detail-meta">' +
           '<span class="coll-badge rarity-' + card.rarity + '">' + RARITY[card.rarity].label + '</span>' +
           (entry ? '<span class="coll-badge">Niveau ' + entry.level + ' / ' + MAX_LEVEL + '</span>' : '') +
           (entry && entry.count > 1 ? '<span class="coll-badge">x' + entry.count + ' obtenues</span>' : '') +
         '</div>' +
-        '<div class="coll-detail-desc">' + (entry ? card.desc : card.obtainHint) + '</div>' +
+        (descText ? '<div class="coll-detail-desc">' + descText + '</div>' : '') +
         (canLevel && readyToLevel ? '<button class="coll-detail-btn" onclick="CollectionSystem.tryLevelUp(\'' + cardId + '\')">⬆️ Améliorer (2 doublons)</button>' : '') +
         (canLevel && !readyToLevel ? '<div class="coll-detail-hint">♻️ Encore ' + dupesNeeded + ' doublon(s) pour passer au niveau ' + (entry.level + 1) + '</div>' : '') +
         (entry && card.action ? '<button class="coll-detail-btn coll-detail-btn-explore" onclick="CollectionSystem.exploreCard(\'' + cardId + '\')">🔗 EXPLORE THIS CONTENT</button>' : '') +
@@ -471,6 +491,30 @@
 
   function closeCardDetail() {
     const overlay = document.getElementById('coll-detail-overlay');
+    if (overlay) overlay.classList.remove('open');
+  }
+
+  /* ────────────────── UI : PLEIN ÉCRAN (lire le texte sur l'artwork) ────────────────── */
+
+  function openFullscreen(cardId) {
+    const card = CARD_BY_ID[cardId];
+    const entry = owned.get(cardId);
+    const src = cardImageSrc(card, entry);
+    if (!src) return;
+    let overlay = document.getElementById('coll-fullscreen-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'coll-fullscreen-overlay';
+      overlay.className = 'coll-fullscreen-overlay';
+      overlay.onclick = closeFullscreen;
+      document.body.appendChild(overlay);
+    }
+    overlay.innerHTML = '<img src="' + src + '" alt="' + card.name + '"><button class="coll-fullscreen-close" onclick="event.stopPropagation();CollectionSystem.closeFullscreen()">✕</button>';
+    overlay.classList.add('open');
+  }
+
+  function closeFullscreen() {
+    const overlay = document.getElementById('coll-fullscreen-overlay');
     if (overlay) overlay.classList.remove('open');
   }
 
@@ -582,6 +626,9 @@
     switchCategory,
     openCardDetail,
     closeCardDetail,
+    openFullscreen,
+    closeFullscreen,
+    resetCollection,
     tryLevelUp,
     exploreCard,
     startPackOpening,

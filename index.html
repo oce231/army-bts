@@ -447,6 +447,13 @@
         <span class="auth-toggle-slider"></span>
       </label>
     </div>
+    <div class="profile-setting">
+      <div class="profile-setting-label">
+        <span>Réinitialiser My Collection</span>
+        <span class="profile-setting-desc">Efface toutes tes cartes, tes diamants et tes packs débloqués</span>
+      </div>
+      <button class="profile-mini-btn" style="color:#e0687a" onclick="if(confirm('Tout effacer : cartes, diamants et packs débloqués. Cette action est irréversible. Continuer ?')) CollectionSystem.resetCollection()">🗑 Réinitialiser</button>
+    </div>
     <button class="profile-logout-btn" onclick="authSignOut()">↩ Se déconnecter</button>
   </div>
 </div>
