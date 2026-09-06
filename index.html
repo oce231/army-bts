@@ -182,7 +182,7 @@
   <div class="hp-hero">
     <canvas id="hp-canvas"></canvas>
     <div class="hp-hero-content">
-      <div class="hp-pretitle">방탄소년단 · 2010 → 2026</div>
+      <div class="hp-pretitle">방탄소년단 · 2010 → 2026 <span class="purple-fragment" data-frag="frag_home" onclick="collectFragment('frag_home')" title="✨">✨</span></div>
       <h1 class="hp-title">BTS<br><span class="hp-title-sub">Archive Universe</span></h1>
       <div class="hp-counter" id="hp-counter"><span id="hp-days"></span></div>
       <button class="hp-fact-btn" onclick="showRandomFact()">✦ Fait aléatoire</button>
@@ -273,7 +273,7 @@
 
   <div class="hp-footer">
     <div class="hp-footer-logo">BTS Archive Universe</div>
-    <div class="hp-footer-sub">방탄소년단 · Fait avec 💜 pour l'ARMY</div>
+    <div class="hp-footer-sub">방탄소년단 · Fait avec 💜 pour l'ARMY <span class="purple-fragment" data-frag="frag_footer" onclick="collectFragment('frag_footer')" title="✨">✨</span></div>
   </div>
 </div>
 
@@ -404,6 +404,8 @@
       </div>
     </div>
     <div class="egg-hint-text" id="egg-hint-text"></div>
+    <div class="profile-section-title" style="margin-top:1.5rem">🏆 Badges <span id="badges-count" style="font-size:12px;color:var(--text3);font-weight:400">— / —</span> <span class="purple-fragment" data-frag="frag_profile" onclick="collectFragment('frag_profile')" title="✨">✨</span></div>
+    <div class="profile-badges" id="profile-badges"></div>
     <div class="profile-section-title" style="margin-top:1.5rem">⭐ Mes favoris</div>
     <div class="profile-recos" id="profile-favorites">
       <div class="profile-reco-empty">Aucun favori pour l'instant — clique sur ☆ sur une vidéo pour la garder ici 💜</div>
@@ -694,6 +696,7 @@
       <span class="era-text">
         <span class="era-name">Installer l'app</span>
         <span class="era-years" id="install-app-sub">Accès direct depuis l'écran d'accueil</span>
+        <span class="purple-fragment" data-frag="frag_install" onclick="collectFragment('frag_install')" title="✨">✨</span>
       </span>
     </button>
   </div>
@@ -858,6 +861,9 @@
     <button class="lore-tab" onclick="switchLoreTab('arcs',this)">📚 Les Arcs</button>
     <button class="lore-tab" onclick="switchLoreTab('members',this)">👤 Les 7 Rôles</button>
     <button class="lore-tab" onclick="switchLoreTab('theories',this)">🔍 Théories</button>
+    <button class="lore-tab" onclick="switchLoreTab('symbols',this)">🦋 Symboles</button>
+    <button class="lore-tab" onclick="switchLoreTab('places',this)">📍 Lieux</button>
+    <button class="lore-tab" onclick="switchLoreTab('objects',this)">🗝️ Objets</button>
     <button class="lore-tab" onclick="switchLoreTab('bt21',this)">🐾 BT21</button>
   </div>
 
@@ -1182,6 +1188,248 @@
     </div>
   </div>
 
+  <!-- ── SYMBOLES ── -->
+  <div class="lore-panel" id="lore-symbols">
+    <div class="lore-section-title">Encyclopédie des symboles <span class="purple-fragment" data-frag="frag_symbols" onclick="collectFragment('frag_symbols')" title="✨">✨</span></div>
+    <p class="lore-intro-text">Chaque membre du BU est associé à un symbole ou un élément récurrent, cohérent sur l'ensemble des clips et des Notes. Clique sur les liens pour explorer le personnage ou la théorie associée.</p>
+
+    <div class="lore-theory-card">
+      <div class="lore-theory-header">
+        <div class="lore-theory-badge">🦋 SYMBOLE</div>
+        <div class="lore-theory-title">Le Papillon</div>
+      </div>
+      <p>Transformation, légèreté, mais aussi fragilité éphémère. La scène des papillons dans "Run" est l'une des plus analysées de tout le BU, et donne indirectement son nom à "Butterfly".</p>
+      <p><strong>Personnage lié :</strong> Jeon Jungkook — L'Enfant Perdu</p>
+      <p><strong>Apparitions :</strong> Begin · Euphoria · Run</p>
+      <div class="lore-links-row">
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('members')">Voir le personnage →</button>
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('theories')">Voir la théorie des éléments →</button>
+      </div>
+    </div>
+
+    <div class="lore-theory-card">
+      <div class="lore-theory-header">
+        <div class="lore-theory-badge">🔥 SYMBOLE</div>
+        <div class="lore-theory-title">Le Feu</div>
+      </div>
+      <p>Destruction créatrice. Dans "I Need U", Yoongi met le feu à une chambre de motel — symbole de son propre incendie intérieur. La musique est son amour le plus profond et le plus douloureux.</p>
+      <p><strong>Personnage lié :</strong> Min Yoongi / SUGA — L'Artiste Autodestruit</p>
+      <p><strong>Apparitions :</strong> I Need U · First Love · Interlude: Shadow</p>
+      <div class="lore-links-row">
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('members')">Voir le personnage →</button>
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('theories')">Voir la théorie des éléments →</button>
+      </div>
+    </div>
+
+    <div class="lore-theory-card">
+      <div class="lore-theory-header">
+        <div class="lore-theory-badge">🌊 SYMBOLE</div>
+        <div class="lore-theory-title">L'Eau</div>
+      </div>
+      <p>Submersion et dissolution. Jimin se laisse envahir par les émotions des autres jusqu'à se noyer (Lie) ; Taehyung s'y jette après un appel téléphonique, dans une fuite ou un geste suicidaire selon les interprétations (I Need U). Même élément, deux tonalités différentes.</p>
+      <p><strong>Personnages liés :</strong> Park Jimin — Le Noyé · Kim Taehyung / V — L'Enfant Coupable</p>
+      <p><strong>Apparitions :</strong> Lie · Filter · Black Swan · Stigma · I Need U · Run</p>
+      <div class="lore-links-row">
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('members')">Voir les personnages →</button>
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('theories')">Voir la théorie des éléments →</button>
+      </div>
+    </div>
+
+    <div class="lore-theory-card">
+      <div class="lore-theory-header">
+        <div class="lore-theory-badge">⏳ SYMBOLE</div>
+        <div class="lore-theory-title">Le Temps</div>
+      </div>
+      <p>Boucle et mémoire. Pétales qui tombent, photos figées, montres et horloges — tout ce qui rappelle que le temps de Jin n'est pas linéaire. Il revit les mêmes événements en essayant, à chaque fois, de sauver un peu plus de monde.</p>
+      <p><strong>Personnage lié :</strong> Kim Seokjin / Jin — Le Voyageur du Temps</p>
+      <p><strong>Apparitions :</strong> Awake · Epilogue · Save Me · Blood Sweat & Tears</p>
+      <div class="lore-links-row">
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('members')">Voir le personnage →</button>
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('theories')">Voir la Boucle Temporelle de Jin →</button>
+      </div>
+    </div>
+
+    <div class="lore-theory-card">
+      <div class="lore-theory-header">
+        <div class="lore-theory-badge">☀️ SYMBOLE</div>
+        <div class="lore-theory-title">La Lumière</div>
+      </div>
+      <p>Une chaleur qui peut s'éteindre. Hoseok est "le soleil" du groupe, mais son lore révèle une douleur silencieuse liée à l'abandon maternel — une lumière qui rayonne vers les autres tout en se consumant elle-même.</p>
+      <p><strong>Personnage lié :</strong> Jung Hoseok / j-hope — Le Soleil Brisé</p>
+      <p><strong>Apparitions :</strong> MAMA · Epilogue · Chicken Noodle Soup</p>
+      <div class="lore-links-row">
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('members')">Voir le personnage →</button>
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('theories')">Voir la théorie des éléments →</button>
+      </div>
+    </div>
+
+    <div class="lore-theory-card">
+      <div class="lore-theory-header">
+        <div class="lore-theory-badge">🌿 SYMBOLE</div>
+        <div class="lore-theory-title">La Terre</div>
+      </div>
+      <p>Immobilité contemplative. Namjoon observe et réfléchit sans pouvoir agir — souvent seul dans des espaces ouverts (jardins, parcs), comme s'il cherchait une paix qu'il ne peut pas trouver auprès des autres.</p>
+      <p><strong>Personnage lié :</strong> Kim Namjoon / RM — Le Réflecteur</p>
+      <p><strong>Apparitions :</strong> Reflection · N.O · Epilogue: Young Forever</p>
+      <div class="lore-links-row">
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('members')">Voir le personnage →</button>
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('theories')">Voir la théorie des éléments →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LIEUX ── -->
+  <div class="lore-panel" id="lore-places">
+    <div class="lore-section-title">Encyclopédie des lieux</div>
+    <p class="lore-intro-text">Certains décors reviennent d'un clip à l'autre avec une signification précise dans le BU. Voici les principaux, avec leurs apparitions et le personnage qu'ils concernent.</p>
+
+    <div class="lore-theory-card">
+      <div class="lore-theory-header">
+        <div class="lore-theory-badge">🏊 LIEU</div>
+        <div class="lore-theory-title">La Piscine</div>
+      </div>
+      <p>Jimin s'y noie avant de se retrouver dans un monde de miroirs brisés — son mensonge aux autres sur sa propre douleur. L'eau ici n'est pas la mort mais l'engloutissement progressif par les émotions des autres.</p>
+      <p><strong>Personnage lié :</strong> Park Jimin — Le Noyé</p>
+      <p><strong>Apparitions :</strong> Lie (Short Film, arc Wings)</p>
+      <div class="lore-links-row">
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('members')">Voir le personnage →</button>
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('arcs')">Voir l'arc Wings →</button>
+      </div>
+    </div>
+
+    <div class="lore-theory-card">
+      <div class="lore-theory-header">
+        <div class="lore-theory-badge">🛁 LIEU</div>
+        <div class="lore-theory-title">La Baignoire</div>
+      </div>
+      <p>Taehyung y noie son père après des années de violence familiale — l'un des moments les plus sombres et les plus commentés de tout le BU, point de départ de sa culpabilité durable.</p>
+      <p><strong>Personnage lié :</strong> Kim Taehyung / V — L'Enfant Coupable</p>
+      <p><strong>Apparitions :</strong> I Need U (arc HYYH)</p>
+      <div class="lore-links-row">
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('members')">Voir le personnage →</button>
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('arcs')">Voir l'arc HYYH →</button>
+      </div>
+    </div>
+
+    <div class="lore-theory-card">
+      <div class="lore-theory-header">
+        <div class="lore-theory-badge">🌳 LIEU</div>
+        <div class="lore-theory-title">Namsan Garden</div>
+      </div>
+      <p>Le jardin secret de Namjoon à Séoul — une métaphore de son espace intérieur protégé, là où il peut faire face à son reflet sans témoin.</p>
+      <p><strong>Personnage lié :</strong> Kim Namjoon / RM — Le Réflecteur</p>
+      <p><strong>Apparitions :</strong> Reflection (Short Film, arc Wings)</p>
+      <div class="lore-links-row">
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('members')">Voir le personnage →</button>
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('arcs')">Voir l'arc Wings →</button>
+      </div>
+    </div>
+
+    <div class="lore-theory-card">
+      <div class="lore-theory-header">
+        <div class="lore-theory-badge">📸 LIEU</div>
+        <div class="lore-theory-title">La Cabine Photo</div>
+      </div>
+      <p>Seokjin y regarde les images d'un moment de joie collective avec nostalgie, sachant déjà que cet instant va s'effacer — la première image du thème du temps qui structure tout son personnage.</p>
+      <p><strong>Personnage lié :</strong> Kim Seokjin / Jin — Le Voyageur du Temps</p>
+      <p><strong>Apparitions :</strong> Prologue (arc HYYH)</p>
+      <div class="lore-links-row">
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('members')">Voir le personnage →</button>
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('theories')">Voir la Boucle Temporelle de Jin →</button>
+      </div>
+    </div>
+
+    <div class="lore-theory-card">
+      <div class="lore-theory-header">
+        <div class="lore-theory-badge">🏨 LIEU</div>
+        <div class="lore-theory-title">La Chambre d'Hôtel</div>
+      </div>
+      <p>Hoseok s'y effondre en état de détresse extrême — la première apparition visuelle de la douleur silencieuse cachée derrière son rôle de "soleil" du groupe.</p>
+      <p><strong>Personnage lié :</strong> Jung Hoseok / j-hope — Le Soleil Brisé</p>
+      <p><strong>Apparitions :</strong> I Need U (arc HYYH)</p>
+      <div class="lore-links-row">
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('members')">Voir le personnage →</button>
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('arcs')">Voir l'arc HYYH →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── OBJETS ── -->
+  <div class="lore-panel" id="lore-objects">
+    <div class="lore-section-title">Encyclopédie des objets</div>
+    <p class="lore-intro-text">Des objets précis reviennent d'un clip à l'autre, chargés d'un sens symbolique constant dans le BU.</p>
+
+    <div class="lore-theory-card">
+      <div class="lore-theory-header">
+        <div class="lore-theory-badge">🪞 OBJET</div>
+        <div class="lore-theory-title">Le Miroir Brisé</div>
+      </div>
+      <p>Apparaît dans "Blood Sweat & Tears" et dans "Lie" — la fin des illusions, le moment où un personnage est forcé de se confronter à une vérité qu'il refusait de voir.</p>
+      <p><strong>Personnages liés :</strong> Jin · Jimin</p>
+      <p><strong>Apparitions :</strong> Blood Sweat & Tears · Lie</p>
+      <div class="lore-links-row">
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('arcs')">Voir l'arc Wings →</button>
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('theories')">Voir les théories liées →</button>
+      </div>
+    </div>
+
+    <div class="lore-theory-card">
+      <div class="lore-theory-header">
+        <div class="lore-theory-badge">🎹 OBJET</div>
+        <div class="lore-theory-title">Le Piano en Feu</div>
+      </div>
+      <p>Symbolise l'amour de Yoongi pour la musique — un amour aussi destructeur que salvateur. Fait aussi écho, de façon symbolique, à son accident de voiture et son hospitalisation.</p>
+      <p><strong>Personnage lié :</strong> Min Yoongi / SUGA — L'Artiste Autodestruit</p>
+      <p><strong>Apparitions :</strong> First Love (Short Film, arc Wings)</p>
+      <div class="lore-links-row">
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('members')">Voir le personnage →</button>
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('symbols')">Voir le symbole du Feu →</button>
+      </div>
+    </div>
+
+    <div class="lore-theory-card">
+      <div class="lore-theory-header">
+        <div class="lore-theory-badge">🗿 OBJET</div>
+        <div class="lore-theory-title">La Statue Ailée Voilée</div>
+      </div>
+      <p>Jin couvre une statue ailée d'un voile dans "Blood Sweat & Tears" — un refus de regarder la vérité en face, cohérent avec son rôle de personnage qui perçoit ce que les autres ne voient pas mais choisit parfois de l'ignorer.</p>
+      <p><strong>Personnage lié :</strong> Kim Seokjin / Jin — Le Voyageur du Temps</p>
+      <p><strong>Apparitions :</strong> Blood Sweat & Tears (arc Wings)</p>
+      <div class="lore-links-row">
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('members')">Voir le personnage →</button>
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('arcs')">Voir l'arc Wings →</button>
+      </div>
+    </div>
+
+    <div class="lore-theory-card">
+      <div class="lore-theory-header">
+        <div class="lore-theory-badge">🌸 OBJET</div>
+        <div class="lore-theory-title">Les Pétales de Fleurs</div>
+      </div>
+      <p>Seokjin les cueille dans "I Need U" — référence directe au "I purple you" et aux moments éphémères qui structurent tout l'arc HYYH.</p>
+      <p><strong>Personnage lié :</strong> Kim Seokjin / Jin — Le Voyageur du Temps</p>
+      <p><strong>Apparitions :</strong> I Need U (arc HYYH)</p>
+      <div class="lore-links-row">
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('members')">Voir le personnage →</button>
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('arcs')">Voir l'arc HYYH →</button>
+      </div>
+    </div>
+
+    <div class="lore-theory-card">
+      <div class="lore-theory-header">
+        <div class="lore-theory-badge">💜</div>
+        <div class="lore-theory-title">Le Violet</div>
+      </div>
+      <p>Couleur associée à la confiance et à l'amour durable depuis que V a inventé l'expression "I purple you" en 2016 — le violet est depuis devenu la couleur officielle de tout le fandom.</p>
+      <p><strong>Personnage lié :</strong> Kim Taehyung / V</p>
+      <p><strong>Apparitions :</strong> Arc Love Yourself, et bien au-delà du BU</p>
+      <div class="lore-links-row">
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('members')">Voir le personnage →</button>
+        <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('arcs')">Voir l'arc Love Yourself →</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ── BT21 ── -->
   <div class="lore-panel" id="lore-bt21">
     <div class="lore-section-title">BT21 — L'Univers des Personnages</div>
@@ -1371,7 +1619,7 @@
       Avant BTS, il y avait sept adolescents qui rêvaient. RM est le premier trainee, suivi de Suga, rappeur underground de Daegu, puis J-Hope, danseur reconnu à Ulsan. Jin est repéré dans la rue, Jimin arrive de Busan, V est un trainee secret, et Jungkook rejoint Big Hit après avoir refusé 7 labels.
     </div>
 
-    <div class="hero-savoir-label">💡 À savoir</div>
+    <div class="hero-savoir-label">💡 À savoir <span class="purple-fragment" data-frag="frag_predebut" onclick="collectFragment('frag_predebut')" title="✨">✨</span></div>
     <div class="anecdote-box">
       <div class="anecdote-lbl">✦ Anecdote rare</div>
       <p>V était un trainee secret : même les membres ne savaient pas qu’il ferait partie du groupe jusqu’à quelques jours avant les débuts.</p>
@@ -4938,6 +5186,7 @@
       <span class="meta-chip">Spring Day — éternel</span>
     </div>
     <div class="hero-desc">"You Never Walk Alone" est le repackage de Wings, mais il contient deux titres qui transcendent toute leur discographie. "Spring Day" est la chanson coréenne avec la plus longue présence dans le Melon Top 100 — plus de 400 semaines depuis sa sortie. "Not Today" est un hymne de résistance collective. Le message est simple : vous ne marcherez jamais seuls.</div>
+    <div class="hero-savoir-label">💡 À savoir</div>
     <div class="anecdote-box">
       <div class="anecdote-lbl">✦ Spring Day — Le train qui ne s'arrête jamais</div>
       <p>"Spring Day" fait référence au roman "The Ones Who Walk Away from Omelas" d'Ursula K. Le Guin et au film coréen Snowpiercer. Les vêtements suspendus dans le train abandonné sont une référence à la pratique coréenne de porter les vêtements des défunts. Beaucoup ont interprété la chanson comme un hommage aux victimes du ferry Sewol (2014).</p>
@@ -4950,11 +5199,15 @@
   <div class="tabs-bar" id="tb-7">
     <button class="tab-btn active" onclick="showTab(7,'music')">🎵 Musiques</button>
     <button class="tab-btn" onclick="showTab(7,'albums')">💿 Albums</button>
+    <button class="tab-btn" onclick="showTab(7,'bombs')">💣 Bangtan Bombs</button>
+    <button class="tab-btn" onclick="showTab(7,'concepts')">📸 Concepts</button>
+    <button class="tab-btn" onclick="showTab(7,'fansign')">✍️ Fansigns</button>
     <button class="tab-btn" onclick="showTab(7,'variety')">🎬 Divertissement</button>
     <button class="tab-btn" onclick="showTab(7,'interview')">🎙 Interviews</button>
     <button class="tab-btn" onclick="showTab(7,'concerts')">🎟 Concerts</button>
     <button class="tab-btn" onclick="showTab(7,'timeline')">📅 Timeline</button>
     <button class="tab-btn" onclick="showTab(7,'facts')">✨ Anecdotes</button>
+    <button class="tab-btn" onclick="showTab(7,'lore')">🌌 Lore &amp; Théories</button>
   </div>
   <div class="tab-pane active" id="tp-7-music">
     <div class="sec-hd"><span class="sec-hd-title">MV Officiels</span></div>
@@ -4970,22 +5223,35 @@
     </div>
     <div class="sec-hd"><span class="sec-hd-title">Dance Practices</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Not+Today+dance+practice+2017" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">🕺</div><span class="v-badge badge-yt">PRACTICE</span></div>
-        <div class="v-info"><div class="v-title">Not Today — Dance Practice</div><div class="v-foot"><span class="v-date">2017</span><span class="v-link">Chercher →</span></div></div>
+      <a class="v-card" href="https://youtu.be/nKDppUjuvdM" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🕺</div><span class="v-badge badge-yt">CHOREO</span></div>
+        <div class="v-info"><div class="v-title">Not Today — MV Choreography Version</div><div class="v-foot"><span class="v-date">27 fév. 2017</span><span class="v-link">Voir →</span></div></div>
       </a>
     </div>
     <div class="sec-hd"><span class="sec-hd-title">Performances & Archives</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Spring+Day+live+stage+2017" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">🌸</div></div>
-        <div class="v-info"><div class="v-title">Spring Day — Live performances</div><div class="v-foot"><span class="v-date">2017</span><span class="v-link">Chercher →</span></div></div>
+      <a class="v-card" href="https://youtu.be/4mmQFgpcKlk" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">Show Champion — Spring Day, 1re victoire</div><div class="v-foot"><span class="v-date">22 fév. 2017</span><span class="v-link">Voir →</span></div></div>
       </a>
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Not+Today+live+stage+2017" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">✊</div></div>
-        <div class="v-info"><div class="v-title">Not Today — Live performances</div><div class="v-foot"><span class="v-date">2017</span><span class="v-link">Chercher →</span></div></div>
+      <a class="v-card" href="https://youtu.be/cMqmnhgNLXY" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">M!Countdown — Spring Day, 2e victoire</div><div class="v-foot"><span class="v-date">23 fév. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/k0UyAktDPXk" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">Music Bank — Spring Day, 3e victoire</div><div class="v-foot"><span class="v-date">24 fév. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/jFb44XisMc4" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">MBC Music Core — Spring Day, 4e victoire</div><div class="v-foot"><span class="v-date">25 fév. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/0Fb7R19Z3u0" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">SBS Inkigayo — Spring Day, 5e victoire</div><div class="v-foot"><span class="v-date">26 fév. 2017</span><span class="v-link">Voir →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2017-2/february-2017/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
   <div class="tab-pane" id="tp-7-albums">
     <div class="sec-hd"><span class="sec-hd-title">Discographie</span></div>
@@ -5020,24 +5286,34 @@
   <div class="tab-pane" id="tp-7-interview">
     <div class="sec-hd"><span class="sec-hd-title">Interviews</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Spring+Day+Not+Today+interview+YNWA+2017" target="_blank">
+      <a class="v-card" href="https://www.bangtansubs.com/videos/2017/2/24/170224-music-bank-waiting-room-interview?rq=170224" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
-        <div class="v-info"><div class="v-title">Interviews YNWA — Spring Day & Not Today</div><div class="v-foot"><span class="v-date">Fév. 2017</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">Music Bank — Waiting Room Interview</div><div class="v-foot"><span class="v-date">24 fév. 2017</span><span class="v-link">Voir →</span></div></div>
       </a>
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Spring+Day+meaning+RM+explains+interview" target="_blank">
+      <a class="v-card" href="https://www.bangtansubs.com/videos/2017/2/26/170226-inkigayo-bts-comeback-interview?rq=170226" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">❄️</div></div>
-        <div class="v-info"><div class="v-title">Spring Day — RM explique le sens de la chanson</div><div class="v-foot"><span class="v-date">2017</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">Inkigayo — Comeback Interview</div><div class="v-foot"><span class="v-date">26 fév. 2017</span><span class="v-link">Voir →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2017-2/february-2017/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
   <div class="tab-pane" id="tp-7-concerts">
     <div class="sec-hd"><span class="sec-hd-title">Concerts</span></div>
     <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/0M_lKXo1_kw" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎟</div></div>
+        <div class="v-info"><div class="v-title">The Wings Tour — Séoul, Jour 1</div><div class="v-foot"><span class="v-date">18 fév. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/E2swQICvh6U" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎟</div></div>
+        <div class="v-info"><div class="v-title">The Wings Tour — Séoul, Jour 2 (fancams)</div><div class="v-foot"><span class="v-date">19 fév. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Wings+Tour+The+Final+Seoul+2017" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎟</div></div>
         <div class="v-info"><div class="v-title">The Wings Tour : The Final — Séoul Déc. 2017</div><div class="v-foot"><span class="v-date">Déc. 2017</span><span class="v-link">Chercher →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2017-2/february-2017/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
   <div class="tab-pane" id="tp-7-timeline">
     <div class="sec-hd"><span class="sec-hd-title">Chronologie</span></div>
@@ -5055,6 +5331,81 @@
     </div>
   </div>
 
+  <div class="tab-pane" id="tp-7-bombs">
+    <div class="sec-hd"><span class="sec-hd-title">Bangtan Bombs de l'era</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/dm1-rrouqf0" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Jin's chatter time</div><div class="v-foot"><span class="v-date">23 fév. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/e4ysEtu7nMI" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Jung Kook is spinning round and round</div><div class="v-foot"><span class="v-date">23 fév. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/c3beFClhRFE" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">'봄날(Spring Day)' Win & 1st place pledge @ M Countdown</div><div class="v-foot"><span class="v-date">23 fév. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/aOQFKpJitH0" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">BTS 'Spring Day' Won @ Music Bank (+ new dance by Jin)</div><div class="v-foot"><span class="v-date">24 fév. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/BJ9hkPsJEew" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Monitoring time after 봄날 (Spring Day) stage @ Show! Music Core</div><div class="v-foot"><span class="v-date">25 fév. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/uQR1NSzSRJE" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Last day of 'Spring Day' stage @ Inkigayo</div><div class="v-foot"><span class="v-date">26 fév. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2017-2/february-2017/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-7-concepts">
+    <div class="sec-hd"><span class="sec-hd-title">Concept Photos</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/fUZlQGxsnJY" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
+        <div class="v-info"><div class="v-title">'Spring Day' — MV Teaser</div><div class="v-foot"><span class="v-date">10 fév. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/w-9GwVG83nQ" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
+        <div class="v-info"><div class="v-title">'Not Today' — MV Trailer</div><div class="v-foot"><span class="v-date">11 fév. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.bangtansubs.com/videos/2017/2/14/170214-episode-spring-day-mv-shooting-sketch?rq=170214" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">📸</div></div>
+        <div class="v-info"><div class="v-title">'Spring Day' — MV Shooting Sketch</div><div class="v-foot"><span class="v-date">14 fév. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.bangtansubs.com/videos/2017/2/15/170215-episode-you-never-walk-alone-jacket-shooting-sketch?rq=170215" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">📸</div></div>
+        <div class="v-info"><div class="v-title">'YOU NEVER WALK ALONE' — Jacket Shooting Sketch</div><div class="v-foot"><span class="v-date">15 fév. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2017-2/february-2017/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-7-fansign">
+    <div class="sec-hd"><span class="sec-hd-title">Fansigns — Tournée YNWA</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/ruYGG88z5uM" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
+        <div class="v-info"><div class="v-title">Fansign — Sincheon</div><div class="v-foot"><span class="v-date">25 fév. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+fansign+Hongdae+February+2017" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
+        <div class="v-info"><div class="v-title">Fansign — Hongdae (dernier fansign de l'era)</div><div class="v-foot"><span class="v-date">26 fév. 2017</span><span class="v-link">Chercher →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2017-2/february-2017/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-7-lore">
+    <div class="sec-hd"><span class="sec-hd-title">Lore &amp; Théories associées</span></div>
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">💡 À savoir</div>
+      <p>"Spring Day" n'introduit pas de nouveau personnage du BU, mais approfondit son émotion centrale : le deuil et l'attente d'un ami disparu. C'est l'un des morceaux les plus cités par les théoriciens ARMY pour interpréter le sort des membres dans l'univers HYYH.</p>
+    </div>
+    <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('theories')" style="margin-top:12px">Explorer toutes les théories du BTS Universe →</button>
+  </div>
+
   <div class="era-nav-bar"><button class="era-nav-prev" onclick="showEra(6)">← <span class="nav-era-name">Wings</span></button><div class="era-nav-label-wrap"><div class="era-nav-label">Era 8 / 18</div><div class="era-nav-name-center">YNWA</div></div><button class="era-nav-next" onclick="showEra(8)" ><span class="nav-era-name">Her</span> →</button></div>
 </div>
 
@@ -5070,6 +5421,7 @@
       <span class="meta-chip">AMAs — 1ère perf TV USA</span>
     </div>
     <div class="hero-desc">Début de la trilogie "Love Yourself". "DNA" entre dans le Billboard Hot 100 — première pour un groupe K-pop en des années. BTS performe aux American Music Awards 2017 devant 14 millions de téléspectateurs américains. C'est leur première vraie performance live à la télévision américaine. Le monde entier les découvre.</div>
+    <div class="hero-savoir-label">💡 À savoir</div>
     <div class="anecdote-box">
       <div class="anecdote-lbl">✦ AMAs — répétitions secrètes à Vegas</div>
       <p>Pour performer "DNA" aux AMAs 2017, BTS a répété secrètement pendant 3 jours à Las Vegas. Ils ont refusé les soundchecks en présence d'autres artistes pour garder la surprise. La réaction du public américain en direct a été filmée et diffusée des millions de fois.</p>
@@ -5082,11 +5434,15 @@
   <div class="tabs-bar" id="tb-8">
     <button class="tab-btn active" onclick="showTab(8,'music')">🎵 Musiques</button>
     <button class="tab-btn" onclick="showTab(8,'albums')">💿 Albums</button>
+    <button class="tab-btn" onclick="showTab(8,'bombs')">💣 Bangtan Bombs</button>
+    <button class="tab-btn" onclick="showTab(8,'concepts')">📸 Concepts</button>
+    <button class="tab-btn" onclick="showTab(8,'fansign')">✍️ Fansigns</button>
     <button class="tab-btn" onclick="showTab(8,'variety')">🎬 Divertissement</button>
     <button class="tab-btn" onclick="showTab(8,'interview')">🎙 Interviews</button>
     <button class="tab-btn" onclick="showTab(8,'concerts')">🎟 Concerts</button>
     <button class="tab-btn" onclick="showTab(8,'timeline')">📅 Timeline</button>
     <button class="tab-btn" onclick="showTab(8,'facts')">✨ Anecdotes</button>
+    <button class="tab-btn" onclick="showTab(8,'lore')">🌌 Lore &amp; Théories</button>
   </div>
   <div class="tab-pane active" id="tp-8-music">
     <div class="sec-hd"><span class="sec-hd-title">MV Officiels</span></div>
@@ -5106,9 +5462,9 @@
     </div>
     <div class="sec-hd"><span class="sec-hd-title">Dance Practices</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+DNA+dance+practice+2017" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">🕺</div><span class="v-badge badge-yt">PRACTICE</span></div>
-        <div class="v-info"><div class="v-title">DNA — Dance Practice</div><div class="v-foot"><span class="v-date">2017</span><span class="v-link">Chercher →</span></div></div>
+      <a class="v-card" href="https://youtu.be/GEIU_7v40Dw" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🕺</div><span class="v-badge badge-yt">CHOREO</span></div>
+        <div class="v-info"><div class="v-title">DNA — Dance Practice</div><div class="v-foot"><span class="v-date">24 sept. 2017</span><span class="v-link">Voir →</span></div></div>
       </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Go+Go+dance+practice+2017" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🕺</div><span class="v-badge badge-yt">PRACTICE</span></div>
@@ -5121,15 +5477,28 @@
         <div class="v-thumb"><div class="v-thumb-fallback">🇺🇸</div></div>
         <div class="v-info"><div class="v-title">DNA — AMAs 2017 (1ère perf TV USA)</div><div class="v-foot"><span class="v-date">Nov. 2017</span><span class="v-link">Chercher →</span></div></div>
       </a>
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+DNA+live+stage+Inkigayo+2017" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">🎤</div></div>
-        <div class="v-info"><div class="v-title">DNA — Stages musicaux coréens</div><div class="v-foot"><span class="v-date">2017</span><span class="v-link">Chercher →</span></div></div>
+      <a class="v-card" href="https://youtu.be/kxVlujEhM2Y" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">SBS MTV The Show — DNA, 1re victoire</div><div class="v-foot"><span class="v-date">26 sept. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/9n-aYhf7ygk" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">Show Champion — DNA, 2e victoire</div><div class="v-foot"><span class="v-date">27 sept. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/XPTx4BjdyV4" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">M!Countdown — DNA, 3e victoire</div><div class="v-foot"><span class="v-date">28 sept. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/zHwp0_UJnPk" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">Music Bank — DNA, 4e victoire</div><div class="v-foot"><span class="v-date">29 sept. 2017</span><span class="v-link">Voir →</span></div></div>
       </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Grammy+Museum+showcase+2017" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
         <div class="v-info"><div class="v-title">Grammy Museum Showcase 2017</div><div class="v-foot"><span class="v-date">Sept. 2017</span><span class="v-link">Chercher →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2017-2/september-2017/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
   <div class="tab-pane" id="tp-8-albums">
     <div class="sec-hd"><span class="sec-hd-title">Discographie</span></div>
@@ -5181,9 +5550,17 @@
   <div class="tab-pane" id="tp-8-interview">
     <div class="sec-hd"><span class="sec-hd-title">Interviews</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+DNA+interview+Billboard+2017+Love+Yourself+Her" target="_blank">
+      <a class="v-card" href="https://youtu.be/MALNr6AWPNc" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
-        <div class="v-info"><div class="v-title">Interviews DNA & Love Yourself: Her</div><div class="v-foot"><span class="v-date">Sept. 2017</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">Beats 1 — Interview avec RM</div><div class="v-foot"><span class="v-date">19 sept. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.bangtansubs.com/videos/2017/9/22/170922-music-bank-comeback-interview?rq=1709" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
+        <div class="v-info"><div class="v-title">Music Bank — Waiting Room Interview</div><div class="v-foot"><span class="v-date">22 sept. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.bangtansubs.com/videos/2017/9/24/170924-inkigayo-comeback-interview?rq=1709" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
+        <div class="v-info"><div class="v-title">Inkigayo — Comeback Interview</div><div class="v-foot"><span class="v-date">24 sept. 2017</span><span class="v-link">Voir →</span></div></div>
       </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Ellen+DeGeneres+Show+2017" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">📺</div></div>
@@ -5194,6 +5571,7 @@
         <div class="v-info"><div class="v-title">BTS — Late Late Show with James Corden</div><div class="v-foot"><span class="v-date">Nov. 2017</span><span class="v-link">Chercher →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2017-2/september-2017/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
   <div class="tab-pane" id="tp-8-concerts">
     <div class="sec-hd"><span class="sec-hd-title">Concerts</span></div>
@@ -5220,6 +5598,69 @@
     </div>
   </div>
 
+  <div class="tab-pane" id="tp-8-bombs">
+    <div class="sec-hd"><span class="sec-hd-title">Bangtan Bombs de l'era</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/V6S9q7AgppU" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">The cutest boy in the world is Hawaii-kkojili (JK)</div><div class="v-foot"><span class="v-date">18 sept. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/QNs8yLmjgYM" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Behind the stage of '고민보다Go' @ DNA Comeback Show</div><div class="v-foot"><span class="v-date">20 sept. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/iurGmOiMf5g" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Behind the stage of 'MIC Drop' @ DNA Comeback Show</div><div class="v-foot"><span class="v-date">21 sept. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/oSg0KazCtxk" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">BTS standby time @ M!Countdown for DNA & MIC Drop</div><div class="v-foot"><span class="v-date">28 sept. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/VSZQdTDsC4Q" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">VJ Hobi's self camera @ Music Bank</div><div class="v-foot"><span class="v-date">29 sept. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2017-2/september-2017/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-8-concepts">
+    <div class="sec-hd"><span class="sec-hd-title">Concept Photos</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/BEMaH9Sm3lQ" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
+        <div class="v-info"><div class="v-title">Serendipity — Comeback Trailer</div><div class="v-foot"><span class="v-date">5 sept. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://drive.google.com/drive/folders/1qRzC4BACcyD1dYg7_D9VjpfYq25NqNTe?usp=drive_link" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">📸</div></div>
+        <div class="v-info"><div class="v-title">Concept Photos — Love Yourself 承 'Her' (L & O ver.)</div><div class="v-foot"><span class="v-date">7 sept. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2017-2/september-2017/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-8-fansign">
+    <div class="sec-hd"><span class="sec-hd-title">Fansigns — Tournée Love Yourself: Her</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/Zir-XsGjdag" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
+        <div class="v-info"><div class="v-title">Fansign — Aladin Event</div><div class="v-foot"><span class="v-date">22 sept. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/YXwRFOYH6S8" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
+        <div class="v-info"><div class="v-title">Fansign — Sinchon & Myeongdong</div><div class="v-foot"><span class="v-date">30 sept. 2017</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2017-2/september-2017/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-8-lore">
+    <div class="sec-hd"><span class="sec-hd-title">Lore &amp; Théories associées</span></div>
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">💡 À savoir</div>
+      <p>"Love Yourself" marque un tournant : le BU laisse place à un message plus direct destiné à l'ARMY elle-même — s'aimer soi-même avant d'aimer les autres. "Serendipity" (Intro de Jimin) est souvent interprétée comme une réponse lumineuse à la noirceur de HYYH et Wings.</p>
+    </div>
+    <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('overview')" style="margin-top:12px">Explorer le BTS Universe →</button>
+  </div>
+
   <div class="era-nav-bar"><button class="era-nav-prev" onclick="showEra(7)">← <span class="nav-era-name">YNWA</span></button><div class="era-nav-label-wrap"><div class="era-nav-label">Era 9 / 18</div><div class="era-nav-name-center">Her</div></div><button class="era-nav-next" onclick="showEra(9)" ><span class="nav-era-name">Tear</span> →</button></div>
 </div>
 
@@ -5235,6 +5676,7 @@
       <span class="meta-chip">Fake Love — Top 10 Hot 100</span>
     </div>
     <div class="hero-desc">"Love Yourself : Tear" est le premier album K-pop à atteindre la #1 du Billboard 200 depuis 2012. "Fake Love" entre dans le Top 10 du Billboard Hot 100. V ouvre l'album avec "Singularity" — une des performances les plus théâtrales de l'histoire de BTS. C'est l'ère la plus sombre et musicalement la plus ambitieuse du groupe.</div>
+    <div class="hero-savoir-label">💡 À savoir</div>
     <div class="anecdote-box">
       <div class="anecdote-lbl">✦ Fake Love — 35 nuits de répétitions</div>
       <p>La performance de "Fake Love" aux BBMAs 2018 a nécessité 35 nuits consécutives de répétitions. BTS voulait un vrai spectacle scénique, pas un simple stage musical. Le budget scénique était le plus élevé qu'ils aient jamais eu pour une performance TV. La salle entière s'est levée.</p>
@@ -5247,11 +5689,15 @@
   <div class="tabs-bar" id="tb-9">
     <button class="tab-btn active" onclick="showTab(9,'music')">🎵 Musiques</button>
     <button class="tab-btn" onclick="showTab(9,'albums')">💿 Albums</button>
+    <button class="tab-btn" onclick="showTab(9,'bombs')">💣 Bangtan Bombs</button>
+    <button class="tab-btn" onclick="showTab(9,'concepts')">📸 Concepts</button>
+    <button class="tab-btn" onclick="showTab(9,'fansign')">✍️ Fansigns</button>
     <button class="tab-btn" onclick="showTab(9,'variety')">🎬 Divertissement</button>
     <button class="tab-btn" onclick="showTab(9,'interview')">🎙 Interviews</button>
     <button class="tab-btn" onclick="showTab(9,'concerts')">🎟 Concerts</button>
     <button class="tab-btn" onclick="showTab(9,'timeline')">📅 Timeline</button>
     <button class="tab-btn" onclick="showTab(9,'facts')">✨ Anecdotes</button>
+    <button class="tab-btn" onclick="showTab(9,'lore')">🌌 Lore &amp; Théories</button>
   </div>
   <div class="tab-pane active" id="tp-9-music">
     <div class="sec-hd"><span class="sec-hd-title">MV Officiels</span></div>
@@ -5260,9 +5706,9 @@
         <div class="v-thumb"><img src="https://img.youtube.com/vi/7-x3uD5z1bQ/maxresdefault.jpg" onerror="this.parentNode.innerHTML='<div class=v-thumb-fallback>💔</div>'"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div><span class="v-badge badge-mv">MV</span></div>
         <div class="v-info"><div class="v-title">Fake Love — MV</div><div class="v-foot"><span class="v-date">Mai 2018</span><span class="v-link">Voir →</span></div></div>
       </a>
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Singularity+V+solo+Tear+2018" target="_blank">
+      <a class="v-card" href="https://youtu.be/p8npDG2ulKQ" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎭</div><span class="v-badge badge-solo">V</span></div>
-        <div class="v-info"><div class="v-title">Singularity — V (Intro)</div><div class="v-foot"><span class="v-date">Mai 2018</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">Singularity — Comeback Trailer (V)</div><div class="v-foot"><span class="v-date">7 mai 2018</span><span class="v-link">Voir →</span></div></div>
       </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+The+Truth+Untold+MV+Tear" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🌸</div><span class="v-badge badge-mv">MV</span></div>
@@ -5271,22 +5717,35 @@
     </div>
     <div class="sec-hd"><span class="sec-hd-title">Dance Practices</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Fake+Love+dance+practice+2018" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">🕺</div><span class="v-badge badge-yt">PRACTICE</span></div>
-        <div class="v-info"><div class="v-title">Fake Love — Dance Practice</div><div class="v-foot"><span class="v-date">2018</span><span class="v-link">Chercher →</span></div></div>
+      <a class="v-card" href="https://www.youtube.com/watch?v=nQySbNGu4g0" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🕺</div><span class="v-badge badge-yt">CHOREO</span></div>
+        <div class="v-info"><div class="v-title">Fake Love — Dance Practice</div><div class="v-foot"><span class="v-date">27 mai 2018</span><span class="v-link">Voir →</span></div></div>
       </a>
     </div>
     <div class="sec-hd"><span class="sec-hd-title">Performances & Archives</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Fake+Love+BBMAs+2018+performance" target="_blank">
+      <a class="v-card" href="https://youtu.be/GiO2QF7m_Dg" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
-        <div class="v-info"><div class="v-title">Fake Love — BBMAs 2018</div><div class="v-foot"><span class="v-date">Mai 2018</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">BBMAs 2018 — Top Social Artist Award</div><div class="v-foot"><span class="v-date">20 mai 2018</span><span class="v-link">Voir →</span></div></div>
       </a>
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Fake+Love+live+stage+Inkigayo+2018" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">🎤</div></div>
-        <div class="v-info"><div class="v-title">Fake Love — Stages musicaux</div><div class="v-foot"><span class="v-date">2018</span><span class="v-link">Chercher →</span></div></div>
+      <a class="v-card" href="https://youtu.be/91hFxE9Yxmo" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">Music Bank — Fake Love, 1re victoire</div><div class="v-foot"><span class="v-date">25 mai 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.youtube.com/watch?v=xLa2JHlnOt4" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">Show! Music Core — Fake Love, 2e victoire</div><div class="v-foot"><span class="v-date">26 mai 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.youtube.com/watch?v=gfn_Npi4Rjo" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">Inkigayo — Fake Love, 3e victoire</div><div class="v-foot"><span class="v-date">27 mai 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/rh7aKl0djIk" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">M!Countdown — Fake Love, 5e victoire</div><div class="v-foot"><span class="v-date">31 mai 2018</span><span class="v-link">Voir →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2018-2/may-2018/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
   <div class="tab-pane" id="tp-9-albums">
     <div class="sec-hd"><span class="sec-hd-title">Discographie</span></div>
@@ -5342,15 +5801,20 @@
   <div class="tab-pane" id="tp-9-interview">
     <div class="sec-hd"><span class="sec-hd-title">Interviews</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Fake+Love+interview+Billboard+Tear+2018" target="_blank">
+      <a class="v-card" href="https://m.youtube.com/watch?v=TPZYvBIV-cs" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
-        <div class="v-info"><div class="v-title">Interviews Fake Love & Love Yourself: Tear</div><div class="v-foot"><span class="v-date">Mai 2018</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">Access — Interview avec BTS</div><div class="v-foot"><span class="v-date">17 mai 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://m.youtube.com/watch?v=pap6QDzBqjs" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
+        <div class="v-info"><div class="v-title">Billboard — Interview sur Fake Love & Tear</div><div class="v-foot"><span class="v-date">18 mai 2018</span><span class="v-link">Voir →</span></div></div>
       </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Jimmy+Fallon+Tonight+Show+2018" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
         <div class="v-info"><div class="v-title">BTS — The Tonight Show with Jimmy Fallon 2018</div><div class="v-foot"><span class="v-date">Oct. 2018</span><span class="v-link">Chercher →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2018-2/may-2018/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
   <div class="tab-pane" id="tp-9-concerts">
     <div class="sec-hd"><span class="sec-hd-title">Concerts</span></div>
@@ -5381,6 +5845,53 @@
     </div>
   </div>
 
+  <div class="tab-pane" id="tp-9-bombs">
+    <div class="sec-hd"><span class="sec-hd-title">Bangtan Bombs de l'era</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/60Ks0ybPuac" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">'FAKE LOVE' Live Performance @2018 BBMAs</div><div class="v-foot"><span class="v-date">20 mai 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Le mois de mai 2018 archive peu de Bangtan Bombs classiques — l'essentiel de la promo passait alors par les interviews américaines. Liens vérifiés via <a href="https://btsarchive.com/2018-2/may-2018/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-9-concepts">
+    <div class="sec-hd"><span class="sec-hd-title">Concept Photos</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://instagram.com/p/BihUzlEBdBG/" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">📸</div></div>
+        <div class="v-info"><div class="v-title">Concept Photos — versions O & R</div><div class="v-foot"><span class="v-date">9 mai 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://instagram.com/p/BimeXTrhpyb/" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">📸</div></div>
+        <div class="v-info"><div class="v-title">Concept Photos — versions Y & U</div><div class="v-foot"><span class="v-date">11 mai 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/MMH2KqZ8_H0" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
+        <div class="v-info"><div class="v-title">'Tear' — Jacket Shooting Sketch</div><div class="v-foot"><span class="v-date">20 mai 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2018-2/may-2018/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-9-fansign">
+    <div class="sec-hd"><span class="sec-hd-title">Fansigns — Tournée Love Yourself: Tear</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/P177bX3gEn8" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
+        <div class="v-info"><div class="v-title">Fansign — Aladin, Mokdong Kobaco Hall</div><div class="v-foot"><span class="v-date">27 mai 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2018-2/may-2018/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-9-lore">
+    <div class="sec-hd"><span class="sec-hd-title">Lore &amp; Théories associées</span></div>
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">💡 À savoir</div>
+      <p>"Singularity" prolonge le personnage de V déjà lié à "I Need U", "Run" et "Stigma" : la difficulté de montrer sa vraie voix. Le masque et la voix étouffée du clip sont interprétés par de nombreux théoriciens ARMY comme une métaphore directe de son arc dans le BU.</p>
+    </div>
+    <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('members')" style="margin-top:12px">Explorer les 7 personnages du BTS Universe →</button>
+  </div>
+
   <div class="era-nav-bar"><button class="era-nav-prev" onclick="showEra(8)">← <span class="nav-era-name">Her</span></button><div class="era-nav-label-wrap"><div class="era-nav-label">Era 10 / 18</div><div class="era-nav-name-center">Tear</div></div><button class="era-nav-next" onclick="showEra(10)" ><span class="nav-era-name">Answer</span> →</button></div>
 </div>
 
@@ -5396,6 +5907,7 @@
       <span class="meta-chip">IDOL ft. Nicki Minaj</span>
     </div>
     <div class="hero-desc">La conclusion de la trilogie "Love Yourself". L'album contient "IDOL" — hymne d'acceptation de soi mêlant K-pop et musique traditionnelle coréenne. Jin ouvre l'album avec "Epiphany" — une de ses meilleures performances vocales. Et RM prononce un discours bouleversant devant l'Assemblée Générale de l'ONU au nom de la jeunesse mondiale.</div>
+    <div class="hero-savoir-label">💡 À savoir</div>
     <div class="anecdote-box">
       <div class="anecdote-lbl">✦ Le discours de RM à l'ONU</div>
       <p>En septembre 2018, RM parle à l'ONU pour la campagne UNICEF "Generation Unlimited". Son discours commence par : "Mon nom est Kim Namjoon, aussi connu sous RM, leader de BTS. Parler de moi-même n'a jamais été facile." Il reçoit une ovation debout. 30 millions de vues en 48h.</p>
@@ -5408,11 +5920,14 @@
   <div class="tabs-bar" id="tb-10">
     <button class="tab-btn active" onclick="showTab(10,'music')">🎵 Musiques</button>
     <button class="tab-btn" onclick="showTab(10,'albums')">💿 Albums</button>
+    <button class="tab-btn" onclick="showTab(10,'bombs')">💣 Bangtan Bombs</button>
+    <button class="tab-btn" onclick="showTab(10,'concepts')">📸 Concepts</button>
     <button class="tab-btn" onclick="showTab(10,'variety')">🎬 Divertissement</button>
     <button class="tab-btn" onclick="showTab(10,'interview')">🎙 Interviews</button>
     <button class="tab-btn" onclick="showTab(10,'concerts')">🎟 Concerts</button>
     <button class="tab-btn" onclick="showTab(10,'timeline')">📅 Timeline</button>
     <button class="tab-btn" onclick="showTab(10,'facts')">✨ Anecdotes</button>
+    <button class="tab-btn" onclick="showTab(10,'lore')">🌌 Lore &amp; Théories</button>
   </div>
   <div class="tab-pane active" id="tp-10-music">
     <div class="sec-hd"><span class="sec-hd-title">MV Officiels</span></div>
@@ -5421,9 +5936,9 @@
         <div class="v-thumb"><img src="https://img.youtube.com/vi/pBuZEGYXA6E/maxresdefault.jpg" onerror="this.parentNode.innerHTML='<div class=v-thumb-fallback>🦁</div>'"><div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div><span class="v-badge badge-mv">MV</span></div>
         <div class="v-info"><div class="v-title">IDOL — MV</div><div class="v-foot"><span class="v-date">Août 2018</span><span class="v-link">Voir →</span></div></div>
       </a>
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Epiphany+Jin+solo+Answer+2018" target="_blank">
+      <a class="v-card" href="https://m.youtube.com/watch?v=fIkZOLsnoqY" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🌅</div><span class="v-badge badge-solo">JIN</span></div>
-        <div class="v-info"><div class="v-title">Epiphany — Jin (Intro)</div><div class="v-foot"><span class="v-date">Août 2018</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">Epiphany — Comeback Trailer (Jin)</div><div class="v-foot"><span class="v-date">10 août 2018</span><span class="v-link">Voir →</span></div></div>
       </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Euphoria+Jungkook+Answer+MV" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">✨</div><span class="v-badge badge-solo">JK</span></div>
@@ -5443,15 +5958,24 @@
     </div>
     <div class="sec-hd"><span class="sec-hd-title">Performances & Archives</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+IDOL+live+stage+2018" target="_blank">
+      <a class="v-card" href="https://youtu.be/CfZEph5TsVk" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎤</div></div>
-        <div class="v-info"><div class="v-title">IDOL — Live performances</div><div class="v-foot"><span class="v-date">2018</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">M!Countdown — Comeback Stage IDOL</div><div class="v-foot"><span class="v-date">30 août 2018</span><span class="v-link">Voir →</span></div></div>
       </a>
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+RM+UN+speech+UNICEF+2018" target="_blank">
+      <a class="v-card" href="https://youtu.be/DNH8lPc1_DE" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">Soribada Best K-Music Awards — IDOL</div><div class="v-foot"><span class="v-date">30 août 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://m.youtube.com/watch?v=cdevTFE_fwI" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">Music Bank — IDOL, 1re victoire</div><div class="v-foot"><span class="v-date">31 août 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.youtube.com/watch?v=oTe4f-bBEKg" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🌍</div></div>
-        <div class="v-info"><div class="v-title">Discours de RM à l'ONU — Septembre 2018</div><div class="v-foot"><span class="v-date">Sept. 2018</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">Discours de RM à l'ONU (UNICEF)</div><div class="v-foot"><span class="v-date">24 sept. 2018</span><span class="v-link">Voir →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2018-2/august-2018/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
   <div class="tab-pane" id="tp-10-albums">
     <div class="sec-hd"><span class="sec-hd-title">Discographie</span></div>
@@ -5500,19 +6024,24 @@
   <div class="tab-pane" id="tp-10-interview">
     <div class="sec-hd"><span class="sec-hd-title">Interviews</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+IDOL+interview+Answer+2018" target="_blank">
+      <a class="v-card" href="https://youtu.be/1zk61E67R5o" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
-        <div class="v-info"><div class="v-title">Interviews IDOL & Love Yourself: Answer</div><div class="v-foot"><span class="v-date">Août 2018</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">Beats 1 — Interview avec BTS</div><div class="v-foot"><span class="v-date">24 août 2018</span><span class="v-link">Voir →</span></div></div>
       </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Carpool+Karaoke+James+Corden+2017+2018" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🚗</div></div>
         <div class="v-info"><div class="v-title">BTS — Carpool Karaoke with James Corden</div><div class="v-foot"><span class="v-date">2018</span><span class="v-link">Chercher →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2018-2/august-2018/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
   <div class="tab-pane" id="tp-10-concerts">
     <div class="sec-hd"><span class="sec-hd-title">Concerts</span></div>
     <div class="v-grid">
+      <a class="v-card" href="https://www.youtube.com/watch?v=cD1N2NhRdBk" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏟</div></div>
+        <div class="v-info"><div class="v-title">World Tour Love Yourself — Séoul, Jour 2</div><div class="v-foot"><span class="v-date">26 août 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Love+Yourself+Speak+Yourself+Wembley+2019" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🏟</div></div>
         <div class="v-info"><div class="v-title">Speak Yourself — Wembley Stadium 2019</div><div class="v-foot"><span class="v-date">Juin 2019</span><span class="v-link">Chercher →</span></div></div>
@@ -5522,6 +6051,7 @@
         <div class="v-info"><div class="v-title">Speak Yourself — Rose Bowl Pasadena 2019</div><div class="v-foot"><span class="v-date">Mai 2019</span><span class="v-link">Chercher →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2018-2/august-2018/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
   <div class="tab-pane" id="tp-10-timeline">
     <div class="sec-hd"><span class="sec-hd-title">Chronologie</span></div>
@@ -5540,6 +6070,63 @@
     </div>
   </div>
 
+  <div class="tab-pane" id="tp-10-bombs">
+    <div class="sec-hd"><span class="sec-hd-title">Bangtan Bombs de l'era</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://m.youtube.com/watch?v=B8T0VmrX4g0" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">'FAKE LOVE' Special Stage (BTS focus) @ Comeback Show</div><div class="v-foot"><span class="v-date">3 août 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/1HcHyZw3yuY" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Sleeping beauty V!</div><div class="v-foot"><span class="v-date">4 août 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.youtube.com/watch?v=jF0SzCG69O0" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Photographer JIN</div><div class="v-foot"><span class="v-date">5 août 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/gX7JyXKg7kc" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Naughty Boy Hobi</div><div class="v-foot"><span class="v-date">6 août 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://m.youtube.com/watch?v=i2nRmxIQxSo" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">'Save Me + I'm Fine' Comeback Stage (BTS focus)</div><div class="v-foot"><span class="v-date">30 août 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://m.youtube.com/watch?v=pi6N8vAg19A" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">'IDOL' Comeback Stage (BTS focus)</div><div class="v-foot"><span class="v-date">30 août 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2018-2/august-2018/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-10-concepts">
+    <div class="sec-hd"><span class="sec-hd-title">Concept Photos</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/Rd0UqlRf1eE" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
+        <div class="v-info"><div class="v-title">'IDOL' — Official Teaser</div><div class="v-foot"><span class="v-date">23 août 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/mYa_-EbaRMA" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">📸</div></div>
+        <div class="v-info"><div class="v-title">'Answer' — Jacket Shooting Sketch</div><div class="v-foot"><span class="v-date">21 août 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://twitter.com/bighitent/status/1029019766831239168" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">📸</div></div>
+        <div class="v-info"><div class="v-title">Concept Photos — versions S & E</div><div class="v-foot"><span class="v-date">14 août 2018</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2018-2/august-2018/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-10-lore">
+    <div class="sec-hd"><span class="sec-hd-title">Lore &amp; Théories associées</span></div>
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">💡 À savoir</div>
+      <p>"Epiphany" est vu par les fans comme le moment où Jin, souvent perçu comme le membre le plus détaché du BU, prend enfin la parole personnellement : "I'm the one I should love in this world". Un contrepoint direct à la noirceur des eras précédentes.</p>
+    </div>
+    <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('overview')" style="margin-top:12px">Explorer le BTS Universe →</button>
+  </div>
+
   <div class="era-nav-bar"><button class="era-nav-prev" onclick="showEra(9)">← <span class="nav-era-name">Tear</span></button><div class="era-nav-label-wrap"><div class="era-nav-label">Era 11 / 18</div><div class="era-nav-name-center">Answer</div></div><button class="era-nav-next" onclick="showEra(11)" ><span class="nav-era-name">Persona</span> →</button></div>
 </div>
 
@@ -5555,6 +6142,7 @@
       <span class="meta-chip">Wembley sold-out en 90 min</span>
     </div>
     <div class="hero-desc">Début de l'ère "Map of the Soul", inspirée par la psychologie jungienne. "Boy With Luv" ft. Halsey bat le record de vues YouTube en 24h (74,6M). BTS headligne Wembley deux soirs consécutifs. La performance de "Dionysus" aux BBMAs 2019 — 7 minutes spectaculaires avec 30+ danseurs — est considérée comme la meilleure performance live de l'histoire de la cérémonie.</div>
+    <div class="hero-savoir-label">💡 À savoir</div>
     <div class="anecdote-box">
       <div class="anecdote-lbl">✦ Boy With Luv — les mains de Jimin</div>
       <p>Dans le teaser de "Boy With Luv", on voit des mains mystérieuses. L'ARMY a mis des semaines à identifier qu'il s'agissait des mains de Jimin. La révélation a généré des millions de tweets. C'était un teaser intentionnel — BigHit savait exactement ce qu'il faisait.</p>
@@ -5567,11 +6155,15 @@
   <div class="tabs-bar" id="tb-11">
     <button class="tab-btn active" onclick="showTab(11,'music')">🎵 Musiques</button>
     <button class="tab-btn" onclick="showTab(11,'albums')">💿 Albums</button>
+    <button class="tab-btn" onclick="showTab(11,'bombs')">💣 Bangtan Bombs</button>
+    <button class="tab-btn" onclick="showTab(11,'concepts')">📸 Concepts</button>
+    <button class="tab-btn" onclick="showTab(11,'fansign')">✍️ Fansigns</button>
     <button class="tab-btn" onclick="showTab(11,'variety')">🎬 Divertissement</button>
     <button class="tab-btn" onclick="showTab(11,'interview')">🎙 Interviews</button>
     <button class="tab-btn" onclick="showTab(11,'concerts')">🎟 Concerts</button>
     <button class="tab-btn" onclick="showTab(11,'timeline')">📅 Timeline</button>
     <button class="tab-btn" onclick="showTab(11,'facts')">✨ Anecdotes</button>
+    <button class="tab-btn" onclick="showTab(11,'lore')">🌌 Lore &amp; Théories</button>
   </div>
   <div class="tab-pane active" id="tp-11-music">
     <div class="sec-hd"><span class="sec-hd-title">MV Officiels</span></div>
@@ -5591,26 +6183,31 @@
     </div>
     <div class="sec-hd"><span class="sec-hd-title">Dance Practices</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Boy+With+Luv+dance+practice+2019" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">🕺</div><span class="v-badge badge-yt">PRACTICE</span></div>
-        <div class="v-info"><div class="v-title">Boy With Luv — Dance Practice</div><div class="v-foot"><span class="v-date">2019</span><span class="v-link">Chercher →</span></div></div>
+      <a class="v-card" href="https://youtu.be/CzvfbRbEjww" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🕺</div><span class="v-badge badge-yt">CHOREO</span></div>
+        <div class="v-info"><div class="v-title">Boy With Luv — Dance Practice</div><div class="v-foot"><span class="v-date">21 avr. 2019</span><span class="v-link">Voir →</span></div></div>
       </a>
     </div>
     <div class="sec-hd"><span class="sec-hd-title">Performances & Archives</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Boy+With+Luv+BBMAs+2019" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
-        <div class="v-info"><div class="v-title">Boy With Luv — BBMAs 2019</div><div class="v-foot"><span class="v-date">Mai 2019</span><span class="v-link">Chercher →</span></div></div>
+      <a class="v-card" href="https://m.youtube.com/watch?v=O4NB73HTlxI" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🇺🇸</div></div>
+        <div class="v-info"><div class="v-title">Saturday Night Live — Boy With Luv</div><div class="v-foot"><span class="v-date">13 avr. 2019</span><span class="v-link">Voir →</span></div></div>
       </a>
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Boy+With+Luv+Saturday+Night+Live+SNL+2019" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">🎭</div></div>
-        <div class="v-info"><div class="v-title">Boy With Luv — Saturday Night Live</div><div class="v-foot"><span class="v-date">Avr. 2019</span><span class="v-link">Chercher →</span></div></div>
-      </a>
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Dionysus+BBMAs+2019+performance" target="_blank">
+      <a class="v-card" href="https://www.youtube.com/watch?v=UyUkCt0fQao" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🍷</div></div>
-        <div class="v-info"><div class="v-title">Dionysus — BBMAs 2019 (7 min légendaires)</div><div class="v-foot"><span class="v-date">Mai 2019</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">M!Countdown — Dionysus (One-Take ver.)</div><div class="v-foot"><span class="v-date">18 avr. 2019</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/il2t8qjLAD0" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">Music Bank — Boy With Luv, 1re victoire</div><div class="v-foot"><span class="v-date">19 avr. 2019</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.youtube.com/watch?v=36grlA3GIBY" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🍷</div></div>
+        <div class="v-info"><div class="v-title">Inkigayo — Dionysus</div><div class="v-foot"><span class="v-date">21 avr. 2019</span><span class="v-link">Voir →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2019-2/april-2019/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
   <div class="tab-pane" id="tp-11-albums">
     <div class="sec-hd"><span class="sec-hd-title">Discographie</span></div>
@@ -5660,19 +6257,32 @@
   <div class="tab-pane" id="tp-11-interview">
     <div class="sec-hd"><span class="sec-hd-title">Interviews</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Boy+With+Luv+interview+Persona+2019" target="_blank">
+      <a class="v-card" href="https://m.youtube.com/watch?v=eAOXvD86Azk" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
-        <div class="v-info"><div class="v-title">Interviews Map of the Soul: Persona</div><div class="v-foot"><span class="v-date">Avr. 2019</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">Beats 1 — Interview avec BTS</div><div class="v-foot"><span class="v-date">16 avr. 2019</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.bangtansubs.com/videos/2019/4/17/190417-full-bts-global-press-conference-map-of-the-soul-persona?rq=190417" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
+        <div class="v-info"><div class="v-title">Conférence de presse mondiale — Map of the Soul: Persona</div><div class="v-foot"><span class="v-date">17 avr. 2019</span><span class="v-link">Voir →</span></div></div>
       </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Jimmy+Fallon+Tonight+Show+2019" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
         <div class="v-info"><div class="v-title">BTS — Tonight Show with Jimmy Fallon 2019</div><div class="v-foot"><span class="v-date">Mai 2019</span><span class="v-link">Chercher →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2019-2/april-2019/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
   <div class="tab-pane" id="tp-11-concerts">
     <div class="sec-hd"><span class="sec-hd-title">Concerts</span></div>
     <div class="v-grid">
+      <a class="v-card" href="https://www.youtube.com/watch?v=prJx4hpp71g" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏟</div></div>
+        <div class="v-info"><div class="v-title">Love Yourself Tour — Bangkok, Jour 1</div><div class="v-foot"><span class="v-date">6 avr. 2019</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.youtube.com/watch?v=YtWyX2deC30" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏟</div></div>
+        <div class="v-info"><div class="v-title">Love Yourself Tour — Bangkok, Jour 2 (Finale)</div><div class="v-foot"><span class="v-date">7 avr. 2019</span><span class="v-link">Voir →</span></div></div>
+      </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Speak+Yourself+Wembley+Stadium+2019" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🏟</div></div>
         <div class="v-info"><div class="v-title">Love Yourself : Speak Yourself — Wembley Stadium</div><div class="v-foot"><span class="v-date">Juin 2019</span><span class="v-link">Chercher →</span></div></div>
@@ -5682,6 +6292,7 @@
         <div class="v-info"><div class="v-title">Speak Yourself Tour — USA Stades 2019</div><div class="v-foot"><span class="v-date">Mai–Août 2019</span><span class="v-link">Chercher →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2019-2/april-2019/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
   <div class="tab-pane" id="tp-11-timeline">
     <div class="sec-hd"><span class="sec-hd-title">Chronologie</span></div>
@@ -5699,6 +6310,85 @@
     </div>
   </div>
 
+  <div class="tab-pane" id="tp-11-bombs">
+    <div class="sec-hd"><span class="sec-hd-title">Bangtan Bombs de l'era</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/X2b3VXKTHAo" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Memory squirrel Jimin showing off acorn</div><div class="v-foot"><span class="v-date">4 avr. 2019</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/QzFVEr2cEKU" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Drawing from 'IDOL' MV</div><div class="v-foot"><span class="v-date">10 avr. 2019</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/wFKuO6X01Ao" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">SUGA's Surprise Birthday Party!</div><div class="v-foot"><span class="v-date">17 avr. 2019</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.youtube.com/watch?v=zMx-En_wLDA" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">'Dionysus' Stage CAM (BTS focus)</div><div class="v-foot"><span class="v-date">18 avr. 2019</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/dYicoz_xQw0" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Last day of 'Dionysus' stage @ Inkigayo</div><div class="v-foot"><span class="v-date">21 avr. 2019</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://m.youtube.com/watch?v=Eb5_DxCAhdI" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Challenge a Pre-Recording!</div><div class="v-foot"><span class="v-date">28 avr. 2019</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2019-2/april-2019/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-11-concepts">
+    <div class="sec-hd"><span class="sec-hd-title">Concept Photos</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/jrSsNzsi4eQ" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
+        <div class="v-info"><div class="v-title">Boy With Luv ft. Halsey — Official Teaser 1</div><div class="v-foot"><span class="v-date">8 avr. 2019</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/1zDd-3J1nTg" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
+        <div class="v-info"><div class="v-title">Boy With Luv ft. Halsey — Official Teaser 2</div><div class="v-foot"><span class="v-date">11 avr. 2019</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/m278SCd_Z2o" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">📸</div></div>
+        <div class="v-info"><div class="v-title">Boy With Luv — MV Shooting Sketch</div><div class="v-foot"><span class="v-date">13 avr. 2019</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/TZ1Y-iEQ_qQ" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">📸</div></div>
+        <div class="v-info"><div class="v-title">Map of the Soul: Persona — Jacket Shooting Sketch</div><div class="v-foot"><span class="v-date">22 avr. 2019</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2019-2/april-2019/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-11-fansign">
+    <div class="sec-hd"><span class="sec-hd-title">Fansigns — Tournée Persona</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/99hoA9JwpkE" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
+        <div class="v-info"><div class="v-title">Fansign — Aladdin</div><div class="v-foot"><span class="v-date">21 avr. 2019</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/NQPWc74YzuE" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
+        <div class="v-info"><div class="v-title">Fansign — Sinchon</div><div class="v-foot"><span class="v-date">25 avr. 2019</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/kUYyaIyooes" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">✍️</div></div>
+        <div class="v-info"><div class="v-title">Fansign — Mihwadang</div><div class="v-foot"><span class="v-date">26 avr. 2019</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2019-2/april-2019/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-11-lore">
+    <div class="sec-hd"><span class="sec-hd-title">Lore &amp; Théories associées</span></div>
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">💡 À savoir</div>
+      <p>"Map of the Soul" s'inspire directement de la psychologie jungienne plutôt que du BU narratif : "Intro: Persona" pose la question "Qui suis-je ?" en écho au concept de "persona" de Carl Jung — le masque social que chacun porte. Un pont thématique entre les eras BU et une réflexion plus personnelle sur l'identité.</p>
+    </div>
+    <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('overview')" style="margin-top:12px">Explorer le BTS Universe →</button>
+  </div>
+
   <div class="era-nav-bar"><button class="era-nav-prev" onclick="showEra(10)">← <span class="nav-era-name">Answer</span></button><div class="era-nav-label-wrap"><div class="era-nav-label">Era 12 / 18</div><div class="era-nav-name-center">Persona</div></div><button class="era-nav-next" onclick="showEra(12)" ><span class="nav-era-name">7</span> →</button></div>
 </div>
 
@@ -5714,6 +6404,7 @@
       <span class="meta-chip">Tour annulé — COVID</span>
     </div>
     <div class="hero-desc">"7" comme les sept membres, les 7 ans depuis leurs débuts, les 7 chapitres de leur histoire. L'album le plus introspectif de BTS avec 7 solos supplémentaires. "Black Swan" est une méditation sur la peur de perdre sa passion artistique. "ON" est filmé à Grand Central Station pour le Tonight Show de Jimmy Fallon — un moment historique. Puis le COVID-19 annule tout.</div>
+    <div class="hero-savoir-label">💡 À savoir</div>
     <div class="anecdote-box">
       <div class="anecdote-lbl">✦ Grand Central Station — fermée pour BTS</div>
       <p>La performance de "ON" à Grand Central Station (fév. 2020) pour le Tonight Show est considérée comme une des plus spectaculaires de l'histoire du show américain. La gare a été fermée au public pendant plusieurs heures — une première en 100+ ans d'histoire du bâtiment new-yorkais.</p>
@@ -5726,11 +6417,14 @@
   <div class="tabs-bar" id="tb-12">
     <button class="tab-btn active" onclick="showTab(12,'music')">🎵 Musiques</button>
     <button class="tab-btn" onclick="showTab(12,'albums')">💿 Albums</button>
+    <button class="tab-btn" onclick="showTab(12,'bombs')">💣 Bangtan Bombs</button>
+    <button class="tab-btn" onclick="showTab(12,'concepts')">📸 Concepts</button>
     <button class="tab-btn" onclick="showTab(12,'variety')">🎬 Divertissement</button>
     <button class="tab-btn" onclick="showTab(12,'interview')">🎙 Interviews</button>
     <button class="tab-btn" onclick="showTab(12,'concerts')">🎟 Concerts</button>
     <button class="tab-btn" onclick="showTab(12,'timeline')">📅 Timeline</button>
     <button class="tab-btn" onclick="showTab(12,'facts')">✨ Anecdotes</button>
+    <button class="tab-btn" onclick="showTab(12,'lore')">🌌 Lore &amp; Théories</button>
   </div>
   <div class="tab-pane active" id="tp-12-music">
     <div class="sec-hd"><span class="sec-hd-title">MV Officiels</span></div>
@@ -5766,9 +6460,9 @@
         <div class="v-thumb"><div class="v-thumb-fallback">🎸</div><span class="v-badge badge-solo">SUGA</span></div>
         <div class="v-info"><div class="v-title">Shadow — Suga (Interlude)</div><div class="v-foot"><span class="v-date">2020</span><span class="v-link">Chercher →</span></div></div>
       </a>
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Ego+J-Hope+solo+Map+Soul+7" target="_blank">
+      <a class="v-card" href="https://youtu.be/LmApDbvNCXg" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">☀️</div><span class="v-badge badge-solo">J-HOPE</span></div>
-        <div class="v-info"><div class="v-title">Ego — J-Hope (Outro)</div><div class="v-foot"><span class="v-date">2020</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">Outro: Ego — Comeback Trailer (J-Hope)</div><div class="v-foot"><span class="v-date">3 fév. 2020</span><span class="v-link">Voir →</span></div></div>
       </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Friends+Jimin+V+duo+Map+Soul+7" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">💜</div><span class="v-badge badge-solo">JIMIN V</span></div>
@@ -5777,13 +6471,29 @@
     </div>
     <div class="sec-hd"><span class="sec-hd-title">Dance Practices</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+ON+dance+practice+2020" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">🕺</div><span class="v-badge badge-yt">PRACTICE</span></div>
-        <div class="v-info"><div class="v-title">ON — Dance Practice</div><div class="v-foot"><span class="v-date">2020</span><span class="v-link">Chercher →</span></div></div>
+      <a class="v-card" href="https://youtu.be/VkuEzN8IS_o" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🕺</div><span class="v-badge badge-yt">CHOREO</span></div>
+        <div class="v-info"><div class="v-title">ON — Dance Practice</div><div class="v-foot"><span class="v-date">26 fév. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/fTS1jAhWPbw" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🕺</div><span class="v-badge badge-yt">CHOREO</span></div>
+        <div class="v-info"><div class="v-title">Black Swan — Dance Practice</div><div class="v-foot"><span class="v-date">7 fév. 2020</span><span class="v-link">Voir →</span></div></div>
       </a>
     </div>
     <div class="sec-hd"><span class="sec-hd-title">Performances & Archives</span></div>
     <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/kFNJTAaAYnU" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎤</div></div>
+        <div class="v-info"><div class="v-title">M!Countdown — Comeback Stage ON</div><div class="v-foot"><span class="v-date">27 fév. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/cvQ7hzJX5Lk" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎤</div></div>
+        <div class="v-info"><div class="v-title">M!Countdown — Comeback Stage Black Swan</div><div class="v-foot"><span class="v-date">27 fév. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/Kc8b4cWEnLI" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">Music Bank — ON, 1re victoire (encore)</div><div class="v-foot"><span class="v-date">28 fév. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+ON+Jimmy+Fallon+Grand+Central+Station+2020" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🚂</div></div>
         <div class="v-info"><div class="v-title">ON — Grand Central Station (Tonight Show)</div><div class="v-foot"><span class="v-date">Fév. 2020</span><span class="v-link">Chercher →</span></div></div>
@@ -5793,6 +6503,7 @@
         <div class="v-info"><div class="v-title">MAP OF THE SOUL ON:E — Concert en ligne</div><div class="v-foot"><span class="v-date">Oct. 2020</span><span class="v-link">Chercher →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2020-2/february-2020/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
   <div class="tab-pane" id="tp-12-albums">
     <div class="sec-hd"><span class="sec-hd-title">Discographie</span></div>
@@ -5849,17 +6560,35 @@
   <div class="tab-pane" id="tp-12-interview">
     <div class="sec-hd"><span class="sec-hd-title">Interviews</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+ON+Black+Swan+interview+Map+Soul+7+2020" target="_blank">
+      <a class="v-card" href="https://youtu.be/Hk2_A-rh7IM" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
-        <div class="v-info"><div class="v-title">Interviews ON & Map of the Soul: 7</div><div class="v-foot"><span class="v-date">Fév. 2020</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">Zach Sang — Interview avec BTS</div><div class="v-foot"><span class="v-date">3 fév. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/24E-4fvZN2c" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">📻</div></div>
+        <div class="v-info"><div class="v-title">Radio Disney — Interview avec BTS</div><div class="v-foot"><span class="v-date">7 fév. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/NEsImZeu3AA" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
+        <div class="v-info"><div class="v-title">Conférence de presse mondiale — MAP OF THE SOUL: 7</div><div class="v-foot"><span class="v-date">24 fév. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="http://youtu.be/adRdu7jSn64" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
+        <div class="v-info"><div class="v-title">Billboard — Interview avec BTS</div><div class="v-foot"><span class="v-date">21 fév. 2020</span><span class="v-link">Voir →</span></div></div>
       </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Tonight+Show+Jimmy+Fallon+2020+ON" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
         <div class="v-info"><div class="v-title">BTS — Tonight Show Full Takeover (2020)</div><div class="v-foot"><span class="v-date">Fév. 2020</span><span class="v-link">Chercher →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2020-2/february-2020/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
   <div class="tab-pane" id="tp-12-concerts">
+    <div class="sec-hd"><span class="sec-hd-title">Concerts</span></div>
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">💡 À savoir</div>
+      <p>Le 28 février 2020, BigHit annonce l'annulation des concerts séouliens de la tournée "MAP OF THE SOUL TOUR" en raison du COVID-19 — la toute première fois qu'une tournée BTS est stoppée par une pandémie mondiale.</p>
+    </div>
     <div class="sec-hd"><span class="sec-hd-title">Concerts</span></div>
     <div class="v-grid">
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Bang+Bang+Con+online+concert+2020" target="_blank">
@@ -5890,6 +6619,59 @@
     </div>
   </div>
 
+  <div class="tab-pane" id="tp-12-bombs">
+    <div class="sec-hd"><span class="sec-hd-title">Bangtan Bombs de l'era</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/v-d_HYStn5U" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">BTS' Mukbang!</div><div class="v-foot"><span class="v-date">14 fév. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/fD_ELtkl50Y" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Workout Boys</div><div class="v-foot"><span class="v-date">16 fév. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/8F7eRV2N_ik" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">'ON' Kinetic Manifesto Film (BTS focus)</div><div class="v-foot"><span class="v-date">22 fév. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/KxWnwft0FTA" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">What's Written on Jin and Jung Kook's stuff?</div><div class="v-foot"><span class="v-date">28 fév. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/ox4IrGmcy20" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">What Happens When BTS is Given A Camera</div><div class="v-foot"><span class="v-date">28 fév. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/FFDxZtdxZzE" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Preparing for CONNECT, BTS</div><div class="v-foot"><span class="v-date">29 fév. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2020-2/february-2020/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-12-concepts">
+    <div class="sec-hd"><span class="sec-hd-title">Concept Photos</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://drive.google.com/drive/folders/1iJnLbpulBAzeinoePOJ2jhIACpTvQ4me?usp=drive_link" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">📸</div></div>
+        <div class="v-info"><div class="v-title">MAP OF THE SOUL: 7 — Concept Photos #1 à #4</div><div class="v-foot"><span class="v-date">10–13 fév. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/Jmy5KZKmSuU" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
+        <div class="v-info"><div class="v-title">MAP OF THE SOUL: 7 — Jacket Shooting Sketch</div><div class="v-foot"><span class="v-date">20 fév. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2020-2/february-2020/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-12-lore">
+    <div class="sec-hd"><span class="sec-hd-title">Lore &amp; Théories associées</span></div>
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">💡 À savoir</div>
+      <p>"Map of the Soul: 7" complète le cycle jungien commencé avec Persona : après le masque ("Qui suis-je ?"), vient l'ombre ("Interlude: Shadow") puis l'ego ("Outro: Ego"). Ce triptyque psychologique fonctionne en écho, plutôt qu'en continuité directe, avec la trame narrative du BU.</p>
+    </div>
+    <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('overview')" style="margin-top:12px">Explorer le BTS Universe →</button>
+  </div>
+
   <div class="era-nav-bar"><button class="era-nav-prev" onclick="showEra(11)">← <span class="nav-era-name">Persona</span></button><div class="era-nav-label-wrap"><div class="era-nav-label">Era 13 / 18</div><div class="era-nav-name-center">7</div></div><button class="era-nav-next" onclick="showEra(13)" ><span class="nav-era-name">BE</span> →</button></div>
 </div>
 
@@ -5907,6 +6689,7 @@
     <div class="hero-desc">
       L'album de la pandémie. "BE" est l'album le plus personnel et le plus auto-produit de BTS — chaque membre a dirigé l'aspect visuel de sa piste. "Dynamite" (sorti avant BE) est leur premier single entièrement en anglais et leur premier #1 au Billboard Hot 100. "Life Goes On" leur premier #1 en coréen sur ce même chart. Une ère de résilience, d'introspection et de connexion mondiale malgré le COVID.
     </div>
+    <div class="hero-savoir-label">💡 À savoir</div>
     <div class="anecdote-box">
       <div class="anecdote-lbl">✦ Dynamite — écrit en 2 jours</div>
       <p>"Dynamite" a été proposé par l'équipe créative de BigHit comme un projet "cadeau" pour l'ARMY pendant le COVID. Écrit en 2 jours par David Stewart et Jessica Agombar, il a été accepté immédiatement par les membres. La décision de chanter entièrement en anglais a été débattue — RM craignait une perte d'authenticité. Le résultat : #1 dans 111 pays et premier #1 Billboard Hot 100 de leur carrière.</p>
@@ -5920,11 +6703,14 @@
   <div class="tabs-bar" id="tb-13">
     <button class="tab-btn active" onclick="showTab(13,'music')">🎵 Musiques</button>
     <button class="tab-btn" onclick="showTab(13,'albums')">💿 Albums</button>
+    <button class="tab-btn" onclick="showTab(13,'bombs')">💣 Bangtan Bombs</button>
+    <button class="tab-btn" onclick="showTab(13,'concepts')">📸 Concepts</button>
     <button class="tab-btn" onclick="showTab(13,'variety')">🎬 Divertissement</button>
     <button class="tab-btn" onclick="showTab(13,'interview')">🎙 Interviews</button>
     <button class="tab-btn" onclick="showTab(13,'concerts')">🎟 Concerts</button>
     <button class="tab-btn" onclick="showTab(13,'timeline')">📅 Timeline</button>
     <button class="tab-btn" onclick="showTab(13,'facts')">✨ Anecdotes</button>
+    <button class="tab-btn" onclick="showTab(13,'lore')">🌌 Lore &amp; Théories</button>
   </div>
 
   <div class="tab-pane active" id="tp-13-music">
@@ -5962,19 +6748,20 @@
 
     <div class="sec-hd"><span class="sec-hd-title">Performances & Archives</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Dynamite+VMAs+2020+performance" target="_blank">
+      <a class="v-card" href="https://youtu.be/Vr_0ipbiALc" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
-        <div class="v-info"><div class="v-title">Dynamite — MTV VMAs 2020</div><div class="v-foot"><span class="v-date">Août 2020</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">American Music Awards 2020 — Dynamite</div><div class="v-foot"><span class="v-date">22 nov. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/iK86ae14jV4" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">American Music Awards 2020 — Life Goes On</div><div class="v-foot"><span class="v-date">22 nov. 2020</span><span class="v-link">Voir →</span></div></div>
       </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Grammy+Awards+2021+Dynamite+performance" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
         <div class="v-info"><div class="v-title">Dynamite — Grammy Awards 2021 (live depuis Séoul)</div><div class="v-foot"><span class="v-date">Mars 2021</span><span class="v-link">Chercher →</span></div></div>
       </a>
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Life+Goes+On+live+2020+performances" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">🌿</div></div>
-        <div class="v-info"><div class="v-title">Life Goes On — Live performances</div><div class="v-foot"><span class="v-date">2020</span><span class="v-link">Chercher →</span></div></div>
-      </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2020-2/november-2020/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
 
   <div class="tab-pane" id="tp-13-albums">
@@ -6029,19 +6816,24 @@
   <div class="tab-pane" id="tp-13-interview">
     <div class="sec-hd"><span class="sec-hd-title">Interviews</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+BE+interview+Life+Goes+On+2020" target="_blank">
+      <a class="v-card" href="https://youtu.be/T31mfmw8bS8" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
-        <div class="v-info"><div class="v-title">Interviews BE & Life Goes On</div><div class="v-foot"><span class="v-date">Nov. 2020</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">Conférence de presse mondiale — BE</div><div class="v-foot"><span class="v-date">20 nov. 2020</span><span class="v-link">Voir →</span></div></div>
       </a>
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Dynamite+interview+Grammy+nomination+2021" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
-        <div class="v-info"><div class="v-title">BTS & la nomination Grammy — réactions</div><div class="v-foot"><span class="v-date">2021</span><span class="v-link">Chercher →</span></div></div>
+      <a class="v-card" href="https://youtu.be/m8IuwiiBffE" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
+        <div class="v-info"><div class="v-title">Good Morning America — Interview</div><div class="v-foot"><span class="v-date">23 nov. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/jVJOYWqX3G0" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
+        <div class="v-info"><div class="v-title">Zach Sang — Interview avec BTS</div><div class="v-foot"><span class="v-date">29 nov. 2020</span><span class="v-link">Voir →</span></div></div>
       </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+UN+General+Assembly+2021+speech" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🌍</div></div>
         <div class="v-info"><div class="v-title">Discours BTS à l'ONU — Septembre 2021</div><div class="v-foot"><span class="v-date">Sept. 2021</span><span class="v-link">Chercher →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2020-2/november-2020/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
 
   <div class="tab-pane" id="tp-13-concerts">
@@ -6078,6 +6870,55 @@
     </div>
   </div>
 
+  <div class="tab-pane" id="tp-13-bombs">
+    <div class="sec-hd"><span class="sec-hd-title">Bangtan Bombs de l'era</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/Vr_0ipbiALc" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">'Dynamite' Stage CAM (BTS focus) @ 2020 AMAs</div><div class="v-foot"><span class="v-date">22 nov. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/iK86ae14jV4" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">'Life Goes On' Stage CAM (BTS focus) @ 2020 AMAs</div><div class="v-foot"><span class="v-date">22 nov. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/yIYzsnU9Dhk" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">SUGA's "BE" Album Review</div><div class="v-foot"><span class="v-date">27 nov. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2020-2/november-2020/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-13-concepts">
+    <div class="sec-hd"><span class="sec-hd-title">Concept Photos</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/Wq5S8Dt_HQE" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
+        <div class="v-info"><div class="v-title">Life Goes On — Official Teaser 1</div><div class="v-foot"><span class="v-date">18 nov. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/t3KZnCgiMW0" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
+        <div class="v-info"><div class="v-title">Life Goes On — Official Teaser 2</div><div class="v-foot"><span class="v-date">19 nov. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/dnnxNw2ZZ5o" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">📸</div></div>
+        <div class="v-info"><div class="v-title">BE — Jacket Shooting Sketch</div><div class="v-foot"><span class="v-date">22 nov. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/LQIIV7uQDfs" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">📸</div></div>
+        <div class="v-info"><div class="v-title">Life Goes On — MV Shooting Sketch</div><div class="v-foot"><span class="v-date">29 nov. 2020</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2020-2/november-2020/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-13-lore">
+    <div class="sec-hd"><span class="sec-hd-title">Lore &amp; Théories associées</span></div>
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">💡 À savoir</div>
+      <p>"BE" ne prolonge pas directement le BU narratif — c'est un choix délibéré des membres de parler en leur nom propre pendant la pandémie plutôt qu'à travers leurs personnages. "Blue & Grey" et "Dis-ease" sont cités par les fans comme les morceaux les plus proches d'un aveu personnel plutôt que fictionnel.</p>
+    </div>
+    <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('overview')" style="margin-top:12px">Explorer le BTS Universe →</button>
+  </div>
+
   <div class="era-nav-bar"><button class="era-nav-prev" onclick="showEra(12)">← <span class="nav-era-name">7</span></button><div class="era-nav-label-wrap"><div class="era-nav-label">Era 14 / 18</div><div class="era-nav-name-center">BE</div></div><button class="era-nav-next" onclick="showEra(14)" ><span class="nav-era-name">Butter</span> →</button></div>
 </div>
 
@@ -6095,6 +6936,7 @@
     <div class="hero-desc">
       L'ère la plus dominante de BTS sur les charts américains. "Butter" reste #1 au Billboard Hot 100 pendant 10 semaines non consécutives — record pour un groupe. "Permission to Dance" entre directement #1 sans que "Butter" quitte le top. La collaboration avec Coldplay sur "My Universe" leur offre un 3e #1 consécutif. Puis vient l'annonce du service militaire — le monde s'arrête.
     </div>
+    <div class="hero-savoir-label">💡 À savoir</div>
     <div class="anecdote-box">
       <div class="anecdote-lbl">✦ Butter — 10 semaines #1</div>
       <p>"Butter" entre #1 au Billboard Hot 100 dès sa première semaine avec 289M de streams — record de streams pour un single en une semaine à l'époque. Il y reste pendant 10 semaines non consécutives, dépassant leur propre record établi avec Dynamite. La chanson a été spécifiquement conçue pour dominer les radios américaines.</p>
@@ -6108,11 +6950,14 @@
   <div class="tabs-bar" id="tb-14">
     <button class="tab-btn active" onclick="showTab(14,'music')">🎵 Musiques</button>
     <button class="tab-btn" onclick="showTab(14,'albums')">💿 Albums</button>
+    <button class="tab-btn" onclick="showTab(14,'bombs')">💣 Bangtan Bombs</button>
+    <button class="tab-btn" onclick="showTab(14,'concepts')">📸 Concepts</button>
     <button class="tab-btn" onclick="showTab(14,'variety')">🎬 Divertissement</button>
     <button class="tab-btn" onclick="showTab(14,'interview')">🎙 Interviews</button>
     <button class="tab-btn" onclick="showTab(14,'concerts')">🎟 Concerts</button>
     <button class="tab-btn" onclick="showTab(14,'timeline')">📅 Timeline</button>
     <button class="tab-btn" onclick="showTab(14,'facts')">✨ Anecdotes</button>
+    <button class="tab-btn" onclick="showTab(14,'lore')">🌌 Lore &amp; Théories</button>
   </div>
 
   <div class="tab-pane active" id="tp-14-music">
@@ -6158,7 +7003,12 @@
         <div class="v-thumb"><div class="v-thumb-fallback">🎤</div></div>
         <div class="v-info"><div class="v-title">Butter — AMAs 2021</div><div class="v-foot"><span class="v-date">Nov. 2021</span><span class="v-link">Chercher →</span></div></div>
       </a>
+      <a class="v-card" href="https://youtu.be/T7lhGz6Bfik" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🏆</div></div>
+        <div class="v-info"><div class="v-title">BBMAs 2021 — Performance de Butter</div><div class="v-foot"><span class="v-date">23 mai 2021</span><span class="v-link">Voir →</span></div></div>
+      </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2021-2/may-2021/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
 
   <div class="tab-pane" id="tp-14-albums">
@@ -6225,9 +7075,17 @@
   <div class="tab-pane" id="tp-14-interview">
     <div class="sec-hd"><span class="sec-hd-title">Interviews</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Butter+interview+2021+Billboard" target="_blank">
+      <a class="v-card" href="https://youtu.be/OFrgwlbcZ1w" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
-        <div class="v-info"><div class="v-title">Interviews Butter & Permission to Dance</div><div class="v-foot"><span class="v-date">2021</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">Billboard News — Interview avec BTS</div><div class="v-foot"><span class="v-date">21 mai 2021</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/DSEzBwnQt7g" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
+        <div class="v-info"><div class="v-title">Zach Sang Show — Interview avec BTS</div><div class="v-foot"><span class="v-date">21 mai 2021</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/GEFDiQOVL9k" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
+        <div class="v-info"><div class="v-title">The Late Show with Stephen Colbert</div><div class="v-foot"><span class="v-date">26 mai 2021</span><span class="v-link">Voir →</span></div></div>
       </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Coldplay+My+Universe+interview+2021" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🌌</div></div>
@@ -6238,6 +7096,7 @@
         <div class="v-info"><div class="v-title">BTS annonce la pause & le service militaire — 2022</div><div class="v-foot"><span class="v-date">Juin 2022</span><span class="v-link">Chercher →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2021-2/may-2021/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
 
   <div class="tab-pane" id="tp-14-concerts">
@@ -6274,6 +7133,51 @@
     </div>
   </div>
 
+  <div class="tab-pane" id="tp-14-bombs">
+    <div class="sec-hd"><span class="sec-hd-title">Bangtan Bombs de l'era</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/O2nLQg48ohg" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Director Jimin</div><div class="v-foot"><span class="v-date">4 mai 2021</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/nKMkixtWQ-c" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">BTS Plays Basketball</div><div class="v-foot"><span class="v-date">8 mai 2021</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/EwCJdQa7C2s" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">BTS's Announcement</div><div class="v-foot"><span class="v-date">11 mai 2021</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/Dcxy4QiYknU" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">💣</div><span class="v-badge badge-yt">BOMB</span></div>
+        <div class="v-info"><div class="v-title">Bickering Over a Camera, and the Winner Is?</div><div class="v-foot"><span class="v-date">15 mai 2021</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2021-2/may-2021/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-14-concepts">
+    <div class="sec-hd"><span class="sec-hd-title">Concept Photos</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://youtu.be/OOMxU9f1FBU" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
+        <div class="v-info"><div class="v-title">Butter — MV Teaser</div><div class="v-foot"><span class="v-date">19 mai 2021</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://youtu.be/mQEGPegvnuM" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">📸</div></div>
+        <div class="v-info"><div class="v-title">Butter — MV Shooting Sketch</div><div class="v-foot"><span class="v-date">22 mai 2021</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2021-2/may-2021/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-14-lore">
+    <div class="sec-hd"><span class="sec-hd-title">Lore &amp; Théories associées</span></div>
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">💡 À savoir</div>
+      <p>"Butter", "Permission to Dance" et "My Universe" sont des singles autonomes, sans lien avec la trame du BU — un choix assumé pour maximiser leur portée mondiale pendant cette période de sommet commercial. Le BU reprendra son cours avec les projets solos qui suivent l'annonce de la pause.</p>
+    </div>
+    <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('overview')" style="margin-top:12px">Explorer le BTS Universe →</button>
+  </div>
+
   <div class="era-nav-bar"><button class="era-nav-prev" onclick="showEra(13)">← <span class="nav-era-name">BE</span></button><div class="era-nav-label-wrap"><div class="era-nav-label">Era 15 / 18</div><div class="era-nav-name-center">Butter</div></div><button class="era-nav-next" onclick="showEra(15)" ><span class="nav-era-name">Arirang</span> →</button></div>
 </div>
 
@@ -6292,6 +7196,7 @@
     <div class="hero-desc">
       Le grand retour. Après près de 6 ans sans album studio, BTS signe leur œuvre la plus expérimentale et la plus audacieuse. "Arirang" emprunte son nom au chant traditionnel coréen vieux de 600 ans — un symbole de résilience, de nostalgie et de retrouvailles. L'album mêle hip-hop brut, folk coréen, jersey club, rock et R&B. Produit avec Kevin Parker (Tame Impala), Flume, JPEGMAFIA, Mike WiLL Made-It, Ryan Tedder et Pdogg. "Swim" entre #1 au Billboard Hot 100 dès sa sortie. 13 des 14 titres font leur entrée dans le Hot 100 simultanément.
     </div>
+    <div class="hero-savoir-label">💡 À savoir <span class="purple-fragment" data-frag="frag_arirang" onclick="collectFragment('frag_arirang')" title="✨">✨</span></div>
     <div class="anecdote-box">
       <div class="anecdote-lbl">✦ Hooligan — le rire légendaire</div>
       <p>"Hooligan" s'ouvre sur un éclat de rire chaotique de la rap line avant que RM, J-Hope et Suga ne livrent leurs couplets les plus féroces depuis des années. RM conclut le titre par un "clock, clock, clock" répété — une image d'horloge qui tic-tac comme un avertissement. Les fans ont immédiatement déclaré ce rire "le son le plus iconique de 2026".</p>
@@ -6305,19 +7210,22 @@
   <div class="tabs-bar" id="tb-15">
     <button class="tab-btn active" onclick="showTab(15,'music')">🎵 Musiques</button>
     <button class="tab-btn" onclick="showTab(15,'albums')">💿 Albums</button>
+    <button class="tab-btn" onclick="showTab(15,'bombs')">💣 Behind the Scenes</button>
+    <button class="tab-btn" onclick="showTab(15,'concepts')">📸 Concepts</button>
     <button class="tab-btn" onclick="showTab(15,'variety')">🎬 Divertissement</button>
     <button class="tab-btn" onclick="showTab(15,'interview')">🎙 Interviews</button>
     <button class="tab-btn" onclick="showTab(15,'concerts')">🎟 Concerts</button>
     <button class="tab-btn" onclick="showTab(15,'timeline')">📅 Timeline</button>
     <button class="tab-btn" onclick="showTab(15,'facts')">✨ Anecdotes</button>
+    <button class="tab-btn" onclick="showTab(15,'lore')">🌌 Lore &amp; Théories</button>
   </div>
 
   <div class="tab-pane active" id="tp-15-music">
     <div class="sec-hd"><span class="sec-hd-title">MV Officiels</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Swim+MV+Arirang+2026" target="_blank">
+      <a class="v-card" href="https://www.youtube.com/watch?v=b4iVv91Z6lY" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🌊</div><span class="v-badge badge-mv">MV</span></div>
-        <div class="v-info"><div class="v-title">Swim — MV (Lead Single)</div><div class="v-foot"><span class="v-date">Mars 2026</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">Swim — MV (Lead Single)</div><div class="v-foot"><span class="v-date">20 mars 2026</span><span class="v-link">Voir →</span></div></div>
       </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+2.0+MV+Arirang+2026+Oldboy" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎬</div><span class="v-badge badge-mv">MV</span></div>
@@ -6423,27 +7331,32 @@
   <div class="tab-pane" id="tp-15-interview">
     <div class="sec-hd"><span class="sec-hd-title">Interviews</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Arirang+album+interview+GQ+2026" target="_blank">
+      <a class="v-card" href="https://www.youtube.com/watch?v=PKoaxkX4wGw" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🎙</div></div>
-        <div class="v-info"><div class="v-title">BTS — Interview GQ (1ère interview commune depuis 2022)</div><div class="v-foot"><span class="v-date">Mars 2026</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">BTS x GQ — Interview</div><div class="v-foot"><span class="v-date">6 mars 2026</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.youtube.com/watch?v=LB01v___wO4" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎧</div></div>
+        <div class="v-info"><div class="v-title">Apple Music — Interview avec Zane Lowe</div><div class="v-foot"><span class="v-date">20 mars 2026</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Tonight+Show+Jimmy+Fallon+Arirang+March+2026" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
+        <div class="v-info"><div class="v-title">The Tonight Show with Jimmy Fallon — 2 épisodes</div><div class="v-foot"><span class="v-date">25–26 mars 2026</span><span class="v-link">Chercher →</span></div></div>
       </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Arirang+Billboard+interview+2026+comeback" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">📰</div></div>
         <div class="v-info"><div class="v-title">BTS — Billboard cover story Arirang</div><div class="v-foot"><span class="v-date">Mars 2026</span><span class="v-link">Chercher →</span></div></div>
       </a>
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Arirang+making+of+producers+Flume+Kevin+Parker+2026" target="_blank">
-        <div class="v-thumb"><div class="v-thumb-fallback">🎚️</div></div>
-        <div class="v-info"><div class="v-title">Making of Arirang — Flume, Kevin Parker, Mike WiLL</div><div class="v-foot"><span class="v-date">2026</span><span class="v-link">Chercher →</span></div></div>
-      </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2026-2/march-2026/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
 
   <div class="tab-pane" id="tp-15-concerts">
     <div class="sec-hd"><span class="sec-hd-title">Concerts</span></div>
     <div class="v-grid">
-      <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Arirang+comeback+concert+Gwanghwamun+Seoul+free+Netflix+2026" target="_blank">
+      <a class="v-card" href="https://drive.google.com/drive/folders/1J2_XdcLgn_r9z998mJx2THDs6mu9y1N6?usp=drive_link" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🇰🇷</div></div>
-        <div class="v-info"><div class="v-title">BTS The Comeback Live — Gwanghwamun Square Séoul (gratuit · Netflix)</div><div class="v-foot"><span class="v-date">21 mars 2026</span><span class="v-link">Chercher →</span></div></div>
+        <div class="v-info"><div class="v-title">BTS The Comeback Live — Gwanghwamun Square (setlist &amp; archive)</div><div class="v-foot"><span class="v-date">21 mars 2026</span><span class="v-link">Voir →</span></div></div>
       </a>
       <a class="v-card" href="https://www.youtube.com/results?search_query=BTS+Arirang+World+Tour+2026+Goyang+Seoul" target="_blank">
         <div class="v-thumb"><div class="v-thumb-fallback">🌏</div></div>
@@ -6454,6 +7367,7 @@
         <div class="v-info"><div class="v-title">Arirang World Tour — USA 2026 (Tampa, puis reste US)</div><div class="v-foot"><span class="v-date">Avr.–Déc. 2026</span><span class="v-link">Chercher →</span></div></div>
       </a>
     </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2026-2/march-2026/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
   </div>
 
   <div class="tab-pane" id="tp-15-timeline">
@@ -6475,6 +7389,51 @@
       <div class="fact-card"><div class="fact-title">Kevin Parker (Tame Impala) et Suga</div><div class="fact-text">La collaboration avec Kevin Parker de Tame Impala — icône du psychédélisme indie — était totalement inattendue. Suga a initié le contact après avoir dit dans une interview en 2023 que Tame Impala était l'un de ses groupes préférés. Ils ont travaillé ensemble sur "Merry Go Round", la piste rock de l'album.</div></div>
       <div class="fact-card"><div class="fact-title">13 titres dans le Hot 100 simultanément</div><div class="fact-text">Avec 13 titres d'Arirang dans le Billboard Hot 100 la même semaine, BTS rejoint un club très fermé d'artistes ayant dominé le chart avec un album entier. "Swim" s'installe #1, "Body to Body" #25, "Hooligan" #35, "FYA" #36, "Normal" #41, "Aliens" #47, "2.0" #50 — et 6 autres titres dans le reste du top 100.</div></div>
     </div>
+  </div>
+
+  <div class="tab-pane" id="tp-15-bombs">
+    <div class="sec-hd"><span class="sec-hd-title">Behind the Scenes</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://www.youtube.com/watch?v=K0kr5E8AY6U" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎚️</div></div>
+        <div class="v-info"><div class="v-title">BTS Studio Notes I — Arirang</div><div class="v-foot"><span class="v-date">20 mars 2026</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.youtube.com/watch?v=Exukk6JO9i0" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎨</div></div>
+        <div class="v-info"><div class="v-title">Arirang — Animation Trailer "What is your love song?"</div><div class="v-foot"><span class="v-date">13 mars 2026</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.youtube.com/watch?v=jRig7JvOpWg" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
+        <div class="v-info"><div class="v-title">BTS: THE RETURN — Documentaire Netflix (Trailer officiel)</div><div class="v-foot"><span class="v-date">17 mars 2026</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <p class="tab-note">Le format "Bangtan Bomb" classique a laissé place à un contenu plus produit (Studio Notes, animations, documentaire Netflix) pour ce comeback. Liens vérifiés via <a href="https://btsarchive.com/2026-2/march-2026/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-15-concepts">
+    <div class="sec-hd"><span class="sec-hd-title">Concept Photos &amp; Teasers</span></div>
+    <div class="v-grid">
+      <a class="v-card" href="https://www.youtube.com/watch?v=GuPhSLBYOeg" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
+        <div class="v-info"><div class="v-title">'SWIM' — Official Teaser 1</div><div class="v-foot"><span class="v-date">18 mars 2026</span><span class="v-link">Voir →</span></div></div>
+      </a>
+      <a class="v-card" href="https://www.youtube.com/watch?v=fQbEuS9GO3E" target="_blank">
+        <div class="v-thumb"><div class="v-thumb-fallback">🎬</div></div>
+        <div class="v-info"><div class="v-title">'SWIM' — Official Teaser 2</div><div class="v-foot"><span class="v-date">19 mars 2026</span><span class="v-link">Voir →</span></div></div>
+      </a>
+    </div>
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">💡 À savoir</div>
+      <p>La couleur officielle de l'ère Arirang est le rouge plutôt que le violet habituel — un choix demandé par HYBE, qui a temporairement transformé l'éclairage de plusieurs monuments de Séoul (Sungnyemun, N Seoul Tower, DDP) en rouge pour la sortie de l'album.</p>
+    </div>
+    <p class="tab-note">Liens vérifiés via <a href="https://btsarchive.com/2026-2/march-2026/" target="_blank">btsarchive.com</a> (utilisés avec l'accord de sa propriétaire).</p>
+  </div>
+  <div class="tab-pane" id="tp-15-lore">
+    <div class="sec-hd"><span class="sec-hd-title">Lore &amp; Théories associées</span></div>
+    <div class="anecdote-box">
+      <div class="anecdote-lbl">💡 À savoir</div>
+      <p>"Arirang" ne relance pas la trame du BU — les membres ont délibérément choisi un album ancré dans leur histoire personnelle et leur héritage coréen plutôt que dans la fiction du BTS Universe, pour marquer leur retour "en tant qu'eux-mêmes" après le service militaire.</p>
+    </div>
+    <button class="hp-btn hp-btn-ghost" onclick="goToLoreTab('overview')" style="margin-top:12px">Explorer le BTS Universe →</button>
   </div>
 
   <div class="era-nav-bar"><button class="era-nav-prev" onclick="showEra(14)">← <span class="nav-era-name">Butter</span></button><div class="era-nav-label-wrap"><div class="era-nav-label">Era 16 / 18</div><div class="era-nav-name-center">Arirang</div></div><button class="era-nav-next" onclick="showEra(16)" ><span class="nav-era-name">Lives & Streams</span> →</button></div>
@@ -9011,6 +9970,85 @@ function switchLoreTab(tab, btn) {
       });
     });
 
+    // BTS Universe — Personnages
+    document.querySelectorAll('#lore-members .lore-member-card').forEach(function(card){
+      const nameEl = card.querySelector('.lore-member-name');
+      const roleEl = card.querySelector('.lore-member-role');
+      if (!nameEl) return;
+      items.push({
+        type:'lore_character', icon:'🎭', title: nameEl.textContent.trim(),
+        sub: roleEl ? roleEl.textContent.trim() : 'BTS Universe',
+        action: function(){ goLore('members'); }
+      });
+    });
+
+    // BTS Universe — Symboles
+    document.querySelectorAll('#lore-symbols .lore-theory-card').forEach(function(card){
+      const titleEl = card.querySelector('.lore-theory-title');
+      if (!titleEl) return;
+      items.push({
+        type:'lore_symbol', icon:'🦋', title: titleEl.textContent.trim(),
+        sub: 'BTS Universe · Symbole',
+        action: function(){ goLore('symbols'); }
+      });
+    });
+
+    // BTS Universe — Lieux
+    document.querySelectorAll('#lore-places .lore-theory-card').forEach(function(card){
+      const titleEl = card.querySelector('.lore-theory-title');
+      if (!titleEl) return;
+      items.push({
+        type:'lore_place', icon:'📍', title: titleEl.textContent.trim(),
+        sub: 'BTS Universe · Lieu',
+        action: function(){ goLore('places'); }
+      });
+    });
+
+    // BTS Universe — Objets
+    document.querySelectorAll('#lore-objects .lore-theory-card').forEach(function(card){
+      const titleEl = card.querySelector('.lore-theory-title');
+      if (!titleEl) return;
+      items.push({
+        type:'lore_object', icon:'🗝️', title: titleEl.textContent.trim(),
+        sub: 'BTS Universe · Objet',
+        action: function(){ goLore('objects'); }
+      });
+    });
+
+    // BTS Universe — Théories
+    document.querySelectorAll('#lore-theories .lore-theory-card').forEach(function(card){
+      const titleEl = card.querySelector('.lore-theory-title');
+      if (!titleEl) return;
+      items.push({
+        type:'lore_theory', icon:'🔍', title: titleEl.textContent.trim(),
+        sub: 'BTS Universe · Théorie',
+        action: function(){ goLore('theories'); }
+      });
+    });
+
+    // BTS Universe — Arcs
+    document.querySelectorAll('#lore-arcs .lore-arc-card').forEach(function(card){
+      const nameEl = card.querySelector('.lore-arc-name');
+      if (!nameEl) return;
+      items.push({
+        type:'lore_arc', icon:'📚', title: nameEl.textContent.trim(),
+        sub: 'BTS Universe · Arc',
+        action: function(){ goLore('arcs'); }
+      });
+    });
+
+    // BT21
+    document.querySelectorAll('#lore-bt21 .lore-bt21-card').forEach(function(card){
+      const nameEl = card.querySelector('.lore-bt21-name');
+      const memberEl = card.querySelector('.lore-bt21-member');
+      if (!nameEl) return;
+      items.push({
+        type:'bt21', icon:'🐾', title: nameEl.textContent.trim(),
+        sub: memberEl ? 'BT21 · ' + memberEl.textContent.trim() : 'BT21',
+        action: function(){ goLore('bt21'); }
+      });
+    });
+
     return items;
   }
 
@@ -9037,6 +10075,14 @@ function switchLoreTab(tab, btn) {
   function goArtist(key) {
     document.getElementById('homepage').classList.add('hp-hidden');
     if (typeof switchArtist === 'function') switchArtist(key);
+    clearSearch();
+  }
+
+  function goLore(tab) {
+    document.getElementById('homepage').classList.add('hp-hidden');
+    if (typeof showEra === 'function') showEra(18);
+    const btn = document.querySelector('.lore-tab[onclick*="' + tab + "'" + '"]');
+    if (btn && typeof switchLoreTab === 'function') switchLoreTab(tab, btn);
     clearSearch();
   }
 
@@ -9158,8 +10204,8 @@ function switchLoreTab(tab, btn) {
     return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
-  const TYPE_ORDER = ['era','member','album','track','video','episode','show'];
-  const TYPE_LABELS = { era:'Eras', member:'Membres', album:'Albums', track:'Titres', video:'Vidéos', episode:'Épisodes', show:'Émissions' };
+  const TYPE_ORDER = ['era','member','lore_character','lore_symbol','lore_place','lore_object','lore_theory','lore_arc','bt21','album','track','video','episode','show'];
+  const TYPE_LABELS = { era:'Eras', member:'Membres', lore_character:'Personnages (BTS Universe)', lore_symbol:'Symboles (BTS Universe)', lore_place:'Lieux (BTS Universe)', lore_object:'Objets (BTS Universe)', lore_theory:'Théories (BTS Universe)', lore_arc:'Arcs (BTS Universe)', bt21:'BT21', album:'Albums', track:'Titres', video:'Vidéos', episode:'Épisodes', show:'Émissions' };
 
   function renderResults(results, q) {
     const panel = document.getElementById('search-results');
@@ -10281,6 +11327,7 @@ window.showRandomFact = function() {
     }
     personalizationEnabled = localStorage.getItem('personalization') !== 'false';
     await CollectionSystem.setUser(user);
+    await loadQuestProgress();
     updateAuthUI(true);
   }
 
@@ -10538,6 +11585,7 @@ window.showRandomFact = function() {
   };
 
   let foundEggsSet = new Set();
+  let questFragments = new Set();
 
   /* ══════════════════════════════════════════════
      NOTIFICATIONS PUSH
@@ -10583,11 +11631,123 @@ window.showRandomFact = function() {
     if (!currentUser) return;
     const { data } = await sb.from('user_progress').select('type,value').eq('user_id', currentUser.id);
     if (!data) return;
-    document.getElementById('stat-eras').textContent = new Set(data.filter(d => d.type === 'era_visited').map(d => d.value)).size || '0';
+    const eras = new Set(data.filter(d => d.type === 'era_visited').map(d => d.value));
+    document.getElementById('stat-eras').textContent = eras.size || '0';
     foundEggsSet = new Set(data.filter(d => d.type === 'easter_egg_found').map(d => d.value));
     document.getElementById('stat-eggs').textContent = foundEggsSet.size + ' / ' + ALL_EGG_NAMES.length;
+    const videosWatched = new Set(data.filter(d => d.type === 'video_watched').map(d => d.value));
+    renderBadges(computeBadges(eras, foundEggsSet, videosWatched));
     renderRecommendations(data);
     loadFavoritesList();
+  }
+
+  // ══════════════════════════════════════════════
+  // BADGES — calculés côté client à partir de user_progress,
+  // pas de table Supabase supplémentaire nécessaire.
+  // ══════════════════════════════════════════════
+  const ALL_MUSIC_ERAS = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15'];
+  const BADGE_DEFS = [
+    { id:'baby_army',    emoji:'🌱', name:'Baby ARMY',        desc:'Visiter ta première era',
+      test: (eras) => eras.size >= 1 },
+    { id:'hyyh_historian', emoji:'🌸', name:'HYYH Historian', desc:'Visiter HYYH Pt.1 et Pt.2',
+      test: (eras) => eras.has('3') && eras.has('4') },
+    { id:'universe_explorer', emoji:'🌌', name:'Universe Explorer', desc:'Explorer le BTS Universe',
+      test: (eras) => eras.has('18') },
+    { id:'detective_army', emoji:'🔎', name:'Detective ARMY', desc:'Trouver 3 Easter eggs',
+      test: (eras, eggs) => eggs.size >= 3 },
+    { id:'directors_cut', emoji:'🎬', name:"Director's Cut", desc:'Regarder 20 vidéos',
+      test: (eras, eggs, videos) => videos.size >= 20 },
+    { id:'purple_blood', emoji:'💜', name:'Purple Blood', desc:'Visiter les 16 eras musicales',
+      test: (eras) => ALL_MUSIC_ERAS.every(e => eras.has(e)) },
+    { id:'lucky_army', emoji:'🎲', name:'Lucky ARMY', desc:'Essayer la Roue Aléatoire',
+      test: (eras) => eras.has('17') },
+    { id:'star_seeker', emoji:'💫', name:'Star Seeker', desc:'Trouver les 7 fragments de The Lost Purple Star',
+      test: () => questFragments.size >= FRAGMENT_IDS.length },
+  ];
+
+  function computeBadges(eras, eggs, videos) {
+    return BADGE_DEFS.map(b => ({
+      id: b.id, emoji: b.emoji, name: b.name, desc: b.desc,
+      unlocked: b.test(eras, eggs, videos)
+    }));
+  }
+
+  function renderBadges(badges) {
+    const el = document.getElementById('profile-badges');
+    if (!el) return;
+    el.innerHTML = badges.map(b => `
+      <div class="badge-chip ${b.unlocked ? 'unlocked' : 'locked'}" title="${b.desc}">
+        <span class="badge-chip-emoji">${b.unlocked ? b.emoji : '🔒'}</span>
+        <span class="badge-chip-name">${b.name}</span>
+      </div>
+    `).join('');
+    const count = badges.filter(b => b.unlocked).length;
+    const countEl = document.getElementById('badges-count');
+    if (countEl) countEl.textContent = count + ' / ' + badges.length;
+  }
+
+  // ══════════════════════════════════════════════
+  // QUÊTE — 🌌 THE LOST PURPLE STAR
+  // 7 fragments cachés dans différentes parties du site.
+  // ══════════════════════════════════════════════
+  const FRAGMENT_IDS = ['frag_home','frag_predebut','frag_arirang','frag_symbols','frag_footer','frag_install','frag_profile'];
+
+  async function loadQuestProgress() {
+    if (!currentUser) { questFragments = new Set(); updateFragmentDots(); return; }
+    const { data } = await sb.from('user_progress').select('value').eq('user_id', currentUser.id).eq('type', 'quest_fragment');
+    questFragments = new Set((data || []).map(d => d.value));
+    updateFragmentDots();
+  }
+
+  function updateFragmentDots() {
+    FRAGMENT_IDS.forEach(id => {
+      document.querySelectorAll('.purple-fragment[data-frag="' + id + '"]').forEach(el => {
+        el.classList.toggle('found', questFragments.has(id));
+      });
+    });
+    const questCountEl = document.getElementById('quest-fragment-count');
+    if (questCountEl) questCountEl.textContent = questFragments.size + ' / ' + FRAGMENT_IDS.length;
+  }
+
+  window.collectFragment = async function(id) {
+    if (!currentUser) { showFragmentToast('Connecte-toi pour garder ta progression dans la quête 💜'); return; }
+    if (questFragments.has(id)) { showFragmentToast('Fragment déjà trouvé — ' + questFragments.size + '/7'); return; }
+    questFragments.add(id);
+    updateFragmentDots();
+    if (typeof trackProgress === 'function') await trackProgress('quest_fragment', id);
+    if (questFragments.size >= FRAGMENT_IDS.length) {
+      unlockPurpleStarReward();
+    } else {
+      showFragmentToast('🌌 Fragment trouvé — ' + questFragments.size + '/7');
+    }
+  };
+
+  function showFragmentToast(msg) {
+    let box = document.getElementById('fragment-toast');
+    if (!box) {
+      box = document.createElement('div');
+      box.id = 'fragment-toast';
+      document.body.appendChild(box);
+    }
+    box.textContent = msg;
+    box.classList.remove('show'); void box.offsetWidth; box.classList.add('show');
+    clearTimeout(box._t);
+    box._t = setTimeout(() => box.classList.remove('show'), 3200);
+  }
+
+  function unlockPurpleStarReward() {
+    const modal = document.createElement('div');
+    modal.className = 'star-reward-overlay';
+    modal.innerHTML = `
+      <div class="star-reward-card">
+        <div class="star-reward-emoji">🌌</div>
+        <div class="star-reward-title">THE LOST PURPLE STAR</div>
+        <p class="star-reward-text">Tu as rassemblé les 7 fragments dispersés à travers le site. L'étoile violette perdue de BTS Archive est enfin reconstituée.</p>
+        <p class="star-reward-text">Le badge <strong>💫 Star Seeker</strong> a été ajouté à ton profil.</p>
+        <button class="hp-btn hp-btn-primary" onclick="this.closest('.star-reward-overlay').remove()">Fermer</button>
+      </div>`;
+    document.body.appendChild(modal);
+    if (typeof trackProgress === 'function') trackProgress('badge_unlocked', 'star_seeker');
   }
 
   // ══════════════════════════════════════════════

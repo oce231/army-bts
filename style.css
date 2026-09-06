@@ -3105,3 +3105,74 @@ body:has(#spotify-bar.visible) #dyk-card {
 .tab-note{
   font-size:12px; color:var(--text3); font-style:italic; margin-top:14px; line-height:1.5;
 }
+
+/* ══════════════════════════════════════════════
+   PHASE 3 — Encyclopédie des symboles
+══════════════════════════════════════════════ */
+.lore-links-row{
+  display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;
+}
+.lore-links-row .hp-btn{ font-size:12.5px; padding:8px 14px; }
+
+/* ══════════════════════════════════════════════
+   PHASE 5 — Badges de progression
+══════════════════════════════════════════════ */
+.profile-badges{
+  display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;
+}
+.badge-chip{
+  display:flex; align-items:center; gap:6px;
+  border:1px solid var(--border2); border-radius:20px;
+  padding:6px 12px; font-size:12px; background:var(--bg-card);
+  transition:transform .15s ease, border-color .15s ease;
+}
+.badge-chip.unlocked{
+  border-color:var(--accent2); background:linear-gradient(120deg, var(--bg-card), var(--surface2));
+  color:var(--text);
+}
+.badge-chip.locked{
+  color:var(--text3); opacity:.55;
+}
+.badge-chip:hover{ transform:translateY(-1px); }
+.badge-chip-emoji{ font-size:15px; }
+
+/* ══════════════════════════════════════════════
+   PHASE 5 — Quête "The Lost Purple Star"
+══════════════════════════════════════════════ */
+.purple-fragment{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:22px; height:22px; border-radius:50%; cursor:pointer;
+  opacity:.22; font-size:13px; transition:opacity .25s ease, transform .25s ease;
+  animation: fragPulse 3s ease-in-out infinite;
+}
+.purple-fragment:hover{ opacity:.9; transform:scale(1.25); }
+.purple-fragment.found{ opacity:.95; animation:none; filter:none; cursor:default; }
+.purple-fragment.found::after{ content:'✓'; position:absolute; font-size:8px; }
+@keyframes fragPulse{
+  0%,100%{ opacity:.14; } 50%{ opacity:.32; }
+}
+
+#fragment-toast{
+  position:fixed; left:50%; bottom:28px; transform:translate(-50%, 20px);
+  background:var(--bg-deep); border:1px solid var(--accent2); color:var(--text);
+  padding:10px 18px; border-radius:30px; font-size:13px; z-index:9999;
+  opacity:0; pointer-events:none; transition:opacity .3s ease, transform .3s ease;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+#fragment-toast.show{ opacity:1; transform:translate(-50%, 0); }
+
+.star-reward-overlay{
+  position:fixed; inset:0; z-index:10000; background:rgba(5,3,10,.88);
+  display:flex; align-items:center; justify-content:center; padding:20px;
+  backdrop-filter:blur(6px);
+}
+.star-reward-card{
+  max-width:380px; text-align:center; background:linear-gradient(160deg, var(--bg-card), var(--surface2));
+  border:1px solid var(--accent2); border-radius:20px; padding:36px 28px;
+  box-shadow:0 20px 60px rgba(130,101,255,.3);
+}
+.star-reward-emoji{ font-size:52px; margin-bottom:12px; animation:starSpin 2.4s ease-in-out infinite; }
+@keyframes starSpin{ 0%,100%{ transform:scale(1) rotate(0deg); } 50%{ transform:scale(1.15) rotate(15deg); } }
+.star-reward-title{ font-size:20px; font-weight:700; letter-spacing:.04em; color:var(--accent2); margin-bottom:14px; }
+.star-reward-text{ font-size:13.5px; color:var(--text2); line-height:1.6; margin-bottom:14px; }
+.star-reward-card .hp-btn{ margin-top:6px; }
