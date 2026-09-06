@@ -52,6 +52,7 @@
   const M = [
     ['rm', 'RM', '🐨', [
       ['debut', 'RM — Debut', 'rare', 0, ""],
+      ['schooltrilogy', 'RM — School Trilogy', 'rare', 1, ""],
       ['darkwild', 'RM — Dark & Wild', 'common', 2, "Première ère complète du groupe, encore en pleine construction."],
       ['wings', 'RM — Wings', 'epic', 6, "Le solo « Reflection », l'un des tournants émotionnels de RM."],
       ['indigo', 'RM — Indigo', 'legendary', null, "Premier album solo officiel de RM, sorti en décembre 2022."],
@@ -60,6 +61,7 @@
     ]],
     ['jin', 'Jin', '🐹', [
       ['debut', 'Jin — Debut', 'rare', 0, ""],
+      ['schooltrilogy', 'Jin — School Trilogy', 'rare', 1, ""],
       ['epiphany', 'Jin — Epiphany', 'epic', 9, "Le solo « Epiphany » sur Love Yourself: Her, un des plus marquants de Jin."],
       ['abyss', 'Jin — Abyss', 'rare', null, "Titre solo sorti en 2020, sur la solitude derrière l'image publique."],
       ['moon', 'Jin — Moon', 'epic', null, "Solo sur BE (2020), un hommage direct à l'ARMY."],
@@ -68,6 +70,7 @@
     ]],
     ['suga', 'SUGA', '🐱', [
       ['debut', 'SUGA — Debut', 'rare', 0, ""],
+      ['schooltrilogy', 'SUGA — School Trilogy', 'rare', 1, ""],
       ['agustd', 'SUGA — Agust D', 'epic', null, "Première mixtape solo sous son nom de scène alternatif, 2016."],
       ['daechwita', 'SUGA — D-2', 'epic', null, "Deuxième mixtape Agust D, portée par le single « Daechwita »."],
       ['dday', 'SUGA — D-DAY', 'legendary', null, "Dernier volet de la trilogie D-, premier album solo complet, 2023."],
@@ -76,6 +79,7 @@
     ]],
     ['jhope', 'j-hope', '🐿️', [
       ['debut', 'j-hope — Debut', 'rare', 0, ""],
+      ['schooltrilogy', 'j-hope — School Trilogy', 'rare', 1, ""],
       ['hopeworld', 'j-hope — Hope World', 'epic', null, "Première mixtape solo, sortie en 2018."],
       ['jack', 'j-hope — Jack In The Box', 'epic', null, "Premier album solo complet, exploration plus sombre, 2022."],
       ['onthestreet', 'j-hope — on the street', 'rare', null, "Collaboration avec J. Cole, single de 2023."],
@@ -84,6 +88,7 @@
     ]],
     ['jimin', 'Jimin', '🐥', [
       ['debut', 'Jimin — Debut', 'rare', 0, ""],
+      ['schooltrilogy', 'Jimin — School Trilogy', 'rare', 1, ""],
       ['lieto', 'Jimin — Lie', 'epic', 8, "Solo sur Love Yourself: Her, salué pour sa performance vocale."],
       ['filter', 'Jimin — Filter', 'epic', 9, "Solo sur Love Yourself: Tear, à l'univers visuel très marqué."],
       ['face', 'Jimin — FACE', 'legendary', null, "Premier album solo, porté par « Like Crazy », 2023."],
@@ -92,6 +97,7 @@
     ]],
     ['v', 'V', '🐯', [
       ['debut', 'V — Debut', 'rare', 0, ""],
+      ['schooltrilogy', 'V — School Trilogy', 'rare', 1, ""],
       ['singularity', 'V — Singularity', 'epic', 11, "Solo sur Map of the Soul: Persona, salué pour son ambiance unique."],
       ['inner child', 'V — Inner Child', 'rare', 13, "Solo introspectif sur l'album BE (2020)."],
       ['layover', 'V — Layover', 'legendary', null, "Premier album solo, esthétique rétro/soul, sorti en 2023."],
@@ -100,6 +106,7 @@
     ]],
     ['jk', 'Jung Kook', '🐰', [
       ['debut', 'Jung Kook — Debut', 'rare', 0, ""],
+      ['schooltrilogy', 'Jung Kook — School Trilogy', 'rare', 1, ""],
       ['euphoria', 'Jung Kook — Euphoria', 'epic', 7, "Solo présenté dans le film Love Yourself: Highlight Reel."],
       ['stillwithyou', 'Jung Kook — Still With You', 'rare', null, "Premier titre self-produced de JK, sorti en 2020."],
       ['seven', 'Jung Kook — Seven', 'legendary', null, "Premier single solo officiel, énorme succès mondial en 2023."],
@@ -107,28 +114,36 @@
       ['standingnext', 'Jung Kook — Standing Next to You', 'rare', null, "Titre extrait de GOLDEN, tournée de promotion mondiale."],
     ]],
   ];
-  // Tes vrais visuels "bébé" (Photo/Photocard/), un triptyque de 3 niveaux par membre.
-  // ⚠️ À confirmer : mapping supposé nom-de-fichier → membre (dis-moi si je me trompe) :
-  //   Baby-Leader → RM · Baby-Worldwide → Jin · Baby-Rapper → SUGA · Baby-Dancer → j-hope
-  //   Baby-Mochi → Jimin · Baby-Good-Boy → V · Baby-Maknae → Jung Kook
-  const BABY_ART = {
-    rm: 'Baby-Leader', jin: 'Baby-Worldwide', suga: 'Baby-Rapper', jhope: 'Baby-Dancer',
-    jimin: 'Baby-Mochi', v: 'Baby-Good-Boy', jk: 'Baby-Maknae',
+  // Tes vrais visuels "photocard" (Photo/Photocard/), un triptyque de 3 niveaux
+  // par membre et par carte. Confirmé avec toi :
+  //   Pre-Debut : Baby-Leader → RM · Baby-Worldwide → Jin · Baby-Rapper → SUGA
+  //     Baby-Dancer → j-hope · Baby-Mochi → Jimin · Baby-Good-Boy → V · Baby-Maknae → Jung Kook
+  //   School Trilogy : Young-Leader → RM · Baby-Visual → Jin · Young-Producer → SUGA
+  //     Rising-Dancer → j-hope · Young-Performer → Jimin · Hidden-Voice → V · Golden-Rookie → Jung Kook
+  const CUSTOM_ART = {
+    debut: {
+      rm: 'Baby-Leader', jin: 'Baby-Worldwide', suga: 'Baby-Rapper', jhope: 'Baby-Dancer',
+      jimin: 'Baby-Mochi', v: 'Baby-Good-Boy', jk: 'Baby-Maknae',
+    },
+    schooltrilogy: {
+      rm: 'Young-Leader', jin: 'Baby-Visual', suga: 'Young-Producer', jhope: 'Rising-Dancer',
+      jimin: 'Young-Performer', v: 'Hidden-Voice', jk: 'Golden-Rookie',
+    },
   };
-  function babyLevels(slug) {
-    const base = BABY_ART[slug];
+  function customLevels(key, slug) {
+    const base = CUSTOM_ART[key] && CUSTOM_ART[key][slug];
     if (!base) return null;
     return [1, 2, 3].map(n => 'Photo/Photocard/' + base + '-Niv' + n + '.png');
   }
 
   M.forEach(([slug, memberName, emoji, list]) => {
     list.forEach(([key, name, rarity, eraIdx, desc]) => {
-      const isDebut = key === 'debut';
+      const levels = customLevels(key, slug);
       add('mem_' + slug + '_' + key, 'members', memberName, name, rarity,
-        isDebut ? null : 'Photo/' + (slug === 'jk' ? 'Jk.cover' : slug.charAt(0).toUpperCase() + slug.slice(1)) + '.jpg',
+        levels ? null : 'Photo/' + (slug === 'jk' ? 'Jk.cover' : slug.charAt(0).toUpperCase() + slug.slice(1)) + '.jpg',
         emoji, desc, eraIdx !== null ? { type: 'era', idx: eraIdx } : null, 'pack',
         'Ouvre des packs ' + memberName + ' ou explore l\'Archive pour la débloquer.',
-        isDebut ? babyLevels(slug) : null);
+        levels);
     });
   });
 
