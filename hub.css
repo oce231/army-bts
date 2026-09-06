@@ -122,3 +122,15 @@
 @media(max-width:600px){
   .hub-card-wide { grid-column: span 1; }
 }
+
+/* ══════════════════════════════════════════════
+   PHASE 7 — Sections nommées (Play/Listen/Community/Create/Vote/Events)
+══════════════════════════════════════════════ */
+.hub-section-label{
+  max-width:1100px; margin:36px auto 14px; padding:0 20px;
+  font-size:13px; font-weight:700; letter-spacing:.08em;
+  color:var(--accent2); text-transform:uppercase;
+}
+.hub-main .hub-section-label:first-of-type{ margin-top:8px; }
+.hub-card-static{ cursor:default; }
+.hub-card-static:hover{ transform:none; }

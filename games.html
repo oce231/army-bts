@@ -56,6 +56,7 @@
   <div class="games-selector">
     <button class="games-tab active" onclick="gamesSwitch('general', this)">🧠 Quiz Général</button>
     <button class="games-tab" onclick="gamesSwitch('era', this)">✨ Quelle Era es-tu ?</button>
+    <button class="games-tab" onclick="gamesSwitch('armytype', this)">🌌 Quel type d'ARMY es-tu ?</button>
     <button class="games-tab" onclick="gamesSwitch('blind', this)">🎵 Blind Test</button>
     <button class="games-tab" onclick="gamesSwitch('taquin', this)">🧩 Taquin</button>
     <button class="games-tab" onclick="gamesSwitch('vraifaux', this)">❓ Vrai ou Faux</button>
@@ -148,6 +149,41 @@
     <div class="quiz-result-songs" id="quiz-r-songs"></div>
     <button class="quiz-btn" onclick="quizRestart()">↺ Recommencer le quiz</button>
     <button class="quiz-btn quiz-btn-share" onclick="quizShareResult()">📸 Partager mon résultat</button>
+  </div>
+</div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       QUEL TYPE D'ARMY ES-TU
+  ══════════════════════════════════════════════ -->
+  <div id="game-armytype" class="gq-hidden">
+<div id="atq-section">
+  <div class="quiz-header">
+    <div class="quiz-header-label">💜 BTS Archive Universe</div>
+    <div class="quiz-header-title">Quel type d'ARMY es-tu ?</div>
+    <div class="quiz-header-sub">8 questions pour découvrir ton profil de fan</div>
+  </div>
+  <div class="quiz-progress-wrap">
+    <div class="quiz-progress-label">
+      <span id="atq-q-label">Question 1 / 8</span>
+      <span id="atq-q-pct">0%</span>
+    </div>
+    <div class="quiz-progress-track"><div class="quiz-progress-fill" id="atq-progress-fill" style="width:0%"></div></div>
+  </div>
+  <div id="atq-body">
+    <div class="quiz-question-wrap">
+      <div class="quiz-question-num" id="atq-q-num">Question 1</div>
+      <div class="quiz-question-text" id="atq-q-text"></div>
+    </div>
+    <div class="quiz-answers" id="atq-answers"></div>
+  </div>
+  <div id="atq-result">
+    <span class="quiz-result-emoji" id="atq-r-emoji"></span>
+    <div class="quiz-result-label">Ton type d'ARMY est…</div>
+    <div class="quiz-result-era" id="atq-r-type"></div>
+    <div class="quiz-result-desc" id="atq-r-desc"></div>
+    <div class="quiz-result-songs" id="atq-r-traits"></div>
+    <button class="quiz-btn" onclick="atqRestart()">↺ Recommencer le quiz</button>
   </div>
 </div>
   </div>
@@ -925,6 +961,7 @@ function gqWrapText(ctx, text, x, y, maxWidth, lineHeight) {
    SÉLECTEUR DE JEU
 ══════════════════════════════════════════════ */
 let _eraGameStarted = false;
+let _armyTypeGameStarted = false;
 let _blindGameStarted = false;
 
 window.gamesSwitch = function(game, btn) {
@@ -934,7 +971,7 @@ window.gamesSwitch = function(game, btn) {
   document.getElementById('game-general').classList.toggle('gq-hidden', game !== 'general');
   document.getElementById('game-era').classList.toggle('gq-hidden', game !== 'era');
   document.getElementById('game-blind').classList.toggle('gq-hidden', game !== 'blind');
-  ['taquin','vraifaux','paroles','chrono','memory','devine','wordle','classement'].forEach(function(id) {
+  ['taquin','vraifaux','paroles','chrono','memory','devine','wordle','classement','armytype'].forEach(function(id) {
     var el = document.getElementById('game-' + id);
     if (el) el.classList.toggle('gq-hidden', game !== id);
   });
@@ -942,6 +979,10 @@ window.gamesSwitch = function(game, btn) {
   if (game === 'era' && !_eraGameStarted) {
     _eraGameStarted = true;
     showQuizEra();
+  }
+  if (game === 'armytype' && !_armyTypeGameStarted) {
+    _armyTypeGameStarted = true;
+    atqRestart();
   }
   if (game === 'blind' && !_blindGameStarted) {
     _blindGameStarted = true;
@@ -1133,6 +1174,159 @@ function quizShowResult() {
 
   document.getElementById('quiz-result').classList.add('show');
   document.getElementById('game-era').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ══════════════════════════════════════════════
+   QUEL TYPE D'ARMY ES-TU
+══════════════════════════════════════════════ */
+const ATQ_TYPES = [
+  { name:'Lore Detective', emoji:'🌌',
+    desc:"Tu vis pour le BTS Universe. Théories, symboles, timelines cachées — rien ne t'échappe. Tu passes plus de temps à décortiquer un MV qu'à l'écouter, et tu as probablement déjà une théorie sur ce que signifie vraiment le papillon.",
+    traits:['Théories','Symboles','BU','Analyse'] },
+  { name:'Performance ARMY', emoji:'🎤',
+    desc:"Les chorégraphies, les stages en direct, les Bangtan Bombs de répétition — c'est ton obsession. Tu connais les formations par cœur et tu remarques le moindre changement de pas entre deux performances.",
+    traits:['Chorégraphies','Live stages','Concerts','Précision'] },
+  { name:'Music ARMY', emoji:'🎧',
+    desc:"L'album complet, pas juste le single. Tu écoutes les paroles, tu cherches les crédits de production, tu as une opinion sur chaque interlude. La musique de BTS est ton terrain de jeu principal.",
+    traits:['Paroles','Production','Albums complets','Discographie'] },
+  { name:'Archivist ARMY', emoji:'📖',
+    desc:"Tu es celui ou celle qui se souvient de la date exacte de chaque comeback. Fansites, archives, chronologie précise — tu es la mémoire vivante du fandom, et c'est exactement pour ça que ce site existe.",
+    traits:['Dates','Archives','Chronologie','Mémoire'] },
+  { name:'Creative ARMY', emoji:'🎨',
+    desc:"Fanarts, fanfictions, edits, playlists thématiques — tu transformes ce que tu ressens en quelque chose de nouveau. BTS n'est pas juste un sujet de fascination, c'est une source d'inspiration constante.",
+    traits:['Fanart','Fanfiction','Édition','Inspiration'] },
+  { name:'Social ARMY', emoji:'💜',
+    desc:"Le fandom, c'est avant tout des gens pour toi. Discussions, amitiés ARMY, moments partagés en communauté — tu vis l'expérience BTS collectivement, jamais seul·e dans ton coin.",
+    traits:['Communauté','Discussions','Amitié','Partage'] },
+  { name:'Chaos ARMY', emoji:'😂',
+    desc:"Les compilations de bêtisier, les memes, les moments les plus n'importe quoi de BTS — c'est ton domaine. Tu peux citer une réplique random d'un Run BTS de 2016 sans hésiter une seconde.",
+    traits:['Memes','Bêtisiers','Humour','Chaos'] },
+];
+
+const ATQ_QUESTIONS = [
+  { q:"Tu tombes sur un nouveau MV de BTS. Ton premier réflexe ?",
+    a:[ { text:"Je le regarde en boucle en cherchant les symboles cachés", scores:[3,0,1,0,0,0,0] },
+        { text:"Je décortique la chorégraphie image par image", scores:[0,3,0,0,1,0,0] },
+        { text:"J'écoute la chanson en boucle, sans même regarder les images", scores:[0,0,3,0,0,0,0] },
+        { text:"Je note la date de sortie et je l'ajoute à mes archives", scores:[1,0,0,3,0,0,0] } ] },
+  { q:"Un ami sceptique te demande pourquoi tu aimes BTS. Tu réponds…",
+    a:[ { text:"En lui expliquant toute la trame du BTS Universe", scores:[3,0,0,1,0,0,0] },
+        { text:"En lui montrant une performance live qui t'a bouleversé·e", scores:[0,3,0,0,0,1,0] },
+        { text:"En lui envoyant un montage des moments les plus drôles", scores:[0,0,0,0,1,1,3] },
+        { text:"En lui parlant de la communauté et de ce qu'elle t'apporte", scores:[0,0,0,0,0,3,1] } ] },
+  { q:"Ton dossier BTS sur ton téléphone contient surtout…",
+    a:[ { text:"Des captures de théories et de fils Twitter", scores:[3,0,0,1,0,0,0] },
+        { text:"Des fancams de concerts", scores:[0,3,0,1,0,0,0] },
+        { text:"Des paroles annotées et des crédits d'albums", scores:[0,0,3,1,0,0,0] },
+        { text:"Des fanarts et des edits que tu as sauvegardés", scores:[0,0,0,0,3,0,1] } ] },
+  { q:"Ce qui te procure le plus de satisfaction dans le fandom…",
+    a:[ { text:"Résoudre un mystère du BU avant tout le monde", scores:[3,0,0,1,0,0,0] },
+        { text:"Voir une performance parfaitement synchronisée", scores:[0,3,0,0,0,0,0] },
+        { text:"Découvrir un titre album peu connu qui devient ton préféré", scores:[0,0,3,0,0,0,0] },
+        { text:"Discuter pendant des heures avec d'autres ARMY", scores:[0,0,0,0,0,3,1] } ] },
+  { q:"Si tu devais créer du contenu sur BTS, ce serait…",
+    a:[ { text:"Un fil de théories détaillé avec captures à l'appui", scores:[3,0,0,1,0,0,0] },
+        { text:"Une compilation des meilleurs moments scéniques", scores:[0,3,0,1,0,0,0] },
+        { text:"Un fanart ou une fanfiction", scores:[0,0,0,0,3,0,0] },
+        { text:"Une compilation des moments les plus chaotiques", scores:[0,0,0,0,1,0,3] } ] },
+  { q:"Ta réaction face à un Bangtan Bomb random de 2015 ?",
+    a:[ { text:"J'analyse ce que ça révèle de leur personnalité", scores:[2,0,0,1,0,0,1] },
+        { text:"Je remarque immédiatement leur niveau technique même à l'époque", scores:[0,3,0,0,0,0,0] },
+        { text:"Je le classe mentalement dans la bonne era et le bon contexte", scores:[0,0,0,3,0,0,0] },
+        { text:"Je ris pendant 10 minutes et je l'envoie à mes amis", scores:[0,0,0,0,0,1,3] } ] },
+  { q:"Ce que tu préfères par-dessus tout chez BTS…",
+    a:[ { text:"La profondeur narrative et symbolique de leur univers", scores:[3,0,0,0,1,0,0] },
+        { text:"L'énergie et la précision de leurs performances live", scores:[0,3,0,0,0,0,0] },
+        { text:"La qualité et la sincérité de leur musique", scores:[0,0,3,0,0,0,0] },
+        { text:"L'authenticité et l'humour qu'ils dégagent entre eux", scores:[0,0,0,0,0,1,3] } ] },
+  { q:"Un mot pour résumer ton rapport au fandom ?",
+    a:[ { text:"Analytique", scores:[3,0,0,1,0,0,0] },
+        { text:"Passionné·e", scores:[0,2,2,0,1,0,0] },
+        { text:"Méthodique", scores:[0,0,0,3,0,0,0] },
+        { text:"Chaleureux·se", scores:[0,0,0,0,1,3,0] } ] },
+];
+
+let atqScores = new Array(ATQ_TYPES.length).fill(0);
+let atqCurrentQ = 0;
+
+function atqRestart() {
+  atqScores = new Array(ATQ_TYPES.length).fill(0);
+  atqCurrentQ = 0;
+  document.getElementById('atq-result').classList.remove('show');
+  document.getElementById('atq-body').style.display = 'block';
+  document.querySelector('#game-armytype .quiz-progress-wrap').style.display = 'block';
+  atqRenderQ();
+}
+
+function atqRenderQ() {
+  const q = ATQ_QUESTIONS[atqCurrentQ];
+  const pct = Math.round((atqCurrentQ / ATQ_QUESTIONS.length) * 100);
+
+  document.getElementById('atq-q-num').textContent   = 'Question ' + (atqCurrentQ + 1);
+  document.getElementById('atq-q-label').textContent = 'Question ' + (atqCurrentQ+1) + ' / ' + ATQ_QUESTIONS.length;
+  document.getElementById('atq-q-pct').textContent   = pct + '%';
+  document.getElementById('atq-progress-fill').style.width = pct + '%';
+  document.getElementById('atq-q-text').textContent  = q.q;
+
+  const container = document.getElementById('atq-answers');
+  container.innerHTML = '';
+  q.a.forEach(function(ans, i) {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-answer';
+    btn.textContent = ans.text;
+    btn.onclick = function() { atqAnswer(i); };
+    container.appendChild(btn);
+  });
+
+  document.getElementById('game-armytype').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function atqAnswer(ansIdx) {
+  const ans = ATQ_QUESTIONS[atqCurrentQ].a[ansIdx];
+  document.querySelectorAll('#atq-answers .quiz-answer').forEach((b,i) => {
+    if (i === ansIdx) b.classList.add('selected');
+    b.onclick = null;
+  });
+  ans.scores.forEach(function(s, i) { atqScores[i] += s; });
+
+  setTimeout(function() {
+    atqCurrentQ++;
+    if (atqCurrentQ < ATQ_QUESTIONS.length) {
+      atqRenderQ();
+    } else {
+      atqShowResult();
+    }
+  }, 350);
+}
+
+function atqShowResult() {
+  const maxScore = Math.max(...atqScores);
+  const bestIdx  = atqScores.indexOf(maxScore);
+  const type     = ATQ_TYPES[bestIdx];
+
+  document.getElementById('atq-body').style.display = 'none';
+  document.querySelector('#game-armytype .quiz-progress-wrap').style.display = 'none';
+
+  document.getElementById('atq-r-emoji').textContent = type.emoji;
+  document.getElementById('atq-r-type').textContent  = type.name;
+  document.getElementById('atq-r-desc').textContent  = type.desc;
+
+  const traitsEl = document.getElementById('atq-r-traits');
+  traitsEl.innerHTML = '';
+  type.traits.forEach(function(t) {
+    const span = document.createElement('span');
+    span.className = 'quiz-result-song';
+    span.textContent = t;
+    traitsEl.appendChild(span);
+  });
+
+  document.getElementById('atq-progress-fill').style.width = '100%';
+  document.getElementById('atq-q-label').textContent = 'Terminé !';
+  document.getElementById('atq-q-pct').textContent   = '100%';
+
+  document.getElementById('atq-result').classList.add('show');
+  if (typeof trackProgress === 'function') trackProgress('army_type_result', type.name);
+  document.getElementById('game-armytype').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 /* ══════════════════════════════════════════════
