@@ -296,8 +296,6 @@
   border-radius: 14px;
   border: 1px solid var(--border2);
   overflow: hidden;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 6px; padding: 10px 6px;
   background: var(--bg-card2);
 }
 .coll-flipcard-back img { width: 100%; height: 100%; object-fit: cover; }
@@ -311,6 +309,9 @@
 }
 @keyframes coll-tap-pulse { 0%,100% { opacity: .5; } 50% { opacity: 1; } }
 .coll-flipcard-front { transform: rotateY(180deg); }
+.coll-flipcard-front img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.coll-flipcard-front .coll-card-emoji { display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; font-size: 3rem; }
+.coll-flipcard-front .coll-card-media { display: block; width: 100%; height: 100%; }
 
 .coll-flipcard.epic-glow.flipped .coll-flipcard-inner { filter: drop-shadow(0 0 14px rgba(176,107,242,0.5)); }
 .coll-flipcard.legendary-glow.flipped .coll-flipcard-inner { filter: drop-shadow(0 0 20px rgba(224,168,58,0.6)); }

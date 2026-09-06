@@ -571,12 +571,7 @@
       html += '<div class="coll-flipcard' + rarityGlow + '" style="animation-delay:' + (animationsEnabled ? i * 0.2 : 0) + 's" onclick="CollectionSystem.flipRevealCard(this)">';
       html +=   '<div class="coll-flipcard-inner">';
       html +=     '<div class="coll-flipcard-face coll-flipcard-back"><img src="' + CARD_BACK_IMG + '" alt=""></div>';
-      html +=     '<div class="coll-flipcard-face coll-flipcard-front rarity-' + r.card.rarity + '">';
-      html +=       '<span class="coll-card-media">' + cardMediaHtml(r.card, { level: 1 }) + '</span>';
-      html +=       '<span class="coll-card-name">' + r.card.name + '</span>';
-      html +=       '<span class="coll-badge rarity-' + r.card.rarity + '">' + RARITY[r.card.rarity].label + '</span>';
-      html +=       (r.isNew ? '<span class="coll-reveal-new">NEW!</span>' : '<span class="coll-reveal-dupe">+' + r.fragmentsGained + ' 💎</span>');
-      html +=     '</div>';
+      html +=     '<div class="coll-flipcard-face coll-flipcard-front rarity-' + r.card.rarity + '">' + cardMediaHtml(r.card, { level: 1 }) + '</div>';
       html +=   '</div>';
       html += '</div>';
     });
