@@ -539,7 +539,7 @@
 
   /* ────────────────── UI : OUVERTURE DE PACK ────────────────── */
 
-  const CARD_BACK_IMG = 'Photo/Photocard/Fond-Cartes.png';
+  const CARD_BACK_IMG = 'Photo/Photocard/Fond-Cartes.webp';
 
   async function startPackOpening(packType) {
     const overlay = document.getElementById('coll-pack-overlay') || (function () {
