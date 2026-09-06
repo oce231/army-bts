@@ -539,6 +539,8 @@
 
   /* ────────────────── UI : OUVERTURE DE PACK ────────────────── */
 
+  const CARD_BACK_IMG = 'Photo/Photocard/Fond-Cartes.png';
+
   async function startPackOpening(packType) {
     const overlay = document.getElementById('coll-pack-overlay') || (function () {
       const el = document.createElement('div');
@@ -559,19 +561,41 @@
     };
   }
 
+  // Rendu façon booster Pokémon TCG : les cartes arrivent dos tourné
+  // (Fond-Cartes.png) et se retournent une par une au tap.
   function revealCards(overlay, results) {
-    let html = '<div class="coll-reveal"><div class="coll-reveal-title">3 CARDS DISCOVERED</div><div class="coll-reveal-row">';
+    let html = '<div class="coll-reveal"><div class="coll-reveal-title">3 CARDS DISCOVERED</div>';
+    html += '<div class="coll-reveal-row">';
     results.forEach((r, i) => {
       const rarityGlow = (r.card.rarity === 'legendary') ? ' legendary-glow' : (r.card.rarity === 'epic' ? ' epic-glow' : '');
-      html += '<div class="coll-reveal-card rarity-' + r.card.rarity + rarityGlow + '" style="animation-delay:' + (animationsEnabled ? i * 0.25 : 0) + 's">';
-      html += '<span class="coll-card-media">' + cardMediaHtml(r.card, { level: 1 }) + '</span>';
-      html += '<span class="coll-card-name">' + r.card.name + '</span>';
-      html += '<span class="coll-badge rarity-' + r.card.rarity + '">' + RARITY[r.card.rarity].label + '</span>';
-      html += r.isNew ? '<span class="coll-reveal-new">NEW!</span>' : '<span class="coll-reveal-dupe">+' + r.fragmentsGained + ' 💎</span>';
+      html += '<div class="coll-flipcard' + rarityGlow + '" style="animation-delay:' + (animationsEnabled ? i * 0.2 : 0) + 's" onclick="CollectionSystem.flipRevealCard(this)">';
+      html +=   '<div class="coll-flipcard-inner">';
+      html +=     '<div class="coll-flipcard-face coll-flipcard-back"><img src="' + CARD_BACK_IMG + '" alt=""></div>';
+      html +=     '<div class="coll-flipcard-face coll-flipcard-front rarity-' + r.card.rarity + '">';
+      html +=       '<span class="coll-card-media">' + cardMediaHtml(r.card, { level: 1 }) + '</span>';
+      html +=       '<span class="coll-card-name">' + r.card.name + '</span>';
+      html +=       '<span class="coll-badge rarity-' + r.card.rarity + '">' + RARITY[r.card.rarity].label + '</span>';
+      html +=       (r.isNew ? '<span class="coll-reveal-new">NEW!</span>' : '<span class="coll-reveal-dupe">+' + r.fragmentsGained + ' 💎</span>');
+      html +=     '</div>';
+      html +=   '</div>';
       html += '</div>';
     });
-    html += '</div><button class="coll-detail-btn" onclick="CollectionSystem.closePackOpening()">Ajouter à ma collection</button></div>';
+    html += '</div>';
+    html += '<div class="coll-reveal-actions">';
+    html += '<button class="coll-detail-btn coll-detail-btn-ghost" onclick="CollectionSystem.flipAllReveal()">🔄 Tout retourner</button>';
+    html += '<button class="coll-detail-btn" onclick="CollectionSystem.closePackOpening()">Continuer →</button>';
+    html += '</div></div>';
     overlay.innerHTML = html;
+  }
+
+  function flipRevealCard(el) {
+    el.classList.toggle('flipped');
+  }
+
+  function flipAllReveal() {
+    document.querySelectorAll('.coll-flipcard').forEach((el, i) => {
+      setTimeout(() => el.classList.add('flipped'), animationsEnabled ? i * 180 : 0);
+    });
   }
 
   function closePackOpening() {
@@ -632,6 +656,8 @@
     tryLevelUp,
     exploreCard,
     startPackOpening,
+    flipRevealCard,
+    flipAllReveal,
     closePackOpening,
     toggleAnimations,
     progressFor,

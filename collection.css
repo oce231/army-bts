@@ -269,20 +269,62 @@
 @keyframes coll-pack-shake { 0%,100% { transform: rotate(0); } 25% { transform: rotate(-8deg) scale(1.05); } 75% { transform: rotate(8deg) scale(1.05); } }
 .coll-pack-hint { margin-top: 14px; color: var(--text2); font-size: .85rem; }
 
-.coll-reveal { text-align: center; max-width: 560px; }
+.coll-reveal { text-align: center; max-width: 620px; }
 .coll-reveal-title { font-weight: 800; color: var(--text); font-size: 1.2rem; margin-bottom: 18px; letter-spacing: .04em; }
-.coll-reveal-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
-.coll-reveal-card {
-  width: 130px; padding: 14px 8px;
-  background: var(--bg-card2); border-radius: 14px; border: 1px solid var(--border2);
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
+.coll-reveal-row { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; margin-bottom: 22px; }
+
+/* ── Carte à retourner façon booster TCG ── */
+.coll-flipcard {
+  width: 140px; aspect-ratio: 5 / 7;
+  perspective: 1200px;
+  cursor: pointer;
   animation: coll-reveal-in .5s ease both;
 }
 @keyframes coll-reveal-in { from { opacity: 0; transform: translateY(16px) scale(.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
-.coll-reveal-card.epic-glow { box-shadow: 0 0 18px rgba(176,107,242,0.4); }
-.coll-reveal-card.legendary-glow { box-shadow: 0 0 26px rgba(224,168,58,0.55); }
+
+.coll-flipcard-inner {
+  position: relative; width: 100%; height: 100%;
+  transition: transform .65s cubic-bezier(.4,.2,.2,1);
+  transform-style: preserve-3d;
+}
+.coll-flipcard.flipped .coll-flipcard-inner { transform: rotateY(180deg); }
+
+.coll-flipcard-face {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 14px;
+  border: 1px solid var(--border2);
+  overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 6px; padding: 10px 6px;
+  background: var(--bg-card2);
+}
+.coll-flipcard-back img { width: 100%; height: 100%; object-fit: cover; }
+.coll-flipcard-back::after {
+  content: '↻ TAP';
+  position: absolute; bottom: 8px; left: 0; right: 0;
+  text-align: center; font-size: .62rem; font-weight: 700;
+  color: rgba(255,255,255,0.85); letter-spacing: .1em;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  animation: coll-tap-pulse 1.6s ease-in-out infinite;
+}
+@keyframes coll-tap-pulse { 0%,100% { opacity: .5; } 50% { opacity: 1; } }
+.coll-flipcard-front { transform: rotateY(180deg); }
+
+.coll-flipcard.epic-glow.flipped .coll-flipcard-inner { filter: drop-shadow(0 0 14px rgba(176,107,242,0.5)); }
+.coll-flipcard.legendary-glow.flipped .coll-flipcard-inner { filter: drop-shadow(0 0 20px rgba(224,168,58,0.6)); }
+
 .coll-reveal-new { color: #6be08a; font-weight: 800; font-size: .72rem; }
 .coll-reveal-dupe { color: var(--text3); font-weight: 700; font-size: .72rem; }
+
+.coll-reveal-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.coll-reveal-actions .coll-detail-btn { width: auto; padding: 10px 20px; }
+.coll-detail-btn-ghost {
+  background: transparent !important;
+  border: 1px solid var(--border2);
+  color: var(--text2) !important;
+}
 
 /* ── Toasts ── */
 #collection-toast-root {
