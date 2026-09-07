@@ -11,11 +11,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://oce231.github.io/army-bts/collection.html</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://oce231.github.io/army-bts/hub.html</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
