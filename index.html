@@ -191,7 +191,7 @@
         <p class="hp-fact-text" id="hp-fact-text"></p>
         <span class="hp-fact-member" id="hp-fact-member"></span>
       </div>
-      <p class="hp-desc">L'archive complète de BTS — toutes les eras, tous les membres, toute l'histoire.</p>
+      <p class="hp-desc">Your journey through BTS begins here — toutes les eras, tous les membres, tout l'univers.</p>
       <div class="hp-stats">
         <div class="hp-stat"><span class="hp-stat-n">16</span><span class="hp-stat-l">Eras</span></div>
         <div class="hp-stat-div"></div>
@@ -199,8 +199,19 @@
         <div class="hp-stat-div"></div>
         <div class="hp-stat"><span class="hp-stat-n">7</span><span class="hp-stat-l">Membres</span></div>
       </div>
+      <div class="hp-entry-row">
+        <a class="hp-entry-card" href="#" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(0);return false;">
+          <div class="hp-entry-icon">📖</div>
+          <div class="hp-entry-title">ARCHIVE</div>
+          <div class="hp-entry-sub">Explore BTS through every era.</div>
+        </a>
+        <a class="hp-entry-card" href="hub.html">
+          <div class="hp-entry-icon">💜</div>
+          <div class="hp-entry-title">ARMY LOUNGE</div>
+          <div class="hp-entry-sub">Watch. Play. Talk. Create.</div>
+        </a>
+      </div>
       <div class="hp-btns">
-        <button class="hp-btn hp-btn-primary" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(0)">Explorer les Eras →</button>
         <button class="hp-btn hp-btn-ghost" onclick="document.getElementById('homepage').classList.add('hp-hidden');document.getElementById('artist-fab').click()">Les 7 Membres</button>
       </div>
     </div>
@@ -222,6 +233,47 @@
         <div class="today-title" id="todayTitle"></div>
         <div class="today-desc" id="todayDesc"></div>
         <div class="today-links" id="todayLinks"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hp-section">
+    <div class="hp-section-header">
+      <div class="hp-section-label">Fraîchement ajouté</div>
+      <div class="hp-section-title">🔥 What's New</div>
+    </div>
+    <div class="hp-carousel-wrap">
+      <div class="hp-carousel" id="hp-whatsnew">
+        <div class="whats-new-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(3)">
+          <div class="whats-new-icon">🎨</div>
+          <div class="whats-new-title">Nouvelle identité visuelle</div>
+          <div class="whats-new-desc">Palette violet & argenté sur tout le site, thème clair repensé.</div>
+        </div>
+        <div class="whats-new-card" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(4)">
+          <div class="whats-new-icon">📖</div>
+          <div class="whats-new-title">Eras en mini-expositions</div>
+          <div class="whats-new-desc">Bangtan Bombs, Concepts, Fansigns et Lore ajoutés sur les 16 eras.</div>
+        </div>
+        <div class="whats-new-card" onclick="goLore('symbols')">
+          <div class="whats-new-icon">🌌</div>
+          <div class="whats-new-title">Encyclopédie du BTS Universe</div>
+          <div class="whats-new-desc">Nouveaux onglets Symboles, Lieux et Objets, tous reliés entre eux.</div>
+        </div>
+        <div class="whats-new-card">
+          <div class="whats-new-icon">🌟</div>
+          <div class="whats-new-title">Quête : The Lost Purple Star</div>
+          <div class="whats-new-desc">7 fragments ✨ cachés à travers le site. Débloque le badge Star Seeker.</div>
+        </div>
+        <div class="whats-new-card" onclick="location.href='games.html'">
+          <div class="whats-new-icon">🌈</div>
+          <div class="whats-new-title">Quiz : Quel type d'ARMY es-tu ?</div>
+          <div class="whats-new-desc">8 questions, 7 profils possibles — découvre le tien.</div>
+        </div>
+        <div class="whats-new-card" onclick="location.href='hub.html'">
+          <div class="whats-new-icon">💬</div>
+          <div class="whats-new-title">Lounge réorganisé</div>
+          <div class="whats-new-desc">Play, Listen, Community, Create, Vote, Events — tout est mieux rangé.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -8519,32 +8571,35 @@ const SOLO_DATA = {
         type:'album',
         desc:'Deuxième album studio de RM. Enregistré pendant son service militaire (permissions spéciales). Un album plus expérimental et personnel — RM explore le sentiment d\'être au bon endroit mais à la mauvaise époque, ou l\'inverse.',
         tracklist:[
-          {n:1,t:'ㅂㅇㅂㅇ (Beg For It)',meaning:'Une ouverture agressive et désirante — demander sans honte.',title:false},
-          {n:2,t:'Come On',meaning:'Une invitation à lâcher prise. Le tempo dansant contraste avec les paroles anxieuses.'},
-          {n:3,t:'Nuts',meaning:'L\'absurdité du quotidien vue comme libération. RM joue avec des sonorités expérimentales.'},
-          {n:4,t:'Out of Love (with R3hab)',meaning:'Sortir de l\'amour comme sortir d\'une salle enfumée — avec soulagement.',title:false},
-          {n:5,t:'Around the World in a Day',meaning:'Single principal. Une course autour du globe en 80 secondes — la vie vécue trop vite.',title:true},
-          {n:6,t:'Heaven (feat. Moses Sumney)',meaning:'Moses Sumney apporte une voix angélique sur une question : où est le paradis ?'},
-          {n:7,t:'Domodossola',meaning:'Une ville italienne comme métaphore d\'un moment de suspension avant de rentrer.'},
-          {n:8,t:'Groin',meaning:'Sur la vulnérabilité du corps et de l\'ego. Titre le plus intimiste.'},
-          {n:9,t:'Lost! (feat. Erykah Badu)',meaning:'Troisième collaboration avec Erykah Badu. Être perdu comme état de grâce.'},
-          {n:10,t:'Thinking (with Benny Blanco)',meaning:'Benny Blanco produit un titre pop sur le fait de trop réfléchir.'},
-          {n:11,t:'Acceptance Speech',meaning:'Fermeture cathartique : un discours imaginaire de remerciement à soi-même.'},
+          {n:1,t:'Right People, Wrong Place',meaning:'Ouverture de l\'album — le sentiment d\'être entouré des bonnes personnes mais au mauvais moment de sa vie.',title:false},
+          {n:2,t:'Nuts',meaning:'L\'absurdité du quotidien vue comme libération. RM joue avec des sonorités expérimentales.'},
+          {n:3,t:'out of love',meaning:'Sortir de l\'amour comme sortir d\'une pièce enfumée — avec un mélange de soulagement et de vide.'},
+          {n:4,t:'Domodachi (feat. Little Simz)',meaning:'Jeu de mots entre l\'italien et le japonais "tomodachi" (ami) — sur l\'amitié et la solitude de la célébrité, avec Little Simz.'},
+          {n:5,t:'? (Interlude)',meaning:'Interlude instrumental, une respiration au milieu de l\'album avant la plongée dans les titres les plus personnels.'},
+          {n:6,t:'Groin',meaning:'Sur la vulnérabilité du corps et de l\'ego. L\'un des titres les plus intimistes de RM.'},
+          {n:7,t:'Heaven',meaning:'Une question simple posée avec une production complexe : où est le paradis, et est-ce qu\'on peut vraiment y arriver ?'},
+          {n:8,t:'LOST!',meaning:'Titre principal de l\'album. Être perdu comme état de grâce plutôt que comme échec — le cœur conceptuel du disque.',title:true},
+          {n:9,t:'Around the world in a day (feat. Moses Sumney)',meaning:'Une course autour du globe en une journée — la vie vécue trop vite, avec la voix éthérée de Moses Sumney.'},
+          {n:10,t:'ㅠㅠ (Credit Roll)',meaning:'Le symbole coréen des larmes (ㅠㅠ) en titre — un générique de fin émotionnel, entre gratitude et tristesse.'},
+          {n:11,t:'Come back to me',meaning:'Morceau de clôture et single de suivi — un appel direct, presque une prière, adressé à l\'ARMY.'},
         ],
         tabs:{
           mv:[
-            {title:'Around the World in a Day — MV',href:'https://www.youtube.com/results?search_query=RM+Around+the+World+in+a+Day+MV+2024',emoji:'🌍',date:'2024'},
+            {title:'LOST! — MV',href:'https://www.youtube.com/watch?v=kq6UVL3H6SI',emoji:'🔴',date:'24 mai 2024'},
+            {title:'Come back to me — MV',href:'https://www.youtube.com/watch?v=NrfikKxF4Ps',emoji:'🎬',date:'2024'},
           ],
           interview:[
             {title:'RM × Zane Lowe — RPWP Album Talk',href:'https://www.youtube.com/results?search_query=RM+Right+Place+Wrong+Person+Zane+Lowe+2024',emoji:'🎙',date:'2024'},
           ],
           collab:[
-            {title:'Heaven ft. Moses Sumney',href:'https://www.youtube.com/results?search_query=RM+Moses+Sumney+Heaven+2024',emoji:'🎵',date:'2024'},
-            {title:'Lost! ft. Erykah Badu',href:'https://www.youtube.com/results?search_query=RM+Erykah+Badu+Lost+2024',emoji:'🌿',date:'2024'},
+            {title:'Domodachi feat. Little Simz',href:'https://youtu.be/bZPQImItCEg',emoji:'🎵',date:'2024'},
+            {title:'Around the world in a day feat. Moses Sumney',href:'https://www.youtube.com/results?search_query=RM+Moses+Sumney+Around+the+world+in+a+day+2024',emoji:'🌍',date:'2024'},
           ],
           concert:[],
           docu:[],
-          tv:[],
+          tv:[
+            {title:'Right Place, Wrong Person — Album complet (YouTube)',href:'https://youtube.com/playlist?list=OLAK5uy_nllG8--NaLhg3NzUyR9IaDx5lYlWBjKic',emoji:'📀',date:'2024'},
+          ],
         }
       }
     ]
@@ -8956,7 +9011,7 @@ function renderSoloArchive(artistId) {
       `<div class="track-row">
         <span class="track-num">${String(tr.n).padStart(2,'0')}</span>
         <div class="track-info">
-          <div class="track-title${tr.title?' title-track':''}">${tr.t}${tr.title?'<span class="v-badge badge-mv" style="margin-left:.5rem;font-size:7px">Titre</span>':''}</div>
+          <div class="track-title${tr.title?' title-track':''} track-playable" onclick="playTrack('${tr.t.replace(/'/g,"\\'")}', '${era.title.replace(/'/g,"\\'")}', this)">${tr.t}${tr.title?'<span class="v-badge badge-mv" style="margin-left:.5rem;font-size:7px">Titre</span>':''}</div>
           <div class="track-meaning">${tr.meaning}</div>
         </div>
       </div>`
@@ -8968,9 +9023,12 @@ function renderSoloArchive(artistId) {
 
     const tabPanes = Object.keys(TAB_LABELS).map(key => {
       const items = era.tabs[key] || [];
+      const sortBtn = items.length > 1
+        ? `<div class="solo-tab-sort"><button class="solo-sort-btn" onclick="reverseSoloTabOrder(this)">↕ Inverser l'ordre</button></div>`
+        : '';
       const content = items.length === 0
         ? `<div style="padding:2rem 0;text-align:center;color:var(--text3);font-size:9px;letter-spacing:.1em">Aucun contenu disponible pour cette section</div>`
-        : `<div class="v-grid">${items.map(item =>
+        : `${sortBtn}<div class="v-grid">${items.map(item =>
             `<a class="v-card" href="${item.href}" data-title="${item.title}">
               <div class="v-thumb"><div class="v-thumb-fallback">${item.emoji}</div>
                 <div class="play-overlay"><div class="play-circle"><div class="play-tri"></div></div></div>
@@ -9049,6 +9107,15 @@ function showSoloTab(artistId, eraIdx, tabKey) {
     const pane = document.getElementById(`stp-${artistId}-${eraIdx}-${key}`);
     if (pane) pane.classList.toggle('active', key===tabKey);
   });
+}
+
+function reverseSoloTabOrder(btn) {
+  const pane = btn.closest('.solo-tab-pane');
+  if (!pane) return;
+  const grid = pane.querySelector('.v-grid');
+  if (!grid) return;
+  const cards = Array.from(grid.children).reverse();
+  cards.forEach(c => grid.appendChild(c));
 }
 
 
