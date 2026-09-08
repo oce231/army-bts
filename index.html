@@ -12102,7 +12102,6 @@ window.showRandomFact = function() {
     const title = titleEl.textContent.trim();
     trackProgress('video_watched', JSON.stringify({ title: title, vtype: vtype, era: eraIdx }));
     if (typeof CollectionSystem !== 'undefined' && eraIdx !== '') {
-      CollectionSystem.unlockEraVisit(eraIdx);
       CollectionSystem.grantPackUnlock('era', String(eraIdx));
     }
     watchedSet.add(title);

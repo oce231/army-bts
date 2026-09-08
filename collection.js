@@ -27,7 +27,7 @@
   const PITY_THRESHOLD = 8; // packs sans nouvelle carte avant un "Lucky Pack"
   const DUPES_PER_LEVEL = 2;  // doublons nécessaires pour passer au niveau suivant
   const MAX_LEVEL = 3;
-  const ERA_PACK_COST = 5;    // diamants pour ouvrir un Era Pack débloqué
+  const ERA_PACK_COST = 15;   // diamants pour ouvrir un Era Pack débloqué
 
   let sb = null;
   let currentUser = null;
