@@ -191,7 +191,7 @@
         <p class="hp-fact-text" id="hp-fact-text"></p>
         <span class="hp-fact-member" id="hp-fact-member"></span>
       </div>
-      <p class="hp-desc">Your journey through BTS begins here — toutes les eras, tous les membres, tout l'univers.</p>
+      <p class="hp-desc">L'archive complète de BTS — toutes les eras, tous les membres, toute l'histoire.</p>
       <div class="hp-stats">
         <div class="hp-stat"><span class="hp-stat-n">16</span><span class="hp-stat-l">Eras</span></div>
         <div class="hp-stat-div"></div>
@@ -199,19 +199,8 @@
         <div class="hp-stat-div"></div>
         <div class="hp-stat"><span class="hp-stat-n">7</span><span class="hp-stat-l">Membres</span></div>
       </div>
-      <div class="hp-entry-row">
-        <a class="hp-entry-card" href="#" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(0);return false;">
-          <div class="hp-entry-icon">📖</div>
-          <div class="hp-entry-title">ARCHIVE</div>
-          <div class="hp-entry-sub">Explore BTS through every era.</div>
-        </a>
-        <a class="hp-entry-card" href="hub.html">
-          <div class="hp-entry-icon">💜</div>
-          <div class="hp-entry-title">ARMY LOUNGE</div>
-          <div class="hp-entry-sub">Watch. Play. Talk. Create.</div>
-        </a>
-      </div>
       <div class="hp-btns">
+        <button class="hp-btn hp-btn-primary" onclick="document.getElementById('homepage').classList.add('hp-hidden');showEra(0)">Explorer les Eras →</button>
         <button class="hp-btn hp-btn-ghost" onclick="document.getElementById('homepage').classList.add('hp-hidden');document.getElementById('artist-fab').click()">Les 7 Membres</button>
       </div>
     </div>
@@ -8618,7 +8607,7 @@ const SOLO_DATA = {
           {n:1,t:'The Astronaut',meaning:'Jin se représente comme un astronaute qui a trouvé sa planète natale dans le cœur de ses fans (ARMY). Quitter cette planète pour servir dans l\'armée devient le départ de l\'astronaute vers une nouvelle mission.',title:true},
         ],
         tabs:{
-          mv:[{title:'The Astronaut — MV (feat. Coldplay live)',href:'https://www.youtube.com/watch?v=WU9YSSID2aU',emoji:'🚀',date:'Oct. 2022'}],
+          mv:[{title:'The Astronaut — MV',href:'https://www.youtube.com/watch?v=c6ASQOwKkhk',emoji:'🚀',date:'28 oct. 2022'}],
           interview:[
             {title:'Jin × Coldplay — Entretien création du titre',href:'https://www.youtube.com/results?search_query=Jin+Coldplay+Astronaut+making+interview',emoji:'🎙',date:'2022'},
           ],
@@ -8630,15 +8619,54 @@ const SOLO_DATA = {
       },
       {
         id:'happy', title:'Happy', year:'2024', emoji:'😊',
-        type:'single',
-        desc:'Premier single après son retour du service militaire en juin 2024. Jin revient avec un titre lumineux et dansant, une déclaration de joie après deux ans d\'absence.',
+        type:'ep',
+        desc:'Premier EP de Jin, sorti le 15 novembre 2024, cinq mois après son retour du service militaire. 6 titres coécrits notamment avec Gary Barlow (Take That) et une collaboration avec Wendy de Red Velvet. Le disque s\'est vendu à plus de 850 000 exemplaires dès le premier jour.',
         tracklist:[
-          {n:1,t:'Happy',meaning:'Simple et sincère : Jin est heureux d\'être de retour. Le titre célèbre la joie de retrouver ses proches et ARMY après le service militaire.',title:true},
+          {n:1,t:'Running Wild',meaning:'Titre principal de l\'EP, coécrit avec Gary Barlow de Take That. Une déclaration de liberté retrouvée après deux ans loin de la scène.',title:true},
+          {n:2,t:'I\'ll Be There',meaning:'Single de pré-sortie. Une promesse rockabilly-pop à l\'ARMY : quoi qu\'il arrive, Jin sera toujours là pour elle.'},
+          {n:3,t:'Another Level',meaning:'Élue par Dazed parmi les 50 meilleurs titres K-pop de 2024. Une montée en puissance sur la confiance retrouvée.'},
+          {n:4,t:'Falling',meaning:'Coécrit avec Taka et Toru du groupe japonais ONE OK ROCK — une chute amoureuse traitée avec une énergie rock.'},
+          {n:5,t:'Heart on the Window (feat. Wendy)',meaning:'Duo avec Wendy de Red Velvet. Une ballade sur les sentiments qu\'on n\'ose pas exprimer directement.'},
+          {n:6,t:'I Will Come to You',meaning:'Ballade de clôture, pleine d\'espoir : la promesse de revenir vers l\'être aimé quand la brise du printemps soufflera.'},
         ],
         tabs:{
-          mv:[{title:'Happy — MV',href:'https://www.youtube.com/results?search_query=Jin+BTS+Happy+MV+2024',emoji:'😊',date:'2024'}],
+          mv:[
+            {title:'Running Wild — MV',href:'https://music.apple.com/us/album/running-wild/1772351320?i=1772351326',emoji:'😊',date:'15 nov. 2024'},
+            {title:'I\'ll Be There — MV',href:'http://bit.ly/4flDv2N',emoji:'💌',date:'25 oct. 2024'},
+          ],
           interview:[{title:'Jin — Retour de l\'armée, interview Weverse',href:'https://www.youtube.com/results?search_query=Jin+BTS+return+military+interview+2024',emoji:'🎙',date:'2024'}],
-          collab:[],concert:[],docu:[],tv:[],
+          collab:[
+            {title:'Falling — avec Taka & Toru (ONE OK ROCK)',href:'https://www.youtube.com/results?search_query=Jin+Falling+ONE+OK+ROCK+Taka+Toru',emoji:'🎸',date:'2024'},
+            {title:'Heart on the Window — avec Wendy (Red Velvet)',href:'https://www.youtube.com/results?search_query=Jin+Heart+on+the+Window+Wendy+Red+Velvet',emoji:'🎵',date:'2024'},
+          ],
+          concert:[],
+          docu:[],
+          tv:[{title:'Happy — Album complet (Spotify)',href:'https://bit.ly/40I2itH',emoji:'💿',date:'2024'}],
+        }
+      },
+      {
+        id:'echo', title:'Echo', year:'2025', emoji:'🔊',
+        type:'ep',
+        desc:'Deuxième EP de Jin, sorti le 16 mai 2025. Sept titres construits autour du son "band" qu\'il affectionne — pop-punk, country-rock, rock britannique orchestral et ballades. Jin a personnellement coécrit la majorité des titres. Débute à la 3e place du Billboard 200.',
+        tracklist:[
+          {n:1,t:'Don\'t Say You Love Me',meaning:'Titre principal. Deux amoureux incapables de se lâcher malgré une relation qui s\'effondre — Jin y tient son tout premier rôle romantique dans un clip.',title:true},
+          {n:2,t:'Nothing Without Your Love',meaning:'Le titre préféré de Jin sur l\'album selon ses propres mots : sans l\'amour de l\'autre, il n\'est rien.'},
+          {n:3,t:'Loser (feat. YENA)',meaning:'Duo avec la chanteuse YENA. Un pop-punk énergique sur l\'acceptation de ses échecs.'},
+          {n:4,t:'Rope It',meaning:'Titre country-rock plein d\'humour, qui s\'ouvre et se termine par un hennissement de cheval — l\'humour espiègle de Jin, dans la lignée de "Super Tuna".'},
+          {n:5,t:'With the Clouds',meaning:'Rock britannique orchestral, l\'un des titres que Jin a personnellement coécrit.'},
+          {n:6,t:'Background',meaning:'Une réflexion sur la place qu\'on occupe dans la vie des autres, en toile de fond.'},
+          {n:7,t:'To Me, Today',meaning:'Ballade de clôture — un message de bienveillance envers soi-même, dans l\'instant présent.'},
+        ],
+        tabs:{
+          mv:[
+            {title:'Don\'t Say You Love Me — MV',href:'https://www.youtube.com/watch?v=o7BcyAd6rqg',emoji:'🔊',date:'16 mai 2025'},
+            {title:'Close to You — MV (pré-sortie)',href:'https://youtu.be/NFeI7hJvfeA',emoji:'💫',date:'26 janv. 2025'},
+          ],
+          interview:[{title:'Jin — Apple Music, commentaires piste par piste d\'Echo',href:'https://www.youtube.com/results?search_query=Jin+Echo+Apple+Music+track+by+track+2025',emoji:'🎙',date:'2025'}],
+          collab:[{title:'Loser feat. YENA',href:'https://www.youtube.com/results?search_query=Jin+Loser+YENA+2025',emoji:'🎵',date:'2025'}],
+          concert:[{title:'#RUNSEOKJIN_EP.TOUR — 1re tournée solo de Jin (2025)',href:'https://www.youtube.com/results?search_query=RUNSEOKJIN+EP+TOUR+Jin+2025',emoji:'🎟',date:'Juin–Août 2025'}],
+          docu:[],
+          tv:[{title:'Don\'t Say You Love Me — Tonight Show with Jimmy Fallon',href:'https://www.youtube.com/results?search_query=Jin+Dont+Say+You+Love+Me+Jimmy+Fallon+2025',emoji:'📺',date:'2025'}],
         }
       }
     ]
@@ -9374,6 +9402,12 @@ const SPOTIFY_IDS = {
   'if i ruled the world': '4yRHdw1OpAQpt0ALfRRhNx',
   'coffee': '4ghMiagkzVFoprj29pg7fy',
   'bts cypher pt 1': '6YnomLnpApBnf1ARkjYuuO',
+  // ── RM Solo (mono. / Indigo / Right Place, Wrong Person) ──
+  'right people wrong place': '2ftb45L7iXYwp0WoTEuslG',
+  'come back to me': '1PT8hWQvl2gRO1JhDcSUqN',
+  'wild flower': '5p8ThxM2OhJ0igfxkz0Z1q',
+  // ── Jin Solo (The Astronaut / Happy / Echo) ──
+  'the astronaut': '0h7QMc9ZRzA9QJrbEHytn2',
   // ── Skool Luv Affair (2014) ──
   'boy in luv': '00b0FVWyvEjX2n70d6PhI1',
   'tomorrow': '4SjtdrTrrqFyJIVPwfkuXi',
