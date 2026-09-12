@@ -777,31 +777,31 @@
     <div class="popup-group-label">Membres</div>
     <div class="artist-grid">
       <button class="artist-btn" id="abtn-rm" onclick="switchArtist('rm')">
-        <span class="artist-emoji">🐨</span>
+        <span class="artist-emoji"><img src="Photo/Rm.jpg" alt="RM" onerror="this.parentNode.textContent='🐨'"></span>
         <span class="artist-name">RM</span>
       </button>
       <button class="artist-btn" id="abtn-jin" onclick="switchArtist('jin')">
-        <span class="artist-emoji">🐹</span>
+        <span class="artist-emoji"><img src="Photo/Jin.jpg" alt="Jin" onerror="this.parentNode.textContent='🐹'"></span>
         <span class="artist-name">Jin</span>
       </button>
       <button class="artist-btn" id="abtn-suga" onclick="switchArtist('suga')">
-        <span class="artist-emoji">🐱</span>
+        <span class="artist-emoji"><img src="Photo/Suga.jpg" alt="Suga" onerror="this.parentNode.textContent='🐱'"></span>
         <span class="artist-name">Suga</span>
       </button>
       <button class="artist-btn" id="abtn-jhope" onclick="switchArtist('jhope')">
-        <span class="artist-emoji">🐿️</span>
+        <span class="artist-emoji"><img src="Photo/Jhope.jpg" alt="J-Hope" onerror="this.parentNode.textContent='🐿️'"></span>
         <span class="artist-name">J-Hope</span>
       </button>
       <button class="artist-btn" id="abtn-jimin" onclick="switchArtist('jimin')">
-        <span class="artist-emoji">🐥</span>
+        <span class="artist-emoji"><img src="Photo/Jimin.jpg" alt="Jimin" onerror="this.parentNode.textContent='🐥'"></span>
         <span class="artist-name">Jimin</span>
       </button>
       <button class="artist-btn" id="abtn-v" onclick="switchArtist('v')">
-        <span class="artist-emoji">🐯</span>
+        <span class="artist-emoji"><img src="Photo/V.jpg" alt="V" onerror="this.parentNode.textContent='🐯'"></span>
         <span class="artist-name">V</span>
       </button>
       <button class="artist-btn" id="abtn-jk" onclick="switchArtist('jk')">
-        <span class="artist-emoji">🐰</span>
+        <span class="artist-emoji"><img src="Photo/Jk.cover.jpg" alt="Jungkook" onerror="this.parentNode.textContent='🐰'"></span>
         <span class="artist-name">Jungkook</span>
       </button>
     </div>
@@ -1077,7 +1077,7 @@
 
     <div class="lore-member-card" style="--mc:#4a90e8">
       <div class="lore-member-header">
-        <div class="hp-member-avatar"><img src="Photo/Rm.jpg" onerror="this.parentNode.innerHTML='🌿'"></div><div class="hp-member-name">RM</div><div class="hp-member-kr">김남준</div>
+        <div class="lore-member-emoji">🌿</div>
         <div>
           <div class="lore-member-name">Kim Namjoon / RM</div>
           <div class="lore-member-role">Le Réflecteur · L'Intellectuel Blessé</div>
@@ -1306,7 +1306,7 @@
 
     <div class="lore-theory-card">
       <div class="lore-theory-header">
-        <div class="hp-member-avatar"><img src="Photo/Rm.jpg" onerror="this.parentNode.innerHTML='🌿'"></div><div class="hp-member-name">RM</div><div class="hp-member-kr">김남준</div>
+        <div class="lore-theory-badge">🌿 SYMBOLE</div>
         <div class="lore-theory-title">La Terre</div>
       </div>
       <p>Immobilité contemplative. Namjoon observe et réfléchit sans pouvoir agir — souvent seul dans des espaces ouverts (jardins, parcs), comme s'il cherchait une paix qu'il ne peut pas trouver auprès des autres.</p>
@@ -4907,7 +4907,7 @@
     <div class="sec-hd"><span class="sec-hd-title">Lore &amp; Théories associées</span></div>
     <div class="lore-theory-card">
       <div class="lore-theory-header">
-      <div class="hp-member-avatar"><img src="Photo/Rm.jpg" onerror="this.parentNode.innerHTML='🌿'"></div><div class="hp-member-name">RM</div><div class="hp-member-kr">김남준</div>
+        <div class="lore-theory-badge">🌿 PERSONNAGE</div>
         <div class="lore-theory-title">RM — Le Réflecteur</div>
       </div>
       <p>"Epilogue: Young Forever" est l'un des clips directement liés au personnage de Namjoon dans le BTS Universe : celui qui observe et réfléchit sans pouvoir agir. La chanson prolonge le thème de Reflection — la difficulté de s'aimer soi-même, "I wish I could love myself".</p>
@@ -8485,6 +8485,32 @@ const SOLO_DATA = {
     desc:'Leader de BTS, rappeur, compositeur et artiste visuel. Passionné d\'art et de philosophie, ses projets solos explorent l\'identité, la solitude et la beauté du quotidien.',
     eras:[
       {
+        id:'rm-mixtape', title:'RM', year:'2015', emoji:'🎤',
+        type:'mixtape',
+        desc:'Toute première mixtape solo de RM (alors Rap Monster), sortie gratuitement le 20 mars 2015 — bien avant mono.. Un projet brut, très hip-hop, enregistré alors qu\'il n\'était encore qu\'un jeune rappeur de Bangtan pas encore mondialement connu.',
+        tracklist:[
+          {n:1,t:'Voice',meaning:'Ouverture de la mixtape — trouver sa propre voix dans un monde qui veut le faire taire.'},
+          {n:2,t:'Do You',meaning:'Titre phare de la mixtape, une question directe et provocante posée à l\'auditeur sur ses propres choix de vie.',title:true},
+          {n:3,t:'Awakening',meaning:'L\'éveil d\'un jeune rappeur ambitieux, conscient de son propre talent.'},
+          {n:4,t:'Monster',meaning:'RM se représente comme un monstre créé par la pression et l\'ambition.'},
+          {n:5,t:'Throw Away',meaning:'Se débarrasser de ce qui ne sert plus — un titre sur la purge émotionnelle.'},
+          {n:6,t:'Joke',meaning:'Sur le fait de ne pas être pris au sérieux avant la reconnaissance.'},
+          {n:7,t:'God Rap',meaning:'Une démonstration technique pure de son savoir-faire au rap.'},
+          {n:8,t:'Rush (feat. Krizz Kaliko)',meaning:'Collaboration avec le rappeur américain Krizz Kaliko — une des premières collaborations internationales de RM.'},
+          {n:9,t:'Life',meaning:'Une réflexion sur le sens de la vie, déjà très caractéristique du RM philosophe qu\'on connaît aujourd\'hui.'},
+          {n:10,t:'Adrift',meaning:'Le sentiment de dériver sans direction claire, malgré l\'ambition affichée ailleurs sur la mixtape.'},
+          {n:11,t:'I Believe',meaning:'Clôture pleine d\'espoir — la certitude que le travail acharné finira par payer.'},
+        ],
+        tabs:{
+          mv:[],
+          interview:[],
+          collab:[
+            {title:'Fantastic (Fantastic Four OST, feat. Mandy Ventrice)',href:'https://www.youtube.com/watch?v=NkwdwAaJ_Ho',emoji:'🎬',date:'4 août 2015'},
+          ],
+          concert:[],docu:[],tv:[],
+        }
+      },
+      {
         id:'mono', title:'mono.', year:'2018', emoji:'🌧',
         type:'mixtape',
         desc:'Première mixtape officielle de RM. 7 titres introspectifs enregistrés comme un journal intime. Une promenade mélancolique à travers la solitude, les villes nocturnes et la recherche de sens. L\'album est une conversation avec soi-même.',
@@ -8519,21 +8545,20 @@ const SOLO_DATA = {
         type:'album',
         desc:'Premier album studio de RM. "Indigo" est une archive de ses années 20 — une couleur entre bleu et violet, entre calme et mélancolie. Chaque titre est une collaboration avec un artiste différent. L\'album a été nommé aux Grammy.',
         tracklist:[
-          {n:1,t:'Yun (with Erykah Badu)',meaning:'Named after Korean painter Yun Hyong-keun. An ode to the melancholic blue of his paintings, Erykah Badu brings a soulful tenderness.',title:true},
-          {n:2,t:'Still Life (with Anderson .Paak)',meaning:'A meditation on impermanence — art endures, people fade. Anderson .Paak\'s groove grounds RM\'s philosophical reflections.'},
-          {n:3,t:'All Day (with Tablo)',meaning:'The restlessness of modern life. Tablo and RM reflect on always moving, never arriving.'},
-          {n:4,t:'Closer (with Paul Blanco, Mahalia)',meaning:'On intimacy and distance — wanting closeness but fearing it. Mahalia\'s vocal adds emotional weight.'},
-          {n:5,t:'Come back to me (with Erykah Badu)',meaning:'A softer plea for connection. RM imagines Erykah Badu as a cosmic anchor.'},
-          {n:6,t:'No. 2 (with Colde)',meaning:'A quiet love song — second place is still love. Co-written with Korean artist Colde.'},
-          {n:7,t:'Wild Flower (with youjeen)',meaning:'The lead single. A firefly in a field — beautiful, brief, burning. Written about the anxiety of fame.',title:true},
-          {n:8,t:'Forg_tful (with Kim Sawol)',meaning:'Memory and forgetting as mercy. RM writes about losing parts of himself to time.'},
-          {n:9,t:'Heave (with Shack)',meaning:'The tension of longing — reaching upward but always pulled back.'},
-          {n:10,t:'Change pt.2 (with Younha)',meaning:'A sequel to his 2017 collab with Wale. Growth, regret, and the things that remain unchanged.'},
-          {n:11,t:'Lonely (with Warren Hue, Mahalia)',meaning:'Closing track. A confession of loneliness even surrounded by millions. The most honest moment of the album.'},
+          {n:1,t:'Yun (with Erykah Badu)',meaning:'Titre en hommage au peintre coréen Yun Hyong-keun. Une ode à la mélancolie bleue de ses toiles, portée par la voix soul d\'Erykah Badu.'},
+          {n:2,t:'Still Life (with Anderson .Paak)',meaning:'Une méditation sur l\'impermanence — l\'art dure, les gens s\'effacent. Le groove d\'Anderson .Paak ancre les réflexions philosophiques de RM.'},
+          {n:3,t:'All Day (with Tablo)',meaning:'L\'agitation de la vie moderne, en featuring avec Tablo du groupe pionnier Epik High.'},
+          {n:4,t:'Forg_tful (with Kim Sa-wol)',meaning:'La mémoire et l\'oubli comme une forme de pitié — RM y écrit sur la perte progressive de certaines parts de lui-même.'},
+          {n:5,t:'Closer (with Paul Blanco, Mahalia)',meaning:'Sur l\'intimité et la distance — vouloir se rapprocher tout en le redoutant.'},
+          {n:6,t:'Change pt.2',meaning:'Suite de sa collaboration de 2017 avec Wale ("Change"). Croissance, regrets, et ce qui ne change jamais vraiment.'},
+          {n:7,t:'Lonely',meaning:'Une confession sur la solitude, même entouré de millions de personnes.'},
+          {n:8,t:'Hectic (with Colde)',meaning:'Un disco-banger porté par le timbre grave et feutré de RM, en featuring avec Colde.'},
+          {n:9,t:'Wild Flower (with youjeen)',meaning:'Single principal. Une luciole dans un champ — belle, brève, brûlante. Un texte sur l\'anxiété de la célébrité.',title:true},
+          {n:10,t:'No.2 (with Park Ji-yoon)',meaning:'Morceau de clôture. Être "numéro 2" dans le cœur de quelqu\'un reste un amour véritable.'},
         ],
         tabs:{
           mv:[
-            {title:'Wild Flower — MV',href:'https://www.youtube.com/watch?v=_j6fCRqDFpQ',emoji:'🌸',date:'Déc. 2022'},
+            {title:'Wild Flower — MV',href:'https://www.youtube.com/watch?v=_j6fCRqDFpQ',emoji:'🌸',date:'2 déc. 2022'},
           ],
           interview:[
             {title:'RM — Indigo Full Album Interview (Weverse)',href:'https://www.youtube.com/results?search_query=RM+Indigo+album+interview+Weverse+2022',emoji:'🎙',date:'Déc. 2022'},
@@ -8583,6 +8608,8 @@ const SOLO_DATA = {
           collab:[
             {title:'Domodachi feat. Little Simz',href:'https://youtu.be/bZPQImItCEg',emoji:'🎵',date:'2024'},
             {title:'Around the world in a day feat. Moses Sumney',href:'https://www.youtube.com/results?search_query=RM+Moses+Sumney+Around+the+world+in+a+day+2024',emoji:'🌍',date:'2024'},
+            {title:'Neva Play — Megan Thee Stallion feat. RM',href:'https://www.youtube.com/results?search_query=Megan+Thee+Stallion+Neva+Play+RM+2024',emoji:'🎤',date:'Sept. 2024'},
+            {title:'Stop The Rain — Tablo x RM',href:'https://www.youtube.com/results?search_query=Tablo+RM+Stop+The+Rain+2025',emoji:'🌧',date:'2 mai 2025'},
           ],
           concert:[],
           docu:[],
@@ -8682,14 +8709,16 @@ const SOLO_DATA = {
         type:'mixtape',
         desc:'La première mixtape d\'Agust D, sortie gratuitement. Un exutoire brut sur la dépression, l\'OCD, la honte sociale coréenne et l\'ambition. "Agust D" est l\'inverse de "DT Suga" — un alias libérateur.',
         tracklist:[
-          {n:1,t:'Intro : Dt. sugA',meaning:'Une déclaration d\'identité — Agust D n\'est pas Suga le membre de BTS. C\'est le rappeur de Daegu avant la gloire.',title:false},
+          {n:1,t:'Intro : Dt. sugA (feat. DJ Friz)',meaning:'Une déclaration d\'identité — Agust D n\'est pas Suga le membre de BTS. C\'est le rappeur de Daegu avant la gloire.'},
           {n:2,t:'Agust D',meaning:'Titre éponyme explosif. Il liste ses accomplissements et défie quiconque douterait de sa légitimité.',title:true},
           {n:3,t:'give it to me',meaning:'Arrogance assumée — une réponse à ceux qui lui ont dit non avant BTS.'},
           {n:4,t:'skit',meaning:'Un sketch où Suga se parle à lui-même avant un prix — drôle et méta.'},
-          {n:5,t:'724148',meaning:'Son numéro de patient psychiatrique. La révélation publique de son TOC et sa dépression — un moment historique dans le K-pop.'},
-          {n:6,t:'TONY MONTANA (feat. Yankie)',meaning:'Il se compare au personnage de Scarface — l\'ambition sans limites de celui qui vient de rien.',title:false},
-          {n:7,t:'the last',meaning:'Le titre le plus personnel. Suga parle de sa dépression, de ses pensées suicidaires et de sa guérison. Bouleversant.',title:true},
-          {n:8,t:'one',meaning:'Clôture apaisée. Après tout, il n\'a besoin que d\'une chose : continuer.'},
+          {n:5,t:'the last',meaning:'L\'un des titres les plus personnels. Suga parle de sa dépression, de ses pensées suicidaires et de sa guérison. Bouleversant.'},
+          {n:6,t:'724148',meaning:'Son numéro de patient psychiatrique. La révélation publique de son TOC et sa dépression — un moment historique dans le K-pop.'},
+          {n:7,t:'So far away (feat. Suran)',meaning:'Une ballade mélancolique sur la distance parcourue depuis Daegu, en featuring avec la chanteuse Suran.'},
+          {n:8,t:'Interlude : Dream, Reality',meaning:'Interlude instrumental — le fossé entre le rêve d\'enfance et la réalité qu\'il vit désormais.'},
+          {n:9,t:'TONY MONTANA (feat. Yankie)',meaning:'Il se compare au personnage de Scarface — l\'ambition sans limites de celui qui vient de rien.'},
+          {n:10,t:'140503 at dawn (piste cachée)',meaning:'Piste cachée en hommage à la date où il s\'est fait opérer de l\'épaule après un accident de livraison à scooter, avant ses débuts.'},
         ],
         tabs:{
           mv:[{title:'Agust D — MV',href:'https://www.youtube.com/watch?v=jUykiySsqVg',emoji:'🎬',date:'2016'}],
@@ -8703,18 +8732,16 @@ const SOLO_DATA = {
         type:'mixtape',
         desc:'Deuxième mixtape d\'Agust D, toujours gratuite. Plus mûr, plus expérimental — il sample des classiques coréens et interroge la machine du divertissement. Acclamé par la presse internationale.',
         tracklist:[
-          {n:1,t:'Moonlight',meaning:'Une intro douce et onirique — le calme avant la tempête.'},
-          {n:2,t:'Daechwita',meaning:'Sample de musique royale coréenne (대취타). Il joue deux personnages : le roi et le condamné — symbole de sa double vie.',title:true},
-          {n:3,t:'What do you think?',meaning:'Une critique acerbe de l\'industrie du divertissement et de ses hypocrisies.'},
-          {n:4,t:'Honsool',meaning:'"Boire seul" — sur l\'alcool comme mécanisme d\'adaptation à la solitude de la célébrité.'},
-          {n:5,t:'Strange (feat. RM)',meaning:'Collaboration avec RM sur le sentiment d\'être étrange, différent, inadapté.'},
-          {n:6,t:'Burn It (feat. MAX)',meaning:'Brûler ce qui est faux pour recommencer — ft. MAX.'},
-          {n:7,t:'People',meaning:'Les gens entrent et sortent de nos vies — sur la fugacité des relations.'},
-          {n:8,t:'Assalamu Alaikum (Peace be upon You) (feat. Halsey, SUGA of BTS)',meaning:'Une prière universelle pour la paix — avec Halsey.'},
-          {n:9,t:'28',meaning:'Écrit à 28 ans. Un bilan — ce qu\'il a accompli, ce qu\'il a perdu.'},
-          {n:10,t:'Dear my friend (feat. Kim Jong Wan)',meaning:'Une lettre à un ami d\'enfance que la vie a éloigné.'},
-          {n:11,t:'Interlude : Set Me Free',meaning:'Libère-moi — une demande d\'affranchissement de toutes les étiquettes.'},
-          {n:12,t:'Outro : Your Suga',meaning:'Clôture tendre — il revient à Suga, le membre de BTS, et remercie ARMY.'},
+          {n:1,t:'Moonlight',meaning:'Intro douce et onirique — le calme avant la tempête.'},
+          {n:2,t:'28',meaning:'Écrit à 28 ans. Un bilan — ce qu\'il a accompli, ce qu\'il a perdu.'},
+          {n:3,t:'Burn It (feat. MAX)',meaning:'Brûler ce qui est faux pour recommencer — ft. MAX.'},
+          {n:4,t:'Daechwita',meaning:'Sample de musique royale coréenne (대취타). Il joue deux personnages : le roi et le condamné — symbole de sa double vie.',title:true},
+          {n:5,t:'Dear my friend (feat. Kim Jong Wan)',meaning:'Une lettre à un ami d\'enfance que la vie a éloigné.'},
+          {n:6,t:'Honsool',meaning:'"Boire seul" — sur l\'alcool comme mécanisme d\'adaptation à la solitude de la célébrité.'},
+          {n:7,t:'Strange (feat. RM)',meaning:'Collaboration avec RM sur le sentiment d\'être étrange, différent, inadapté.'},
+          {n:8,t:'People',meaning:'Les gens entrent et sortent de nos vies — sur la fugacité des relations.'},
+          {n:9,t:'What do you think?',meaning:'Une critique acerbe de l\'industrie du divertissement et de ses hypocrisies.'},
+          {n:10,t:'Interlude : Set Me Free',meaning:'Libère-moi — une demande d\'affranchissement de toutes les étiquettes, morceau de clôture.'},
         ],
         tabs:{
           mv:[
@@ -8724,7 +8751,6 @@ const SOLO_DATA = {
           interview:[{title:'Suga — D-2 Weverse Live',href:'https://www.youtube.com/results?search_query=Suga+D-2+release+Weverse+Live+2020',emoji:'🎙',date:'2020'}],
           collab:[
             {title:'Strange ft. RM',href:'https://www.youtube.com/results?search_query=Agust+D+Strange+RM+D2',emoji:'🎵',date:'2020'},
-            {title:'Assalamu Alaikum ft. Halsey',href:'https://www.youtube.com/results?search_query=Agust+D+Halsey+Assalamu+Alaikum',emoji:'🎵',date:'2020'},
           ],
           concert:[],
           docu:[{title:'D-2 Making Film',href:'https://www.youtube.com/results?search_query=Agust+D+D2+making+film',emoji:'🎞',date:'2020'}],
@@ -8736,22 +8762,21 @@ const SOLO_DATA = {
         type:'album',
         desc:'Premier album studio payant d\'Agust D. Trilogie complétée. D-DAY est le jour du jugement — Suga règle ses comptes avec la célébrité, la maladie, l\'industrie. Accompagné d\'un documentaire Netflix et d\'une tournée mondiale.',
         tracklist:[
-          {n:1,t:'Haegeum',meaning:'"Levée de l\'interdiction" — une critique directe de la censure et de la morale conservatrice coréenne. D-DAY annonce la libération.',title:true},
-          {n:2,t:'Snooze (feat. Ryuichi Sakamoto, WOOSUNG)',meaning:'Avec le légendaire Ryuichi Sakamoto avant sa mort — une lettre à ceux qui abandonnent leurs rêves : "reste encore un peu".',title:false},
+          {n:1,t:'Interlude : Dawn',meaning:'Ouverture instrumentale — l\'aube avant le jugement dernier que représente D-DAY.'},
+          {n:2,t:'Haegeum',meaning:'"Levée de l\'interdiction" — une critique directe de la censure et de la morale conservatrice coréenne. D-DAY annonce la libération.',title:true},
           {n:3,t:'People Pt.2 (feat. IU)',meaning:'Sequel du "People" de D-2, avec IU. Plus mature, acceptant le va-et-vient des relations.'},
-          {n:4,t:'SDL',meaning:'"Satoori Rap Daejeon Line" — hommage à son dialecte régional et ses souvenirs d\'enfance à Daegu.'},
-          {n:5,t:'HUH? (feat. j-hope)',meaning:'Un titre explosif avec j-hope — le chaos joyeux avant la tempête.'},
-          {n:6,t:'Polar Night',meaning:'La nuit polaire — métaphore de la dépression comme une nuit qui ne finit pas.'},
-          {n:7,t:'Amygdala',meaning:'L\'amygdale cérébrale, siège des émotions et peurs. Suga analyse ses propres traumas avec une précision clinique et bouleversante.',title:true},
-          {n:8,t:'Interlude : Outcheckout',meaning:'Faire le bilan — sortir de l\'hôtel de sa propre vie.'},
-          {n:9,t:'Burn It',meaning:'Reprise de D-2 — tout brûler pour renaître.'},
-          {n:10,t:'Life Goes On (BTS cover)',meaning:'Cover acoustique du titre de BTS — une douceur inattendue en fin d\'album.'},
-          {n:11,t:'Outro : Circle Room Drunk',meaning:'Conclusion : ivre dans une pièce circulaire, cherchant une sortie — et la trouvant enfin.'},
+          {n:4,t:'Amygdala',meaning:'L\'amygdale cérébrale, siège des émotions et peurs. Suga analyse ses propres traumas avec une précision clinique et bouleversante.'},
+          {n:5,t:'Polar Night',meaning:'La nuit polaire — métaphore de la dépression comme une nuit qui ne finit pas.'},
+          {n:6,t:'Snooze (feat. Ryuichi Sakamoto, Woosung)',meaning:'Avec le légendaire Ryuichi Sakamoto avant sa mort — une lettre à ceux qui abandonnent leurs rêves : "reste encore un peu".'},
+          {n:7,t:'SDL',meaning:'"Satoori Rap Daejeon Line" — hommage à son dialecte régional et ses souvenirs d\'enfance à Daegu.'},
+          {n:8,t:'Life Goes On',meaning:'Version personnelle et acoustique du titre de BTS — une douceur inattendue en fin d\'album.'},
+          {n:9,t:'Huh?! (feat. j-hope)',meaning:'Un titre explosif avec j-hope — le chaos joyeux avant la tempête.'},
+          {n:10,t:'D-Day',meaning:'Titre final et titre-phare. Le jour du jugement, la fin de la trilogie Agust D — Suga règle enfin ses comptes.',title:true},
         ],
         tabs:{
           mv:[
             {title:'Haegeum — MV',href:'https://www.youtube.com/watch?v=_mPvPAOC1jE',emoji:'🎬',date:'Avr. 2023'},
-            {title:'People Pt.2 ft. IU — MV',href:'https://www.youtube.com/results?search_query=Agust+D+People+Pt2+IU+MV',emoji:'🎵',date:'2023'},
+            {title:'People Pt.2 ft. IU — MV',href:'https://www.youtube.com/watch?v=uVD-YgzDzyY',emoji:'🎵',date:'21 avr. 2023'},
           ],
           interview:[
             {title:'Suga — D-DAY Album Interview (Weverse)',href:'https://www.youtube.com/results?search_query=Suga+Agust+D+D-DAY+album+interview+2023',emoji:'🎙',date:'2023'},
@@ -8846,21 +8871,48 @@ const SOLO_DATA = {
         type:'album',
         desc:'Projet sorti pendant son service militaire (permission spéciale). Un retour à ses racines de danseur — collaborations avec des légendes de la danse et de la musique, un documentaire Netflix inclus.',
         tracklist:[
-          {n:1,t:'NEURON (with Gaeko, Yoon Mirae)',meaning:'Avec deux légendes du hip-hop coréen — un titre électrique sur la créativité comme courant électrique.',title:true},
-          {n:2,t:'i don\'t know (with Jung Kook)',meaning:'Avec Jungkook — ne pas savoir, et trouver la beauté dans l\'incertitude.'},
-          {n:3,t:'On the Street (with J.Cole)',meaning:'Hommage à la danse de rue avec J.Cole. Le titre le plus émouvant — une lettre à la danse.',title:true},
-          {n:4,t:'Neuron Remix (with Kidmilli, Ma Mello)',meaning:'Version remixée du titre avec deux rappeurs montants.'},
+          {n:1,t:'On the Street (Solo version)',meaning:'Version solo du titre sorti avec J.Cole en 2023 — hommage à la danse de rue qui l\'a fait devenir J-Hope.',title:true},
+          {n:2,t:'I Don\'t Know (with Huh Yunjin)',meaning:'Duo avec Huh Yunjin (LE SSERAFIM) sur l\'incertitude face à l\'avenir, portée par une énergie rock.'},
+          {n:3,t:'I Wonder (with Jungkook)',meaning:'Duo avec Jungkook — deux danseurs de BTS réunis sur un titre empreint de curiosité et de complicité.'},
+          {n:4,t:'Lock / Unlock (with Benny Blanco and Nile Rodgers)',meaning:'Featuring deux légendes de la production américaine — un funk contagieux sur le fait de se livrer ou se refermer.'},
+          {n:5,t:'NEURON (with Gaeko, Yoon Mirae)',meaning:'Avec deux légendes du hip-hop coréen — un titre électrique sur la créativité comme courant électrique, hommage à son ancien crew de danse du même nom.',title:true},
+          {n:6,t:'What If... (Dance Mix) (with Jinbo the Superfreak)',meaning:'Version dansante remixée du titre de Jack In The Box, avec le danseur Jinbo the Superfreak.'},
         ],
         tabs:{
-          mv:[{title:'On the Street ft. J.Cole — MV',href:'https://www.youtube.com/results?search_query=j-hope+J.Cole+On+the+Street+MV+2024',emoji:'🕺',date:'2024'}],
+          mv:[
+            {title:'On the Street (Solo ver.) — MV',href:'https://youtu.be/r6WbbU_lLCA',emoji:'🕺',date:'29 mars 2024'},
+            {title:'NEURON — Official Motion Picture',href:'https://www.youtube.com/watch?v=z4Rg_VgOlJU',emoji:'⚡',date:'29 mars 2024'},
+          ],
           interview:[{title:'J-Hope — Hope on the Street Interview',href:'https://www.youtube.com/results?search_query=j-hope+Hope+on+the+Street+interview+2024',emoji:'🎙',date:'2024'}],
           collab:[
-            {title:'NEURON ft. Gaeko, Yoon Mirae',href:'https://www.youtube.com/results?search_query=j-hope+NEURON+Gaeko+Yoon+Mirae',emoji:'🎵',date:'2024'},
-            {title:'On the Street ft. J.Cole',href:'https://www.youtube.com/results?search_query=j-hope+J.Cole+On+the+Street',emoji:'🎵',date:'2024'},
+            {title:'I Wonder ft. Jungkook',href:'https://www.youtube.com/results?search_query=j-hope+I+Wonder+Jungkook+2024',emoji:'🎵',date:'2024'},
+            {title:'Lock/Unlock ft. Benny Blanco, Nile Rodgers',href:'https://www.youtube.com/results?search_query=j-hope+Lock+Unlock+Benny+Blanco+Nile+Rodgers',emoji:'🎵',date:'2024'},
           ],
           concert:[],
           docu:[{title:'Hope on the Street — Netflix Documentary',href:'https://www.youtube.com/results?search_query=j-hope+Hope+on+the+Street+Netflix+documentary',emoji:'🎞',date:'2024'}],
-          tv:[],
+          tv:[{title:'Hope on the Street Vol.1 — Album complet',href:'https://youtube.com/playlist?list=OLAK5uy_ly2ikC6-PbhKvCtfSTiXHNUYiQPcAxgN8',emoji:'💿',date:'2024'}],
+        }
+      },
+      {
+        id:'jhope-2025', title:'Singles 2025', year:'2025', emoji:'💜',
+        type:'single',
+        desc:'Après son retour du service militaire, J-Hope enchaîne les collaborations et singles solo à l\'international — de Don Toliver à GloRilla en passant par Miguel.',
+        tracklist:[
+          {n:1,t:'Mona Lisa',meaning:'Premier single 100% solo depuis son retour — une déclaration d\'amour comparant l\'être aimé à l\'œuvre d\'art la plus admirée au monde.',title:true},
+          {n:2,t:'Sweet Dreams (feat. Miguel)',meaning:'Duo R&B/pop avec la star américaine Miguel — une berceuse sensuelle sur le désir.'},
+          {n:3,t:'Killin\' It Girl (feat. GloRilla)',meaning:'Collaboration énergique avec la rappeuse GloRilla — un hymne à la confiance en soi.'},
+          {n:4,t:'LV Bag (Don Toliver feat. J-Hope & Pharrell)',meaning:'Featuring sur le titre de Don Toliver, aux côtés de Pharrell Williams.'},
+        ],
+        tabs:{
+          mv:[
+            {title:'Sweet Dreams ft. Miguel — MV',href:'https://weverse.io/bts/media/4-193940236',emoji:'💫',date:'7 mars 2025'},
+          ],
+          interview:[],
+          collab:[
+            {title:'Killin\' It Girl ft. GloRilla',href:'https://jhope.lnk.to/KillinItGirl',emoji:'🎤',date:'13 juin 2025'},
+            {title:'LV Bag — Don Toliver ft. J-Hope & Pharrell',href:'https://www.youtube.com/results?search_query=Don+Toliver+LV+Bag+J-Hope+Pharrell',emoji:'👜',date:'2025'},
+          ],
+          concert:[],docu:[],tv:[],
         }
       }
     ]
@@ -9024,6 +9076,66 @@ const TAB_LABELS = {
   tv:       '📺 TV & Apparitions',
 };
 
+const ARTIST_PHOTOS = {
+  rm:'Photo/Rm.jpg', jin:'Photo/Jin.jpg', suga:'Photo/Suga.jpg', jhope:'Photo/Jhope.jpg',
+  jimin:'Photo/Jimin.jpg', v:'Photo/V.jpg', jk:'Photo/Jk.cover.jpg'
+};
+const SOLO_COVERS = {
+  'mono':'', // pochette manquante dans Photo/Solo — à ajouter
+  'indigo':'Photo/Solo/Indigo.jpg',
+  'right-place':'Photo/Solo/Right-Place-Wrong-Person.jpg',
+  'astronaut':'Photo/Solo/The-Astronaut.jpg',
+  'happy':'Photo/Solo/Happy.jpg',
+  'echo':'Photo/Solo/Echo.jpg',
+  'agust-d':'Photo/Solo/Agust-D.jpg',
+  'd2':'Photo/Solo/D-2.jpg',
+  'dday':'Photo/Solo/D-Day.jpg',
+  'hope-world':'Photo/Solo/Hope-World.jpg',
+  'jackinthebox':'Photo/Solo/Jack-In-The-Box.jpg',
+  'hope-on-the-street':'Photo/Solo/Jhope-On-The-Street-Vol1.jpg',
+  'face':'Photo/Solo/Face.jpg',
+  'muse':'Photo/Solo/Muse.jpg',
+  'layover':'Photo/Solo/Layover.jpg',
+  'golden':'Photo/Solo/Golden.jpg',
+};
+
+// ══════════════════════════════════════════════
+// Remplace automatiquement les vignettes emoji des cartes vidéo
+// par la vraie miniature YouTube, quand le lien pointe vers YouTube.
+// ══════════════════════════════════════════════
+function extractYoutubeId(href) {
+  if (!href) return null;
+  let m = href.match(/[?&]v=([a-zA-Z0-9_-]{11})/);
+  if (m) return m[1];
+  m = href.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
+  if (m) return m[1];
+  m = href.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/);
+  if (m) return m[1];
+  return null;
+}
+
+function injectYoutubeThumbs(root) {
+  (root || document).querySelectorAll('.v-card').forEach(card => {
+    const thumb = card.querySelector('.v-thumb');
+    if (!thumb || thumb.querySelector('img.yt-auto-thumb')) return;
+    const id = extractYoutubeId(card.getAttribute('href'));
+    if (!id) return;
+    const img = document.createElement('img');
+    img.className = 'yt-auto-thumb';
+    img.loading = 'lazy';
+    img.alt = '';
+    img.src = `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
+    img.onerror = function(){ this.remove(); };
+    img.onload = function(){
+      const fb = thumb.querySelector('.v-thumb-fallback');
+      if (fb) fb.style.display = 'none';
+    };
+    thumb.insertBefore(img, thumb.firstChild);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => injectYoutubeThumbs(document));
+
 function renderSoloArchive(artistId) {
   const artist = SOLO_DATA[artistId];
   if (!artist) return;
@@ -9076,7 +9188,7 @@ function renderSoloArchive(artistId) {
     <div class="solo-era-section${eraIdx===0?' active':''}" id="sera-${artistId}-${eraIdx}">
       <div class="solo-album-hero">
         <div class="solo-album-row">
-          <div class="solo-album-art">${era.emoji}</div>
+          <div class="solo-album-art">${SOLO_COVERS[era.id] ? `<img src="${SOLO_COVERS[era.id]}" alt="${era.title}" onerror="this.parentNode.textContent='${era.emoji}'">` : era.emoji}</div>
           <div class="solo-album-info">
             <div class="solo-album-title">${era.title}</div>
             <div class="solo-album-meta">${era.year} · ${typeLabel} · ${artist.name}</div>
@@ -9098,7 +9210,7 @@ function renderSoloArchive(artistId) {
   sa.innerHTML = `
     <div class="solo-hero">
       <div class="solo-hero-top">
-        <div class="solo-hero-emoji">${artist.emoji}</div>
+        <div class="solo-hero-emoji"><img src="${ARTIST_PHOTOS[artistId]||''}" alt="${artist.name}" onerror="this.parentNode.textContent='${artist.emoji}'"></div>
         <div class="solo-hero-info">
           <div class="solo-hero-name">${artist.name}</div>
           <div class="solo-hero-kr">${artist.kr}</div>
@@ -9109,6 +9221,7 @@ function renderSoloArchive(artistId) {
     <div class="solo-nav" id="solo-nav-${artistId}">${erasNav}</div>
     ${erasContent}`;
 
+  injectYoutubeThumbs(sa);
   sa.classList.add('active');
 }
 
@@ -9408,6 +9521,8 @@ const SPOTIFY_IDS = {
   'wild flower': '5p8ThxM2OhJ0igfxkz0Z1q',
   // ── Jin Solo (The Astronaut / Happy / Echo) ──
   'the astronaut': '0h7QMc9ZRzA9QJrbEHytn2',
+  // ── Suga/Agust D Solo (Agust D / D-2 / D-DAY) ──
+  'daechwita': '0H4ugk6rhnXmTl47ayy9O5',
   // ── Skool Luv Affair (2014) ──
   'boy in luv': '00b0FVWyvEjX2n70d6PhI1',
   'tomorrow': '4SjtdrTrrqFyJIVPwfkuXi',
