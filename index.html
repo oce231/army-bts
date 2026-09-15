@@ -8364,13 +8364,26 @@ function openWheelResult() {
   openVideoModal(fakeCard);
 }
 
-function showEra(idx) {
+// ── Fermeture centralisée de TOUTES les pages plein écran du site ──
+// Appelée par chaque point d'entrée (era, collection, profil, lore, about,
+// pages membres solo) pour ne jamais laisser deux pages empilées l'une
+// sur l'autre. Si tu ajoutes une nouvelle page plein écran au site,
+// ajoute-la ici une seule fois plutôt que dans chaque fonction.
+window.hideAllTopLevelPages = function () {
+  document.querySelectorAll('.era-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.era-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('lore-section') && document.getElementById('lore-section').classList.remove('active');
   document.getElementById('about-section') && document.getElementById('about-section').classList.remove('active');
   document.getElementById('profile-section') && document.getElementById('profile-section').classList.remove('active');
   document.getElementById('collection-page') && document.getElementById('collection-page').classList.remove('active');
-  document.querySelectorAll('.era-section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.era-btn').forEach(b => b.classList.remove('active'));
+  const sa = document.getElementById('solo-archive');
+  if (sa) sa.classList.remove('active');
+  const mainEl = document.querySelector('.main');
+  if (mainEl) mainEl.classList.remove('solo-hidden');
+};
+
+function showEra(idx) {
+  window.hideAllTopLevelPages();
   const target = document.getElementById('era-' + idx);
   if (target) target.classList.add('active');
   // Activer le bon bouton via son onclick (insensible à la position dans le DOM)
@@ -8431,6 +8444,15 @@ function switchArtist(id) {
   currentArtist = id;
   artistPopupOpen = false;
   document.getElementById('artist-popup').classList.remove('open');
+
+  // Ferme les autres pages plein écran (collection, profil, lore, about) sans
+  // toucher à l'era actuellement sélectionnée dans .main : elle réapparaît
+  // volontairement quand on revient de solo vers BTS ("Retour BTS").
+  document.getElementById('lore-section') && document.getElementById('lore-section').classList.remove('active');
+  document.getElementById('about-section') && document.getElementById('about-section').classList.remove('active');
+  document.getElementById('profile-section') && document.getElementById('profile-section').classList.remove('active');
+  document.getElementById('collection-page') && document.getElementById('collection-page').classList.remove('active');
+  document.getElementById('homepage') && document.getElementById('homepage').classList.add('hp-hidden');
 
   // Mettre à jour les boutons du popup
   document.querySelectorAll('.artist-btn').forEach(b => {
@@ -9995,23 +10017,15 @@ function closeSpotifyBar() {
 ══════════════════════════════════════════════ */
 
 function showAbout() {
-  document.querySelectorAll('.era-section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.era-btn').forEach(b => b.classList.remove('active'));
+  window.hideAllTopLevelPages();
   document.getElementById('homepage').classList.add('hp-hidden');
-  document.getElementById('lore-section') && document.getElementById('lore-section').classList.remove('active');
-  document.getElementById('profile-section') && document.getElementById('profile-section').classList.remove('active');
-  document.getElementById('collection-page') && document.getElementById('collection-page').classList.remove('active');
   document.getElementById('about-section').classList.add('active');
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
 function showLore() {
-  document.querySelectorAll('.era-section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.era-btn').forEach(b => b.classList.remove('active'));
+  window.hideAllTopLevelPages();
   document.getElementById('homepage').classList.add('hp-hidden');
-  document.getElementById('about-section') && document.getElementById('about-section').classList.remove('active');
-  document.getElementById('profile-section') && document.getElementById('profile-section').classList.remove('active');
-  document.getElementById('collection-page') && document.getElementById('collection-page').classList.remove('active');
   document.getElementById('lore-section').classList.add('active');
   window.scrollTo({top:0, behavior:'smooth'});
 }
@@ -11733,10 +11747,7 @@ window.showRandomFact = function() {
     document.getElementById('personalization-toggle').checked = personalizationEnabled;
     loadProfileStats();
     refreshPushButton();
-    document.querySelectorAll('.era-section').forEach(s => s.classList.remove('active'));
-    document.getElementById('lore-section') && document.getElementById('lore-section').classList.remove('active');
-    document.getElementById('about-section') && document.getElementById('about-section').classList.remove('active');
-    document.getElementById('collection-page') && document.getElementById('collection-page').classList.remove('active');
+    window.hideAllTopLevelPages();
     document.getElementById('homepage') && document.getElementById('homepage').classList.add('hp-hidden');
     document.getElementById('profile-section').classList.add('active');
     window.scrollTo({top:0, behavior:'smooth'});

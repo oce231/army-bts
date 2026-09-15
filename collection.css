@@ -20,6 +20,18 @@
   padding: 20px;
   margin-bottom: 18px;
   backdrop-filter: blur(10px);
+  position: relative;
+}
+.coll-refresh-btn {
+  position: absolute; top: 16px; right: 16px;
+  background: rgba(255,255,255,0.06); border: 1px solid var(--border2);
+  color: var(--text2); width: 34px; height: 34px; border-radius: 50%;
+  cursor: pointer; font-size: 1rem;
+  transition: transform .3s ease;
+}
+.coll-refresh-btn:active { transform: rotate(180deg); }
+.coll-loading {
+  text-align: center; color: var(--text2); padding: 60px 0; font-size: .9rem;
 }
 .coll-header-title {
   font-size: 1.4rem;
@@ -312,6 +324,11 @@
 .coll-flipcard-front img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
 .coll-flipcard-front .coll-card-emoji { display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; font-size: 3rem; }
 .coll-flipcard-front .coll-card-media { display: block; width: 100%; height: 100%; }
+.coll-flipcard-error {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: rgba(224,104,122,0.9); color: #fff;
+  font-size: .6rem; font-weight: 700; text-align: center; padding: 4px 2px;
+}
 
 .coll-flipcard.epic-glow.flipped .coll-flipcard-inner { filter: drop-shadow(0 0 14px rgba(176,107,242,0.5)); }
 .coll-flipcard.legendary-glow.flipped .coll-flipcard-inner { filter: drop-shadow(0 0 20px rgba(224,168,58,0.6)); }

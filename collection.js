@@ -40,33 +40,55 @@
 
   /* ────────────────── PERSISTENCE ────────────────── */
 
+  function logSupaError(where, error) {
+    if (error) console.error('[CollectionSystem] Supabase error @ ' + where + ':', error);
+    return !!error;
+  }
+
   async function loadState() {
     owned = new Map();
     wallet = { fragments: 0, last_daily_claim: null, pity_counter: 0, unlocked_packs: { era: [], member: [], lore: false, event: [] }, quests: {} };
     if (!sb || !currentUser) return;
 
-    const [{ data: cardRows }, { data: walletRow }] = await Promise.all([
+    const [cardRes, walletRes] = await Promise.all([
       sb.from('card_collection').select('card_id,count,level').eq('user_id', currentUser.id),
-      sb.from('user_wallet').select('*').eq('user_id', currentUser.id).single(),
+      sb.from('user_wallet').select('*').eq('user_id', currentUser.id).maybeSingle(),
     ]);
 
-    (cardRows || []).forEach(r => owned.set(r.card_id, { count: r.count, level: r.level }));
+    if (logSupaError('loadState/card_collection', cardRes.error)) {
+      renderToast('⚠️ Erreur de synchronisation', 'Tes cartes n\'ont peut-être pas pu être chargées.');
+    }
+    (cardRes.data || []).forEach(r => owned.set(r.card_id, { count: r.count, level: r.level }));
 
-    if (walletRow) {
-      wallet.fragments = walletRow.fragments || 0;
-      wallet.last_daily_claim = walletRow.last_daily_claim;
-      wallet.pity_counter = walletRow.pity_counter || 0;
-      wallet.unlocked_packs = walletRow.unlocked_packs || wallet.unlocked_packs;
-      wallet.quests = walletRow.quests || {};
-    } else {
-      await sb.from('user_wallet').insert({ user_id: currentUser.id }).select().maybeSingle();
+    if (logSupaError('loadState/user_wallet', walletRes.error)) {
+      renderToast('⚠️ Erreur de synchronisation', 'Tes diamants n\'ont peut-être pas pu être chargés.');
+    }
+
+    if (walletRes.data) {
+      wallet.fragments = walletRes.data.fragments || 0;
+      wallet.last_daily_claim = walletRes.data.last_daily_claim;
+      wallet.pity_counter = walletRes.data.pity_counter || 0;
+      wallet.unlocked_packs = walletRes.data.unlocked_packs || wallet.unlocked_packs;
+      wallet.quests = walletRes.data.quests || {};
+    } else if (!walletRes.error) {
+      // Aucune ligne pour cet utilisateur : première connexion, on en crée une.
+      const { error: insertErr } = await sb.from('user_wallet').insert({ user_id: currentUser.id });
+      logSupaError('loadState/create_wallet', insertErr);
     }
     animationsEnabled = localStorage.getItem('collectionAnimations') !== 'false';
   }
 
+  // Recharge systématiquement depuis Supabase (ignore le cache local) —
+  // à utiliser à chaque ouverture de la page collection pour rester à jour
+  // entre plusieurs appareils connectés au même compte.
+  async function refreshState() {
+    await loadState();
+    loadedOnce = true;
+  }
+
   async function saveWallet() {
-    if (!sb || !currentUser) return;
-    await sb.from('user_wallet').upsert({
+    if (!sb || !currentUser) return true;
+    const { error } = await sb.from('user_wallet').upsert({
       user_id: currentUser.id,
       fragments: wallet.fragments,
       last_daily_claim: wallet.last_daily_claim,
@@ -75,12 +97,19 @@
       quests: wallet.quests,
       updated_at: new Date().toISOString(),
     });
+    if (logSupaError('saveWallet', error)) {
+      renderToast('⚠️ Sauvegarde impossible', 'Vérifie ta connexion et réessaie.');
+      return false;
+    }
     listeners.onWalletChange.forEach(fn => fn(wallet));
+    return true;
   }
 
   /* ────────────────── CARTES : obtention ────────────────── */
 
-  // Retourne { isNew, count, level, fragmentsGained }
+  // Retourne { isNew, count, level, fragmentsGained } ou { error: true } si la
+  // sauvegarde a échoué (la carte n'est alors PAS marquée comme obtenue en
+  // mémoire, pour ne jamais afficher un succès qui n'a pas été sauvegardé).
   async function grantCard(cardId, opts) {
     opts = opts || {};
     const card = CARD_BY_ID[cardId];
@@ -89,17 +118,32 @@
 
     const existing = owned.get(cardId);
     if (!existing) {
+      const { error } = await sb.from('card_collection').insert({ user_id: currentUser.id, card_id: cardId, count: 1, level: 1 });
+      if (error && error.code === '23505') {
+        // Doublon déjà présent en base (autre appareil plus rapide) : on
+        // retombe proprement sur le chemin "déjà possédée" ci-dessous.
+        owned.set(cardId, { count: 1, level: 1 });
+        return grantCard(cardId, opts);
+      }
+      if (logSupaError('grantCard/insert', error)) {
+        renderToast('⚠️ Carte non sauvegardée', 'Vérifie ta connexion et réessaie.');
+        return { error: true };
+      }
       owned.set(cardId, { count: 1, level: 1 });
-      await sb.from('card_collection').insert({ user_id: currentUser.id, card_id: cardId, count: 1, level: 1 });
       wallet.pity_counter = 0;
       await saveWallet();
       listeners.onUnlock.forEach(fn => fn({ card, isNew: true, fragmentsGained: 0 }));
       return { isNew: true, count: 1, level: 1, fragmentsGained: 0 };
     } else {
       const gained = RARITY[card.rarity].fragments;
-      existing.count += 1;
+      const newCount = existing.count + 1;
+      const { error } = await sb.from('card_collection').update({ count: newCount }).eq('user_id', currentUser.id).eq('card_id', cardId);
+      if (logSupaError('grantCard/update', error)) {
+        renderToast('⚠️ Doublon non sauvegardé', 'Vérifie ta connexion et réessaie.');
+        return { error: true };
+      }
+      existing.count = newCount;
       wallet.fragments += gained;
-      await sb.from('card_collection').update({ count: existing.count }).eq('user_id', currentUser.id).eq('card_id', cardId);
       await saveWallet();
       listeners.onUnlock.forEach(fn => fn({ card, isNew: false, fragmentsGained: gained }));
       return { isNew: false, count: existing.count, level: existing.level, fragmentsGained: gained };
@@ -293,11 +337,16 @@
 
   async function resetCollection() {
     if (!sb || !currentUser) return { ok: false };
-    await sb.from('card_collection').delete().eq('user_id', currentUser.id);
-    await sb.from('user_wallet').delete().eq('user_id', currentUser.id);
+    const del1 = await sb.from('card_collection').delete().eq('user_id', currentUser.id);
+    const del2 = await sb.from('user_wallet').delete().eq('user_id', currentUser.id);
+    if (logSupaError('resetCollection/delete', del1.error || del2.error)) {
+      renderToast('⚠️ Réinitialisation partielle', 'Vérifie ta connexion et réessaie.');
+      return { ok: false };
+    }
     owned = new Map();
     wallet = { fragments: 0, last_daily_claim: null, pity_counter: 0, unlocked_packs: { era: [], member: [], lore: false, event: [] }, quests: {} };
-    await sb.from('user_wallet').insert({ user_id: currentUser.id });
+    const { error: insertErr } = await sb.from('user_wallet').insert({ user_id: currentUser.id });
+    logSupaError('resetCollection/reinsert', insertErr);
     renderToast('🔄 Collection réinitialisée', 'Repars de zéro à tout moment.');
     const page = document.getElementById('collection-page');
     if (page && page.classList.contains('active')) renderCollectionPage();
@@ -384,6 +433,7 @@
     const total = progressFor(null);
 
     let html = '<div class="coll-header">';
+    html += '<button class="coll-refresh-btn" onclick="CollectionSystem.refreshCollectionPage()" title="Recharger depuis le serveur">🔄</button>';
     html += '<div class="coll-header-title">🎴 MY COLLECTION</div>';
     html += renderProgressBar(total.found, total.total, 'Total');
     html += '<div class="coll-wallet"><span class="coll-frag-icon">💎</span><span id="coll-frag-count">' + wallet.fragments + '</span> fragments</div>';
@@ -571,7 +621,7 @@
       html += '<div class="coll-flipcard' + rarityGlow + '" style="animation-delay:' + (animationsEnabled ? i * 0.2 : 0) + 's" onclick="CollectionSystem.flipRevealCard(this)">';
       html +=   '<div class="coll-flipcard-inner">';
       html +=     '<div class="coll-flipcard-face coll-flipcard-back"><img src="' + CARD_BACK_IMG + '" alt=""></div>';
-      html +=     '<div class="coll-flipcard-face coll-flipcard-front rarity-' + r.card.rarity + '">' + cardMediaHtml(r.card, { level: 1 }) + '</div>';
+      html +=     '<div class="coll-flipcard-face coll-flipcard-front rarity-' + r.card.rarity + '">' + cardMediaHtml(r.card, { level: 1 }) + (r.error ? '<span class="coll-flipcard-error">⚠️ non sauvegardée</span>' : '') + '</div>';
       html +=   '</div>';
       html += '</div>';
     });
@@ -606,17 +656,39 @@
       if (typeof window.authTogglePanel === 'function') window.authTogglePanel();
       return;
     }
-    await ensureLoaded();
+    hideAllTopLevelPages();
+    const page = document.getElementById('collection-page');
+    if (page) { page.classList.add('active'); page.innerHTML = '<div class="coll-loading">Chargement de ta collection…</div>'; }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Toujours relire Supabase à l'ouverture (jamais de cache figé) pour
+    // rester à jour si des cartes/packs ont été obtenus sur un autre appareil.
+    await refreshState();
+    renderCollectionPage();
+  }
+
+  // Bouton "Rafraîchir" manuel dans l'en-tête de la page collection.
+  async function refreshCollectionPage() {
+    await refreshState();
+    renderCollectionPage();
+    renderToast('🔄 Collection à jour', '');
+  }
+
+  /* ────────────────── NAVIGATION : ferme toutes les autres pages ──────────────────
+     Appelle la fonction globale définie dans index.html (qui connaît TOUTES
+     les pages du site : eras, lore, about, profil, solo-archive...). Si elle
+     n'existe pas encore (ancienne version de index.html), on retombe sur un
+     minimum local pour ne pas casser l'affichage.
+  ──────────────────────────────────────────── */
+  function hideAllTopLevelPages() {
+    if (typeof window.hideAllTopLevelPages === 'function') {
+      window.hideAllTopLevelPages();
+      return;
+    }
     document.querySelectorAll('.era-section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.era-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('lore-section') && document.getElementById('lore-section').classList.remove('active');
     document.getElementById('about-section') && document.getElementById('about-section').classList.remove('active');
     document.getElementById('profile-section') && document.getElementById('profile-section').classList.remove('active');
-    document.getElementById('homepage') && document.getElementById('homepage').classList.add('hp-hidden');
-    const page = document.getElementById('collection-page');
-    if (page) page.classList.add('active');
-    renderCollectionPage();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function closeCollectionPage() {
@@ -641,6 +713,7 @@
     grantPackUnlock,
     questStep,
     openCollectionPage,
+    refreshCollectionPage,
     closeCollectionPage,
     switchCategory,
     openCardDetail,
