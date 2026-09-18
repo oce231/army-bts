@@ -657,6 +657,7 @@
       return;
     }
     hideAllTopLevelPages();
+    document.getElementById('homepage') && document.getElementById('homepage').classList.add('hp-hidden');
     const page = document.getElementById('collection-page');
     if (page) { page.classList.add('active'); page.innerHTML = '<div class="coll-loading">Chargement de ta collection…</div>'; }
     window.scrollTo({ top: 0, behavior: 'smooth' });
