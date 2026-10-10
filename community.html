@@ -379,6 +379,56 @@ function initApp() {
 }
 
 /* ══════════════════════════════════════════════
+   NOTIFICATIONS LOCALES (page ouverte ou en arrière-plan)
+   Fonctionne sans serveur tant que l'onglet reste ouvert.
+   Pour être notifié site FERMÉ, il faut l'envoi serveur (supabase/functions/send-push).
+══════════════════════════════════════════════ */
+const _baseTitle = document.title;
+let _unreadTitle = 0;
+let _audioCtx = null;
+
+function pageIsActive() { return !document.hidden && document.hasFocus(); }
+
+function commBeep() {
+  try {
+    if (localStorage.getItem('commSound') === 'off') return;
+    _audioCtx = _audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const o = _audioCtx.createOscillator(), g = _audioCtx.createGain();
+    o.type = 'sine'; o.frequency.setValueAtTime(880, _audioCtx.currentTime);
+    o.frequency.exponentialRampToValueAtTime(1320, _audioCtx.currentTime + 0.12);
+    g.gain.setValueAtTime(0.0001, _audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.12, _audioCtx.currentTime + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, _audioCtx.currentTime + 0.25);
+    o.connect(g); g.connect(_audioCtx.destination); o.start(); o.stop(_audioCtx.currentTime + 0.26);
+  } catch (e) {}
+}
+
+function bumpTitleCount() {
+  _unreadTitle += 1;
+  document.title = '(' + _unreadTitle + ') ' + _baseTitle;
+}
+function resetTitleCount() {
+  _unreadTitle = 0;
+  document.title = _baseTitle;
+}
+document.addEventListener('visibilitychange', function () { if (!document.hidden) resetTitleCount(); });
+window.addEventListener('focus', resetTitleCount);
+
+// Notification système (si autorisée) quand la page n'est pas au premier plan
+async function notifyLocal(title, body, tag) {
+  commBeep();
+  if (pageIsActive()) return;
+  bumpTitleCount();
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  const opts = { body: body, icon: 'Photo/Preview.jpg', badge: 'Photo/Preview.jpg', tag: tag || 'comm', renotify: true, data: { url: 'community.html' } };
+  try {
+    const reg = ('serviceWorker' in navigator) ? await navigator.serviceWorker.getRegistration('sw.js') : null;
+    if (reg) { await reg.showNotification(title, opts); return; }
+  } catch (e) {}
+  try { new Notification(title, opts); } catch (e) {}
+}
+
+/* ══════════════════════════════════════════════
    NOTIFICATIONS PUSH
 ══════════════════════════════════════════════ */
 async function refreshCommPushButton() {
@@ -651,6 +701,12 @@ function subscribeToDMs() {
         renderFriendsList();
         const f = friendsCache.get(otherId);
         showCommToast('💬 Nouveau message privé de ' + (f && f.pseudo ? f.pseudo : 'un·e ami·e'));
+        notifyLocal('💬 ' + (f && f.pseudo ? f.pseudo : 'Message privé'), String(msg.content || '').slice(0, 120), 'dm-' + otherId);
+      }
+      // DM déjà ouvert mais onglet en arrière-plan : on prévient quand même
+      if (isForMe && dmCurrentFriend && dmCurrentFriend.id === otherId && !pageIsActive()) {
+        const f2 = friendsCache.get(otherId);
+        notifyLocal('💬 ' + (f2 && f2.pseudo ? f2.pseudo : 'Message privé'), String(msg.content || '').slice(0, 120), 'dm-' + otherId);
       }
     })
     .subscribe();
@@ -870,8 +926,10 @@ function checkMentionPing(msg) {
 
   if (mentionsEveryone) {
     showCommToast('📢 ' + msg.pseudo + ' a mentionné @everyone dans #' + roomLabel(msg.room));
+    notifyLocal('📢 @everyone — #' + roomLabel(msg.room), msg.pseudo + ' : ' + content.slice(0, 100), 'room-' + msg.room);
   } else if (mentionsMe) {
     showCommToast('🔔 ' + msg.pseudo + ' t\'a mentionné·e !');
+    notifyLocal('🔔 ' + msg.pseudo + ' t\'a mentionné·e', content.slice(0, 120), 'room-' + msg.room);
   }
 }
 function escapeRegExp(s) {
