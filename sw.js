@@ -1,6 +1,6 @@
 /* ══════════════════════════════════════════════
    SERVICE WORKER — Notifications Push
-   BTS Archive Universe
+   Bangtan Atlas
 ══════════════════════════════════════════════ */
 
 self.addEventListener('install', function(event) {
@@ -16,7 +16,7 @@ self.addEventListener('push', function(event) {
   let data = {};
   try { data = event.data ? event.data.json() : {}; } catch (e) {}
 
-  const title = data.title || 'BTS Archive';
+  const title = data.title || 'Bangtan Atlas';
   const options = {
     body: data.body || '',
     icon: 'Photo/Preview.jpg',

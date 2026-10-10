@@ -13,7 +13,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Quiz & Jeux · ARMY Lounge</title>
-<meta property="og:title" content="BTS Archive Universe">
+<meta property="og:title" content="Bangtan Atlas">
 <meta property="og:description" content="L'archive complète dédiée à BTS — eras, lives, jeux et plus.">
 <meta property="og:image" content="https://oce231.github.io/army-bts/Photo/Preview.jpg">
 <meta property="og:url" content="https://oce231.github.io/">
@@ -122,7 +122,7 @@
   <div id="game-era" class="gq-hidden">
 <div id="quiz-section">
   <div class="quiz-header">
-    <div class="quiz-header-label">✨ BTS Archive Universe</div>
+    <div class="quiz-header-label">✨ Bangtan Atlas</div>
     <div class="quiz-header-title">Quelle Era BTS es-tu ?</div>
     <div class="quiz-header-sub">10 questions pour découvrir l'era qui te correspond le mieux</div>
   </div>
@@ -159,7 +159,7 @@
   <div id="game-armytype" class="gq-hidden">
 <div id="atq-section">
   <div class="quiz-header">
-    <div class="quiz-header-label">💜 BTS Archive Universe</div>
+    <div class="quiz-header-label">💜 Bangtan Atlas</div>
     <div class="quiz-header-title">Quel type d'ARMY es-tu ?</div>
     <div class="quiz-header-sub">8 questions pour découvrir ton profil de fan</div>
   </div>
@@ -194,7 +194,7 @@
   <div id="game-blind" class="gq-hidden">
 <div id="blindtest-section">
   <div class="bt-header">
-    <div class="bt-label">🎵 BTS Archive Universe</div>
+    <div class="bt-label">🎵 Bangtan Atlas</div>
     <div class="bt-title">Blind Test BTS</div>
     <div class="bt-sub">Écoute 30 secondes et trouve le titre — 10 chansons</div>
   </div>
@@ -2019,8 +2019,8 @@ function _shareCanvasImage(canvas, filename, shareTitle, shareText){
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       navigator.share({
         files: [file],
-        title: shareTitle || 'BTS Archive Universe',
-        text: shareText || 'Regarde mon résultat sur BTS Archive Universe !'
+        title: shareTitle || 'Bangtan Atlas',
+        text: shareText || 'Regarde mon résultat sur Bangtan Atlas !'
       }).catch(function(err){
         // L'utilisateur a annulé ou erreur — pas grave, pas de fallback forcé
         console.log('Partage annulé ou échoué:', err);
@@ -2048,8 +2048,8 @@ function vfShare(){
   ctx.font='140px serif';ctx.fillText(d.emoji,W/2,340);
   ctx.fillStyle='#ffffff';ctx.font='700 52px "Cormorant Garamond",serif';ctx.fillText(d.level,W/2,450);
   ctx.fillStyle='#c9a96e';ctx.font='700 80px "Space Mono",monospace';ctx.fillText(d.score+' / '+d.total,W/2,570);
-  ctx.fillStyle='rgba(255,255,255,.6)';ctx.font='italic 24px "Cormorant Garamond",serif';ctx.fillText('BTS Archive Universe',W/2,900);
-  _shareCanvasImage(c, 'vraifaux-bts.png', 'Vrai ou Faux BTS', 'J\'ai obtenu '+d.score+'/'+d.total+' au quiz Vrai ou Faux sur BTS Archive Universe !');
+  ctx.fillStyle='rgba(255,255,255,.6)';ctx.font='italic 24px "Cormorant Garamond",serif';ctx.fillText('Bangtan Atlas',W/2,900);
+  _shareCanvasImage(c, 'vraifaux-bts.png', 'Vrai ou Faux BTS', 'J\'ai obtenu '+d.score+'/'+d.total+' au quiz Vrai ou Faux sur Bangtan Atlas !');
 }
 
 /* ══════════════════════════════════════
@@ -2346,8 +2346,8 @@ function plShare() {
   ctx.font='140px serif';ctx.fillText(d.emoji,W/2,340);
   ctx.fillStyle='#ffffff';ctx.font='700 52px "Cormorant Garamond",serif';ctx.fillText(d.level,W/2,450);
   ctx.fillStyle='#c9a96e';ctx.font='700 80px "Space Mono",monospace';ctx.fillText(d.score+' / '+d.total,W/2,570);
-  ctx.fillStyle='rgba(255,255,255,.6)';ctx.font='italic 24px "Cormorant Garamond",serif';ctx.fillText('BTS Archive Universe',W/2,900);
-  _shareCanvasImage(c,'paroles-bts.png','Complète les paroles BTS',"J'ai obtenu "+d.score+'/'+d.total+' au jeu Complète les paroles sur BTS Archive Universe !');
+  ctx.fillStyle='rgba(255,255,255,.6)';ctx.font='italic 24px "Cormorant Garamond",serif';ctx.fillText('Bangtan Atlas',W/2,900);
+  _shareCanvasImage(c,'paroles-bts.png','Complète les paroles BTS',"J'ai obtenu "+d.score+'/'+d.total+' au jeu Complète les paroles sur Bangtan Atlas !');
 }
 </script>
 
@@ -2508,8 +2508,8 @@ function chShare() {
   ctx.fillStyle='#c9a96e'; ctx.font='700 80px "Space Mono",monospace';
   ctx.fillText(d.score + ' / ' + d.total, W/2, 570);
   ctx.fillStyle='rgba(255,255,255,.6)'; ctx.font='italic 24px "Cormorant Garamond",serif';
-  ctx.fillText('BTS Archive Universe', W/2, 900);
-  _shareCanvasImage(c, 'chrono-bts.png', 'Chrono des albums BTS', "J'ai obtenu "+d.score+'/'+d.total+' au Chrono des albums sur BTS Archive Universe !');
+  ctx.fillText('Bangtan Atlas', W/2, 900);
+  _shareCanvasImage(c, 'chrono-bts.png', 'Chrono des albums BTS', "J'ai obtenu "+d.score+'/'+d.total+' au Chrono des albums sur Bangtan Atlas !');
 }
 </script>
 
@@ -2689,8 +2689,8 @@ function mmShare() {
   ctx.fillText(d.moves + ' coups', W/2, 560);
   ctx.font='700 40px "Space Mono",monospace'; ctx.fillText(d.time, W/2, 630);
   ctx.fillStyle='rgba(255,255,255,.6)'; ctx.font='italic 24px "Cormorant Garamond",serif';
-  ctx.fillText('BTS Archive Universe', W/2, 900);
-  _shareCanvasImage(c, 'memory-bts.png', 'Memory BTS', "J'ai terminé le Memory BTS en "+d.moves+' coups sur BTS Archive Universe !');
+  ctx.fillText('Bangtan Atlas', W/2, 900);
+  _shareCanvasImage(c, 'memory-bts.png', 'Memory BTS', "J'ai terminé le Memory BTS en "+d.moves+' coups sur Bangtan Atlas !');
 }
 
 function _mmStartTimer() {
@@ -2860,8 +2860,8 @@ function dmShare() {
   ctx.fillStyle = '#c9a96e'; ctx.font = '700 70px "Space Mono",monospace';
   ctx.fillText(d.score + ' / ' + d.max, W/2, 570);
   ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.font = 'italic 24px "Cormorant Garamond",serif';
-  ctx.fillText('BTS Archive Universe', W/2, 900);
-  _shareCanvasImage(c, 'devine-membre-bts.png', 'Devine le membre BTS', 'J\'ai obtenu '+d.score+'/'+d.max+' au jeu Devine le membre sur BTS Archive Universe !');
+  ctx.fillText('Bangtan Atlas', W/2, 900);
+  _shareCanvasImage(c, 'devine-membre-bts.png', 'Devine le membre BTS', 'J\'ai obtenu '+d.score+'/'+d.max+' au jeu Devine le membre sur Bangtan Atlas !');
 }
 </script>
 
@@ -3184,8 +3184,8 @@ function wdShare() {
   ctx.fillStyle='#c9a96e'; ctx.font='700 60px "Space Mono",monospace';
   ctx.fillText(d.won ? (d.attempts+'/6 essais') : 'X/6', W/2, 560);
   ctx.fillStyle='rgba(255,255,255,.6)'; ctx.font='italic 24px "Cormorant Garamond",serif';
-  ctx.fillText('BTS Archive Universe', W/2, 900);
-  _shareCanvasImage(c,'wordle-bts.png','Wordle BTS', d.won ? ("J'ai trouvé le mot du jour en "+d.attempts+"/6 essais sur Wordle BTS !") : "J'ai joué au Wordle BTS sur BTS Archive Universe !");
+  ctx.fillText('Bangtan Atlas', W/2, 900);
+  _shareCanvasImage(c,'wordle-bts.png','Wordle BTS', d.won ? ("J'ai trouvé le mot du jour en "+d.attempts+"/6 essais sur Wordle BTS !") : "J'ai joué au Wordle BTS sur Bangtan Atlas !");
 }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
