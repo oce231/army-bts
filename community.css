@@ -651,3 +651,53 @@ body.reactions-on .chat-msg-react-btn { display: block; }
 .reaction-picker button:hover { background: var(--overlay-4); transform: scale(1.2); }
 /* actions en ligne : messages plus compacts (le regroupement reste lisible) */
 .chat-msg-actions { flex-direction: row; gap: 2px; align-items: flex-start; }
+
+/* ── Mise en forme, présence, "en train d'écrire", emojis ── */
+.chat-code {
+  font-family: 'Space Mono', monospace; font-size: 11px;
+  background: var(--overlay-4); border: 1px solid var(--border2);
+  border-radius: 5px; padding: 0 5px;
+}
+.chat-link { color: var(--hero-pretitle); text-decoration: underline; word-break: break-all; }
+.chat-msg-text strong { color: var(--text); }
+
+.online-bar {
+  display: flex; align-items: center; gap: 6px; min-height: 14px;
+  margin: -4px 0 .6rem; font-family: 'Space Mono', monospace; font-size: 8px; color: var(--text3);
+}
+.online-bar:empty { display: none; }
+.online-dot, .friend-online {
+  display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+  background: #3ecf8e; box-shadow: 0 0 6px rgba(62,207,142,.7);
+}
+.friend-online { margin-left: 6px; vertical-align: middle; }
+
+.typing-line {
+  min-height: 16px; padding: 2px 4px; font-size: 10px; font-style: italic; color: var(--text3);
+}
+.typing-dots { display: inline-flex; gap: 2px; vertical-align: middle; margin-right: 3px; }
+.typing-dots i {
+  width: 4px; height: 4px; border-radius: 50%; background: var(--hero-pretitle);
+  animation: typingBounce 1.1s infinite ease-in-out;
+}
+.typing-dots i:nth-child(2) { animation-delay: .15s; }
+.typing-dots i:nth-child(3) { animation-delay: .3s; }
+@keyframes typingBounce { 0%, 60%, 100% { opacity: .3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+
+.chat-emoji-btn {
+  background: none; border: 1px solid var(--border2); border-radius: 50%;
+  width: 34px; height: 34px; flex-shrink: 0; font-size: 16px; cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.chat-emoji-btn:hover { border-color: var(--overlay-12); background: var(--overlay-4); }
+.emoji-pop {
+  position: fixed; z-index: 9999; width: 272px; padding: 8px;
+  display: grid; grid-template-columns: repeat(8, 1fr); gap: 2px;
+  background: var(--bg2, #180f28); border: 1px solid var(--border2); border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.4);
+}
+.emoji-pop button {
+  background: none; border: none; font-size: 18px; cursor: pointer;
+  padding: 4px 0; border-radius: 8px; transition: transform .1s, background .1s;
+}
+.emoji-pop button:hover { background: var(--overlay-4); transform: scale(1.2); }

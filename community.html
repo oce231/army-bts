@@ -133,11 +133,15 @@
 
     <!-- Description du salon actif -->
     <div class="room-desc" id="room-desc"></div>
+    <div class="online-bar" id="online-bar"></div>
 
     <!-- Messages -->
     <div class="chat-messages" id="chat-messages">
       <div class="chat-loading" id="chat-loading">Chargement des messages…</div>
     </div>
+
+    <!-- Indicateur "en train d'écrire…" -->
+    <div class="typing-line" id="typing-line"></div>
 
     <!-- Barre "en train de répondre à…" -->
     <div class="reply-bar" id="reply-bar" style="display:none">
@@ -160,10 +164,11 @@
       <button class="chat-attach-btn" onclick="document.getElementById('chat-file-input').click()" title="Joindre une photo ou vidéo">📎</button>
       <div class="mention-autocomplete-wrap">
         <input type="text" id="chat-input" class="comm-input" placeholder="Écris ton message…" maxlength="500"
-          oninput="handleMentionInput(event)"
+          oninput="handleMentionInput(event);handleTyping()"
           onkeydown="if(event.key==='Enter'){ if(mentionAutocompleteVisible()){ event.preventDefault(); selectMention(0); } else { sendMessage(); } } else if(event.key==='Escape'){ closeMentionAutocomplete(); }">
         <div class="mention-autocomplete" id="mention-autocomplete" style="display:none"></div>
       </div>
+      <button class="chat-emoji-btn" onclick="openEmojiPicker(event)" title="Emojis" aria-label="Emojis">😊</button>
       <button class="chat-send-btn" onclick="sendMessage()">Envoyer</button>
     </div>
     <div class="chat-error" id="chat-error"></div>
@@ -292,6 +297,7 @@ function showGate() {
   document.getElementById('comm-setup').style.display = 'flex';
   if (currentChannel) { sb.removeChannel(currentChannel); currentChannel = null; }
   if (dmChannel) { sb.removeChannel(dmChannel); dmChannel = null; }
+  leavePresence();
 }
 
 window.authSwitchTab = function(tab) {
@@ -379,6 +385,8 @@ function initApp() {
   initRoomBadges();
   subscribeAllRooms();
   checkReactions();
+  initPresence();
+  joinTyping(currentRoom);
 }
 
 /* ══════════════════════════════════════════════
@@ -546,7 +554,7 @@ function renderFriendsList() {
   box.innerHTML = accepted.map(([id, f]) => `
     <div class="friend-row">
       <span class="friend-avatar">${escapeHtml(f.avatar || '💜')}</span>
-      <span class="friend-pseudo">${escapeHtml(f.pseudo || 'ARMY')}</span>
+      <span class="friend-pseudo">${escapeHtml(f.pseudo || 'ARMY')}${onlineIds.has(id) ? ' <span class="friend-online" title="En ligne"></span>' : ''}</span>
       ${dmUnreadCounts.get(id) > 0 ? `<span class="friends-badge">${dmUnreadCounts.get(id)}</span>` : ''}
       <button class="friend-action-btn friend-action-accept" onclick='openDM(${JSON.stringify(id)}, ${JSON.stringify(f.pseudo || "ARMY")}, ${JSON.stringify(f.avatar || "💜")})'>💬 Message</button>
       <button class="friend-action-btn friend-action-remove" onclick="removeFriend('${id}')">Retirer</button>
@@ -780,7 +788,7 @@ function renderDMMessage(msg) {
   div.className = 'chat-msg' + (isMine ? ' chat-msg-mine' : '');
   div.innerHTML = `
     <div class="chat-msg-body">
-      <div class="chat-msg-text">${escapeHtml(msg.content)}</div>
+      <div class="chat-msg-text">${formatText(msg.content)}</div>
       <span class="chat-msg-time">${time}</span>
     </div>
   `;
@@ -1056,6 +1064,162 @@ window.pickReaction = function (mid, emoji) { closeReactionPicker(); toggleReact
 document.addEventListener('click', function () { closeReactionPicker(); });
 
 /* ══════════════════════════════════════════════
+   MISE EN FORME DES MESSAGES (façon Discord)
+   **gras**  *italique*  ~~barré~~  `code`  + liens https cliquables
+══════════════════════════════════════════════ */
+function formatText(raw) {
+  let s = escapeHtml(raw);
+  const stash = [];
+  const keep = function (html) { stash.push(html); return '\u0001' + (stash.length - 1) + '\u0001'; };
+
+  s = s.replace(/`([^`\n]+)`/g, function (m, c) { return keep('<code class="chat-code">' + c + '</code>'); });
+  s = s.replace(/https?:\/\/[^\s<]+/g, function (url) {
+    let tail = '';
+    let m;
+    while ((m = url.match(/(&quot;|&gt;|&amp;|[.,;:!?)\]'])$/)) && url.length > 8) {
+      tail = m[1] + tail; url = url.slice(0, -m[1].length);
+    }
+    return keep('<a class="chat-link" href="' + url + '" target="_blank" rel="noopener noreferrer">' + url + '</a>') + tail;
+  });
+  s = s.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+  s = s.replace(/(^|[\s(])\*([^*\n]+)\*(?=$|[\s.,!?)])/g, '$1<em>$2</em>');
+  s = s.replace(/~~([^~\n]+)~~/g, '<s>$1</s>');
+  s = formatMentions(s);
+  return s.replace(/\u0001(\d+)\u0001/g, function (m, i) { return stash[Number(i)]; });
+}
+
+/* ══════════════════════════════════════════════
+   PRÉSENCE (en ligne) + "est en train d'écrire…"
+   Realtime Supabase (presence + broadcast) : aucune table nécessaire.
+══════════════════════════════════════════════ */
+let presenceChannel = null;
+let onlineIds = new Set();
+let typingChannel = null;
+let typingRoom = null;
+const typers = new Map(); // userId -> { pseudo, until }
+let lastTypingSent = 0;
+
+function initPresence() {
+  if (!currentUser || !currentProfile) return;
+  leavePresence();
+  presenceChannel = sb.channel('lounge-online', { config: { presence: { key: currentUser.id } } });
+  presenceChannel.on('presence', { event: 'sync' }, function () {
+    const state = presenceChannel.presenceState();
+    onlineIds = new Set(Object.keys(state));
+    const names = [];
+    Object.keys(state).forEach(function (k) {
+      const meta = (state[k] && state[k][0]) || {};
+      if (meta.pseudo) names.push(meta.pseudo);
+    });
+    renderOnlineBar(names);
+    if (document.getElementById('friends-modal') && typeof renderFriendsList === 'function') {
+      try { renderFriendsList(); } catch (e) {}
+    }
+  }).subscribe(async function (status) {
+    if (status === 'SUBSCRIBED') {
+      try { await presenceChannel.track({ pseudo: currentProfile.pseudo, avatar: currentProfile.avatar || '💜' }); } catch (e) {}
+    }
+  });
+}
+
+function leavePresence() {
+  if (presenceChannel) { try { sb.removeChannel(presenceChannel); } catch (e) {} presenceChannel = null; }
+  if (typingChannel) { try { sb.removeChannel(typingChannel); } catch (e) {} typingChannel = null; }
+  onlineIds = new Set();
+  typers.clear();
+}
+
+function renderOnlineBar(names) {
+  const bar = document.getElementById('online-bar');
+  if (!bar) return;
+  if (!names.length) { bar.textContent = ''; return; }
+  const shown = names.slice(0, 6).map(escapeHtml).join(', ') + (names.length > 6 ? '…' : '');
+  bar.innerHTML = '<span class="online-dot"></span>' + names.length + ' en ligne · ' + shown;
+}
+
+function joinTyping(room) {
+  if (!currentUser) return;
+  if (typingChannel) { try { sb.removeChannel(typingChannel); } catch (e) {} typingChannel = null; }
+  typers.clear();
+  renderTyping();
+  typingRoom = room;
+  typingChannel = sb.channel('typing-' + room, { config: { broadcast: { self: false } } });
+  typingChannel.on('broadcast', { event: 'typing' }, function (msg) {
+    const p = (msg && msg.payload) || {};
+    if (!p.user_id || p.user_id === currentUser.id) return;
+    typers.set(p.user_id, { pseudo: p.pseudo || 'Quelqu\'un', until: Date.now() + 4000 });
+    renderTyping();
+  }).subscribe();
+}
+
+window.handleTyping = function () {
+  const input = document.getElementById('chat-input');
+  if (!input || !input.value.trim() || !typingChannel || !currentUser) return;
+  const now = Date.now();
+  if (now - lastTypingSent < 2500) return;
+  lastTypingSent = now;
+  try {
+    typingChannel.send({ type: 'broadcast', event: 'typing', payload: { user_id: currentUser.id, pseudo: currentProfile.pseudo } });
+  } catch (e) {}
+};
+
+function clearTyper(userId) {
+  if (userId && typers.delete(userId)) renderTyping();
+}
+
+function renderTyping() {
+  const el = document.getElementById('typing-line');
+  if (!el) return;
+  const now = Date.now();
+  typers.forEach(function (t, id) { if (t.until < now) typers.delete(id); });
+  const names = Array.from(typers.values()).map(function (t) { return t.pseudo; });
+  if (!names.length) { el.textContent = ''; return; }
+  let txt;
+  if (names.length === 1) txt = names[0] + ' est en train d\'écrire';
+  else if (names.length === 2) txt = names[0] + ' et ' + names[1] + ' sont en train d\'écrire';
+  else txt = 'Plusieurs personnes sont en train d\'écrire';
+  el.innerHTML = '<span class="typing-dots"><i></i><i></i><i></i></span> ' + escapeHtml(txt) + '…';
+}
+setInterval(renderTyping, 1000);
+
+/* ══════════════════════════════════════════════
+   SÉLECTEUR D'EMOJIS (zone de saisie)
+══════════════════════════════════════════════ */
+const EMOJI_SET = ['💜','😊','😂','🥹','😍','🥰','😭','😎','🤩','😅','🙃','😴','🤔','🥺','😤','🤗',
+  '👍','👏','🙌','🙏','💪','👀','🔥','✨','⭐','🌟','💫','🎉','🎶','🎵','🎤','🎧',
+  '💖','💕','💗','💘','❤️','🩷','💙','🤍','🐨','🐹','🐱','🐿️','🐥','🐯','🐰','🌸'];
+
+window.openEmojiPicker = function (ev) {
+  ev.stopPropagation();
+  const existing = document.getElementById('emoji-pop');
+  if (existing) { existing.remove(); return; }
+  const pop = document.createElement('div');
+  pop.id = 'emoji-pop';
+  pop.className = 'emoji-pop';
+  pop.onclick = function (e) { e.stopPropagation(); };
+  pop.innerHTML = EMOJI_SET.map(function (e) { return '<button type="button" onclick="insertEmoji(\'' + e + '\')">' + e + '</button>'; }).join('');
+  document.body.appendChild(pop);
+  const r = ev.currentTarget.getBoundingClientRect();
+  pop.style.top = Math.max(8, r.top - pop.offsetHeight - 8) + 'px';
+  pop.style.left = Math.max(8, Math.min(window.innerWidth - pop.offsetWidth - 8, r.right - pop.offsetWidth)) + 'px';
+};
+
+window.insertEmoji = function (emoji) {
+  const input = document.getElementById('chat-input');
+  if (!input) return;
+  const start = input.selectionStart != null ? input.selectionStart : input.value.length;
+  const end = input.selectionEnd != null ? input.selectionEnd : start;
+  const next = input.value.slice(0, start) + emoji + input.value.slice(end);
+  if (next.length > (input.maxLength > 0 ? input.maxLength : 500)) return;
+  input.value = next;
+  input.focus();
+  const pos = start + emoji.length;
+  input.setSelectionRange(pos, pos);
+  handleTyping();
+};
+document.addEventListener('click', function () { const p = document.getElementById('emoji-pop'); if (p) p.remove(); });
+
+/* ══════════════════════════════════════════════
    SALONS
 ══════════════════════════════════════════════ */
 window.switchRoom = function(room, btn) {
@@ -1064,6 +1228,7 @@ window.switchRoom = function(room, btn) {
   btn.classList.add('active');
   document.getElementById('room-desc').textContent = ROOM_DESCRIPTIONS[room];
   markRoomRead(room);
+  joinTyping(room);
   loadMessages(room);
 };
 
@@ -1118,6 +1283,7 @@ function subscribeToRoom(room) {
       if (empty) empty.remove();
       renderMessage(payload.new);
       scrollToBottom();
+      clearTyper(payload.new.user_id);
       checkMentionPing(payload.new);
       if (pageIsActive()) markRoomRead(room);
     })
@@ -1283,7 +1449,7 @@ function renderMessage(msg) {
         <span class="chat-msg-time">${time}</span>
       </div>
       ${replyHtml}
-      ${msg.content ? `<div class="chat-msg-text">${formatMentions(escapeHtml(msg.content))}</div>` : ''}
+      ${msg.content ? `<div class="chat-msg-text">${formatText(msg.content)}</div>` : ''}
       ${mediaHtml}
       <div class="chat-reactions" id="react-${msg.id}"></div>
     </div>
