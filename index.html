@@ -18908,6 +18908,7 @@ window.showRandomFact = function() {
 <script src="push.js"></script>
 <script src="data/bts-calendar-data.js"></script>
 <script src="data/cards-data.js"></script>
+<script src="data/video-cards.js"></script>
 <script src="collection.js"></script>
 <script>
 (function(){
@@ -19614,7 +19615,7 @@ window.showRandomFact = function() {
     const title = titleEl.textContent.trim();
     trackProgress('video_watched', JSON.stringify({ title: title, vtype: vtype, era: eraIdx }));
     if (typeof CollectionSystem !== 'undefined' && eraIdx !== '') {
-      CollectionSystem.grantPackUnlock('era', String(eraIdx));
+      CollectionSystem.recordEraWatch(String(eraIdx), (card.getAttribute('href').match(/(?:youtu\.be\/|[?&]v=)([\w-]{11})/) || [])[1] || card.getAttribute('href'));
     }
     watchedSet.add(title);
     decorateCard(card);

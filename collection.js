@@ -28,6 +28,9 @@
   const DUPES_PER_LEVEL = 2;  // doublons nécessaires pour passer au niveau suivant
   const MAX_LEVEL = 3;
   const ERA_PACK_COST = 15;   // diamants pour ouvrir un Era Pack débloqué
+  const ERA_WATCH_THRESHOLD = 10; // vidéos DIFFÉRENTES vues dans une era pour débloquer son coffre
+  const DAILY_VIDEO_SHARE = 0.3;  // part de cartes Vidéo dans le Daily Pack
+  const isVideo = c => c.cat === 'videos';
 
   let sb = null;
   let currentUser = null;
@@ -190,24 +193,31 @@
 
   /* ────────────────── PACKS ────────────────── */
 
+  // Tirage en 2 temps : on choisit d'abord la RARETÉ (60/28/10/2 parmi celles
+  // présentes), puis une carte au hasard dans cette rareté. Ainsi des milliers
+  // de cartes Vidéo communes ne noient pas les cartes rares/légendaires.
   function weightedPick(pool) {
-    const totalWeight = pool.reduce((sum, c) => sum + RARITY[c.rarity].weight, 0);
-    let r = Math.random() * totalWeight;
-    for (const c of pool) {
-      r -= RARITY[c.rarity].weight;
-      if (r <= 0) return c;
-    }
-    return pool[pool.length - 1];
+    const tiers = {};
+    pool.forEach(c => { (tiers[c.rarity] = tiers[c.rarity] || []).push(c); });
+    const keys = Object.keys(tiers);
+    const total = keys.reduce((sum, k) => sum + RARITY[k].weight, 0);
+    let r = Math.random() * total;
+    let pick = keys[keys.length - 1];
+    for (const k of keys) { r -= RARITY[k].weight; if (r <= 0) { pick = k; break; } }
+    const list = tiers[pick];
+    return list[Math.floor(Math.random() * list.length)];
   }
 
   function poolForPack(packType) {
-    if (packType === 'daily') return CARDS.filter(c => ['members', 'eras', 'albums', 'mvs', 'moments'].includes(c.cat));
+    if (packType === 'daily') {
+      return { hand: CARDS.filter(c => ['members', 'eras', 'albums', 'mvs', 'moments'].includes(c.cat)), videos: CARDS.filter(isVideo) };
+    }
     if (packType.startsWith('era:')) {
       const eraIdx = Number(packType.split(':')[1]);
-      const focused = CARDS.filter(c => (c.action && c.action.type === 'era' && c.action.idx === eraIdx));
+      const focused = CARDS.filter(c => !isVideo(c) && c.action && c.action.type === 'era' && c.action.idx === eraIdx);
+      const videos = CARDS.filter(c => isVideo(c) && c.videoEra === eraIdx);
       const rest = CARDS.filter(c => !focused.includes(c) && ['members', 'eras', 'albums', 'mvs'].includes(c.cat));
-      // 65% de chances de piocher dans le pool ciblé, sinon pool général
-      return { focused, rest };
+      return { focused, videos, rest };
     }
     if (packType.startsWith('member:')) {
       const slug = packType.split(':')[1];
@@ -217,13 +227,26 @@
     }
     if (packType === 'lore') return CARDS.filter(c => c.cat === 'lore');
     if (packType === 'event') return CARDS.filter(c => c.cat === 'special' || c.cat === 'moments');
-    return CARDS.filter(c => c.cat !== 'secret');
+    return CARDS.filter(c => c.cat !== 'secret' && !isVideo(c));
   }
 
   function drawOne(packType) {
     const pool = poolForPack(packType);
     if (Array.isArray(pool)) return weightedPick(pool);
-    // pool ciblé / pool de secours (era, member packs)
+    if (packType === 'daily') {
+      return weightedPick(Math.random() < DAILY_VIDEO_SHARE && pool.videos.length ? pool.videos : pool.hand);
+    }
+    if (packType.startsWith('era:')) {
+      // 30% carte faite main de l'era · 55% vidéo de l'era · 15% général
+      const r = Math.random();
+      // cartes main de l'era : seulement celles pas encore possédées (évite de farmer des diamants avec un petit pool)
+      const fresh = pool.focused.filter(c => !owned.has(c.id));
+      if (r < 0.30 && fresh.length) return weightedPick(fresh);
+      if (r < 0.85 && pool.videos.length) return weightedPick(pool.videos);
+      if (pool.rest.length) return weightedPick(pool.rest);
+      return weightedPick(pool.focused.length ? pool.focused : pool.videos);
+    }
+    // member packs
     const useFocused = pool.focused.length && Math.random() < 0.65;
     return weightedPick(useFocused ? pool.focused : (pool.rest.length ? pool.rest : pool.focused));
   }
@@ -241,7 +264,8 @@
     // Système anti-frustration : garantit une nouvelle carte après PITY_THRESHOLD packs
     const anyNew = draws.some(c => !owned.has(c.id));
     if (!anyNew && wallet.pity_counter + 1 >= PITY_THRESHOLD) {
-      const pool = CARDS.filter(c => c.cat !== 'secret' && !owned.has(c.id));
+      let pool = CARDS.filter(c => c.cat !== 'secret' && !isVideo(c) && !owned.has(c.id));
+      if (!pool.length) pool = CARDS.filter(c => c.cat !== 'secret' && !owned.has(c.id));
       if (pool.length) draws[2] = pool[Math.floor(Math.random() * pool.length)];
     }
     if (!anyNew) wallet.pity_counter += 1;
@@ -280,6 +304,28 @@
       wallet.unlocked_packs.member = wallet.unlocked_packs.member.filter(x => x !== slug);
     }
     if (packType === 'event') wallet.unlocked_packs.event = (wallet.unlocked_packs.event || []).slice(1);
+  }
+
+  // Appelé quand on clique une vidéo : compte les vidéos DIFFÉRENTES vues par era
+  // et débloque le coffre de l'era au seuil ERA_WATCH_THRESHOLD.
+  async function recordEraWatch(eraIdx, videoKey) {
+    if (!currentUser || eraIdx === '' || eraIdx == null || !videoKey) return;
+    if (!loadedOnce) await ensureLoaded();
+    const idx = String(eraIdx);
+    if (wallet.unlocked_packs.era.includes(idx)) return;
+    wallet.quests = wallet.quests || {};
+    const w = wallet.quests.era_watch = wallet.quests.era_watch || {};
+    const list = w[idx] = w[idx] || [];
+    if (list.includes(videoKey)) return;
+    list.push(videoKey);
+    if (list.length >= ERA_WATCH_THRESHOLD) {
+      delete w[idx];
+      await grantPackUnlock('era', idx);
+      const eraCard = CARD_BY_ID['era_' + idx];
+      renderToast('🌌 Coffre débloqué !', (eraCard ? eraCard.name : 'Era') + ' — tu peux l\'ouvrir avec ' + ERA_PACK_COST + ' 💎');
+    } else {
+      await saveWallet();
+    }
   }
 
   // À appeler pour débloquer progressivement des packs (exploration, quêtes...)
@@ -321,7 +367,7 @@
   /* ────────────────── PROGRESSION / STATS ────────────────── */
 
   function progressFor(cat) {
-    const all = cat ? catCards(cat) : CARDS;
+    const all = cat ? catCards(cat) : CARDS.filter(c => !isVideo(c));
     const found = all.filter(c => owned.has(c.id)).length;
     return { found, total: all.length };
   }
@@ -400,7 +446,7 @@
 
   function cardMediaHtml(card, entry) {
     const src = cardImageSrc(card, entry);
-    if (src) return '<img src="' + src + '" alt="" onerror="this.style.display=\'none\'">';
+    if (src) return '<img src="' + src + '" alt=""' + (card.cat === 'videos' ? ' loading="lazy" style="object-position:center"' : '') + ' onerror="this.style.display=\'none\'">';
     return '<span class="coll-card-emoji">' + card.emoji + '</span>';
   }
 
@@ -426,6 +472,7 @@
   }
 
   let activeCategory = 'members';
+  let videoLimit = 120;
 
   function renderCollectionPage() {
     const root = document.getElementById('collection-page');
@@ -455,8 +502,17 @@
     html += '</div>';
 
     html += '<div class="coll-grid" id="coll-grid">';
-    html += catCards(activeCategory).map(renderCardTile).join('');
+    let list = catCards(activeCategory);
+    let more = 0;
+    if (activeCategory === 'videos') {
+      // trouvées d'abord, puis à découvrir ; affichage par pages pour rester fluide
+      list = list.filter(c => owned.has(c.id)).concat(list.filter(c => !owned.has(c.id)));
+      more = Math.max(0, list.length - videoLimit);
+      list = list.slice(0, videoLimit);
+    }
+    html += list.map(renderCardTile).join('');
     html += '</div>';
+    if (more > 0) html += '<div style="text-align:center;margin:1.2rem 0"><button class="coll-detail-btn" onclick="CollectionSystem.showMoreVideos()">Afficher plus (' + more + ' restantes)</button></div>';
 
     root.innerHTML = html;
   }
@@ -493,8 +549,11 @@
     return html;
   }
 
+  function showMoreVideos() { videoLimit += 120; renderCollectionPage(); }
+
   function switchCategory(cat) {
     activeCategory = cat;
+    videoLimit = 120;
     renderCollectionPage();
   }
 
@@ -534,6 +593,7 @@
         (descText ? '<div class="coll-detail-desc">' + descText + '</div>' : '') +
         (canLevel && readyToLevel ? '<button class="coll-detail-btn" onclick="CollectionSystem.tryLevelUp(\'' + cardId + '\')">⬆️ Améliorer (2 doublons)</button>' : '') +
         (canLevel && !readyToLevel ? '<div class="coll-detail-hint">♻️ Encore ' + dupesNeeded + ' doublon(s) pour passer au niveau ' + (entry.level + 1) + '</div>' : '') +
+        (entry && card.url ? '<a class="coll-detail-btn" style="display:block;text-align:center;text-decoration:none" href="' + card.url + '" target="_blank" rel="noopener">▶ Regarder sur YouTube</a>' : '') +
         (entry && card.action ? '<button class="coll-detail-btn coll-detail-btn-explore" onclick="CollectionSystem.exploreCard(\'' + cardId + '\')">🔗 EXPLORE THIS CONTENT</button>' : '') +
       '</div>';
     overlay.classList.add('open');
@@ -712,6 +772,8 @@
     unlockEggCard,
     unlockEraVisit,
     grantPackUnlock,
+    recordEraWatch,
+    showMoreVideos,
     questStep,
     openCollectionPage,
     refreshCollectionPage,
@@ -725,6 +787,7 @@
     tryLevelUp,
     exploreCard,
     startPackOpening,
+    openPack,
     flipRevealCard,
     flipAllReveal,
     closePackOpening,
