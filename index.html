@@ -14346,6 +14346,13 @@
         <button class="wf-btn" onclick="setWheelFilter(this,'live')">📡 Lives</button>
         <button class="wf-btn" onclick="setWheelFilter(this,'concert')">🎟 Concerts</button>
         <button class="wf-btn" onclick="setWheelFilter(this,'practice')">🕺 Dance Practice</button>
+        <button class="wf-btn" onclick="setWheelFilter(this,'show')">📺 Music Shows</button>
+        <button class="wf-btn" onclick="setWheelFilter(this,'fancam')">🎥 Fancams</button>
+        <button class="wf-btn" onclick="setWheelFilter(this,'bombs')">💣 Bangtan Bombs</button>
+        <button class="wf-btn" onclick="setWheelFilter(this,'making')">🎞 Making</button>
+        <button class="wf-btn" onclick="setWheelFilter(this,'interview')">🎙 Interviews</button>
+        <button class="wf-btn" onclick="setWheelFilter(this,'fansign')">✍️ Fansigns</button>
+        <button class="wf-btn" onclick="setWheelFilter(this,'solo')">👤 Solos membres</button>
       </div>
       <div class="wheel-count" id="wheel-pool-count"></div>
       <div class="wheel-wrap">
@@ -14883,6 +14890,10 @@ const LIVES_DATA = [
   {title:'RM\'s Trip in Europe',members:['rm'],date:'2025-09-26',dateLabel:'26/09/2025',href:'https://youtu.be/TVmawu479vY',type:'live'},
   {title:'V\'s VLOG in Los Angeles',members:['v'],date:'2025-11-30',dateLabel:'30/11/2025',href:'https://youtu.be/sU6NShUE_-E',type:'live'},
   {title:'Tae\'s VLog in Hawaii',members:['v'],date:'2025-12-13',dateLabel:'13/12/2025',href:'https://youtu.be/thBtkE54Abo',type:'live'},
+  {title:'Nico Nico Live',members:['ot7'],date:'2014-11-22',dateLabel:'22/11/2014',href:'https://youtu.be/BwiH0unBDOc',type:'live'},
+  {title:'BTS Guerilla Live',members:['ot7'],date:'2016-05-14',dateLabel:'14/05/2016',href:'https://youtu.be/5FniqVtWemA',type:'live'},
+  {title:'BTS Guerilla Periscope — Q&A',members:['ot7'],date:'2016-05-14',dateLabel:'14/05/2016',href:'https://youtu.be/SumJSKB9Hkw',type:'live'},
+  {title:'BTS Guerilla Live — Recording Cut',members:['ot7'],date:'2016-05-14',dateLabel:'14/05/2016',href:'https://youtu.be/HbZ7eb6z2C0',type:'live'}
 ];
 
 let livesSortAsc = false;
@@ -15020,11 +15031,20 @@ function scanSiteVideos() {
     const badgeText = badgeEl ? badgeEl.textContent.trim() : '';
 
     let type = 'other';
-    if (/concerts|shows/.test(paneId)) type = 'concert';
+    if (/fancam|focus ?cam|직캠/i.test(title) && /concerts|-shows$/.test(paneId)) type = 'fancam';
+    else if (/-shows$/.test(paneId)) type = 'show';
+    else if (/concerts/.test(paneId)) type = 'concert';
     else if (/variety/.test(paneId)) type = 'variety';
-    else if (/music|albums/.test(paneId)) type = (badgeText === 'PRACTICE') ? 'practice' : 'mv';
+    else if (/bombs/.test(paneId)) type = 'bombs';
+    else if (/lives/.test(paneId)) type = 'live';
+    else if (/music|albums/.test(paneId)) {
+      if (badgeText === 'PRACTICE' || /dance practice|practice record|choreography/i.test(title)) type = 'practice';
+      else if (/making|behind|sketch|jacket|shoot|coulisse|preview clip/i.test(title)) type = 'making';
+      else type = 'mv';
+    }
     else if (/fansign/.test(paneId)) type = 'fansign';
     else if (/interview/.test(paneId)) type = 'interview';
+    else if (/concepts/.test(paneId)) type = 'concept';
 
     if (seenHrefs.has(href)) return;
     seenHrefs.add(href);
@@ -15036,7 +15056,7 @@ function scanSiteVideos() {
     const href = row.getAttribute('href');
     if (!href) return;
     const pane = row.closest('.tab-pane');
-    if (!pane || !/variety/.test(pane.id)) return;
+    if (!pane || !/variety|bombs/.test(pane.id)) return;
     if (href.indexOf('youtube.com/results') !== -1) return;
     if (seenHrefs.has(href)) return;
     seenHrefs.add(href);
@@ -15044,7 +15064,7 @@ function scanSiteVideos() {
     const dateEl = row.querySelector('.ep-date');
     out.push({
       title: titleEl ? titleEl.textContent.trim() : 'Épisode',
-      type: 'variety',
+      type: /bombs/.test(pane.id) ? 'bombs' : 'variety',
       date: dateEl ? dateEl.textContent.trim() : '',
       href
     });
@@ -15056,13 +15076,23 @@ function scanSiteVideos() {
 function buildAllVideos() {
   const dynamic = scanSiteVideos();
   const dynamicHrefs = new Set(dynamic.map(v => v.href));
-  // On garde les entrées statiques (placeholders pour les eras pas encore détaillées)
-  // uniquement si elles ne font pas déjà doublon avec une vraie carte trouvée sur le site.
+  // On garde les entrées statiques uniquement si elles ne font pas déjà doublon avec une vraie carte du site.
   const staticFiltered = STATIC_VIDEOS.filter(v => !dynamicHrefs.has(v.href));
-  return [...staticFiltered, ...dynamic, ...LIVES_DATA.map(l => ({...l, type:'live'}))];
+  const all = [...LIVES_DATA.map(l => ({...l, type:'live'})), ...staticFiltered, ...dynamic];
+  // Vidéos des pages membres (SOLO_DATA) : type 'solo'
+  const NAMES = {rm:'RM',jin:'Jin',suga:'SUGA',jhope:'J-Hope',jimin:'Jimin',v:'V',jk:'Jung Kook'};
+  try {
+    Object.keys(SOLO_DATA).forEach(k => (SOLO_DATA[k].eras || []).forEach(e => Object.values(e.tabs || {}).forEach(arr => (arr || []).forEach(it => {
+      if (it && it.href) all.push({title: (NAMES[k] || k) + ' — ' + it.title, type:'solo', date: it.date || '', href: it.href});
+    }))));
+  } catch (err) {}
+  // Dédoublonnage par identifiant YouTube (ou lien complet)
+  const key = h => { const m = String(h).match(/(?:youtu\.be\/|[?&]v=)([\w-]{11})/); return m ? m[1] : h; };
+  const seen = new Set();
+  return all.filter(v => { const k = key(v.href); if (seen.has(k)) return false; seen.add(k); return true; });
 }
 
-const ALL_VIDEOS = buildAllVideos();
+let ALL_VIDEOS = [];
 
 let wheelFilter = 'all';
 let wheelPool = [];
@@ -15081,6 +15111,7 @@ function setWheelFilter(btn, filter) {
 }
 
 function updateWheelPool() {
+  if (!ALL_VIDEOS.length) ALL_VIDEOS = buildAllVideos();
   if (wheelFilter === 'all') {
     wheelPool = [...ALL_VIDEOS];
   } else {
@@ -15241,7 +15272,7 @@ function showWheelResult() {
   if (!wheelResult) return;
   document.getElementById('wr-title').textContent = wheelResult.title;
   var meta = (wheelResult.dateLabel || wheelResult.date || '');
-  var typeLabel = {mv:'MV',practice:'Dance Practice',variety:'Divertissement',live:'Live',concert:'Concert'}[wheelResult.type] || wheelResult.type;
+  var typeLabel = {mv:'MV',practice:'Dance Practice',variety:'Divertissement',live:'Live',concert:'Concert',show:'Music Show',fancam:'Fancam',bombs:'Bangtan Bomb',making:'Making',interview:'Interview',fansign:'Fansign',solo:'Solo membre',concept:'Concept'}[wheelResult.type] || wheelResult.type;
   document.getElementById('wr-meta').textContent = meta + (meta ? ' · ' : '') + typeLabel;
   document.getElementById('wheel-result').classList.add('show');
 }
