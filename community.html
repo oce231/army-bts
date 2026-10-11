@@ -1288,6 +1288,9 @@ function subscribeToRoom(room) {
       if (pageIsActive()) markRoomRead(room);
     })
     .on('postgres_changes', {
+      event: 'UPDATE', schema: 'public', table: 'lounge_messages', filter: `room=eq.${room}`
+    }, (payload) => applyMessageEdit(payload.new.id, payload.new.content))
+    .on('postgres_changes', {
       event: 'DELETE', schema: 'public', table: 'lounge_messages', filter: `room=eq.${room}`
     }, (payload) => {
       const el = document.querySelector('.chat-msg[data-id="' + payload.old.id + '"]');
@@ -1295,6 +1298,54 @@ function subscribeToRoom(room) {
     })
     .subscribe();
 }
+
+/* ══════════════════════════════════════════════
+   MODIFICATION D'UN MESSAGE
+══════════════════════════════════════════════ */
+function applyMessageEdit(id, content) {
+  const el = document.querySelector('.chat-msg[data-id="' + id + '"]');
+  if (!el) return;
+  const box = el.querySelector('.chat-msg-text');
+  if (!box) return;
+  box.innerHTML = formatText(content) + ' <span class="chat-msg-edited">(modifié)</span>';
+  el._rawContent = content;
+}
+
+window.startEditMessage = function(id) {
+  const el = document.querySelector('.chat-msg[data-id="' + id + '"]');
+  if (!el || el.querySelector('.chat-edit-box')) return;
+  const box = el.querySelector('.chat-msg-text');
+  if (!box) return;
+  const original = el._rawContent != null ? el._rawContent : box.textContent.replace(/\s*\(modifié\)\s*$/, '');
+  const prevHtml = box.innerHTML;
+  box.innerHTML = '<div class="chat-edit-box"><textarea class="chat-edit-input" maxlength="500"></textarea>' +
+    '<div class="chat-edit-hint">Entrée = enregistrer · Échap = annuler</div></div>';
+  const ta = box.querySelector('textarea');
+  ta.value = original;
+  ta.focus();
+  ta.setSelectionRange(ta.value.length, ta.value.length);
+  const cancel = () => { box.innerHTML = prevHtml; };
+  ta.addEventListener('keydown', async (e) => {
+    if (e.key === 'Escape') { cancel(); return; }
+    if (e.key !== 'Enter' || e.shiftKey) return;
+    e.preventDefault();
+    const txt = ta.value.trim();
+    if (!txt) return;
+    if (txt === original) { cancel(); return; }
+    ta.disabled = true;
+    try {
+      const { data, error } = await sb.from('lounge_messages').update({ content: txt })
+        .eq('id', id).eq('user_id', currentUser.id).select('id');
+      if (error) throw error;
+      if (!data || !data.length) throw new Error('no-row-updated');
+      applyMessageEdit(id, txt);
+    } catch(err) {
+      console.error('Edit error:', err);
+      cancel();
+      alert("Modification impossible pour l'instant (autorisation Supabase manquante). Réessaie plus tard.");
+    }
+  });
+};
 
 /* ══════════════════════════════════════════════
    SUPPRESSION D'UN MESSAGE
@@ -1456,6 +1507,7 @@ function renderMessage(msg) {
     <div class="chat-msg-actions">
       <button class="chat-msg-react-btn" onclick="openReactionPicker(event, ${msg.id})" title="Réagir">😊</button>
       <button class="chat-msg-reply-btn" onclick='startReply(${msg.id}, ${JSON.stringify(msg.pseudo)}, ${JSON.stringify(msg.content)})' title="Répondre">↩</button>
+      ${isMine && msg.content ? `<button class="chat-msg-edit" onclick="startEditMessage(${msg.id})" title="Modifier">✏️</button>` : ''}
       ${isMine ? `<button class="chat-msg-delete" onclick="deleteMessage(${msg.id})" title="Supprimer">🗑️</button>` : `<button class="chat-msg-report" onclick="openReportModal(${msg.id})" title="Signaler">⚑</button>`}
     </div>
   `;

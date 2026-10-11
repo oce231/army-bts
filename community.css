@@ -701,3 +701,10 @@ body.reactions-on .chat-msg-react-btn { display: block; }
   padding: 4px 0; border-radius: 8px; transition: transform .1s, background .1s;
 }
 .emoji-pop button:hover { background: var(--overlay-4); transform: scale(1.2); }
+
+/* Modification de message */
+.chat-msg-edit{background:none;border:none;cursor:pointer;opacity:.5;font-size:13px;padding:2px 4px}
+.chat-msg-edit:hover{opacity:1}
+.chat-msg-edited{font-size:10px;color:var(--text3,#888);margin-left:4px}
+.chat-edit-input{width:100%;min-height:44px;resize:vertical;background:var(--bg2,#1a1a22);color:var(--text,#fff);border:1px solid var(--purple,#9b6dff);border-radius:8px;padding:6px 8px;font:inherit}
+.chat-edit-hint{font-size:10px;color:var(--text3,#888);margin-top:3px}
