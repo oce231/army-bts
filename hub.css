@@ -134,3 +134,11 @@
 .hub-main .hub-section-label:first-of-type{ margin-top:8px; }
 .hub-card-static{ cursor:default; }
 .hub-card-static:hover{ transform:none; }
+
+/* Carte mise en avant (collection) */
+.hub-card-feature {
+  background: linear-gradient(135deg, rgba(123,95,212,.22), rgba(201,169,110,.10));
+  border-color: rgba(123,95,212,.55);
+}
+.hub-card-feature .hub-card-title { font-size: 1.25em; }
+.hub-card-feature .hub-card-icon { font-size: 2.2rem; }
