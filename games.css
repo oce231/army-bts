@@ -665,3 +665,20 @@
   border-color: var(--hero-pretitle);
   color: var(--hero-pretitle);
 }
+
+/* ── Groupes d'onglets : Quiz / Jeux / Classement ── */
+.games-groups {
+  display: flex; gap: 4px; justify-content: center;
+  width: calc(100% - 32px); max-width: 420px; margin: 0 auto 12px; padding: 4px;
+  background: var(--overlay-4, rgba(255,255,255,.04));
+  border: 1px solid var(--border2); border-radius: 999px;
+}
+.games-group {
+  flex: 1; font-family: 'Space Mono', monospace;
+  font-size: 11px; letter-spacing: .06em;
+  background: none; border: none; color: var(--text3);
+  padding: 9px 8px; border-radius: 999px; cursor: pointer; transition: all .2s;
+}
+.games-group:hover { color: var(--text); }
+.games-group.active { background: rgba(123,95,212,.2); color: var(--hero-pretitle); }
+.games-selector { margin-bottom: 1.2rem; }

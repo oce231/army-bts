@@ -55,19 +55,24 @@
   <!-- ══════════════════════════════════════════════
        SÉLECTEUR DE JEU
   ══════════════════════════════════════════════ -->
-  <div class="games-selector">
-    <button class="games-tab active" onclick="gamesSwitch('general', this)">🧠 Quiz Général</button>
-    <button class="games-tab" onclick="gamesSwitch('era', this)">✨ Quelle Era es-tu ?</button>
-    <button class="games-tab" onclick="gamesSwitch('armytype', this)">🌌 Quel type d'ARMY es-tu ?</button>
-    <button class="games-tab" onclick="gamesSwitch('blind', this)">🎵 Blind Test</button>
-    <button class="games-tab" onclick="gamesSwitch('taquin', this)">🧩 Taquin</button>
-    <button class="games-tab" onclick="gamesSwitch('vraifaux', this)">❓ Vrai ou Faux</button>
-    <button class="games-tab" onclick="gamesSwitch('paroles', this)">🎤 Paroles</button>
-    <button class="games-tab" onclick="gamesSwitch('chrono', this)">📅 Chrono</button>
-    <button class="games-tab" onclick="gamesSwitch('memory', this)">🃏 Memory</button>
-    <button class="games-tab" onclick="gamesSwitch('devine', this)">🔍 Devine le membre</button>
-    <button class="games-tab" onclick="gamesSwitch('wordle', this)">🟩 Wordle</button>
-    <button class="games-tab" onclick="gamesSwitch('classement', this)">🏆 Classement</button>
+  <div class="games-groups" id="games-groups" role="tablist">
+    <button class="games-group active" data-group="quiz" onclick="gamesGroup('quiz')">🧠 Quiz</button>
+    <button class="games-group" data-group="jeux" onclick="gamesGroup('jeux')">🎮 Jeux</button>
+    <button class="games-group" data-group="classement" onclick="gamesGroup('classement')">🏆 Classement</button>
+  </div>
+  <div class="games-selector" id="games-selector">
+    <button class="games-tab active" data-group="quiz" data-game="general" onclick="gamesSwitch('general', this)">🧠 Quiz Général</button>
+    <button class="games-tab" data-group="quiz" data-game="vraifaux" onclick="gamesSwitch('vraifaux', this)">❓ Vrai ou Faux</button>
+    <button class="games-tab" data-group="quiz" data-game="chrono" onclick="gamesSwitch('chrono', this)">📅 Chrono</button>
+    <button class="games-tab" data-group="quiz" data-game="devine" onclick="gamesSwitch('devine', this)">🔍 Devine le membre</button>
+    <button class="games-tab" data-group="quiz" data-game="era" onclick="gamesSwitch('era', this)">✨ Quelle Era es-tu ?</button>
+    <button class="games-tab" data-group="quiz" data-game="armytype" onclick="gamesSwitch('armytype', this)">🌌 Quel type d'ARMY es-tu ?</button>
+    <button class="games-tab" data-group="jeux" data-game="blind" onclick="gamesSwitch('blind', this)">🎵 Blind Test</button>
+    <button class="games-tab" data-group="jeux" data-game="wordle" onclick="gamesSwitch('wordle', this)">🟩 Wordle</button>
+    <button class="games-tab" data-group="jeux" data-game="taquin" onclick="gamesSwitch('taquin', this)">🧩 Taquin</button>
+    <button class="games-tab" data-group="jeux" data-game="memory" onclick="gamesSwitch('memory', this)">🃏 Memory</button>
+    <button class="games-tab" data-group="jeux" data-game="paroles" onclick="gamesSwitch('paroles', this)">🎤 Paroles</button>
+    <button class="games-tab" data-group="classement" data-game="classement" onclick="gamesSwitch('classement', this)">🏆 Classement</button>
   </div>
 
   <!-- ══════════════════════════════════════════════
@@ -966,9 +971,29 @@ let _eraGameStarted = false;
 let _armyTypeGameStarted = false;
 let _blindGameStarted = false;
 
+var _gamesLastTab = {};
+function _gamesShowGroup(g) {
+  document.querySelectorAll('.games-group').forEach(function(x){ x.classList.toggle('active', x.dataset.group === g); });
+  document.querySelectorAll('.games-tab').forEach(function(t){ t.classList.toggle('gq-hidden', t.dataset.group !== g); });
+  // Le classement n'a qu'un seul onglet : on masque la 2e rangée
+  var sel = document.getElementById('games-selector');
+  if (sel) sel.classList.toggle('gq-hidden', g === 'classement');
+}
+window.gamesGroup = function(g) {
+  var cur = document.querySelector('.games-tab.active');
+  if (cur && cur.dataset.group === g) { _gamesShowGroup(g); return; }
+  var target = null;
+  if (_gamesLastTab[g]) target = document.querySelector('.games-tab[data-game="' + _gamesLastTab[g] + '"]');
+  if (!target) target = document.querySelector('.games-tab[data-group="' + g + '"]');
+  if (target) target.click();
+};
+
+_gamesShowGroup('quiz');
+
 window.gamesSwitch = function(game, btn) {
   document.querySelectorAll('.games-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
+  if (btn.dataset.group) { _gamesLastTab[btn.dataset.group] = game; _gamesShowGroup(btn.dataset.group); }
 
   document.getElementById('game-general').classList.toggle('gq-hidden', game !== 'general');
   document.getElementById('game-era').classList.toggle('gq-hidden', game !== 'era');
