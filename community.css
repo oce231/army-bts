@@ -708,3 +708,16 @@ body.reactions-on .chat-msg-react-btn { display: block; }
 .chat-msg-edited{font-size:10px;color:var(--text3,#888);margin-left:4px}
 .chat-edit-input{width:100%;min-height:44px;resize:vertical;background:var(--bg2,#1a1a22);color:var(--text,#fff);border:1px solid var(--purple,#9b6dff);border-radius:8px;padding:6px 8px;font:inherit}
 .chat-edit-hint{font-size:10px;color:var(--text3,#888);margin-top:3px}
+
+/* Mode muet + épingles */
+.room-tools{display:flex;justify-content:flex-end;padding:0 12px 4px}
+.room-mute-btn{background:none;border:1px solid var(--border,#333);color:var(--text2,#bbb);border-radius:999px;font-size:11px;padding:3px 10px;cursor:pointer}
+.room-mute-btn.muted{color:var(--text3,#888);border-style:dashed}
+.room-tab.room-muted{opacity:.55}
+.pin-bar:empty{display:none}
+.pin-bar{padding:4px 12px;display:flex;flex-direction:column;gap:3px}
+.pin-item{font-size:12px;background:rgba(155,109,255,.12);border-left:3px solid var(--purple,#9b6dff);border-radius:6px;padding:4px 8px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-msg-pin{background:none;border:none;cursor:pointer;opacity:.4;font-size:13px;padding:2px 4px}
+.chat-msg-pin:hover,.chat-msg-pin.pinned{opacity:1}
+.chat-msg-flash{animation:msgflash 1.8s ease}
+@keyframes msgflash{0%,60%{background:rgba(155,109,255,.3)}100%{background:transparent}}

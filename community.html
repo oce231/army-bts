@@ -133,6 +133,8 @@
 
     <!-- Description du salon actif -->
     <div class="room-desc" id="room-desc"></div>
+    <div class="room-tools"><button class="room-mute-btn" id="room-mute-btn" onclick="toggleMuteRoom()" title="Couper les notifications de ce salon">🔔 Notifs du salon</button></div>
+    <div class="pin-bar" id="pin-bar"></div>
     <div class="online-bar" id="online-bar"></div>
 
     <!-- Messages -->
@@ -882,7 +884,7 @@ function renderRoomBadge(room) {
   const tab = document.querySelector('.room-tab[data-room="' + room + '"]');
   if (!tab) return;
   let badge = tab.querySelector('.room-badge');
-  const n = roomUnread[room] || 0;
+  const n = isRoomMuted(room) ? 0 : (roomUnread[room] || 0);
   if (!n) { if (badge) badge.remove(); return; }
   if (!badge) { badge = document.createElement('span'); badge.className = 'room-badge'; tab.appendChild(badge); }
   badge.textContent = n > 99 ? '99+' : String(n);
@@ -1230,6 +1232,82 @@ window.switchRoom = function(room, btn) {
   markRoomRead(room);
   joinTyping(room);
   loadMessages(room);
+  updateMuteBtn();
+  loadPins(room);
+};
+
+/* ══════════════════════════════════════════════
+   MODE MUET PAR SALON (mémorisé dans ce navigateur)
+══════════════════════════════════════════════ */
+function mutedKey() { return 'commMuted:' + (currentUser ? currentUser.id : 'x'); }
+function getMutedRooms() { try { return JSON.parse(localStorage.getItem(mutedKey()) || '[]'); } catch (e) { return []; } }
+function isRoomMuted(room) { return getMutedRooms().indexOf(room) !== -1; }
+function updateMuteBtn() {
+  const b = document.getElementById('room-mute-btn');
+  if (!b) return;
+  const m = isRoomMuted(currentRoom);
+  b.textContent = m ? '🔕 Salon en sourdine' : '🔔 Notifs du salon';
+  b.classList.toggle('muted', m);
+  ROOM_KEYS.forEach(r => {
+    const t = document.querySelector('.room-tab[data-room="' + r + '"]');
+    if (t) t.classList.toggle('room-muted', isRoomMuted(r));
+    renderRoomBadge(r);
+  });
+}
+window.toggleMuteRoom = function() {
+  let list = getMutedRooms();
+  if (list.indexOf(currentRoom) !== -1) list = list.filter(r => r !== currentRoom);
+  else list.push(currentRoom);
+  try { localStorage.setItem(mutedKey(), JSON.stringify(list)); } catch (e) {}
+  updateMuteBtn();
+  showCommToast(isRoomMuted(currentRoom) ? '🔕 Salon en sourdine (plus de notif ni de pastille)' : '🔔 Notifications réactivées pour ce salon');
+};
+
+/* ══════════════════════════════════════════════
+   MESSAGES ÉPINGLÉS (table `pinned_messages`, épinglage réservé aux admins)
+   Si la table n'existe pas encore : la barre reste cachée, rien ne casse.
+══════════════════════════════════════════════ */
+const pinnedIds = new Set();
+function isAdminUser() { return !!(currentProfile && currentProfile.is_admin); }
+async function loadPins(room) {
+  const bar = document.getElementById('pin-bar');
+  if (!bar || !currentUser) return;
+  try {
+    const { data: pins, error } = await sb.from('pinned_messages').select('message_id').eq('room', room).order('pinned_at', { ascending: false }).limit(5);
+    if (error) throw error;
+    pinnedIds.clear();
+    (pins || []).forEach(p => pinnedIds.add(p.message_id));
+    document.querySelectorAll('.chat-msg-pin').forEach(b => b.classList.toggle('pinned', pinnedIds.has(Number(b.dataset.id))));
+    if (!pins || !pins.length) { bar.innerHTML = ''; return; }
+    const ids = pins.map(p => p.message_id);
+    const { data: msgs } = await sb.from('lounge_messages').select('id,pseudo,content,media_type').in('id', ids);
+    const byId = new Map((msgs || []).map(m => [m.id, m]));
+    bar.innerHTML = ids.filter(id => byId.has(id)).map(id => {
+      const m = byId.get(id);
+      const txt = m.content ? m.content.slice(0, 90) : (m.media_type === 'video' ? '🎬 vidéo' : '🖼️ image');
+      return '<div class="pin-item" onclick="goToPinned(' + id + ')">📌 <b>' + escapeHtml(m.pseudo) + '</b> ' + escapeHtml(txt) + '</div>';
+    }).join('');
+  } catch (e) { bar.innerHTML = ''; }
+}
+window.goToPinned = function(id) {
+  const el = document.querySelector('.chat-msg[data-id="' + id + '"]');
+  if (!el) { showCommToast('📌 Message plus ancien : remonte dans le salon pour le voir.'); return; }
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  el.classList.add('chat-msg-flash');
+  setTimeout(() => el.classList.remove('chat-msg-flash'), 1800);
+};
+window.togglePin = async function(id) {
+  if (!isAdminUser()) return;
+  try {
+    if (pinnedIds.has(id)) {
+      const { error } = await sb.from('pinned_messages').delete().eq('message_id', id);
+      if (error) throw error;
+    } else {
+      const { error } = await sb.from('pinned_messages').insert({ message_id: id, room: currentRoom });
+      if (error) throw error;
+    }
+    loadPins(currentRoom);
+  } catch (e) { console.error(e); showCommToast('Impossible d\'épingler ce message.'); }
 };
 
 /* ══════════════════════════════════════════════
@@ -1287,6 +1365,7 @@ function subscribeToRoom(room) {
       checkMentionPing(payload.new);
       if (pageIsActive()) markRoomRead(room);
     })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'pinned_messages' }, () => loadPins(currentRoom))
     .on('postgres_changes', {
       event: 'UPDATE', schema: 'public', table: 'lounge_messages', filter: `room=eq.${room}`
     }, (payload) => applyMessageEdit(payload.new.id, payload.new.content))
@@ -1369,6 +1448,7 @@ window.deleteMessage = async function(id) {
 ══════════════════════════════════════════════ */
 function checkMentionPing(msg) {
   if (!currentProfile) return;
+  if (isRoomMuted(msg.room)) return;
   const isOwnMessage = msg.pseudo === currentProfile.pseudo && msg.avatar === currentProfile.avatar;
   if (isOwnMessage) return;
 
@@ -1507,6 +1587,7 @@ function renderMessage(msg) {
     <div class="chat-msg-actions">
       <button class="chat-msg-react-btn" onclick="openReactionPicker(event, ${msg.id})" title="Réagir">😊</button>
       <button class="chat-msg-reply-btn" onclick='startReply(${msg.id}, ${JSON.stringify(msg.pseudo)}, ${JSON.stringify(msg.content)})' title="Répondre">↩</button>
+      ${isAdminUser() ? `<button class="chat-msg-pin${pinnedIds.has(msg.id) ? ' pinned' : ''}" data-id="${msg.id}" onclick="togglePin(${msg.id})" title="Épingler / désépingler">📌</button>` : ''}
       ${isMine && msg.content ? `<button class="chat-msg-edit" onclick="startEditMessage(${msg.id})" title="Modifier">✏️</button>` : ''}
       ${isMine ? `<button class="chat-msg-delete" onclick="deleteMessage(${msg.id})" title="Supprimer">🗑️</button>` : `<button class="chat-msg-report" onclick="openReportModal(${msg.id})" title="Signaler">⚑</button>`}
     </div>
