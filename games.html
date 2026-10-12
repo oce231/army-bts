@@ -11,12 +11,14 @@
   })();
 </script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Quiz & Jeux · ARMY Lounge</title>
-<meta property="og:title" content="Bangtan Atlas">
-<meta property="og:description" content="L'archive complète dédiée à BTS — eras, lives, jeux et plus.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz &amp; Jeux BTS — Bangtan Atlas</title>
+<meta name="description" content="Quiz BTS, Blind Test, Wordle du jour, Memory, Taquin, Chrono et classement mondial : teste tes connaissances ARMY sur Bangtan Atlas.">
+<link rel="canonical" href="https://oce231.github.io/army-bts/games.html">
+<meta property="og:title" content="Quiz &amp; Jeux BTS — Bangtan Atlas">
+<meta property="og:description" content="Quiz, Blind Test, Wordle du jour, Memory et classement mondial pour les ARMY.">
 <meta property="og:image" content="https://oce231.github.io/army-bts/Photo/Preview.jpg">
-<meta property="og:url" content="https://oce231.github.io/">
+<meta property="og:url" content="https://oce231.github.io/army-bts/games.html">
 <meta name="twitter:card" content="summary_large_image">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=2">
@@ -28,10 +30,10 @@
 
 <!-- HEADER -->
 <header>
-  <button class="hamburger" id="ham" style="visibility:hidden" aria-label="Menu">
+  <button class="hamburger" id="ham" style="display:none" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
-  <a class="logo" href="index.html" style="text-decoration:none">BTS <small>방탄소년단 Archive</small></a>
+  <a class="logo" href="index.html" style="text-decoration:none">BTS <small>Bangtan Atlas</small></a>
   <div style="flex:1"></div>
   <button id="theme-toggle-btn" onclick="toggleTheme()" title="Changer de thème" aria-label="Basculer thème clair/sombre">🌙</button>
   <a class="hub-switch" href="hub.html">💜 Lounge</a>
@@ -2891,11 +2893,72 @@ var WD_CALENDAR = {
 
 // Fallback si la date n'est pas dans le calendrier
 var WD_FALLBACK = [
-  { word:"SEOUL",    hint:"Capitale de la Corée du Sud, berceau de BTS." },
-  { word:"IDOL",     hint:"Titre phare de l'era Love Yourself: Answer." },
-  { word:"BORAHAE",  hint:"Expression inventée par V signifiant 'je t'aime' en violet." },
-  { word:"JHOPE",    hint:"Le rayon de soleil du groupe, danseur principal." },
+  { word:"BUTTERFLY", hint:"Titre de HYYH Pt.2 (2015) : un insecte aux ailes colorées." },
+  { word:"PURPLE", hint:"Couleur symbole du fandom et de BTS." },
+  { word:"IDOL", hint:"Titre phare de l'ère Love Yourself: Answer." },
+  { word:"HOSEOK", hint:"Vrai prénom de J-Hope." },
+  { word:"PERSONA", hint:"Mini-album de 2019 qui ouvre la série Map of the Soul." },
+  { word:"JHOPE", hint:"Le rayon de soleil du groupe, danseur principal." },
+  { word:"EUPHORIA", hint:"Titre solo de Jung Kook, intro de Love Yourself: Answer : un bonheur intense." },
+  { word:"ARMYBOMB", hint:"Nom du bâton lumineux officiel des concerts." },
+  { word:"COOKY", hint:"Personnage BT21 de Jung Kook." },
+  { word:"KOYA", hint:"Personnage BT21 de RM." },
+  { word:"ASTRONAUT", hint:"Single de Jin (2022) coécrit avec Coldplay, « The ... »." },
+  { word:"SPRINGDAY", hint:"Single de You Never Walk Alone (2017) : un jour de printemps." },
+  { word:"LIFEGOESON", hint:"Titre de l'album BE (2020) : « la vie continue »." },
+  { word:"CYPHER", hint:"Série de morceaux de rap numérotés de Pt.1 à Pt.4." },
+  { word:"BIGHIT", hint:"Nom de l'agence d'origine de BTS, aujourd'hui rebaptisée." },
   { word:"JUNGKOOK", hint:"Le Golden Maknae, plus jeune membre du groupe." },
+  { word:"BUSAN", hint:"Ville portuaire dont sont originaires Jimin et Jung Kook." },
+  { word:"ILSAN", hint:"Ville de la banlieue de Séoul dont est originaire RM." },
+  { word:"TAEHYUNG", hint:"Vrai prénom de V." },
+  { word:"MICDROP", hint:"Single de Love Yourself: Her, remixé avec Steve Aoki : on lâche le micro." },
+  { word:"SEVEN", hint:"Single solo de Jung Kook (2023) avec Latto : c'est un chiffre." },
+  { word:"DAEGU", hint:"Ville natale de Suga et de V." },
+  { word:"AGUSTD", hint:"Alter ego solo de Suga." },
+  { word:"BORAHAE", hint:"Expression inventée par V signifiant « je t'aime » en violet." },
+  { word:"BONVOYAGE", hint:"Télé-réalité de voyage des membres, au nom très français." },
+  { word:"DOPE", hint:"Titre de The Most Beautiful Moment in Life Pt.1 (2015) : synonyme de « génial »." },
+  { word:"FILTER", hint:"Titre solo de Jimin sur Map of the Soul: Persona : il change ton apparence." },
+  { word:"INDIGO", hint:"Premier album solo officiel de RM, sorti en 2022." },
+  { word:"DANGER", hint:"Titre de l'album Dark & Wild (2014) : il faut se méfier." },
+  { word:"MONO", hint:"Mixtape de RM sortie en 2018, titre écrit tout en minuscules." },
+  { word:"BOYWITHLUV", hint:"Single de Map of the Soul: Persona (2019) avec Halsey." },
+  { word:"INNERCHILD", hint:"Titre solo de V sur Map of the Soul: 7 : l'enfant que l'on a été." },
+  { word:"GOLDEN", hint:"Album solo de Jung Kook sorti en 2023." },
+  { word:"FAKELOVE", hint:"Single de Love Yourself: Tear (2018) : un amour qui n'est pas vrai." },
+  { word:"GWANGJU", hint:"Ville natale de J-Hope." },
+  { word:"EPIPHANY", hint:"Titre solo de Jin sur Love Yourself: Answer : une révélation soudaine." },
+  { word:"BILLBOARD", hint:"Classement américain où Dynamite a été n°1 en 2020." },
+  { word:"HOBI", hint:"Surnom affectueux de J-Hope." },
+  { word:"RUNBTS", hint:"Émission de variété des membres : son nom est un ordre de courir." },
+  { word:"NAMJOON", hint:"Prénom du leader du groupe (alias RM)." },
+  { word:"HOPEWORLD", hint:"Mixtape de J-Hope sortie en 2018." },
+  { word:"YOONGI", hint:"Vrai prénom de Suga." },
+  { word:"SEOKJIN", hint:"Prénom du membre le plus âgé du groupe." },
+  { word:"ROSEBOWL", hint:"Stade californien où BTS a joué en 2019 pendant sa tournée." },
+  { word:"SEOUL", hint:"Capitale de la Corée du Sud, berceau de BTS." },
+  { word:"ANYANG", hint:"Ville natale de Jin." },
+  { word:"BLACKSWAN", hint:"Titre de Map of the Soul: 7 (2020) dévoilé avec un film de danse." },
+  { word:"YETTOCOME", hint:"Titre de l'anthologie Proof (2022) : « le meilleur est à venir »." },
+  { word:"SHOOKY", hint:"Personnage BT21 de Suga." },
+  { word:"FIRE", hint:"Titre énergique de Young Forever (2016) : on brûle tout." },
+  { word:"TINYTAN", hint:"Version dessin animé des membres de BTS." },
+  { word:"MANG", hint:"Personnage BT21 de J-Hope." },
+  { word:"TATA", hint:"Personnage BT21 de V." },
+  { word:"HYBE", hint:"Nom actuel de la société qui dirige l'agence de BTS depuis 2021." },
+  { word:"INEEDU", hint:"Single de HYYH Pt.1 (2015) : « I ... U » sans espaces." },
+  { word:"CHIMMY", hint:"Personnage BT21 de Jimin." },
+  { word:"SAVEME", hint:"Titre de Young Forever (2016) : une demande de secours." },
+  { word:"BOYINLUV", hint:"Single de Skool Luv Affair (2014) : « ... in Luv »." },
+  { word:"ANSWER", hint:"Dernier volet de la série Love Yourself (2018)." },
+  { word:"ANPANMAN", hint:"Titre de Love Yourself: Her inspiré d'un super-héros japonais." },
+  { word:"WEMBLEY", hint:"Stade londonien où BTS a joué en 2019." },
+  { word:"MUSE", hint:"Deuxième album solo de Jimin, sorti en 2024." },
+  { word:"GRAMMY", hint:"Cérémonie musicale américaine où BTS a été nommé plusieurs fois." },
+  { word:"FACE", hint:"Album solo de Jimin sorti en 2023." },
+  { word:"TEAR", hint:"Album de 2018 : premier album coréen n°1 au Billboard 200." },
+  { word:"LAYOVER", hint:"Album solo de V sorti en 2023 : un temps d'escale." }
 ];
 
 var _wdAnswer = "", _wdHint = "", _wdGuesses = [], _wdCurrentGuess = "";
@@ -2934,7 +2997,9 @@ function wdStart() {
   var pick = WD_CALENDAR[_wdTodayKey];
   if (!pick) {
     // Fallback déterministe basé sur la date pour ne pas changer à chaque refresh
-    var dayNum = parseInt(_wdTodayKey.replace(/-/g,''));
+    // (1 mot différent par jour, la liste ne se répète qu'après un tour complet)
+    var _p = _wdTodayKey.split('-');
+    var dayNum = Math.floor(Date.UTC(+_p[0], +_p[1]-1, +_p[2]) / 86400000);
     pick = WD_FALLBACK[dayNum % WD_FALLBACK.length];
   }
 
@@ -2981,6 +3046,9 @@ function _wdRenderGrid() {
   var grid = document.getElementById('wd-grid');
   grid.innerHTML = '';
   var len = _wdAnswer.length;
+  // Cases adaptées à la largeur de l'écran (mots longs sur téléphone)
+  var _avail = Math.min(window.innerWidth, 520) - 90;
+  var _cell = Math.max(20, Math.min(44, Math.floor((_avail - (len - 1) * 5) / len)));
   for (var r = 0; r < _wdMaxRows; r++) {
     var rowDiv = document.createElement('div');
     rowDiv.style.cssText = 'display:flex;gap:5px;';
@@ -2988,6 +3056,8 @@ function _wdRenderGrid() {
     for (var c = 0; c < len; c++) {
       var cell = document.createElement('div');
       cell.className = 'wd-cell';
+      cell.style.width = cell.style.height = _cell + 'px';
+      if (_cell < 40) cell.style.fontSize = Math.max(12, Math.round(_cell * 0.42)) + 'px';
       var letter = guess[c] || '';
       cell.textContent = letter;
       if (_wdGuesses[r]) {

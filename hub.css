@@ -142,3 +142,9 @@
 }
 .hub-card-feature .hub-card-title { font-size: 1.25em; }
 .hub-card-feature .hub-card-icon { font-size: 2.2rem; }
+
+/* Sous-pages (pas de menu ☰) : le lien Lounge reste visible sur mobile */
+@media (max-width: 768px) {
+  header .hub-switch { display: inline-flex !important; padding: 6px 10px; letter-spacing: .08em; }
+}
+html { touch-action: manipulation; }
