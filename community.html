@@ -931,7 +931,7 @@ function subscribeAllRooms() {
         roomMention[msg.room] = true;
       }
       renderRoomBadge(msg.room);
-      checkMentionPing(msg); // mentions aussi dans les salons non ouverts
+      notifyRoomMessage(msg, false); // nouveau message (ou mention) dans un salon non ouvert
     })
     .subscribe();
 }
@@ -1374,7 +1374,7 @@ function subscribeToRoom(room) {
       renderMessage(payload.new);
       scrollToBottom();
       clearTyper(payload.new.user_id);
-      checkMentionPing(payload.new);
+      notifyRoomMessage(payload.new, true);
       if (pageIsActive()) markRoomRead(room);
     })
     .on('postgres_changes', { event: '*', schema: 'public', table: 'pinned_messages' }, () => loadPins(currentRoom))
@@ -1474,6 +1474,24 @@ function checkMentionPing(msg) {
   } else if (mentionsMe) {
     showCommToast('🔔 ' + msg.pseudo + ' t\'a mentionné·e !');
     notifyLocal('🔔 ' + msg.pseudo + ' t\'a mentionné·e', content.slice(0, 120), 'room-' + msg.room);
+  }
+}
+// Alerte pour chaque nouveau message d'un salon (sauf salon en sourdine)
+function notifyRoomMessage(msg, isCurrentRoom) {
+  if (!currentProfile || isRoomMuted(msg.room)) return;
+  const own = (currentUser && msg.user_id === currentUser.id) ||
+    (msg.pseudo === currentProfile.pseudo && msg.avatar === currentProfile.avatar);
+  if (own) return;
+  const content = msg.content || '';
+  const isMention = /@everyone\b/i.test(content) ||
+    new RegExp('@' + escapeRegExp(currentProfile.pseudo) + '\\b', 'i').test(content);
+  if (isMention) { checkMentionPing(msg); return; }
+  const preview = content ? content.slice(0, 120) : (msg.media_type === 'video' ? '🎬 a envoyé une vidéo' : '🖼️ a envoyé une image');
+  if (isCurrentRoom) {
+    if (!pageIsActive()) notifyLocal('#' + roomLabel(msg.room) + ' — ' + msg.pseudo, preview, 'room-' + msg.room);
+  } else {
+    showCommToast('💬 ' + msg.pseudo + ' dans #' + roomLabel(msg.room));
+    notifyLocal('#' + roomLabel(msg.room) + ' — ' + msg.pseudo, preview, 'room-' + msg.room);
   }
 }
 function escapeRegExp(s) {

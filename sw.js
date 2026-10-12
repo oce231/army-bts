@@ -25,7 +25,16 @@ self.addEventListener('push', function(event) {
     vibrate: [80, 40, 80]
   };
 
-  event.waitUntil(self.registration.showNotification(title, options));
+  if (data.tag) { options.tag = data.tag; options.renotify = true; }
+
+  // Si le site est déjà ouvert et au premier plan, la page gère elle-même l'alerte
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function(list) {
+      const active = list.some(function(c) { return c.visibilityState === 'visible' && c.focused; });
+      if (active) return;
+      return self.registration.showNotification(title, options);
+    })
+  );
 });
 
 // Clic sur la notification : ouvre ou remet au premier plan la page concernée
