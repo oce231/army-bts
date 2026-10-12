@@ -3438,6 +3438,27 @@ async function lbLoad(tab) {
 
   try {
     var rows;
+    // 1) Classement calculé par Supabase (par compte, tri exact). Si les fonctions
+    //    n'existent pas encore, on retombe sur l'ancien calcul ci-dessous.
+    if (tab === 'global') {
+      var rg = await _lbSB.rpc('leaderboard_global', { lim: 20 });
+      if (!rg.error && Array.isArray(rg.data)) {
+        lbRenderGlobal(rg.data.map(function(r){
+          return { pseudo: r.pseudo, avatar: r.avatar, uid: r.user_id,
+                   avgPct: Number(r.avg_pct), nbJeux: r.nb_jeux, globalScore: Number(r.global_score) };
+        }));
+        return;
+      }
+    } else {
+      var rp = await _lbSB.rpc('leaderboard_game', { g: tab, lim: 20 });
+      if (!rp.error && Array.isArray(rp.data)) {
+        lbRenderGame(rp.data.map(function(r){
+          return { pseudo: r.pseudo, avatar: r.avatar, uid: r.user_id, score: Number(r.score),
+                   score_max: Number(r.score_max), extra: r.extra, played_at: r.played_at };
+        }), tab);
+        return;
+      }
+    }
     if (tab === 'global') {
       // Global : pour chaque joueur, on prend son MEILLEUR % par jeu distinct
       // (et non la somme de tous les essais, qui favorise injustement le farming
@@ -3514,6 +3535,16 @@ async function lbLoad(tab) {
   }
 }
 
+function lbEsc(v) {
+  return String(v == null ? '' : v).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+function lbIsMe(r) {
+  if (r.uid && typeof _lbUser !== 'undefined' && _lbUser) return r.uid === _lbUser.id;
+  return r.pseudo === lbGetPseudo();
+}
+
 function lbRenderGlobal(rows) {
   var list = document.getElementById('lb-list');
   var myPseudo = lbGetPseudo();
@@ -3526,14 +3557,14 @@ function lbRenderGlobal(rows) {
   rows.forEach(function(r, i) {
     var avgPctDisplay = Math.round(r.avgPct * 100);
     var medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
-    var isMe = r.pseudo === myPseudo;
+    var isMe = lbIsMe(r);
     var row = document.createElement('div');
     row.style.cssText = 'display:flex;align-items:center;gap:.7rem;padding:.6rem .8rem;border-radius:8px;font-size:12px;font-family:"DM Sans",sans-serif;' +
       (isMe ? 'background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.3);' : 'background:rgba(255,255,255,.02);border:1px solid var(--border);');
     row.innerHTML =
       '<span style="font-family:\'Space Mono\',monospace;color:var(--text3);min-width:22px;font-size:11px;">' + (medal || (i+1)+'.') + '</span>' +
-      '<span style="font-size:18px;">' + (r.avatar||'💜') + '</span>' +
-      '<span style="flex:1;color:' + (isMe?'#c9a96e':'var(--text)') + ';font-weight:' + (isMe?'600':'400') + ';">' + r.pseudo + '</span>' +
+      '<span style="font-size:18px;">' + lbEsc(r.avatar||'💜') + '</span>' +
+      '<span style="flex:1;color:' + (isMe?'#c9a96e':'var(--text)') + ';font-weight:' + (isMe?'600':'400') + ';">' + lbEsc(r.pseudo) + '</span>' +
       '<span style="font-family:\'Space Mono\',monospace;color:#b09ae8;font-size:11px;">' + avgPctDisplay + '% moy.</span>' +
       '<span style="font-family:\'Space Mono\',monospace;color:var(--text3);font-size:10px;">' + r.nbJeux + '/' + TOTAL_GAMES + ' jeux</span>';
     list.appendChild(row);
@@ -3550,7 +3581,7 @@ function lbRenderGame(rows, game) {
   list.innerHTML = '';
   rows.forEach(function(r, i) {
     var medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
-    var isMe = r.pseudo === myPseudo;
+    var isMe = lbIsMe(r);
     var extra = {};
     try { extra = JSON.parse(r.extra||'{}'); } catch(e){}
     var extraStr = '';
@@ -3563,10 +3594,10 @@ function lbRenderGame(rows, game) {
       (isMe ? 'background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.3);' : 'background:rgba(255,255,255,.02);border:1px solid var(--border);');
     row.innerHTML =
       '<span style="font-family:\'Space Mono\',monospace;color:var(--text3);min-width:22px;font-size:11px;">' + (medal || (i+1)+'.') + '</span>' +
-      '<span style="font-size:18px;">' + (r.avatar||'💜') + '</span>' +
-      '<span style="flex:1;color:' + (isMe?'#c9a96e':'var(--text)') + ';font-weight:' + (isMe?'600':'400') + ';">' + r.pseudo + '</span>' +
+      '<span style="font-size:18px;">' + lbEsc(r.avatar||'💜') + '</span>' +
+      '<span style="flex:1;color:' + (isMe?'#c9a96e':'var(--text)') + ';font-weight:' + (isMe?'600':'400') + ';">' + lbEsc(r.pseudo) + '</span>' +
       '<span style="font-family:\'Space Mono\',monospace;color:#c9a96e;font-size:11px;">' + r.score + '/' + r.score_max + '</span>' +
-      '<span style="color:var(--text3);font-size:10px;">' + extraStr + '</span>';
+      '<span style="color:var(--text3);font-size:10px;">' + lbEsc(extraStr) + '</span>';
     list.appendChild(row);
   });
 }
