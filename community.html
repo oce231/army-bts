@@ -466,7 +466,7 @@ window.toggleCommPush = async function() {
     showCommToast('Ton navigateur ne supporte pas les notifications.');
   } else {
     const ok = await enablePushNotifications(sb, currentUser.id);
-    if (ok) showCommToast('🔔 Notifications activées !');
+    if (ok) { showCommToast('🔔 Notifications activées !'); syncMutedToServer(); }
   }
   refreshCommPushButton();
 };
@@ -1254,12 +1254,23 @@ function updateMuteBtn() {
     renderRoomBadge(r);
   });
 }
+// Les notifications push (site fermé) respectent aussi les salons en sourdine
+async function syncMutedToServer() {
+  try {
+    if (!currentUser || !('serviceWorker' in navigator)) return;
+    const reg = await navigator.serviceWorker.getRegistration('sw.js');
+    const sub = reg && await reg.pushManager.getSubscription();
+    if (!sub) return;
+    await sb.from('push_subscriptions').update({ muted_rooms: getMutedRooms() }).eq('endpoint', sub.endpoint);
+  } catch (e) {}
+}
 window.toggleMuteRoom = function() {
   let list = getMutedRooms();
   if (list.indexOf(currentRoom) !== -1) list = list.filter(r => r !== currentRoom);
   else list.push(currentRoom);
   try { localStorage.setItem(mutedKey(), JSON.stringify(list)); } catch (e) {}
   updateMuteBtn();
+  syncMutedToServer();
   showCommToast(isRoomMuted(currentRoom) ? '🔕 Salon en sourdine (plus de notif ni de pastille)' : '🔔 Notifications réactivées pour ce salon');
 };
 
@@ -1285,7 +1296,8 @@ async function loadPins(room) {
     bar.innerHTML = ids.filter(id => byId.has(id)).map(id => {
       const m = byId.get(id);
       const txt = m.content ? m.content.slice(0, 90) : (m.media_type === 'video' ? '🎬 vidéo' : '🖼️ image');
-      return '<div class="pin-item" onclick="goToPinned(' + id + ')">📌 <b>' + escapeHtml(m.pseudo) + '</b> ' + escapeHtml(txt) + '</div>';
+      return '<div class="pin-item" onclick="goToPinned(' + id + ')"><span class="pin-text">📌 <b>' + escapeHtml(m.pseudo) + '</b> ' + escapeHtml(txt) + '</span>' +
+        (isAdminUser() ? '<button class="pin-remove" title="Désépingler" onclick="event.stopPropagation();togglePin(' + id + ')">✕</button>' : '') + '</div>';
     }).join('');
   } catch (e) { bar.innerHTML = ''; }
 }

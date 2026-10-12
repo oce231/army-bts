@@ -721,3 +721,8 @@ body.reactions-on .chat-msg-react-btn { display: block; }
 .chat-msg-pin:hover,.chat-msg-pin.pinned{opacity:1}
 .chat-msg-flash{animation:msgflash 1.8s ease}
 @keyframes msgflash{0%,60%{background:rgba(155,109,255,.3)}100%{background:transparent}}
+
+.pin-item{display:flex;align-items:center;gap:6px}
+.pin-text{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.pin-remove{background:none;border:none;color:var(--text3,#888);cursor:pointer;font-size:12px;padding:0 4px}
+.pin-remove:hover{color:#e08080}

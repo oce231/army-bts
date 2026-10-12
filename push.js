@@ -4,7 +4,7 @@
 ══════════════════════════════════════════════ */
 
 // Clé publique VAPID (sans risque à exposer côté client, contrairement à la clé privée)
-const VAPID_PUBLIC_KEY = 'BOIChdK1y2eeCTevPgr-fskUm3tyQ8K9TNgieXLp_vnS85321_tMEUSYhqsP0xb8B1RJFD6rh_nrVr6n8RUgvOo';
+const VAPID_PUBLIC_KEY = 'BNHEChB2oIGtHF8pfhCDFPXagguVvnrB9iCfw-hQvmDmn25z0sOaQtGcU54WXMwHYQBSXhEODYGSUYF02EuIpSQ';
 
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -57,6 +57,12 @@ window.enablePushNotifications = async function(supabaseClient, userId) {
     await navigator.serviceWorker.ready;
 
     let sub = await reg.pushManager.getSubscription();
+    // Abonnement créé avec une ancienne clé VAPID : on le refait proprement
+    if (sub && sub.options && sub.options.applicationServerKey) {
+      const cur = btoa(String.fromCharCode.apply(null, new Uint8Array(sub.options.applicationServerKey)))
+        .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+      if (cur !== VAPID_PUBLIC_KEY) { try { await sub.unsubscribe(); } catch (e) {} sub = null; }
+    }
     if (!sub) {
       sub = await reg.pushManager.subscribe({
         userVisibleOnly: true,
