@@ -86,6 +86,7 @@
     <button class="games-tab" data-group="jeux" data-game="wordle" onclick="gamesSwitch('wordle', this)">🟩 Wordle</button>
     <button class="games-tab" data-group="jeux" data-game="taquin" onclick="gamesSwitch('taquin', this)">🧩 Taquin</button>
     <button class="games-tab" data-group="jeux" data-game="memory" onclick="gamesSwitch('memory', this)">🃏 Memory</button>
+    <button class="games-tab" data-group="jeux" data-game="chanson" onclick="gamesSwitch('chanson', this)">🎶 Devine la chanson</button>
     <button class="games-tab" data-group="jeux" data-game="paroles" onclick="gamesSwitch('paroles', this)">🎤 Paroles</button>
     <button class="games-tab" data-group="classement" data-game="classement" onclick="gamesSwitch('classement', this)">🏆 Classement</button>
   </div>
@@ -559,6 +560,44 @@
   
 
 <!-- ══════════════════════════════════════════
+     DEVINE LA CHANSON (sans paroles)
+══════════════════════════════════════════ -->
+<div class="gq-hidden" id="game-chanson" style="padding:1.5rem">
+  <div class="gq-card" style="max-width:560px;margin:0 auto;">
+    <div id="sg-intro">
+      <div class="gq-intro-emoji">🎶</div>
+      <div class="gq-intro-title">Devine la chanson</div>
+      <p class="gq-intro-desc">Des indices sur la chanson (album, année, anecdotes) se révèlent un par un. Trouve le bon titre le plus vite possible : moins tu utilises d'indices, plus tu gagnes de points !</p>
+      <button class="gq-btn gq-btn-main" onclick="sgStart()">Commencer — 8 manches</button>
+    </div>
+    <div id="sg-game" style="display:none;">
+      <div class="gq-progress-wrap">
+        <div class="gq-progress-info"><span id="sg-q-num">Manche 1/8</span><span id="sg-score-live">⭐ 0</span></div>
+        <div class="gq-progress-bar"><div class="gq-progress-fill" id="sg-progress"></div></div>
+      </div>
+      <div style="background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:10px;padding:1.4rem;margin-bottom:1.2rem;min-height:90px;display:flex;align-items:center;justify-content:center;text-align:center;">
+        <div id="sg-clue-text" style="font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--text);line-height:1.6;"></div>
+      </div>
+      <div id="sg-clue-counter" style="text-align:center;font-size:9px;letter-spacing:.15em;color:var(--text3);text-transform:uppercase;margin-bottom:1rem;"></div>
+      <div id="sg-choices" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem;"></div>
+      <button class="gq-btn" id="sg-next-clue" onclick="sgNextClue()" style="display:none;">💡 Indice suivant</button>
+      <div id="sg-feedback" style="display:none;padding:.9rem 1rem;border-radius:8px;margin-top:1rem;font-size:12px;font-family:'DM Sans',sans-serif;line-height:1.6;text-align:center;"></div>
+      <button class="gq-btn" id="sg-next-round" onclick="sgNextRound()" style="display:none;margin-top:.8rem;width:100%;">Manche suivante →</button>
+    </div>
+    <div id="sg-result" style="display:none;text-align:center;">
+      <span id="sg-res-emoji" style="font-size:52px;display:block;margin-bottom:.8rem;"></span>
+      <div class="gq-result-score"><span id="sg-res-score">0</span><span class="gq-result-max">/32</span></div>
+      <div id="sg-res-level" style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:.6rem;color:var(--text);"></div>
+      <p id="sg-res-desc" style="font-size:12px;color:var(--text2);line-height:1.7;max-width:420px;margin:0 auto 1.4rem;"></p>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <button class="gq-btn" onclick="sgRestart()">🔄 Rejouer</button>
+        <button class="gq-btn gq-btn-share" onclick="sgShare()">📸 Partager</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
      WORDLE BTS
 ══════════════════════════════════════════ -->
 <div class="gq-hidden" id="game-wordle" style="padding:1.5rem">
@@ -669,6 +708,7 @@
       <button class="lb-tab" onclick="lbShowTab('chrono',this)">📅 Chrono</button>
       <button class="lb-tab" onclick="lbShowTab('memory',this)">🃏 Memory</button>
       <button class="lb-tab" onclick="lbShowTab('devine',this)">🔍 Devine</button>
+      <button class="lb-tab" onclick="lbShowTab('chanson',this)">🎶 Chanson</button>
       <button class="lb-tab" onclick="lbShowTab('wordle',this)">🟩 Wordle</button>
       <button class="lb-tab" onclick="lbShowTab('taquin',this)">🧩 Taquin</button>
     </div>
@@ -1016,7 +1056,7 @@ window.gamesSwitch = function(game, btn) {
   document.getElementById('game-general').classList.toggle('gq-hidden', game !== 'general');
   document.getElementById('game-era').classList.toggle('gq-hidden', game !== 'era');
   document.getElementById('game-blind').classList.toggle('gq-hidden', game !== 'blind');
-  ['taquin','vraifaux','paroles','chrono','memory','devine','wordle','classement','armytype'].forEach(function(id) {
+  ['taquin','vraifaux','paroles','chrono','memory','devine','wordle','classement','armytype','chanson'].forEach(function(id) {
     var el = document.getElementById('game-' + id);
     if (el) el.classList.toggle('gq-hidden', game !== id);
   });
@@ -3693,7 +3733,7 @@ function lbShowTab(tab, btn) {
   var titles = {
     global:'🌟 Classement Global', general:'🧠 Quiz Général', vraifaux:'❓ Vrai ou Faux',
     paroles:'🎤 Complète les paroles', chrono:'📅 Chrono des albums',
-    memory:'🃏 Memory', devine:'🔍 Devine le membre', wordle:'🟩 Wordle BTS', taquin:'🧩 Taquin'
+    memory:'🃏 Memory', devine:'🔍 Devine le membre', chanson:'🎶 Devine la chanson', wordle:'🟩 Wordle BTS', taquin:'🧩 Taquin'
   };
   document.getElementById('lb-title').textContent = titles[tab] || tab;
   lbLoad(tab);
@@ -3723,17 +3763,113 @@ document.addEventListener('DOMContentLoaded', updateThemeBtn);
 </script>
 
 
+
+<script>
+/* ══════════════════════════════════════════════
+   DEVINE LA CHANSON — aucune parole : indices sur l'album, l'année et les anecdotes
+══════════════════════════════════════════════ */
+var SG_SONGS = [["Dynamite", ["Single sorti en août 2020.", "Premier single entièrement en anglais du groupe.", "Il a offert à BTS son premier n°1 au Billboard Hot 100.", "Son titre est le nom d'un explosif."]], ["Butter", ["Single sorti en mai 2021.", "Deuxième single entièrement en anglais du groupe.", "Il a passé de nombreuses semaines n°1 au Billboard Hot 100.", "Son titre évoque un produit laitier."]], ["Spring Day", ["Titre de l'album You Never Walk Alone, sorti en février 2017.", "Son clip fait référence à la nouvelle « Ceux qui partent d'Omelas ».", "Il est resté très longtemps dans les classements sud-coréens.", "Son titre évoque une saison qui suit l'hiver."]], ["Boy With Luv", ["Single sorti en avril 2019.", "Premier single de Map of the Soul: Persona.", "Il est chanté avec Halsey.", "Son titre parle d'un garçon et d'amour."]], ["Fake Love", ["Single sorti en mai 2018.", "Titre de Love Yourself: Tear.", "Il est devenu leur premier titre dans le top 10 du Billboard Hot 100.", "Son titre parle d'un amour qui n'est pas vrai."]], ["Blood Sweat & Tears", ["Single sorti en octobre 2016.", "Titre principal de l'album Wings.", "Son clip s'inspire de peintures européennes et du roman « Demian ».", "Son titre énumère trois choses que l'on peut verser ou perdre."]], ["DNA", ["Single sorti en septembre 2017.", "Premier single de Love Yourself: Her.", "Son clip est très coloré et plein de motifs.", "Son titre est le nom d'une molécule qui porte la génétique."]], ["Idol", ["Single sorti en août 2018.", "Titre de Love Yourself: Answer.", "Il existe une version avec Nicki Minaj.", "Son titre désigne une star de la K-pop."]], ["Mic Drop", ["Titre de Love Yourself: Her, sorti en septembre 2017.", "Il a été remixé avec Steve Aoki et Desiigner.", "Ce remix est devenu un single international.", "Son titre désigne un geste de fin de discours."]], ["Black Swan", ["Titre de Map of the Soul: 7, sorti en 2020.", "Il a été dévoilé avec un film de danse contemporaine.", "Ce film a été dansé par la compagnie MN Dance Company.", "Son titre évoque un oiseau élégant et sombre."]], ["ON", ["Single sorti en février 2020.", "Titre principal de Map of the Soul: 7.", "Un « Kinetic Manifesto Film » (film de danse) a été publié avant sa sortie.", "Son titre est aussi l'état d'un interrupteur allumé."]], ["Life Goes On", ["Single sorti en novembre 2020.", "Titre principal de l'album BE.", "Il a été écrit pendant la pandémie.", "Son titre signifie « la vie continue »."]], ["Permission to Dance", ["Single sorti en juillet 2021.", "Il a été coécrit notamment avec Ed Sheeran.", "Il est entièrement en anglais.", "Son titre parle d'une autorisation pour danser."]], ["Yet To Come", ["Titre sorti en 2022 pour l'anthologie Proof.", "Un concert à Busan en 2022 porte son nom.", "Il est présenté comme un message tourné vers l'avenir.", "Son titre signifie « le meilleur est à venir »."]], ["Run", ["Titre sorti en novembre 2015.", "Titre principal d'un album de la série The Most Beautiful Moment in Life.", "C'est le deuxième volet de cette série.", "Son titre est un verbe de mouvement."]], ["I Need U", ["Single sorti en avril 2015.", "Premier single de The Most Beautiful Moment in Life Pt.1.", "Son clip existe en plusieurs versions.", "Son titre abrège « you » par une lettre."]], ["Fire", ["Titre sorti en mai 2016.", "Il fait partie de l'album Young Forever.", "Sa chorégraphie très énergique est très appréciée des fans.", "Son titre est ce qui brûle."]], ["Dope", ["Titre sorti en avril 2015.", "Il fait partie de The Most Beautiful Moment in Life Pt.1.", "Sa chorégraphie est connue pour son énergie.", "Son titre est un mot d'argot qui veut dire « génial »."]], ["Save Me", ["Titre sorti en mai 2016.", "Il fait partie de l'album Young Forever.", "Il fait partie de la période HYYH.", "Son titre est un appel au secours."]], ["Serendipity", ["Titre solo de Jimin.", "Il ouvre l'ère Love Yourself: Her en 2017.", "Il existe aussi une version « Full Length Edition ».", "Son titre désigne une heureuse coïncidence."]], ["Epiphany", ["Titre solo de Jin.", "Il est sur Love Yourself: Answer, sorti en 2018.", "Il est chanté en solo par le plus âgé du groupe.", "Son titre désigne une révélation soudaine."]], ["Euphoria", ["Titre solo de Jung Kook.", "Il est sur Love Yourself: Answer, sorti en 2018.", "Il a servi d'introduction à la série Love Yourself grâce à un film.", "Son titre désigne un bonheur intense."]], ["Filter", ["Titre solo de Jimin.", "Il est sur Map of the Soul: Persona (2019).", "Sa chorégraphie joue avec les changements d'apparence.", "Son titre est un effet que l'on ajoute à une photo."]], ["Mikrokosmos", ["Titre de Map of the Soul: Persona, sorti en 2019.", "Il est très apprécié des fans pour son ambiance lumineuse.", "Les fans l'associent souvent aux lightsticks pendant les concerts.", "Son titre signifie « petit monde » en grec."]], ["Butterfly", ["Titre sorti en novembre 2015.", "Il fait partie de The Most Beautiful Moment in Life Pt.2.", "Il est calme et très mélodique.", "Son titre est un insecte aux ailes colorées."]], ["Boy in Luv", ["Single sorti en février 2014.", "Titre de Skool Luv Affair.", "Il est connu pour son rythme rapide et sa chorégraphie en uniforme.", "Son titre parle d'un garçon amoureux."]], ["No More Dream", ["Premier single du groupe, sorti en 2013.", "Titre de 2 Cool 4 Skool.", "Il parle du rêve et de l'avenir.", "Son titre dit qu'il n'y a plus de rêve."]], ["Danger", ["Titre sorti en août 2014.", "Il fait partie de Dark & Wild.", "C'est un titre au rythme rapide et à l'énergie très forte.", "Son titre est ce qu'il faut éviter."]]];
+var _sgRounds = [], _sgCur = 0, _sgScore = 0, _sgClue = 0, _sgDone = false, _sgRes = {};
+
+function sgStart() {
+  var a = SG_SONGS.slice();
+  for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+  _sgRounds = a.slice(0, 8); _sgCur = 0; _sgScore = 0;
+  document.getElementById('sg-intro').style.display = 'none';
+  document.getElementById('sg-result').style.display = 'none';
+  document.getElementById('sg-game').style.display = 'block';
+  _sgRound();
+}
+function _sgRound() {
+  _sgClue = 0; _sgDone = false;
+  document.getElementById('sg-q-num').textContent = 'Manche ' + (_sgCur + 1) + '/8';
+  document.getElementById('sg-score-live').textContent = '⭐ ' + _sgScore;
+  document.getElementById('sg-progress').style.width = (_sgCur / 8 * 100) + '%';
+  document.getElementById('sg-feedback').style.display = 'none';
+  document.getElementById('sg-next-round').style.display = 'none';
+  _sgShowClue();
+  var box = document.getElementById('sg-choices'); box.innerHTML = '';
+  var correct = _sgRounds[_sgCur][0];
+  var others = SG_SONGS.map(function (s) { return s[0]; }).filter(function (t) { return t !== correct; })
+    .sort(function () { return Math.random() - 0.5; }).slice(0, 3);
+  var choices = others.concat([correct]).sort(function () { return Math.random() - 0.5; });
+  choices.forEach(function (c) {
+    var b = document.createElement('button');
+    b.className = 'dm-choice-btn'; b.textContent = c;
+    b.addEventListener('click', function () { sgAnswer(c, b); });
+    box.appendChild(b);
+  });
+}
+function _sgShowClue() {
+  var clues = _sgRounds[_sgCur][1];
+  document.getElementById('sg-clue-text').textContent = clues[_sgClue];
+  document.getElementById('sg-clue-counter').textContent = 'Indice ' + (_sgClue + 1) + '/' + clues.length;
+  document.getElementById('sg-next-clue').style.display = (_sgClue < clues.length - 1 && !_sgDone) ? 'block' : 'none';
+}
+function sgNextClue() { if (_sgDone) return; _sgClue++; _sgShowClue(); }
+function sgAnswer(choice, btn) {
+  if (_sgDone) return; _sgDone = true;
+  var correct = _sgRounds[_sgCur][0], ok = choice === correct;
+  document.querySelectorAll('#sg-choices .dm-choice-btn').forEach(function (b) {
+    b.disabled = true;
+    if (b.textContent === correct) b.classList.add('dm-correct'); else if (b === btn) b.classList.add('dm-wrong');
+  });
+  document.getElementById('sg-next-clue').style.display = 'none';
+  var pts = 0;
+  if (ok) { pts = Math.max(1, _sgRounds[_sgCur][1].length - _sgClue); _sgScore += pts; }
+  var fb = document.getElementById('sg-feedback'); fb.style.display = 'block';
+  fb.style.background = ok ? 'rgba(110,200,140,.1)' : 'rgba(224,88,120,.1)';
+  fb.style.border = ok ? '1px solid rgba(110,200,140,.4)' : '1px solid rgba(224,88,120,.4)';
+  fb.style.color = ok ? '#8ee0a8' : '#f0a0a0';
+  fb.textContent = ok ? ('✅ Bravo ! C\'était « ' + correct + ' ». (+' + pts + ' points)') : ('❌ C\'était « ' + correct + ' ».');
+  document.getElementById('sg-score-live').textContent = '⭐ ' + _sgScore;
+  document.getElementById('sg-next-round').style.display = 'block';
+}
+function sgNextRound() { _sgCur++; if (_sgCur >= 8) { _sgShowResult(); return; } _sgRound(); }
+function _sgShowResult() {
+  document.getElementById('sg-game').style.display = 'none';
+  document.getElementById('sg-result').style.display = 'block';
+  document.getElementById('sg-res-score').textContent = _sgScore;
+  var pct = _sgScore / 32, emoji, level, desc;
+  if (pct >= .8)      { emoji = '🏆'; level = 'Oreille d\'or'; desc = 'Tu reconnais les titres de BTS dès les premiers indices !'; }
+  else if (pct >= .5) { emoji = '💜'; level = 'Bonne oreille';  desc = 'Bien joué ! Tu connais bien la discographie.'; }
+  else                { emoji = '🌱'; level = 'À explorer';     desc = 'Écoute plus les albums et réessaie, tu vas progresser vite !'; }
+  document.getElementById('sg-res-emoji').textContent = emoji;
+  document.getElementById('sg-res-level').textContent = level;
+  document.getElementById('sg-res-desc').textContent = desc;
+  _sgRes = { emoji: emoji, level: level, score: _sgScore };
+  lbSubmitScore('chanson', _sgScore, 32, {});
+}
+function sgRestart() { document.getElementById('sg-result').style.display = 'none'; document.getElementById('sg-intro').style.display = 'block'; }
+function sgShare() {
+  var d = _sgRes; if (!d.level) return;
+  var go = function () {
+    var c = document.createElement('canvas'), W = 800, H = 1000; c.width = W; c.height = H;
+    var ctx = c.getContext('2d'), g = ctx.createLinearGradient(0, 0, W, H);
+    g.addColorStop(0, '#1a1030'); g.addColorStop(1, '#0a0812'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    ctx.textAlign = 'center'; ctx.fillStyle = 'rgba(255,255,255,.5)'; ctx.font = '600 22px "Space Mono",monospace';
+    ctx.fillText('✦ DEVINE LA CHANSON ✦', W / 2, 130);
+    ctx.font = '140px serif'; ctx.fillText(d.emoji, W / 2, 340);
+    ctx.fillStyle = '#ffffff'; ctx.font = '700 52px "Cormorant Garamond",serif'; ctx.fillText(d.level, W / 2, 450);
+    ctx.fillStyle = '#c9a96e'; ctx.font = '700 80px "Space Mono",monospace'; ctx.fillText(d.score + ' / 32', W / 2, 570);
+    ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.font = 'italic 24px "Cormorant Garamond",serif'; ctx.fillText('Bangtan Atlas', W / 2, 900);
+    _shareCanvasImage(c, 'devine-chanson-bts.png', 'Devine la chanson BTS', "J'ai obtenu " + d.score + '/32 à Devine la chanson sur Bangtan Atlas !');
+  };
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(go); else go();
+}
+</script>
+
 <!-- ══════════════════════════════════════════════
      DÉFI DU JOUR · SÉRIE · DIAMANTS · PARTAGE (Blind Test, Type d'ARMY, Taquin)
 ══════════════════════════════════════════════ -->
 <script>
 (function () {
-  var POOL = ['general', 'vraifaux', 'chrono', 'devine', 'paroles', 'memory', 'blind', 'wordle'];
+  var POOL = ['general', 'vraifaux', 'chrono', 'devine', 'paroles', 'memory', 'blind', 'wordle', 'chanson'];
   var NAMES = { general:'Quiz Général', vraifaux:'Vrai ou Faux', chrono:'Chrono', devine:'Devine le membre',
-                paroles:'Paroles', memory:'Memory', blind:'Blind Test', wordle:'Wordle' };
+                paroles:'Paroles', memory:'Memory', blind:'Blind Test', wordle:'Wordle', chanson:'Devine la chanson' };
   var GOALS = { general:'obtiens au moins 70 %', vraifaux:'obtiens au moins 70 %', chrono:'au moins 6 bonnes places sur 8',
                 devine:'au moins 20 points sur 28', paroles:'obtiens au moins 70 %', memory:'termine la partie',
-                blind:'trouve au moins 7 titres sur 10', wordle:'trouve le mot du jour' };
+                blind:'trouve au moins 7 titres sur 10', wordle:'trouve le mot du jour', chanson:'au moins 22 points sur 32' };
   var DAILY_CAP = 6, CHALLENGE_BONUS = 3, STREAK_BONUS = 5;
 
   function dayKey(d) {
@@ -3798,6 +3934,7 @@ document.addEventListener('DOMContentLoaded', updateThemeBtn);
     if (game === 'chrono') return score >= 6;
     if (game === 'devine') return score >= 20;
     if (game === 'blind') return score >= 7;
+    if (game === 'chanson') return score >= 22;
     return max > 0 && score / max >= 0.7;
   }
 
