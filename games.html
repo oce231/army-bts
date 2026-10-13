@@ -55,6 +55,21 @@
   <!-- ══════════════════════════════════════════════
        SÉLECTEUR DE JEU
   ══════════════════════════════════════════════ -->
+  <!-- ── DÉFI DU JOUR ── -->
+  <div class="daily-banner" id="daily-banner" style="display:none">
+    <div class="daily-row">
+      <div class="daily-main">
+        <div class="daily-title">🎯 Défi du jour</div>
+        <div class="daily-desc" id="daily-desc"></div>
+      </div>
+      <div class="daily-side">
+        <div class="daily-streak" id="daily-streak"></div>
+        <button class="daily-btn" id="daily-btn" onclick="dailyPlay()">Jouer →</button>
+      </div>
+    </div>
+    <div class="daily-foot" id="daily-foot"></div>
+  </div>
+
   <div class="games-groups" id="games-groups" role="tablist">
     <button class="games-group active" data-group="quiz" onclick="gamesGroup('quiz')">🧠 Quiz</button>
     <button class="games-group" data-group="jeux" onclick="gamesGroup('jeux')">🎮 Jeux</button>
@@ -191,6 +206,7 @@
     <div class="quiz-result-desc" id="atq-r-desc"></div>
     <div class="quiz-result-songs" id="atq-r-traits"></div>
     <button class="quiz-btn" onclick="atqRestart()">↺ Recommencer le quiz</button>
+    <button class="quiz-btn quiz-btn-share" onclick="atqShare()">📸 Partager mon résultat</button>
   </div>
 </div>
   </div>
@@ -244,6 +260,7 @@
     <div class="bt-result-level" id="bt-r-level"></div>
     <div class="bt-result-desc" id="bt-r-desc"></div>
     <button class="bt-restart-btn" onclick="btRestart()">↺ Rejouer</button>
+    <button class="bt-restart-btn" onclick="btShare()" style="margin-left:6px">📸 Partager</button>
   </div>
 </div>
   </div>
@@ -304,6 +321,7 @@
           <div id="tq-win-stats" style="font-size:11px;color:var(--text2);font-family:'Space Mono',monospace;text-align:center;line-height:1.8"></div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
             <button class="gq-btn" id="tq-download-btn">💾 Télécharger</button>
+            <button class="gq-btn gq-btn-share" onclick="tqShare()">📸 Partager</button>
             <button class="gq-btn" id="tq-replay-btn">🔀 Rejouer</button>
           </div>
         </div>
@@ -426,7 +444,7 @@
     <div id="ch-intro">
       <div class="gq-intro-emoji">📅</div>
       <div class="gq-intro-title">Chrono des albums</div>
-      <p class="gq-intro-desc">Glisse-dépose les eras de BTS pour les remettre dans l'ordre chronologique, de la plus ancienne à la plus récente.</p>
+      <p class="gq-intro-desc">Glisse-dépose 8 albums et moments de BTS (tirés au sort à chaque partie) pour les remettre dans l'ordre chronologique, du plus ancien au plus récent.</p>
       <button class="gq-btn gq-btn-main" onclick="chStart()">Commencer</button>
     </div>
 
@@ -2384,22 +2402,50 @@ function plShare() {
 /* ══════════════════════════════════════
    CHRONO DES ALBUMS
 ══════════════════════════════════════ */
-var CH_ERAS = [
-  { name:"2 Cool 4 Skool",           year:2013, emoji:"🏫" },
-  { name:"Dark & Wild",              year:2014, emoji:"🌑" },
-  { name:"HYYH (in the mood for love)", year:2015, emoji:"🌸" },
-  { name:"Wings",                    year:2016, emoji:"🪶" },
-  { name:"Love Yourself",            year:2018, emoji:"💜" },
-  { name:"Map of the Soul",          year:2019, emoji:"🗺" },
-  { name:"BE",                       year:2020, emoji:"🍃" },
-  { name:"Proof",                    year:2022, emoji:"✨" },
+// Réserve d'événements : 8 sont tirés au sort à chaque partie (year = clé de tri : année + mois/12)
+var CH_POOL = [
+  { name:"2 Cool 4 Skool (débuts)", year:2013.4167, when:"juin 2013", emoji:"🏫" },
+  { name:"O!RUL8,2?", year:2013.6667, when:"sept. 2013", emoji:"❓" },
+  { name:"Skool Luv Affair", year:2014.0833, when:"févr. 2014", emoji:"💘" },
+  { name:"Dark & Wild", year:2014.5833, when:"août 2014", emoji:"🌑" },
+  { name:"HYYH Pt.1", year:2015.25, when:"avr. 2015", emoji:"🌸" },
+  { name:"HYYH Pt.2", year:2015.8333, when:"nov. 2015", emoji:"🌺" },
+  { name:"Young Forever", year:2016.3333, when:"mai 2016", emoji:"🔥" },
+  { name:"Wings", year:2016.75, when:"oct. 2016", emoji:"🪶" },
+  { name:"You Never Walk Alone", year:2017.0833, when:"févr. 2017", emoji:"🚶" },
+  { name:"Love Yourself: Her", year:2017.6667, when:"sept. 2017", emoji:"💜" },
+  { name:"Premiers AMAs aux États-Unis", year:2017.8333, when:"nov. 2017", emoji:"🇺🇸" },
+  { name:"Love Yourself: Tear", year:2018.3333, when:"mai 2018", emoji:"💧" },
+  { name:"Love Yourself: Answer", year:2018.5833, when:"août 2018", emoji:"🔑" },
+  { name:"Discours à l'ONU", year:2018.6667, when:"sept. 2018", emoji:"🌍" },
+  { name:"Map of the Soul: Persona", year:2019.25, when:"avr. 2019", emoji:"🎭" },
+  { name:"Concerts à Wembley", year:2019.4167, when:"juin 2019", emoji:"🏟️" },
+  { name:"Map of the Soul: 7", year:2020.0833, when:"févr. 2020", emoji:"7️⃣" },
+  { name:"Dynamite", year:2020.5833, when:"août 2020", emoji:"🧨" },
+  { name:"BE", year:2020.8333, when:"nov. 2020", emoji:"🍃" },
+  { name:"Butter", year:2021.3333, when:"mai 2021", emoji:"🧈" },
+  { name:"Permission to Dance", year:2021.5, when:"juil. 2021", emoji:"💃" },
+  { name:"Proof", year:2022.4167, when:"juin 2022", emoji:"✨" },
+  { name:"Jack in the Box (J-Hope)", year:2022.5, when:"juil. 2022", emoji:"🎁" },
+  { name:"Face (Jimin)", year:2023.1667, when:"mars 2023", emoji:"😶" },
+  { name:"Seven (Jung Kook)", year:2023.5, when:"juil. 2023", emoji:"🎶" },
+  { name:"Layover (V)", year:2023.6667, when:"sept. 2023", emoji:"✈️" }
 ];
+var CH_ERAS = CH_POOL.slice(0, 8); // remplacé à chaque partie par chStart()
 
 var _chOrder = [], _chCorrectOrder = [], _chResData = {};
 var _chDragIdx = null;
 var _chSelectedIdx = null; // pour le swap mobile
 
+function _chPickEight() {
+  // 8 événements au hasard (mélange de Fisher-Yates), tous de mois différents
+  var a = CH_POOL.slice();
+  for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+  return a.slice(0, 8);
+}
+
 function chStart() {
+  CH_ERAS = _chPickEight();
   _chCorrectOrder = [...CH_ERAS].sort(function(a,b){ return a.year - b.year; });
   _chOrder = [...CH_ERAS].sort(function(){ return Math.random() - 0.5; });
   _chSelectedIdx = null;
@@ -2505,7 +2551,7 @@ function chValidate() {
       '<span style="font-family:\'Space Mono\',monospace;color:var(--text3);min-width:18px">' + (i+1) + '.</span>' +
       '<span>' + era.emoji + '</span>' +
       '<span style="color:' + (ok?'#6ec88c':'#f0a0a0') + '">' + era.name + '</span>' +
-      '<span style="color:var(--text3);font-size:10px;margin-left:auto">' + era.year + '</span>';
+      '<span style="color:var(--text3);font-size:10px;margin-left:auto">' + (era.when || era.year) + '</span>';
     corrDiv.appendChild(row);
 
   });
@@ -2752,10 +2798,24 @@ var DM_CLUES = {
   "Jungkook": ["Il est le plus jeune membre du groupe.", "Il est souvent surnommé pour son talent dans plusieurs domaines artistiques.", "Il a une passion pour le dessin et le sport.", "Il a sorti un single solo qui a battu plusieurs records."]
 };
 
+var DM_CLUES_B = {
+  "RM":       ["Il a sorti l'album solo « Indigo » en 2022.", "Il est originaire d'Ilsan, dans la banlieue de Séoul.", "Son nom de scène a changé : il s'appelait autrefois Rap Monster.", "Il est le leader et le principal porte-parole du groupe."],
+  "Jin":      ["Il a sorti le single « The Astronaut », coécrit avec Coldplay.", "Il est né à Anyang.", "Son surnom humoristique est « Worldwide Handsome ».", "Il est le plus âgé du groupe."],
+  "Suga":     ["Il est né à Daegu.", "Son alter ego solo s'appelle Agust D.", "Il a sorti l'album solo « D-DAY » en 2023.", "Il est le rappeur et producteur du groupe."],
+  "J-Hope":   ["Il est né à Gwangju.", "Il a été tête d'affiche du festival Lollapalooza en 2022.", "Il a sorti l'album solo « Jack in the Box » en 2022.", "Son surnom affectueux est Hobi."],
+  "Jimin":    ["Il est né à Busan.", "Son titre « Like Crazy » a atteint la 1re place du Billboard Hot 100 en 2023.", "Il a sorti l'album solo « FACE » en 2023.", "Il a chanté « Serendipity » sur Love Yourself: Her."],
+  "V":        ["Il est né à Daegu.", "Il a joué dans la série coréenne « Hwarang ».", "Il a chanté « Singularity » sur Love Yourself: Tear.", "On lui attribue l'expression « borahae »."],
+  "Jungkook": ["Il est né à Busan.", "Il a chanté « Dreamers », l'hymne de la Coupe du monde 2022.", "Il a sorti le single solo « Seven » avec Latto en 2023.", "Il est le plus jeune membre du groupe."]
+};
+var _dmPick = {};
+function _dmClues(m) { return _dmPick[m] || DM_CLUES[m]; }
+
 var _dmRounds = [], _dmCurrent = 0, _dmScore = 0, _dmClueIdx = 0, _dmAnswered = false, _dmResData = {};
 
 function dmStart() {
   _dmRounds = [...DM_MEMBERS].sort(function(){ return Math.random() - 0.5; });
+  _dmPick = {};
+  DM_MEMBERS.forEach(function(m){ _dmPick[m] = (DM_CLUES_B[m] && Math.random() < 0.5) ? DM_CLUES_B[m] : DM_CLUES[m]; });
   _dmCurrent = 0; _dmScore = 0;
   document.getElementById('dm-intro').style.display = 'none';
   document.getElementById('dm-result').style.display = 'none';
@@ -2778,7 +2838,7 @@ function _dmRenderRound() {
 
 function _dmShowClue() {
   var member = _dmRounds[_dmCurrent];
-  var clues = DM_CLUES[member];
+  var clues = _dmClues(member);
   document.getElementById('dm-clue-text').textContent = clues[_dmClueIdx];
   document.getElementById('dm-clue-counter').textContent = 'Indice ' + (_dmClueIdx+1) + '/' + clues.length;
   document.getElementById('dm-next-clue').style.display = (_dmClueIdx < clues.length - 1 && !_dmAnswered) ? 'block' : 'none';
@@ -2821,7 +2881,7 @@ function dmAnswer(choice, btn) {
   // Score dégressif selon le nombre d'indices utilisés
   var points = 0;
   if (isCorrect) {
-    var totalClues = DM_CLUES[correct].length;
+    var totalClues = _dmClues(correct).length;
     points = Math.max(1, totalClues - _dmClueIdx);
     _dmScore += points;
   }
@@ -3662,5 +3722,239 @@ function toggleTheme() {
 document.addEventListener('DOMContentLoaded', updateThemeBtn);
 </script>
 
+
+<!-- ══════════════════════════════════════════════
+     DÉFI DU JOUR · SÉRIE · DIAMANTS · PARTAGE (Blind Test, Type d'ARMY, Taquin)
+══════════════════════════════════════════════ -->
+<script>
+(function () {
+  var POOL = ['general', 'vraifaux', 'chrono', 'devine', 'paroles', 'memory', 'blind', 'wordle'];
+  var NAMES = { general:'Quiz Général', vraifaux:'Vrai ou Faux', chrono:'Chrono', devine:'Devine le membre',
+                paroles:'Paroles', memory:'Memory', blind:'Blind Test', wordle:'Wordle' };
+  var GOALS = { general:'obtiens au moins 70 %', vraifaux:'obtiens au moins 70 %', chrono:'au moins 6 bonnes places sur 8',
+                devine:'au moins 20 points sur 28', paroles:'obtiens au moins 70 %', memory:'termine la partie',
+                blind:'trouve au moins 7 titres sur 10', wordle:'trouve le mot du jour' };
+  var DAILY_CAP = 6, CHALLENGE_BONUS = 3, STREAK_BONUS = 5;
+
+  function dayKey(d) {
+    d = d || new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+  var TODAY = dayKey();
+  function yesterdayKey() { var d = new Date(); d.setDate(d.getDate() - 1); return dayKey(d); }
+  function dailyGame() {
+    var p = TODAY.split('-');
+    var n = Math.floor(Date.UTC(+p[0], +p[1] - 1, +p[2]) / 86400000);
+    return POOL[n % POOL.length];
+  }
+  function uid() { return (typeof _lbUser !== 'undefined' && _lbUser) ? _lbUser.id : null; }
+
+  /* ── État : localStorage (+ copie dans user_wallet.quests.games quand connecté) ── */
+  function blank() { return { date: TODAY, earned: 0, claimed: {}, streak: 0, last: null }; }
+  function lsKey() { return 'gamesDaily:' + (uid() || 'guest'); }
+  function readLocal() {
+    try { var o = JSON.parse(localStorage.getItem(lsKey()) || 'null'); if (o && typeof o === 'object') return o; } catch (e) {}
+    return blank();
+  }
+  function writeLocal(st) { try { localStorage.setItem(lsKey(), JSON.stringify(st)); } catch (e) {} }
+  function newDay(st) {
+    if (st.date !== TODAY) { st.date = TODAY; st.earned = 0; st.claimed = {}; }
+    st.claimed = st.claimed || {}; st.earned = st.earned || 0; st.streak = st.streak || 0;
+    return st;
+  }
+  function merge(a, b) {            // a = local, b = distant (le plus avancé gagne)
+    if (!b || typeof b !== 'object') return newDay(a);
+    var out = { date: a.date, earned: a.earned || 0, claimed: Object.assign({}, a.claimed || {}), streak: a.streak || 0, last: a.last || null };
+    if ((b.last || '') > (out.last || '') || ((b.last || '') === (out.last || '') && (b.streak || 0) > out.streak)) { out.last = b.last || null; out.streak = b.streak || 0; }
+    if (b.date === out.date) {
+      out.earned = Math.max(out.earned, b.earned || 0);
+      Object.keys(b.claimed || {}).forEach(function (g) { out.claimed[g] = Math.max(out.claimed[g] || 0, b.claimed[g] || 0); });
+    } else if ((b.date || '') > (out.date || '')) { out.date = b.date; out.earned = b.earned || 0; out.claimed = b.claimed || {}; }
+    return newDay(out);
+  }
+  async function getState() {
+    var st = newDay(readLocal());
+    if (typeof _lbSB !== 'undefined' && _lbSB && uid()) {
+      try {
+        var r = await _lbSB.from('user_wallet').select('quests').eq('user_id', uid()).maybeSingle();
+        if (r.data && r.data.quests && r.data.quests.games) st = merge(st, r.data.quests.games);
+      } catch (e) {}
+    }
+    writeLocal(st);
+    return st;
+  }
+
+  /* ── Règles de récompense ── */
+  function tiers(game, score, max, extra) {
+    var pct = max > 0 ? score / max : 0;
+    if (game === 'wordle') return score >= 1 ? ((extra && extra.attempts <= 3) ? 2 : 1) : 0;
+    if (game === 'memory') return 1;
+    if (game === 'taquin') return pct >= 0.7 ? 2 : pct >= 0.4 ? 1 : 0;
+    return pct >= 0.9 ? 2 : pct >= 0.7 ? 1 : 0;
+  }
+  function challengeOK(game, score, max) {
+    if (game === 'wordle') return score >= 1;
+    if (game === 'memory') return true;
+    if (game === 'chrono') return score >= 6;
+    if (game === 'devine') return score >= 20;
+    if (game === 'blind') return score >= 7;
+    return max > 0 && score / max >= 0.7;
+  }
+
+  /* ── Toast ── */
+  function toast(msg) {
+    var t = document.createElement('div');
+    t.className = 'games-toast'; t.textContent = msg;
+    document.body.appendChild(t);
+    requestAnimationFrame(function () { t.classList.add('show'); });
+    setTimeout(function () { t.classList.remove('show'); setTimeout(function () { t.remove(); }, 400); }, 4200);
+  }
+
+  async function grantDiamonds(n, st) {
+    if (!n) return false;
+    if (!(typeof _lbSB !== 'undefined' && _lbSB && uid())) return false;
+    try {
+      var r = await _lbSB.from('user_wallet').select('fragments,quests').eq('user_id', uid()).maybeSingle();
+      var w = r.data || { fragments: 0, quests: {} };
+      var q = w.quests || {}; q.games = st;
+      var up = await _lbSB.from('user_wallet').upsert({
+        user_id: uid(), fragments: (w.fragments || 0) + n, quests: q, updated_at: new Date().toISOString()
+      });
+      if (up.error) throw up.error;
+      return true;
+    } catch (e) { console.warn('Diamants non enregistrés', e); return false; }
+  }
+  async function mirrorState(st) {   // enregistre l'état même sans gain (série, plafond)
+    if (!(typeof _lbSB !== 'undefined' && _lbSB && uid())) return;
+    try {
+      var r = await _lbSB.from('user_wallet').select('fragments,quests').eq('user_id', uid()).maybeSingle();
+      var w = r.data || { fragments: 0, quests: {} };
+      var q = w.quests || {}; q.games = st;
+      await _lbSB.from('user_wallet').upsert({ user_id: uid(), fragments: w.fragments || 0, quests: q, updated_at: new Date().toISOString() });
+    } catch (e) {}
+  }
+
+  /* ── Appelée à la fin de chaque jeu noté ── */
+  window.gamesOnResult = async function (game, score, max, extra) {
+    try {
+      var st = await getState();
+      var gain = 0, notes = [];
+      var t = tiers(game, score, max, extra), already = st.claimed[game] || 0;
+      if (t > already) { gain += (t - already); st.claimed[game] = t; }
+
+      var streakBonus = 0, challenge = false;
+      if (game === dailyGame() && st.last !== TODAY && challengeOK(game, score, max)) {
+        challenge = true;
+        st.streak = (st.last === yesterdayKey()) ? st.streak + 1 : 1;
+        st.last = TODAY;
+        gain += CHALLENGE_BONUS;
+        if (st.streak % 7 === 0) streakBonus = STREAK_BONUS;
+      }
+      var room = Math.max(0, DAILY_CAP - st.earned);
+      var grant = Math.min(gain, room);
+      st.earned += grant;
+      var total = grant + streakBonus;
+      writeLocal(st);
+
+      if (total > 0 && uid()) {
+        var ok = await grantDiamonds(total, st);
+        if (ok) notes.push('💎 +' + total + ' (' + st.earned + '/' + DAILY_CAP + ' aujourd\'hui)');
+      } else {
+        mirrorState(st);
+        if (total > 0 && !window.__gamesGuestNudged) { window.__gamesGuestNudged = true; notes.push('💎 +' + total + ' possible : connecte-toi (onglet Classement) pour les gagner'); }
+      }
+      if (challenge) notes.unshift('🎯 Défi du jour réussi ! 🔥 Série : ' + st.streak + ' jour' + (st.streak > 1 ? 's' : ''));
+      else if (gain > 0 && grant === 0 && uid()) notes.push('Plafond de 💎 atteint pour aujourd\'hui — reviens demain !');
+      if (notes.length) toast(notes.join('  ·  '));
+      renderBanner(st);
+    } catch (e) { console.warn('gamesOnResult', e); }
+  };
+
+  /* ── Bandeau ── */
+  function streakNow(st) { return (st.last === TODAY || st.last === yesterdayKey()) ? (st.streak || 0) : 0; }
+  function renderBanner(st) {
+    var box = document.getElementById('daily-banner'); if (!box) return;
+    st = newDay(st || readLocal());
+    var g = dailyGame(), done = st.last === TODAY, s = streakNow(st);
+    box.style.display = 'block';
+    box.classList.toggle('done', done);
+    document.getElementById('daily-desc').innerHTML = done
+      ? '✅ Réussi aujourd\'hui : <b>' + NAMES[g] + '</b>'
+      : '<b>' + NAMES[g] + '</b> — ' + GOALS[g] + ' (+' + CHALLENGE_BONUS + ' 💎)';
+    document.getElementById('daily-streak').textContent = s ? ('🔥 ' + s + ' jour' + (s > 1 ? 's' : '')) : '🔥 0 jour';
+    var btn = document.getElementById('daily-btn');
+    btn.textContent = done ? 'Rejouer' : 'Jouer →';
+    document.getElementById('daily-foot').textContent = uid()
+      ? ('💎 ' + st.earned + '/' + DAILY_CAP + ' gagnés aujourd\'hui · 70 % = 1 💎, 90 % = 2 💎 par jeu · série de 7 jours = +' + STREAK_BONUS + ' 💎')
+      : 'Connecte-toi (onglet Classement) pour gagner des 💎 pour ta collection.';
+  }
+  window.dailyPlay = function () {
+    var g = dailyGame();
+    var tab = document.querySelector('.games-tab[data-game="' + g + '"]');
+    if (tab) tab.click();
+  };
+  async function syncAndRender() { renderBanner(await getState()); }
+
+  /* ── Branchements ── */
+  var origSubmit = window.lbSubmitScore;
+  window.lbSubmitScore = function (game, score, max, extra) {
+    window.gamesOnResult(game, score, max, extra);
+    return origSubmit.apply(this, arguments);
+  };
+  var origBt = window.btShowResult;
+  if (typeof origBt === 'function') {
+    window.btShowResult = function () {
+      origBt.apply(this, arguments);
+      window.gamesOnResult('blind', btScore, 10, {});
+    };
+  }
+  var origSigned = window._lbOnSignedIn;
+  if (typeof origSigned === 'function') {
+    window._lbOnSignedIn = async function () {
+      var r = await origSigned.apply(this, arguments);
+      syncAndRender();
+      return r;
+    };
+  }
+  // Démarre la session dès l'arrivée sur la page (sinon les scores ne partaient
+  // qu'après un passage par l'onglet Classement)
+  try { if (typeof lbInitUI === 'function') lbInitUI(); } catch (e) {}
+  renderBanner();
+
+  /* ── Partage : Blind Test, Type d'ARMY, Taquin ── */
+  function card(title, emoji, line1, line2, file, shareTitle, text) {
+    var c = document.createElement('canvas'), W = 800, H = 1000; c.width = W; c.height = H;
+    var ctx = c.getContext('2d');
+    var g = ctx.createLinearGradient(0, 0, W, H); g.addColorStop(0, '#1a1030'); g.addColorStop(1, '#0a0812');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'rgba(255,255,255,.5)'; ctx.font = '600 22px "Space Mono",monospace'; ctx.fillText(title, W / 2, 130);
+    ctx.font = '140px serif'; ctx.fillText(emoji, W / 2, 340);
+    ctx.fillStyle = '#ffffff'; ctx.font = '700 52px "Cormorant Garamond",serif'; ctx.fillText(line1, W / 2, 450);
+    ctx.fillStyle = '#c9a96e'; ctx.font = '700 70px "Space Mono",monospace'; ctx.fillText(line2, W / 2, 570);
+    ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.font = 'italic 24px "Cormorant Garamond",serif'; ctx.fillText('Bangtan Atlas', W / 2, 900);
+    _shareCanvasImage(c, file, shareTitle, text);
+  }
+  window.btShare = function () {
+    var lv = BT_LEVELS.find(function (l) { return btScore >= l.min && btScore <= l.max; }) || BT_LEVELS[0];
+    var go = function () { card('✦ BLIND TEST BTS ✦', lv.emoji, lv.level, btScore + ' / 10', 'blindtest-bts.png', 'Blind Test BTS',
+      "J'ai trouvé " + btScore + '/10 titres au Blind Test BTS sur Bangtan Atlas !'); };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(go); else go();
+  };
+  window.atqShare = function () {
+    var emoji = document.getElementById('atq-r-emoji').textContent, name = document.getElementById('atq-r-type').textContent;
+    if (!name) return;
+    var go = function () { card("✦ QUEL TYPE D'ARMY ES-TU ? ✦", emoji, name, '', 'type-army-bts.png', "Quel type d'ARMY es-tu ?",
+      "Je suis « " + name + " » au test Quel type d'ARMY es-tu ? sur Bangtan Atlas !"); };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(go); else go();
+  };
+  window.tqShare = function () {
+    var stats = (document.getElementById('tq-win-stats') || {}).textContent || '';
+    var go = function () { card('✦ TAQUIN BTS ✦', '🧩', 'Puzzle résolu !', stats.length > 26 ? stats.split(' · ')[0] : stats, 'taquin-bts.png', 'Taquin BTS',
+      "J'ai résolu le Taquin BTS (" + stats + ') sur Bangtan Atlas !'); };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(go); else go();
+  };
+})();
+</script>
 </body>
 </html>
