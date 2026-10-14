@@ -122,12 +122,6 @@
         <div class="study-card-tag">Piano · 1h</div>
       </a>
 
-      <a class="study-card" href="#" data-yt="BTzLt-1WZvE" onclick="openStudyPlayer(event,this)">
-        <div class="study-card-icon">✨</div>
-        <div class="study-card-title">BTS - ARIRANG Full Album LoFi Mix 🎧 [+Come Over]</div>
-        <div class="study-card-desc">Ambiance chill / study / relax, pour ne pas se laisser distraire.</div>
-        <div class="study-card-tag">Lofi Arirang</div>
-      </a>
     </div>
   </div>
 
@@ -254,10 +248,74 @@ document.addEventListener('keydown', function(e){
     ring.style.strokeDashoffset = CIRC * (1 - progress);
   }
 
+  const BASE_TITLE = document.title;
+  let endAt = 0;           // timestamp de fin (fiable même si l'onglet dort)
+  let mode = 25;
+  let focusDone = 0;       // focus terminés dans la série (pause longue tous les 4)
+  const dayKey = 'studyPomo:' + new Date().toISOString().slice(0,10);
+  try { cycles = parseInt(localStorage.getItem(dayKey), 10) || 0; } catch(e) {}
+  document.getElementById('pomo-cycle-count').textContent = cycles;
+
+  function setActiveBtn(min) {
+    document.querySelectorAll('.pomo-mode').forEach(b => b.classList.toggle('active', +b.dataset.min === min));
+  }
+  function beep() {
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      const ctx = new AC();
+      [0, .35, .7].forEach(function(t){
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = 'sine'; o.frequency.value = 880;
+        g.gain.setValueAtTime(.0001, ctx.currentTime + t);
+        g.gain.exponentialRampToValueAtTime(.25, ctx.currentTime + t + .05);
+        g.gain.exponentialRampToValueAtTime(.0001, ctx.currentTime + t + .3);
+        o.connect(g); g.connect(ctx.destination);
+        o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + .32);
+      });
+    } catch(e) {}
+    try { if (navigator.vibrate) navigator.vibrate([200,100,200]); } catch(e) {}
+  }
+  function tick() {
+    remaining = Math.max(0, Math.round((endAt - Date.now()) / 1000));
+    updateDisplay();
+    document.title = (running ? formatTime(remaining) + ' · ' : '') + BASE_TITLE;
+    if (remaining <= 0) finish();
+  }
+  function startTimer() {
+    endAt = Date.now() + remaining * 1000;
+    running = true;
+    document.getElementById('pomo-toggle').textContent = '⏸ Pause';
+    clearInterval(timerId);
+    timerId = setInterval(tick, 500);
+  }
+  function finish() {
+    clearInterval(timerId); running = false;
+    beep();
+    let msg;
+    if (mode === 25) {
+      cycles++; focusDone++;
+      document.getElementById('pomo-cycle-count').textContent = cycles;
+      try { localStorage.setItem(dayKey, cycles); } catch(e) {}
+      const long = focusDone % 4 === 0;
+      mode = long ? 15 : 5;
+      msg = long ? '✨ 4 sessions ! Pause longue de 15 min, tu l\'as méritée.' : '✨ Session terminée ! Pause de 5 min.';
+    } else {
+      mode = 25;
+      msg = '💜 Pause finie, on repart pour 25 min de focus.';
+    }
+    totalSeconds = mode * 60; remaining = totalSeconds;
+    setActiveBtn(mode);
+    document.getElementById('pomo-message').textContent = msg;
+    document.title = BASE_TITLE;
+    updateDisplay();
+    startTimer(); // enchaînement automatique
+  }
+  document.addEventListener('visibilitychange', function(){ if (running) tick(); });
+
   window.pomoSetMode = function(btn, minutes) {
     if (running) return;
-    document.querySelectorAll('.pomo-mode').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+    mode = minutes;
+    setActiveBtn(minutes);
     totalSeconds = minutes * 60;
     remaining = totalSeconds;
     updateDisplay();
@@ -266,25 +324,12 @@ document.addEventListener('keydown', function(e){
   window.pomoToggle = function() {
     if (running) {
       clearInterval(timerId);
+      remaining = Math.max(0, Math.round((endAt - Date.now()) / 1000));
       running = false;
+      document.title = BASE_TITLE;
       document.getElementById('pomo-toggle').textContent = '▶ Reprendre';
     } else {
-      running = true;
-      document.getElementById('pomo-toggle').textContent = '⏸ Pause';
-      timerId = setInterval(function(){
-        remaining--;
-        updateDisplay();
-        if (remaining <= 0) {
-          clearInterval(timerId);
-          running = false;
-          document.getElementById('pomo-toggle').textContent = '▶ Démarrer';
-          cycles++;
-          document.getElementById('pomo-cycle-count').textContent = cycles;
-          document.getElementById('pomo-message').textContent = '✨ Session terminée ! Prends une pause méritée.';
-          remaining = totalSeconds;
-          updateDisplay();
-        }
-      }, 1000);
+      startTimer();
     }
   };
 
@@ -292,6 +337,7 @@ document.addEventListener('keydown', function(e){
     clearInterval(timerId);
     running = false;
     remaining = totalSeconds;
+    document.title = BASE_TITLE;
     document.getElementById('pomo-toggle').textContent = '▶ Démarrer';
     document.getElementById('pomo-message').textContent = '';
     updateDisplay();
@@ -357,6 +403,7 @@ document.addEventListener('keydown', function(e){
     const saved = JSON.parse(localStorage.getItem('bts_cursor'));
     if (saved) currentEmoji = saved.emoji || null;
   } catch(e) {}
+})();
 </script>
 
 <!-- Thème clair / sombre -->
