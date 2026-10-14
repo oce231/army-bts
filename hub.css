@@ -148,3 +148,6 @@
   header .hub-switch { display: inline-flex !important; padding: 6px 10px; letter-spacing: .08em; }
 }
 html { touch-action: manipulation; }
+
+[data-theme="light"] .hub-card-status.available,
+[data-theme="light"] .hub-card[href]:not([href="#"]) .hub-card-status { color: #1c7a42; }

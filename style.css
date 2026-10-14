@@ -60,8 +60,8 @@
   --border: rgba(90,60,190,0.14);
   --border2: rgba(90,60,190,0.22);
   --text: #211735;
-  --text2: #6c6188;
-  --text3: #8a7fa3;
+  --text2: #4f4570;
+  --text3: #62577f;
   --accent: #5a3fd6;
   --accent2: #6d4cf0;
   --accent3: #746a8c;
@@ -81,7 +81,8 @@
   --modal-scrim: rgba(30,20,50,.85);
   --on-accent: #fbfaff;
   --hero-gradient: linear-gradient(135deg, #f3ecf9 0%, #eee5fb 50%, #eef3f9 100%);
-  --hero-pretitle: #6a4fc4;
+  --hero-pretitle: #5a3fd6;
+  --purple-text: #5a3fd6;
   --hero-title: #2a1f3d;
 }
 
@@ -398,9 +399,9 @@ header{
 #install-app-btn{
   border-left-color:transparent;
 }
-#install-app-btn .era-icon{ color:#8265ff; }
+#install-app-btn .era-icon{ color:var(--purple-text,#8265ff); }
 #install-app-btn:hover{
-  color:#8265ff;background:rgba(130, 101, 255,.08);
+  color:var(--purple-text,#8265ff);background:rgba(130, 101, 255,.08);
   border-left-color:#8265ff;
 }
 
@@ -429,7 +430,7 @@ header{
 .install-modal-emoji{font-size:36px;margin-bottom:.6rem}
 .install-modal-title{
   font-family:'Cormorant Garamond',serif;font-size:20px;
-  color:#8265ff;margin-bottom:1rem;
+  color:var(--purple-text,#8265ff);margin-bottom:1rem;
 }
 #install-modal-body{
   font-size:11px;line-height:1.9;color:var(--text2);
@@ -442,7 +443,7 @@ header{
 }
 #install-modal-body .install-num{
   flex-shrink:0;width:18px;height:18px;border-radius:50%;
-  background:rgba(130, 101, 255,.15);color:#8265ff;
+  background:rgba(130, 101, 255,.15);color:var(--purple-text,#8265ff);
   font-size:9px;display:flex;align-items:center;justify-content:center;
 }
 
@@ -601,7 +602,7 @@ header{
   backdrop-filter:blur(4px);
 }
 .v-fav-btn:hover{ background:rgba(0,0,0,.75); transform:scale(1.1); }
-.v-fav-btn.is-fav{ border-color:rgba(130, 101, 255,.6); color:#8265ff; }
+.v-fav-btn.is-fav{ border-color:rgba(130, 101, 255,.6); color:var(--purple-text,#8265ff); }
 
 /* ── Badge "déjà vu" ── */
 .v-seen-badge{
@@ -745,7 +746,7 @@ body:has(#spotify-bar.visible) #dyk-card {
 #dyk-icon { font-size: 16px; }
 #dyk-label {
   font-size: 8px; letter-spacing: .18em; text-transform: uppercase;
-  color: #8265ff; font-family: 'Space Mono', monospace;
+  color: var(--purple-text,#8265ff); font-family: 'Space Mono', monospace;
   flex: 1;
 }
 #dyk-close {
@@ -1386,7 +1387,7 @@ body:has(#spotify-bar.visible) #dyk-card {
 }
 .intro-bts {
   font-family:'Playfair Display',serif;
-  font-size:22px;font-weight:500;letter-spacing:0.2em;color:#8265ff;
+  font-size:22px;font-weight:500;letter-spacing:0.2em;color:var(--purple-text,#8265ff);
 }
 .intro-kr{font-size:9px;letter-spacing:0.4em;color:var(--text3);margin-top:0.2rem;}
 .intro-tagline{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--text2);}
@@ -1394,7 +1395,7 @@ body:has(#spotify-bar.visible) #dyk-card {
 .intro-quote{font-family:'Playfair Display',serif;font-style:italic;font-size:12px;color:var(--text3);margin-bottom:1.2rem;}
 .intro-btn {
   padding:0.75rem 2rem;background:none;
-  border:1px solid rgba(130, 101, 255,0.5);color:#8265ff;
+  border:1px solid rgba(130, 101, 255,0.5);color:var(--purple-text,#8265ff);
   font-size:10px;letter-spacing:0.25em;text-transform:uppercase;
   border-radius:3px;cursor:pointer;transition:all 0.2s;
 }
@@ -1417,7 +1418,7 @@ body:has(#spotify-bar.visible) #dyk-card {
   display: inline-flex; align-items: center; gap: 6px;
   background: rgba(130, 101, 255,.08);
   border: 1px solid rgba(130, 101, 255,.3);
-  color: #8265ff;
+  color: var(--purple-text,#8265ff);
   font-family: 'Space Mono', monospace;
   font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
   padding: 8px 18px; border-radius: 20px;
@@ -1444,7 +1445,7 @@ body:has(#spotify-bar.visible) #dyk-card {
   font-family: 'DM Sans', sans-serif;
   font-size: clamp(11px, 1.8vw, 13px);
   line-height: 1.65;
-  color: rgba(232,224,208,.85);
+  color: color-mix(in srgb, var(--text) 85%, transparent);
   margin: 0 0 8px;
 }
 .hp-fact-member {
@@ -1473,13 +1474,13 @@ body:has(#spotify-bar.visible) #dyk-card {
   position:relative;z-index:2;text-align:center;
   padding:2rem 1.5rem;max-width:680px;
 }
-.hp-pretitle{font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:#8265ff;margin-bottom:1.2rem;opacity:.8;}
+.hp-pretitle{font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:var(--purple-text,#8265ff);margin-bottom:1.2rem;opacity:.8;}
 .hp-title{font-family:'Playfair Display',serif;font-size:clamp(52px,11vw,108px);font-weight:500;line-height:.95;color:var(--text);letter-spacing:-.02em;margin-bottom:.3rem;}
-.hp-title-sub{font-size:clamp(15px,3vw,30px);font-weight:400;font-style:italic;color:#8265ff;letter-spacing:.15em;display:block;}
+.hp-title-sub{font-size:clamp(15px,3vw,30px);font-weight:400;font-style:italic;color:var(--purple-text,#8265ff);letter-spacing:.15em;display:block;}
 .hp-desc{font-size:13px;color:var(--text2);line-height:1.9;margin:1.4rem auto;max-width:460px;font-weight:300;}
 .hp-stats{display:flex;align-items:center;justify-content:center;gap:1.4rem;margin:1.6rem 0;flex-wrap:wrap;}
 .hp-stat{text-align:center;}
-.hp-stat-n{display:block;font-family:'Playfair Display',serif;font-size:28px;font-weight:500;color:#8265ff;line-height:1;}
+.hp-stat-n{display:block;font-family:'Playfair Display',serif;font-size:28px;font-weight:500;color:var(--purple-text,#8265ff);line-height:1;}
 .hp-stat-l{display:block;font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--text3);margin-top:3px;}
 .hp-stat-div{width:1px;height:30px;background:var(--overlay-8);}
 .hp-btns{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap;margin-top:1.8rem;}
@@ -1487,11 +1488,11 @@ body:has(#spotify-bar.visible) #dyk-card {
 .hp-btn-primary{background:#8265ff;border:1px solid #8265ff;color:var(--bg-deep);font-weight:700;box-shadow:0 4px 20px rgba(130, 101, 255,.3);}
 .hp-btn-primary:hover{background:#e8c88a;transform:translateY(-2px);}
 .hp-btn-ghost{background:none;border:1px solid var(--overlay-12);color:var(--text2);}
-.hp-btn-ghost:hover{border-color:#8265ff;color:#8265ff;}
+.hp-btn-ghost:hover{border-color:#8265ff;color:var(--purple-text,#8265ff);}
 
 .hp-section{padding:3.5rem 1.5rem 2.5rem;max-width:1400px;margin:0 auto;}
 .hp-section-header{text-align:center;margin-bottom:1.8rem;}
-.hp-section-label{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:#8265ff;opacity:.7;margin-bottom:.4rem;}
+.hp-section-label{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(--purple-text,#8265ff);opacity:.7;margin-bottom:.4rem;}
 .hp-section-title{font-family:'Playfair Display',serif;font-size:clamp(20px,4vw,34px);font-weight:500;color:var(--text);}
 
 /* Carrousel */
@@ -1499,7 +1500,7 @@ body:has(#spotify-bar.visible) #dyk-card {
 .hp-carousel{display:flex;gap:.9rem;overflow-x:auto;scroll-behavior:smooth;padding:.8rem .4rem 1.2rem;scrollbar-width:none;flex:1;}
 .hp-carousel::-webkit-scrollbar{display:none;}
 .hp-carousel-arrow{flex-shrink:0;width:36px;height:36px;background:var(--bg-card);border:1px solid var(--overlay-12);color:var(--text2);font-size:20px;border-radius:50%;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;}
-.hp-carousel-arrow:hover{border-color:#8265ff;color:#8265ff;}
+.hp-carousel-arrow:hover{border-color:#8265ff;color:var(--purple-text,#8265ff);}
 .hp-era-card{flex-shrink:0;width:140px;background:var(--bg-card);border:1px solid var(--overlay-6);border-radius:9px;cursor:pointer;overflow:hidden;transition:all .25s cubic-bezier(.34,1.1,.64,1);display:flex;flex-direction:column;}
 .hp-era-card:hover{border-color:var(--ec,#8265ff);transform:translateY(-6px) scale(1.03);box-shadow:0 16px 40px var(--shadow-soft),0 0 0 1px var(--ec,#8265ff);}
 .hp-era-card-cover{position:relative;width:100%;aspect-ratio:1;overflow:hidden;background:var(--bg-card2);}
@@ -1527,7 +1528,7 @@ body:has(#spotify-bar.visible) #dyk-card {
 .hp-member:hover .hp-member-name{color:var(--mc,#8265ff);}
 .hp-member-kr{font-size:8px;color:var(--text3);letter-spacing:.1em;}
 .hp-footer{text-align:center;padding:2rem 1rem 3rem;border-top:1px solid var(--overlay-6);}
-.hp-footer-logo{font-family:'Playfair Display',serif;font-size:16px;font-weight:500;color:#8265ff;margin-bottom:.3rem;font-style:italic;}
+.hp-footer-logo{font-family:'Playfair Display',serif;font-size:16px;font-weight:500;color:var(--purple-text,#8265ff);margin-bottom:.3rem;font-style:italic;}
 .hp-footer-sub{font-size:8.5px;color:var(--text3);letter-spacing:.18em;}
 
 /* Nav prev/next */
@@ -1678,7 +1679,7 @@ body:has(#spotify-bar.visible) #dyk-card {
 .about-card-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(16px, 2.5vw, 20px); font-weight: 500;
-  color: #8265ff; margin: 0 0 .8rem;
+  color: var(--purple-text,#8265ff); margin: 0 0 .8rem;
 }
 .about-card p {
   font-size: 12px; line-height: 1.75; color: var(--text2);
@@ -1723,7 +1724,7 @@ body:has(#spotify-bar.visible) #dyk-card {
   font-size: 10px; letter-spacing: .15em; text-transform: uppercase;
   background: rgba(130, 101, 255,.12);
   border: 1px solid rgba(130, 101, 255,.4);
-  color: #8265ff;
+  color: var(--purple-text,#8265ff);
   padding: 11px 24px; border-radius: 22px;
   text-decoration: none;
   transition: background .2s, border-color .2s;
@@ -1792,7 +1793,7 @@ body:has(#spotify-bar.visible) #dyk-card {
   font-family: 'Space Mono', monospace;
 }
 .lore-tab:hover { color: var(--text); border-color: var(--border2); }
-.lore-tab.active { color: #8265ff; border-color: rgba(130, 101, 255,.4); background: rgba(130, 101, 255,.08); }
+.lore-tab.active { color: var(--purple-text,#8265ff); border-color: rgba(130, 101, 255,.4); background: rgba(130, 101, 255,.08); }
 
 /* Panels */
 .lore-panel { display: none; padding: 1.5rem; max-width: 860px; margin: 0 auto; }
@@ -1801,7 +1802,7 @@ body:has(#spotify-bar.visible) #dyk-card {
 .lore-section-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(18px, 3vw, 24px); font-weight: 400;
-  color: #8265ff; margin: 2rem 0 1rem;
+  color: var(--purple-text,#8265ff); margin: 2rem 0 1rem;
   padding-bottom: .4rem;
   border-bottom: 1px solid rgba(130, 101, 255,.2);
 }
@@ -1868,10 +1869,10 @@ body:has(#spotify-bar.visible) #dyk-card {
 .lore-arc-body p { font-size: 11px; line-height: 1.75; color: var(--text2); margin: 0 0 .8rem; }
 .lore-arc-body strong { color: var(--text); }
 .lore-arc-body em { color: rgba(130, 101, 255,.8); font-style: italic; }
-.lore-subsection { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: #8265ff; margin: 1rem 0 .6rem; font-family: 'Space Mono', monospace; }
+.lore-subsection { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--purple-text,#8265ff); margin: 1rem 0 .6rem; font-family: 'Space Mono', monospace; }
 .lore-films-grid { display: flex; flex-direction: column; gap: .6rem; }
 .lore-film { font-size: 10px; line-height: 1.65; color: var(--text3); padding: .5rem .8rem; background: var(--overlay-3); border-radius: 6px; }
-.lore-film strong { color: #8265ff; }
+.lore-film strong { color: var(--purple-text,#8265ff); }
 
 /* Member cards */
 .lore-member-card {
@@ -1897,7 +1898,7 @@ body:has(#spotify-bar.visible) #dyk-card {
   margin-bottom: 1.2rem;
 }
 .lore-theory-header { display: flex; align-items: center; gap: .8rem; margin-bottom: .8rem; flex-wrap: wrap; }
-.lore-theory-badge { font-size: 8px; letter-spacing: .15em; text-transform: uppercase; background: rgba(130, 101, 255,.15); color: #8265ff; padding: 3px 8px; border-radius: 4px; font-family: 'Space Mono', monospace; }
+.lore-theory-badge { font-size: 8px; letter-spacing: .15em; text-transform: uppercase; background: rgba(130, 101, 255,.15); color: var(--purple-text,#8265ff); padding: 3px 8px; border-radius: 4px; font-family: 'Space Mono', monospace; }
 .lore-theory-title { font-size: 13px; font-weight: 600; color: var(--text); }
 .lore-theory-card p { font-size: 11px; line-height: 1.75; color: var(--text2); margin: 0 0 .7rem; }
 .lore-theory-status { font-size: 9px; font-family: 'Space Mono', monospace; letter-spacing: .1em; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-top: .3rem; }
@@ -2241,7 +2242,7 @@ body:has(#spotify-bar.visible) #dyk-card {
   font-size: clamp(22px, 4vw, 44px);
   font-weight: 300;
   letter-spacing: .25em;
-  color: #8265ff;
+  color: var(--purple-text,#8265ff);
   text-shadow: 0 0 40px rgba(130, 101, 255,.6);
   margin-bottom: clamp(1.5rem, 4vw, 3rem);
   opacity: 0;
@@ -2275,7 +2276,7 @@ body:has(#spotify-bar.visible) #dyk-card {
   font-size: clamp(9px, 1.2vw, 11px);
   font-style: normal;
   letter-spacing: .2em;
-  color: #8265ff;
+  color: var(--purple-text,#8265ff);
 }
 
 /* Hint fermeture */
@@ -2787,7 +2788,7 @@ body:has(#spotify-bar.visible) #dyk-card {
 }
 .auth-tab.active {
   background: rgba(130, 101, 255,.15);
-  color: #8265ff;
+  color: var(--purple-text,#8265ff);
 }
 
 /* Formulaires */
@@ -2823,7 +2824,7 @@ body:has(#spotify-bar.visible) #dyk-card {
   font-size: 10px; letter-spacing: .15em; text-transform: uppercase;
   background: rgba(130, 101, 255,.15);
   border: 1px solid rgba(130, 101, 255,.45);
-  color: #8265ff; border-radius: 22px;
+  color: var(--purple-text,#8265ff); border-radius: 22px;
   cursor: pointer; transition: background .2s;
   margin-top: .4rem;
 }
@@ -2833,7 +2834,7 @@ body:has(#spotify-bar.visible) #dyk-card {
   text-align: center; margin-top: .8rem;
 }
 .auth-switch button {
-  background: none; border: none; color: #8265ff;
+  background: none; border: none; color: var(--purple-text,#8265ff);
   font-size: 10px; cursor: pointer; text-decoration: underline;
 }
 .auth-anonymous {
@@ -2944,7 +2945,7 @@ body:has(#spotify-bar.visible) #dyk-card {
 .profile-body { max-width: 600px; margin: 0 auto; padding: 1.5rem; }
 .profile-section-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 18px; font-weight: 500; color: #8265ff;
+  font-size: 18px; font-weight: 500; color: var(--purple-text,#8265ff);
   margin-bottom: .8rem;
   padding-bottom: .4rem;
   border-bottom: 1px solid rgba(130, 101, 255,.2);
@@ -2960,7 +2961,7 @@ body:has(#spotify-bar.visible) #dyk-card {
 }
 .profile-stat-val {
   font-family: 'Space Mono', monospace;
-  font-size: 22px; font-weight: 700; color: #8265ff;
+  font-size: 22px; font-weight: 700; color: var(--purple-text,#8265ff);
 }
 .profile-stat-lbl { font-size: 9px; color: var(--text3); margin-top: 3px; letter-spacing: .1em; }
 
@@ -2970,7 +2971,7 @@ body:has(#spotify-bar.visible) #dyk-card {
   font-size: 9px; letter-spacing: .08em;
   background: rgba(130, 101, 255,.1);
   border: 1px solid rgba(130, 101, 255,.35);
-  color: #8265ff;
+  color: var(--purple-text,#8265ff);
   padding: 5px 10px; border-radius: 14px;
   cursor: pointer; transition: background .2s;
 }
@@ -3219,3 +3220,31 @@ body:has(#spotify-bar.visible) #dyk-card {
   cursor:pointer; transition:border-color .15s ease, color .15s ease;
 }
 .solo-sort-btn:hover{ border-color:var(--accent2); color:var(--text); }
+
+/* Mobile : le menu ☰ doit passer au-dessus de la page d'accueil (z-index 400) */
+@media (max-width: 768px) {
+  .sidebar { z-index: 460; }
+  .sidebar-overlay { z-index: 455; }
+}
+
+
+/* ═══ MODE CLAIR — contrastes renforcés (WCAG AA ≈ 4.5:1) ═══ */
+[data-theme="light"] .hp-pretitle,
+[data-theme="light"] .hp-section-label,
+[data-theme="light"] .hp-fact-member,
+[data-theme="light"] .hp-era-card-num { opacity: 1; }
+[data-theme="light"] .hp-era-card-num { color: color-mix(in srgb, var(--ec, #5a3fd6) 55%, #000); }
+[data-theme="light"] .hp-counter,
+[data-theme="light"] .hp-counter span { color: var(--text2); opacity: 1; }
+[data-theme="light"] .era-btn.active .era-name { color: color-mix(in srgb, var(--era-c) 55%, #000); }
+[data-theme="light"] .hp-btn-primary { background: #5a3fd6; border-color: #5a3fd6; color: #fff; }
+[data-theme="light"] .badge-yt { background: #5a3fd6; color: #fff; }
+[data-theme="light"] .badge-mv { background: #c23a55; color: #fff; }
+[data-theme="light"] .hp-fact-btn,
+[data-theme="light"] .cp-submit,
+[data-theme="light"] .tab-btn.active,
+[data-theme="light"] .hero-num,
+[data-theme="light"] .hero-savoir-label,
+[data-theme="light"] .anecdote-lbl { color: #5a3fd6; }
+[data-theme="light"] .hp-fact-member { color: var(--text2); }
+[data-theme="light"] .lore-film strong, [data-theme="light"] .hero-savoir strong { color: #5a3fd6; }

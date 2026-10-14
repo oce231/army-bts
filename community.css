@@ -54,7 +54,7 @@
 .comm-setup-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: 20px; font-weight: 500;
-  color: #8265ff; margin-bottom: .4rem; text-align: center;
+  color: var(--purple-text,#8265ff); margin-bottom: .4rem; text-align: center;
 }
 .comm-setup-sub {
   font-size: 10px; color: var(--text3); text-align: center;
@@ -194,7 +194,7 @@
 }
 .chat-msg-body { flex: 1; min-width: 0; }
 .chat-msg-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 2px; }
-.chat-msg-pseudo { font-size: 11px; font-weight: 600; color: #8265ff; }
+.chat-msg-pseudo { font-size: 11px; font-weight: 600; color: var(--purple-text,#8265ff); }
 .chat-msg-time { font-family: 'Space Mono', monospace; font-size: 8px; color: var(--text3); }
 .chat-msg-text {
   font-size: 12px; line-height: 1.55; color: var(--text2);

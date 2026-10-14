@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+<script>
+  (function(){
+    try {
+      var saved = localStorage.getItem('bts-theme');
+      var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch(e){}
+  })();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Espace Collaboratif · ARMY Lounge</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=2">
-<link rel="stylesheet" href="hub.css">
-<link rel="stylesheet" href="community.css?v=8">
+<link rel="stylesheet" href="style.css?v=20261014">
+<link rel="stylesheet" href="hub.css?v=20261014">
+<link rel="stylesheet" href="community.css?v=20261014">
   <script defer src="https://cloud.umami.is/script.js" data-website-id="05ed87e3-dc67-44d8-a5b7-133005178a72"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="push.js"></script>

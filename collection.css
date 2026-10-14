@@ -367,3 +367,12 @@
   .coll-grid { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
   .coll-cat-progress { grid-template-columns: 1fr; }
 }
+
+/* Navigation rapide en haut de la collection (retour menu / accueil) */
+.coll-nav { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.coll-nav-btn {
+  font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+  background: var(--bg-card); color: var(--text2); border: 1px solid var(--border2);
+  padding: 8px 14px; border-radius: 16px; cursor: pointer;
+}
+.coll-nav-btn:hover { color: var(--text); border-color: var(--accent); }

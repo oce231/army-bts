@@ -479,7 +479,11 @@
     if (!root) return;
     const total = progressFor(null);
 
-    let html = '<div class="coll-header">';
+    let html = '<div class="coll-nav">';
+    html += '<button class="coll-nav-btn" onclick="if(window.toggleSidebar)toggleSidebar()">☰ Menu · Eras</button>';
+    html += '<button class="coll-nav-btn" onclick="CollectionSystem.closeCollectionPage();var h=document.getElementById(\'homepage\');if(h)h.classList.remove(\'hp-hidden\');window.scrollTo(0,0)">🏠 Accueil</button>';
+    html += '</div>';
+    html += '<div class="coll-header">';
     html += '<button class="coll-refresh-btn" onclick="CollectionSystem.refreshCollectionPage()" title="Recharger depuis le serveur">🔄</button>';
     html += '<div class="coll-header-title">🎴 MY COLLECTION</div>';
     html += renderProgressBar(total.found, total.total, 'Total');

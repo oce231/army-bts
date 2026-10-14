@@ -305,7 +305,7 @@
 .rg-key:last-child { border-right: none; }
 .rg-key.pressed { background: rgba(123,95,212,.25); }
 .rg-key[data-lane="0"] .rg-key-label { color: #e06878; }
-.rg-key[data-lane="1"] .rg-key-label { color: #8265ff; }
+.rg-key[data-lane="1"] .rg-key-label { color: var(--purple-text,#8265ff); }
 .rg-key[data-lane="2"] .rg-key-label { color: #c9c6d6; }
 .rg-key[data-lane="3"] .rg-key-label { color: #7b5fd4; }
 .rg-key-label {
@@ -345,7 +345,7 @@
   z-index: 10;
 }
 .rg-feedback.show { opacity: 1; }
-.rg-feedback.perfect { color: #8265ff; }
+.rg-feedback.perfect { color: var(--purple-text,#8265ff); }
 .rg-feedback.good    { color: #c9c6d6; }
 .rg-feedback.miss    { color: #e06878; }
 

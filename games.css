@@ -43,7 +43,7 @@
 .gq-intro-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(22px, 4vw, 28px); font-weight: 500;
-  color: #8265ff; margin: 0 0 .8rem;
+  color: var(--purple-text,#8265ff); margin: 0 0 .8rem;
 }
 .gq-intro-desc {
   font-size: 12px; line-height: 1.75; color: var(--text2);
@@ -706,3 +706,6 @@
   box-shadow: 0 8px 28px rgba(0,0,0,.45); transition: all .35s ease; text-align: center;
 }
 .games-toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+[data-theme="light"] .daily-streak { color: #8a5a00; }
+[data-theme="light"] .gq-diff-h { color: #b3263f; }

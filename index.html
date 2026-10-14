@@ -29,8 +29,8 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Bangtan Atlas","alternateName":["Bangtan Atlas BTS","Archive BTS en français"],"url":"https://oce231.github.io/army-bts/","inLanguage":"fr","description":"Archive interactive de BTS en français : vidéos par era, lives, concerts, pages par membre, théories, quiz et cartes à collectionner."}</script>
 <meta name="google-site-verification" content="bhBEl_l6vUboeI1Oxv3kbUlib_3ghDq54C5HTTsOoRA" />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=9">
-<link rel="stylesheet" href="collection.css">
+<link rel="stylesheet" href="style.css?v=20261014">
+<link rel="stylesheet" href="collection.css?v=20261014">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a0a12">
 <link rel="apple-touch-icon" href="Photo/Preview.jpg">
@@ -217,7 +217,7 @@
     <div class="intro-tagline">Bangtan Atlas</div>
     <div class="intro-divider"></div>
     <div class="intro-quote">" Do believe your galaxy "</div>
-    <button class="intro-btn" onclick="document.getElementById('intro').classList.add('gone');document.getElementById('homepage').classList.remove('hp-hidden')">Entrer dans l'Atlas →</button>
+    <button class="intro-btn" onclick="try{sessionStorage.setItem('btsIntroSeen','1')}catch(e){};document.getElementById('intro').classList.add('gone');document.getElementById('homepage').classList.remove('hp-hidden')">Entrer dans l'Atlas →</button>
     <div class="intro-sub">2010 — 2026 · 16 eras · 7 membres</div>
     <div class="intro-counter" id="intro-counter"><span id="intro-days"></span></div>
   </div>
@@ -323,6 +323,22 @@
     <div class="hp-footer-sub">방탄소년단 · Fait avec 💜 pour l'ARMY <span class="purple-fragment" data-frag="frag_footer" onclick="collectFragment('frag_footer')" title="✨">✨</span></div>
   </div>
 </div>
+
+<script>
+/* Intro vue une fois par session : on ne la remontre pas quand on revient du Lounge / d'un autre onglet */
+(function(){
+  var seen=false;
+  try{ seen = sessionStorage.getItem('btsIntroSeen')==='1'; }catch(e){}
+  if(!seen){
+    try{ var ref=document.referrer||''; if(ref && ref.indexOf(location.host)>-1 && ref.indexOf(location.pathname)===-1) seen=true; }catch(e){}
+  }
+  if(seen){
+    document.getElementById('intro').classList.add('gone');
+    document.getElementById('homepage').classList.remove('hp-hidden');
+    try{ sessionStorage.setItem('btsIntroSeen','1'); }catch(e){}
+  }
+})();
+</script>
 
 <!-- SIDEBAR OVERLAY (mobile) -->
 <div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
@@ -698,14 +714,14 @@
         <span class="era-years">Quoi regarder ?</span>
       </span>
     </button>
-        <button class="era-btn" onclick="switchArtist('bts');about-section();closeSidebar()">
+        <button class="era-btn" onclick="switchArtist('bts');showEra(18);closeSidebar()">
       <span class="era-icon">📖</span>
       <span class="era-text">
         <span class="era-name">Lore & Théories BU</span>
         <span class="era-years">L'univers narratif BTS</span>
       </span>
     </button>
-    <button class="era-btn" onclick="switchArtist('bts');about-section();closeSidebar()">
+    <button class="era-btn" onclick="switchArtist('bts');showEra(19);closeSidebar()">
       <span class="era-icon">💜</span>
       <span class="era-text">
         <span class="era-name">À propos & Contribuer</span>
@@ -15352,6 +15368,7 @@ window.hideAllTopLevelPages = function () {
 
 function showEra(idx) {
   window.hideAllTopLevelPages();
+  var _hp = document.getElementById('homepage'); if (_hp) _hp.classList.add('hp-hidden');
   const target = document.getElementById('era-' + idx);
   if (target) target.classList.add('active');
   // Activer le bon bouton via son onclick (insensible à la position dans le DOM)
