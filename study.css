@@ -280,3 +280,17 @@
 @media (max-width: 700px) {
   .study-player-frame-wrap { width: 100vw; height: calc(100vw * 9 / 16); }
 }
+
+/* Durées personnalisées */
+.pomo-custom {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 12px;
+  margin: 4px 0 14px; font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text3);
+}
+.pomo-custom-title { width: 100%; text-align: center; letter-spacing: .08em; text-transform: uppercase; }
+.pomo-custom label { display: inline-flex; align-items: center; gap: 6px; }
+.pomo-custom input {
+  width: 56px; padding: 5px 6px; text-align: center; font: inherit; font-size: 12px;
+  background: none; color: var(--text); border: 1px solid var(--border2); border-radius: 8px;
+}
+.pomo-custom input:focus { outline: none; border-color: rgba(123,95,212,.6); }
+.pomo-custom .pomo-btn { padding: 5px 12px; font-size: 10px; }

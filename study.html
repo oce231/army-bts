@@ -53,9 +53,16 @@
 
     <div class="pomo-card">
       <div class="pomo-modes">
-        <button class="pomo-mode active" data-min="25" onclick="pomoSetMode(this,25)">Focus · 25 min</button>
-        <button class="pomo-mode" data-min="5" onclick="pomoSetMode(this,5)">Pause · 5 min</button>
-        <button class="pomo-mode" data-min="15" onclick="pomoSetMode(this,15)">Pause longue · 15 min</button>
+        <button class="pomo-mode active" data-kind="focus" onclick="pomoSetMode(this,'focus')">Focus · <span data-lbl="focus">25</span> min</button>
+        <button class="pomo-mode" data-kind="short" onclick="pomoSetMode(this,'short')">Pause · <span data-lbl="short">5</span> min</button>
+        <button class="pomo-mode" data-kind="long" onclick="pomoSetMode(this,'long')">Pause longue · <span data-lbl="long">15</span> min</button>
+      </div>
+      <div class="pomo-custom">
+        <span class="pomo-custom-title">⚙️ Durées perso (minutes)</span>
+        <label>Focus <input type="number" id="pomo-in-focus" min="1" max="180" inputmode="numeric"></label>
+        <label>Pause <input type="number" id="pomo-in-short" min="1" max="60" inputmode="numeric"></label>
+        <label>Longue <input type="number" id="pomo-in-long" min="1" max="90" inputmode="numeric"></label>
+        <button class="pomo-btn" type="button" onclick="pomoDefaults()">Par défaut</button>
       </div>
 
       <div class="pomo-ring-wrap">
@@ -214,7 +221,7 @@ document.addEventListener('keydown', function(e){
    POMODORO
 ══════════════════════════════════════════════ */
 (function(){
-  let totalSeconds = 25 * 60;
+  let totalSeconds = 25 * 60;  // recalculé après lecture des durées perso
   let remaining = totalSeconds;
   let timerId = null;
   let running = false;
@@ -227,13 +234,13 @@ document.addEventListener('keydown', function(e){
 
   const MESSAGES = [
     "Tu fais déjà mieux que tu ne le crois. 💜",
-    "Un pas à la fois — comme dans Run.",
-    "« Avec ou sans ailes, je veux courir vers toi. » Tiens bon.",
+    "Un pas à la fois, sans te comparer aux autres.",
+    "Courage : chaque minute de focus te rapproche de ton objectif.",
     "Respire. Continue. Tu n'es pas seul·e.",
     "Même les jours difficiles font partie de l'histoire la plus belle.",
-    "BTS a mis 7 ans avant le premier Daesang. La patience paie.",
+    "BTS a travaillé des années avant d'être reconnu dans le monde entier. La patience paie.",
     "Tu mérites cette pause autant que ce travail.",
-    "« Just one day, just one day, I hope. » — un jour à la fois.",
+    "Un jour à la fois, une session à la fois.",
   ];
 
   function formatTime(s) {
@@ -250,15 +257,41 @@ document.addEventListener('keydown', function(e){
 
   const BASE_TITLE = document.title;
   let endAt = 0;           // timestamp de fin (fiable même si l'onglet dort)
-  let mode = 25;
+  let mode = 'focus';
+  const DEF = {focus:25, short:5, long:15};
+  let D = Object.assign({}, DEF);
+  try { Object.assign(D, JSON.parse(localStorage.getItem('studyPomoDur')) || {}); } catch(e) {}
+  function clampDur(k, v) { const max = {focus:180, short:60, long:90}[k]; v = Math.round(+v); return (v >= 1 && v <= max) ? v : DEF[k]; }
+  Object.keys(DEF).forEach(k => D[k] = clampDur(k, D[k]));
   let focusDone = 0;       // focus terminés dans la série (pause longue tous les 4)
   const dayKey = 'studyPomo:' + new Date().toISOString().slice(0,10);
   try { cycles = parseInt(localStorage.getItem(dayKey), 10) || 0; } catch(e) {}
   document.getElementById('pomo-cycle-count').textContent = cycles;
 
-  function setActiveBtn(min) {
-    document.querySelectorAll('.pomo-mode').forEach(b => b.classList.toggle('active', +b.dataset.min === min));
+  function setActiveBtn(kind) {
+    document.querySelectorAll('.pomo-mode').forEach(b => b.classList.toggle('active', b.dataset.kind === kind));
   }
+  function syncLabels() {
+    Object.keys(D).forEach(function(k){
+      const l = document.querySelector('[data-lbl="' + k + '"]'); if (l) l.textContent = D[k];
+      const i = document.getElementById('pomo-in-' + k); if (i && document.activeElement !== i) i.value = D[k];
+    });
+  }
+  function saveDur() { try { localStorage.setItem('studyPomoDur', JSON.stringify(D)); } catch(e) {} }
+  function applyDur() {
+    syncLabels();
+    if (!running) { totalSeconds = D[mode] * 60; remaining = totalSeconds; updateDisplay(); }
+  }
+  ['focus','short','long'].forEach(function(k){
+    const i = document.getElementById('pomo-in-' + k);
+    i.addEventListener('input', function(){
+      const v = Math.round(+i.value);
+      const max = {focus:180, short:60, long:90}[k];
+      if (v >= 1 && v <= max) { D[k] = v; saveDur(); applyDur(); }
+    });
+    i.addEventListener('blur', function(){ i.value = D[k]; });
+  });
+  window.pomoDefaults = function() { D = Object.assign({}, DEF); saveDur(); applyDur(); syncLabels(); };
   function beep() {
     try {
       const AC = window.AudioContext || window.webkitAudioContext;
@@ -292,18 +325,18 @@ document.addEventListener('keydown', function(e){
     clearInterval(timerId); running = false;
     beep();
     let msg;
-    if (mode === 25) {
+    if (mode === 'focus') {
       cycles++; focusDone++;
       document.getElementById('pomo-cycle-count').textContent = cycles;
       try { localStorage.setItem(dayKey, cycles); } catch(e) {}
       const long = focusDone % 4 === 0;
-      mode = long ? 15 : 5;
-      msg = long ? '✨ 4 sessions ! Pause longue de 15 min, tu l\'as méritée.' : '✨ Session terminée ! Pause de 5 min.';
+      mode = long ? 'long' : 'short';
+      msg = long ? '✨ 4 sessions ! Pause longue de ' + D.long + ' min, tu l\'as méritée.' : '✨ Session terminée ! Pause de ' + D.short + ' min.';
     } else {
-      mode = 25;
-      msg = '💜 Pause finie, on repart pour 25 min de focus.';
+      mode = 'focus';
+      msg = '💜 Pause finie, on repart pour ' + D.focus + ' min de focus.';
     }
-    totalSeconds = mode * 60; remaining = totalSeconds;
+    totalSeconds = D[mode] * 60; remaining = totalSeconds;
     setActiveBtn(mode);
     document.getElementById('pomo-message').textContent = msg;
     document.title = BASE_TITLE;
@@ -312,11 +345,11 @@ document.addEventListener('keydown', function(e){
   }
   document.addEventListener('visibilitychange', function(){ if (running) tick(); });
 
-  window.pomoSetMode = function(btn, minutes) {
+  window.pomoSetMode = function(btn, kind) {
     if (running) return;
-    mode = minutes;
-    setActiveBtn(minutes);
-    totalSeconds = minutes * 60;
+    mode = kind;
+    setActiveBtn(kind);
+    totalSeconds = D[kind] * 60;
     remaining = totalSeconds;
     updateDisplay();
   };
@@ -343,23 +376,25 @@ document.addEventListener('keydown', function(e){
     updateDisplay();
   };
 
+  applyDur();
   document.getElementById('pomo-message').textContent = MESSAGES[Math.floor(Math.random()*MESSAGES.length)];
   updateDisplay();
 
   /* ══════════════════════════════════════════════
      CITATIONS COURTES
   ══════════════════════════════════════════════ */
+  // Citations réelles et sourcées (discours de RM à l'ONU) + mots d'encouragement du site, sans attribution à un membre.
   const QUOTES = [
-    { text: "Peu importe d'où tu viens, ta couleur de peau, ton identité de genre : exprime-toi.", member: "RM — Discours à l'ONU, 2018" },
-    { text: "Si tu tombes, relève-toi. Si tu te perds, retrouve ton chemin. Mais n'abandonne jamais.", member: "j-hope" },
-    { text: "Les étoiles brillent le plus fort quand la nuit est la plus sombre.", member: "RM — ONU, 2020" },
-    { text: "Je ne suis pas parfait, mais je suis moi-même, et c'est suffisant.", member: "Jimin" },
-    { text: "Le talent c'est important, mais l'effort que tu y mets compte encore plus.", member: "SUGA" },
-    { text: "Avant d'aimer quelqu'un d'autre, apprends à t'aimer toi-même.", member: "RM" },
-    { text: "Même si le chemin est long, continue d'avancer. Un jour, tu regarderas en arrière et tu seras fier·e.", member: "V" },
-    { text: "Il n'y a pas de mauvaise direction tant que tu continues d'avancer.", member: "Jin" },
-    { text: "Tes erreurs font partie de qui tu es. Apprends à les aimer aussi.", member: "RM — Speak Yourself" },
-    { text: "Crois en toi, même quand personne d'autre n'y croit encore.", member: "Jung Kook" },
+    { text: "Peu importe qui tu es, d'où tu viens, ta couleur de peau, ton identité de genre : exprime-toi, parle de toi-même.", member: "RM — Discours à l'ONU, 2018" },
+    { text: "Dis-moi ton histoire. Je veux entendre ta voix et ta conviction.", member: "RM — Discours à l'ONU, 2018" },
+    { text: "Même les jours sombres font partie du chemin : avance à ton rythme.", member: "Bangtan Atlas" },
+    { text: "Si tu tombes, relève-toi. Si tu te perds, reprends ton chemin. N'abandonne pas.", member: "Bangtan Atlas" },
+    { text: "Le talent aide, mais l'effort régulier compte encore plus.", member: "Bangtan Atlas" },
+    { text: "Apprends à t'aimer toi-même, c'est le point de départ de tout le reste.", member: "Bangtan Atlas" },
+    { text: "Il n'y a pas de mauvaise direction tant que tu continues d'avancer.", member: "Bangtan Atlas" },
+    { text: "Tes erreurs font partie de ton histoire. Apprends d'elles, sans te juger.", member: "Bangtan Atlas" },
+    { text: "Crois en toi, même quand personne d'autre n'y croit encore.", member: "Bangtan Atlas" },
+    { text: "Une petite session aujourd'hui vaut mieux qu'une grosse session jamais commencée.", member: "Bangtan Atlas" },
   ];
   let lastQuote = -1;
   window.nextStudyQuote = function() {
