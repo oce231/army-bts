@@ -2504,6 +2504,7 @@
       <div class="album-tracks hidden"><div class="tracks">
         <span class="track title">No More Dream ★</span>
         <span class="track">We Are Bulletproof Pt.2</span>
+        <span class="track">Like</span>
         <span class="track">Skit : On the Start Line</span>
         <span class="track">Path (RM solo)</span>
       </div></div>
@@ -2517,6 +2518,8 @@
         <span class="track">If I Ruled the World</span>
         <span class="track">Coffee</span>
         <span class="track">Cypher Pt.1</span>
+        <span class="track">Attack on Bangtan</span>
+        <span class="track">Paldogangsan</span>
         <span class="track">BTS Manifesto : Justice</span>
       </div></div>
       <div class="album-card" onclick="toggleAlbum(this)">
@@ -2527,6 +2530,7 @@
         <span class="track title">Boy In Luv ★</span>
         <span class="track">Cypher Pt.2 : Triptych</span>
         <span class="track">Just One Day</span>
+        <span class="track">Where You From</span>
         <span class="track">Tomorrow</span>
         <span class="track">Miss Right</span>
         <span class="track">I Like It (Pt.2)</span>
@@ -16975,17 +16979,31 @@ document.addEventListener('DOMContentLoaded', function() {
 // Format: 'Titre en minuscules normalisé' : 'spotify_track_id'
 // Spotify Track IDs — vérifiés directement depuis open.spotify.com
 const SPOTIFY_IDS = {
+  // ── Débuts 2013-2014 (liens vérifiés auprès de Spotify) ──
+  'like': '55Ctj6nVfobn9AcPe6sLG2',
+  'n o': '7JosxtkCqIQieNWXA2Dj3v',
+  'n.o': '7JosxtkCqIQieNWXA2Dj3v',
+  'we on': '29vOLabxvytbI8fX9xgTaD',
+  'if i ruled the world': '4bLtrrVDspeDNSaHGGMQkB',
+  'coffee': '4eqHEzFsCCiGALC1MHbqnU',
+  'bts cypher pt 1': '3KkbZok84es6JqI5aiLj1g',
+  'cypher pt 1': '3KkbZok84es6JqI5aiLj1g',
+  'attack on bangtan': '06PapYCtVDlprJPgGELabn',
+  'paldogangsan': '3VlYMpSmYooLpzLiRBBfbX',
+  'boy in luv': '3FnDv33WrrMtuEr7hNR3ev',
+  'where you from': '0nZaV8LwxHeg8TqFy193IL',
+  'just one day': '6t7WriKgVszATnrdBKSUAf',
+  'tomorrow': '0JkTVcN5kilfMztDb3bKZk',
+  'bts cypher pt 2 triptych': '41eoHn3yTDYMV9hFn50ef4',
+  'bts cypher pt.2 triptych': '41eoHn3yTDYMV9hFn50ef4',
+  'cypher pt 2 triptych': '41eoHn3yTDYMV9hFn50ef4',
+  'spine breaker': '0F3Dpp18yIxIm7XRmn0LBj',
+  'jump': '1jZZm43y7RPuwjJQ5LrGHe',
   // ── 2 Cool 4 Skool (2013) ──
   'no more dream': '089PFeXotzDLNQz9NCk6pF',
   'we are bulletproof pt 2': '5pjHS3EpHurMyIpB2QBnEd',
   'we are bulletproof pt.2': '5pjHS3EpHurMyIpB2QBnEd',
   // ── O!RUL8,2? (2013) ──
-  'n o': '5uvYiTAVwWGfLaPGfIQWPn',
-  'n.o': '5uvYiTAVwWGfLaPGfIQWPn',
-  'we on': '0WKFpTh8yUOVwYs3hk2Hgv',
-  'if i ruled the world': '4yRHdw1OpAQpt0ALfRRhNx',
-  'coffee': '4ghMiagkzVFoprj29pg7fy',
-  'bts cypher pt 1': '6YnomLnpApBnf1ARkjYuuO',
   // ── RM Solo (mono. / Indigo / Right Place, Wrong Person) ──
   'right people wrong place': '2ftb45L7iXYwp0WoTEuslG',
   'come back to me': '1PT8hWQvl2gRO1JhDcSUqN',
@@ -16995,11 +17013,6 @@ const SPOTIFY_IDS = {
   // ── Suga/Agust D Solo (Agust D / D-2 / D-DAY) ──
   'daechwita': '0H4ugk6rhnXmTl47ayy9O5',
   // ── Skool Luv Affair (2014) ──
-  'boy in luv': '00b0FVWyvEjX2n70d6PhI1',
-  'tomorrow': '4SjtdrTrrqFyJIVPwfkuXi',
-  'bts cypher pt 2 triptych': '3R8xZnVmrSnOpZ8vYK81zV',
-  'bts cypher pt.2 triptych': '3R8xZnVmrSnOpZ8vYK81zV',
-  'jump': '3EuRhGuQWzkUvXKAfnw6im',
   // ── Dark & Wild (2014) ──
   'danger': '0zzRxtfO5FGxKdqq4OKmlw',
   'war of hormone': '29SjtKzBoJDgyIBusHylIS',
