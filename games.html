@@ -235,7 +235,7 @@
         <div class="bt-player-icon" id="bt-player-icon">🎵</div>
         <div class="bt-player-info">
           <div class="bt-player-title">Écoute et devine !</div>
-          <div class="bt-player-hint" id="bt-hint">Era : —</div>
+          <div class="bt-player-hint" id="bt-hint">🎧 Quelle est cette chanson ?</div>
         </div>
       </div>
       <!-- Iframe cachée — le titre n'est pas visible -->
@@ -1629,7 +1629,7 @@ function btLoadQuestion() {
   btAnswered = false;
 
   const track = btPlaylist[btQnum];
-  document.getElementById('bt-hint').textContent = 'Era : ' + track.era;
+  document.getElementById('bt-hint').textContent = '🎧 Quelle est cette chanson ?';
 
   // Remet le bouton play
   document.getElementById('bt-play-btn').className = 'bt-play-btn';
@@ -1661,7 +1661,7 @@ function btLoadQuestion() {
   choices.forEach(function(ch) {
     const btn = document.createElement('button');
     btn.className = 'bt-answer';
-    btn.innerHTML = `<strong>${ch.title}</strong><br><span style="font-size:9px;opacity:.6">${ch.era}</span>`;
+    btn.innerHTML = `<strong>${ch.title}</strong><span class="bt-era" style="display:none;font-size:9px;opacity:.6"><br>${ch.era}</span>`;
     btn.onclick = function() { btAnswer(ch.id === track.id, btn, choices, track); };
     container.appendChild(btn);
   });
@@ -1739,6 +1739,10 @@ function btAnswer(correct, btn, choices, track) {
     fb.textContent = `❌ Raté ! C'était "${track.title}"`;
     fb.className = 'bt-feedback show bad';
   }
+
+  // Révèle les eras seulement après la réponse (sinon c'est un indice trop fort)
+  document.querySelectorAll('.bt-answer .bt-era').forEach(function(e){ e.style.display = 'inline'; });
+  document.getElementById('bt-hint').textContent = 'Era : ' + track.era;
 
   // Désactive tous les boutons
   allBtns.forEach(b => { b.onclick = null; });
