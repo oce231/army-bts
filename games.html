@@ -708,6 +708,7 @@
       <button class="lb-tab" onclick="lbShowTab('chrono',this)">📅 Chrono</button>
       <button class="lb-tab" onclick="lbShowTab('memory',this)">🃏 Memory</button>
       <button class="lb-tab" onclick="lbShowTab('devine',this)">🔍 Devine</button>
+      <button class="lb-tab" onclick="lbShowTab('blind',this)">🎵 Blind Test</button>
       <button class="lb-tab" onclick="lbShowTab('chanson',this)">🎶 Chanson</button>
       <button class="lb-tab" onclick="lbShowTab('wordle',this)">🟩 Wordle</button>
       <button class="lb-tab" onclick="lbShowTab('taquin',this)">🧩 Taquin</button>
@@ -1767,6 +1768,7 @@ function btShowResult() {
   document.getElementById('bt-r-level').textContent = level.level;
   document.getElementById('bt-r-desc').textContent  = level.desc;
   document.getElementById('bt-result').classList.add('show');
+  lbSubmitScore('blind', btScore, 10, {});
   document.getElementById('game-blind').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 </script>
@@ -3757,7 +3759,7 @@ function lbShowTab(tab, btn) {
   var titles = {
     global:'🌟 Classement Global', general:'🧠 Quiz Général', vraifaux:'❓ Vrai ou Faux',
     paroles:'🎤 Complète les paroles', chrono:'📅 Chrono des albums',
-    memory:'🃏 Memory', devine:'🔍 Devine le membre', chanson:'🎶 Devine la chanson', wordle:'🟩 Wordle BTS', taquin:'🧩 Taquin'
+    memory:'🃏 Memory', devine:'🔍 Devine le membre', chanson:'🎶 Devine la chanson', blind:'🎵 Blind Test', wordle:'🟩 Wordle BTS', taquin:'🧩 Taquin'
   };
   document.getElementById('lb-title').textContent = titles[tab] || tab;
   lbLoad(tab);
@@ -4062,13 +4064,7 @@ function sgShare() {
     window.gamesOnResult(game, score, max, extra);
     return origSubmit.apply(this, arguments);
   };
-  var origBt = window.btShowResult;
-  if (typeof origBt === 'function') {
-    window.btShowResult = function () {
-      origBt.apply(this, arguments);
-      window.gamesOnResult('blind', btScore, 10, {});
-    };
-  }
+  // Blind Test : btShowResult appelle lui-même lbSubmitScore('blind', …) (classement + défi du jour)
   var origSigned = window._lbOnSignedIn;
   if (typeof origSigned === 'function') {
     window._lbOnSignedIn = async function () {
