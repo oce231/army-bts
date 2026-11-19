@@ -18205,6 +18205,7 @@ function switchLoreTab(tab, btn) {
   function fireEgg(fnName) {
     if (typeof window[fnName] === 'function') {
       window[fnName]();
+      if (window.eggAudio) window.eggAudio.start(fnName);
       if (typeof trackProgress === 'function') trackProgress('easter_egg_found', fnName);
       if (typeof CollectionSystem !== 'undefined') {
         CollectionSystem.unlockEggCard(fnName);
@@ -18346,12 +18347,14 @@ function switchLoreTab(tab, btn) {
   function launchOT7() {
     document.getElementById('ot7-overlay').classList.add('active');
     startHearts();
+    if (window.eggAudio) window.eggAudio.start('eggOT7');
     if (typeof trackProgress === 'function') trackProgress('easter_egg_found', 'eggOT7');
     if (typeof CollectionSystem !== 'undefined') CollectionSystem.unlockEggCard('eggOT7');
   }
   window.startHeartsGlobal = startHearts;
   window.closeOT7 = function(e) {
     if (e && e.target && e.target.closest('#ot7-members')) return;
+    if (window.eggAudio) window.eggAudio.stop();
     document.getElementById('ot7-overlay').classList.remove('active');
     document.getElementById('ot7-hearts-container').innerHTML = '';
   };
@@ -18378,6 +18381,102 @@ function switchLoreTab(tab, btn) {
 <!-- ══════════════════════════════════════════════
      EASTER EGGS — OVERLAYS HTML
 ══════════════════════════════════════════════ -->
+
+<!-- Musique des easter eggs : mini-lecteur Spotify (extrait 30 s) -->
+<div id="egg-music" aria-label="Musique de l'easter egg" onclick="event.stopPropagation()">
+  <div id="egg-music-embed"></div>
+  <div id="egg-music-note">🎵 Extrait de 30 s · il s'arrête quand tu fermes l'easter egg</div>
+</div>
+<script>
+/* ═══════════════════════════════════════
+   MUSIQUE DES EASTER EGGS
+   Chaque easter egg a sa chanson (titres de SPOTIFY_IDS).
+   Lecture via l'API iFrame officielle de Spotify ; si elle ne se charge pas,
+   on retombe sur un lecteur intégré classique (clic sur ▶).
+═══════════════════════════════════════ */
+window.EGG_SONGS = {
+  eggBTS:'Run BTS', eggARMY:'Yet To Come', eggBANGTAN:'Born Singer', eggBORAHAE:'Love Maze',
+  eggOT7:'We Are Bulletproof : the Eternal', eggMIKROKOSMOS:'Mikrokosmos', eggMAGICSHOP:'Magic Shop',
+  eggWHALIEN:'Whalien 52', eggAPOBANGPO:'Epilogue : Young Forever', egg0613:'No More Dream',
+  eggMERCI:'Life Goes On', eggSPRINGDAY:'Spring Day', eggDYNAMITE:'Dynamite', eggBLACKSWAN:'Black Swan',
+  eggFESTA:'Permission to Dance', eggARMYBOMB:'Boy With Luv', eggCOMPTE:'Dimple', eggLOUNGE:'Stay',
+  eggGAMES:'IDOL', eggCOMMUNITY:'Friends', eggPWA:'Telepathy', eggKONAMI:'Jump',
+  eggJIMIN:'Serendipity', eggJIN:'Epiphany', eggSUGA:'Interlude : Shadow', eggJHOPE:'Outro : Ego',
+  eggV:'Singularity', eggJK:'Euphoria', eggRM:'Intro : Persona'
+};
+(function () {
+  var MAX_MS = 30000, ctrl = null, apiState = 'idle', pending = null, stopTimer = null, fallbackTimer = null, cur = null;
+  var box = document.getElementById('egg-music'), host = document.getElementById('egg-music-embed');
+
+  function idFor(fnName) {
+    try {
+      var name = window.EGG_SONGS[fnName];
+      return name ? SPOTIFY_IDS[normalizeTrack(name)] : null;
+    } catch (e) { return null; }
+  }
+  function clearTimers() { clearTimeout(stopTimer); clearTimeout(fallbackTimer); stopTimer = null; fallbackTimer = null; }
+  function armStop() {
+    if (stopTimer) return;
+    stopTimer = setTimeout(function () { try { if (ctrl) ctrl.pause(); } catch (e) {} }, MAX_MS);
+  }
+  function showFallback(id) {
+    // Lecteur intégré simple : l'utilisateur clique sur ▶ si la lecture auto est bloquée
+    host.innerHTML = '<iframe src="https://open.spotify.com/embed/track/' + id + '?utm_source=generator&theme=0&autoplay=1" ' +
+      'width="100%" height="80" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" ' +
+      'style="border-radius:12px;display:block"></iframe>';
+    apiState = 'fallback';
+    stopTimer = setTimeout(function () { host.innerHTML = ''; }, MAX_MS);   // coupe l'extrait après 30 s
+  }
+  var apiObj = null;
+  function build(id) {
+    var el = document.createElement('div'); host.innerHTML = ''; host.appendChild(el);
+    apiObj.createController(el, { uri: 'spotify:track:' + id, width: '100%', height: 80 }, function (c) {
+      ctrl = c;
+      c.addListener('ready', function () { try { c.play(); } catch (e) {} });
+      c.addListener('playback_update', function (e) {
+        if (e && e.data && !e.data.isPaused && !e.data.isBuffering) { clearTimeout(fallbackTimer); armStop(); }
+      });
+    });
+  }
+  function loadApi() {
+    if (apiState !== 'idle') return;
+    apiState = 'loading';
+    window.onSpotifyIframeApiReady = function (IFrameAPI) {
+      apiObj = IFrameAPI; apiState = 'ready';
+      if (pending) { var id = pending; pending = null; build(id); }
+    };
+    var sc = document.createElement('script');
+    sc.src = 'https://open.spotify.com/embed/iframe-api/v1'; sc.async = true;
+    sc.onerror = function () { apiState = 'failed'; if (pending) { var id = pending; pending = null; showFallback(id); } };
+    document.head.appendChild(sc);
+  }
+
+  window.eggAudio = {
+    start: function (fnName) {
+      var id = idFor(fnName);
+      if (!id) return;
+      this.stop();
+      cur = id; box.classList.add('show');
+      if (apiState === 'failed' || apiState === 'fallback') { showFallback(id); return; }
+      if (apiState === 'ready' && ctrl) {
+        try { ctrl.loadUri('spotify:track:' + id); ctrl.play(); } catch (e) { showFallback(id); }
+      } else if (apiState === 'ready' && apiObj) {
+        build(id);
+      } else {
+        pending = id; loadApi();
+        // API trop lente ou bloquée (adblock…) : lecteur classique au bout de 4 s
+        fallbackTimer = setTimeout(function () { if (pending === id) { pending = null; apiState = 'failed'; showFallback(id); } }, 4000);
+      }
+    },
+    stop: function () {
+      clearTimers(); pending = null; cur = null;
+      try { if (ctrl) ctrl.pause(); } catch (e) {}
+      if (apiState === 'fallback') host.innerHTML = '';
+      box.classList.remove('show');
+    }
+  };
+})();
+</script>
 
 <!-- Overlay générique réutilisable -->
 <div id="egg-overlay" onclick="closeEgg()">
@@ -18406,6 +18505,7 @@ function switchLoreTab(tab, btn) {
 
   // ── Fermeture ────────────────────────────────
   window.closeEgg = function() {
+    if (window.eggAudio) window.eggAudio.stop();
     overlay.classList.remove('active');
     cancelAnimationFrame(animFrame);
     clearTimeout(particleLoop);
