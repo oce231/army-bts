@@ -29,8 +29,8 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Bangtan Atlas","alternateName":["Bangtan Atlas BTS","Archive BTS en français"],"url":"https://oce231.github.io/army-bts/","inLanguage":"fr","description":"Archive interactive de BTS en français : vidéos par era, lives, concerts, pages par membre, théories, quiz et cartes à collectionner."}</script>
 <meta name="google-site-verification" content="bhBEl_l6vUboeI1Oxv3kbUlib_3ghDq54C5HTTsOoRA" />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261014">
-<link rel="stylesheet" href="collection.css?v=20261014">
+<link rel="stylesheet" href="style.css?v=20261119a">
+<link rel="stylesheet" href="collection.css?v=20261119a">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a0a12">
 <link rel="apple-touch-icon" href="Photo/Preview.jpg">
@@ -18383,6 +18383,13 @@ function switchLoreTab(tab, btn) {
 ══════════════════════════════════════════════ -->
 
 <!-- Musique des easter eggs : mini-lecteur Spotify (extrait 30 s) -->
+<style>
+/* Musique des easter eggs (aussi dans style.css — doublon volontaire contre le cache) */
+#egg-music{position:fixed;left:50%;bottom:56px;transform:translate(-50%,12px);width:min(92vw,420px);z-index:100000;opacity:0;pointer-events:none;transition:opacity .35s,transform .35s}
+#egg-music.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+#egg-music-embed iframe{border-radius:12px}
+#egg-music-note{text-align:center;font-size:11px;color:rgba(255,255,255,.55);margin-top:6px;font-family:'Space Mono',monospace}
+</style>
 <div id="egg-music" aria-label="Musique de l'easter egg" onclick="event.stopPropagation()">
   <div id="egg-music-embed"></div>
   <div id="egg-music-note">🎵 Extrait de 30 s · il s'arrête quand tu fermes l'easter egg</div>
