@@ -709,3 +709,13 @@
 
 [data-theme="light"] .daily-streak { color: #8a5a00; }
 [data-theme="light"] .gq-diff-h { color: #b3263f; }
+
+/* Blind Test — choix du niveau */
+#bt-levels { max-width: 520px; margin: 0 auto 1.5rem; }
+.bt-levels-title { text-align: center; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--text2); margin-bottom: 1rem; font-family: 'Space Mono', monospace; }
+.bt-level-card { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; padding: 14px 16px; margin-bottom: 10px; background: var(--card-bg, rgba(255,255,255,.04)); border: 1px solid var(--border, rgba(255,255,255,.12)); border-radius: 12px; color: var(--text); cursor: pointer; font-family: inherit; transition: border-color .2s, transform .15s, background .2s; }
+.bt-level-card:hover { border-color: #1DB954; background: rgba(29,185,84,.06); transform: translateY(-1px); }
+.bt-level-emoji { font-size: 28px; line-height: 1; }
+.bt-level-body strong { display: block; font-size: 16px; margin-bottom: 2px; }
+.bt-level-body em { font-style: normal; font-size: 12px; color: var(--text2); }
+.bt-levels-note { text-align: center; font-size: 11px; color: var(--text3); margin-top: .6rem; }

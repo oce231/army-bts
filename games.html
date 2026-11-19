@@ -220,16 +220,33 @@
   <div class="bt-header">
     <div class="bt-label">🎵 Bangtan Atlas</div>
     <div class="bt-title">Blind Test BTS</div>
-    <div class="bt-sub">Écoute 30 secondes et trouve le titre — 10 chansons</div>
+    <div class="bt-sub" id="bt-sub">Écoute 30 secondes et trouve le titre — 10 chansons</div>
   </div>
 
-  <div class="bt-scorebar">
+  <div class="bt-scorebar" id="bt-scorebar" style="display:none">
     <div class="bt-score-item"><div class="bt-score-num" id="bt-score">0</div><div class="bt-score-lbl">Score</div></div>
     <div class="bt-score-item"><div class="bt-score-num" id="bt-qnum">1</div><div class="bt-score-lbl">Question</div></div>
     <div class="bt-score-item"><div class="bt-score-num" id="bt-streak">0</div><div class="bt-score-lbl">Série</div></div>
   </div>
 
-  <div id="bt-game">
+  <div id="bt-levels">
+    <div class="bt-levels-title">Choisis ton niveau</div>
+    <button class="bt-level-card" onclick="btStart('easy')">
+      <span class="bt-level-emoji">🌱</span>
+      <span class="bt-level-body"><strong>Facile</strong><em>Les titres phares de BTS — les tubes que tout le monde connaît</em></span>
+    </button>
+    <button class="bt-level-card" onclick="btStart('medium')">
+      <span class="bt-level-emoji">🎧</span>
+      <span class="bt-level-body"><strong>Moyen</strong><em>Toute la discographie : tubes, titres d'albums, face B</em></span>
+    </button>
+    <button class="bt-level-card" onclick="btStart('hard')">
+      <span class="bt-level-emoji">🔥</span>
+      <span class="bt-level-body"><strong>Difficile</strong><em>Sans les tubes — que des titres d'albums, et des choix de la même era</em></span>
+    </button>
+    <div class="bt-levels-note">Un classement séparé pour chaque niveau.</div>
+  </div>
+
+  <div id="bt-game" style="display:none">
     <div class="bt-player-zone">
       <div class="bt-player-top">
         <div class="bt-player-icon" id="bt-player-icon">🎵</div>
@@ -260,7 +277,7 @@
     <div class="bt-result-max">/ 10</div>
     <div class="bt-result-level" id="bt-r-level"></div>
     <div class="bt-result-desc" id="bt-r-desc"></div>
-    <button class="bt-restart-btn" onclick="btRestart()">↺ Rejouer</button>
+    <button class="bt-restart-btn" onclick="btRestart()">↺ Rejouer / changer de niveau</button>
     <button class="bt-restart-btn" onclick="btShare()" style="margin-left:6px">📸 Partager</button>
   </div>
 </div>
@@ -708,7 +725,9 @@
       <button class="lb-tab" onclick="lbShowTab('chrono',this)">📅 Chrono</button>
       <button class="lb-tab" onclick="lbShowTab('memory',this)">🃏 Memory</button>
       <button class="lb-tab" onclick="lbShowTab('devine',this)">🔍 Devine</button>
-      <button class="lb-tab" onclick="lbShowTab('blind',this)">🎵 Blind Test</button>
+      <button class="lb-tab" onclick="lbShowTab('blind_easy',this)">🌱 Blind Test Facile</button>
+      <button class="lb-tab" onclick="lbShowTab('blind',this)">🎧 Blind Test Moyen</button>
+      <button class="lb-tab" onclick="lbShowTab('blind_hard',this)">🔥 Blind Test Difficile</button>
       <button class="lb-tab" onclick="lbShowTab('chanson',this)">🎶 Chanson</button>
       <button class="lb-tab" onclick="lbShowTab('wordle',this)">🟩 Wordle</button>
       <button class="lb-tab" onclick="lbShowTab('taquin',this)">🧩 Taquin</button>
@@ -1690,16 +1709,52 @@ const BT_LEVELS = [
 let btScore = 0, btStreak = 0, btQnum = 0, btAnswered = false;
 let btPlaylist = [], btUsedIdx = [];
 
+// Titres « phares » du niveau Facile
+const BT_FAMOUS = [
+  'No More Dream','Boy in Luv','Danger','I Need U','Run','Fire','Blood Sweat & Tears','Spring Day','Not Today',
+  'DNA','MIC Drop','Fake Love','IDOL','Boy With Luv','Mikrokosmos','ON','Black Swan','Life Goes On',
+  'Dynamite','Butter','Permission to Dance','Yet To Come','Run BTS','SWIM','Save Me'
+];
+const BT_LEVEL_CFG = {
+  easy:   { label:'Facile',    emoji:'🌱', game:'blind_easy', sub:'Niveau Facile — les titres phares · 10 chansons' },
+  medium: { label:'Moyen',     emoji:'🎧', game:'blind',      sub:'Niveau Moyen — toute la discographie · 10 chansons' },
+  hard:   { label:'Difficile', emoji:'🔥', game:'blind_hard', sub:'Niveau Difficile — sans les tubes · 10 chansons' }
+};
+let btLevel = 'medium';
+
+function btPool(level) {
+  const famous = BT_TRACKS.filter(t => BT_FAMOUS.indexOf(t.title) !== -1);
+  if (level === 'easy') return famous;
+  if (level === 'hard') return BT_TRACKS.filter(t => BT_FAMOUS.indexOf(t.title) === -1);
+  return BT_TRACKS;
+}
+
 function showBlindTestGame() {
   btRestart();
 }
 
+// Retour à l'écran de choix du niveau
 function btRestart() {
+  btQnum = 0; btAnswered = false;
+  clearInterval(btTimerInterval);
+  const emb = document.getElementById('bt-embed'); if (emb) emb.innerHTML = '';
+  document.getElementById('bt-result').classList.remove('show');
+  document.getElementById('bt-game').style.display = 'none';
+  document.getElementById('bt-levels').style.display = 'block';
+  document.getElementById('bt-scorebar').style.display = 'none';
+  document.getElementById('bt-sub').textContent = 'Écoute 30 secondes et trouve le titre — 10 chansons';
+}
+
+function btStart(level) {
+  btLevel = BT_LEVEL_CFG[level] ? level : 'medium';
   btScore = 0; btStreak = 0; btQnum = 0; btAnswered = false;
   btUsedIdx = [];
-  // Mélange aléatoire de 10 pistes
-  const shuffled = [...BT_TRACKS].sort(() => Math.random() - .5);
+  // Mélange aléatoire de 10 pistes du niveau choisi
+  const shuffled = [...btPool(btLevel)].sort(() => Math.random() - .5);
   btPlaylist = shuffled.slice(0, 10);
+  document.getElementById('bt-sub').textContent = BT_LEVEL_CFG[btLevel].sub;
+  document.getElementById('bt-levels').style.display = 'none';
+  document.getElementById('bt-scorebar').style.display = '';
   document.getElementById('bt-result').classList.remove('show');
   document.getElementById('bt-game').style.display = 'block';
   btUpdateScore();
@@ -1742,8 +1797,16 @@ function btLoadQuestion() {
     </div>`;
 
   // 4 choix
-  const others = BT_TRACKS.filter(t => t.id !== track.id)
-    .sort(() => Math.random() - .5).slice(0, 3);
+  // Facile/Moyen : choix pris dans le même niveau. Difficile : on privilégie la même era.
+  const pool = btPool(btLevel).filter(t => t.id !== track.id);
+  let others;
+  if (btLevel === 'hard') {
+    const sameEra = pool.filter(t => t.era === track.era).sort(() => Math.random() - .5);
+    const rest = pool.filter(t => t.era !== track.era).sort(() => Math.random() - .5);
+    others = sameEra.concat(rest).slice(0, 3);
+  } else {
+    others = pool.sort(() => Math.random() - .5).slice(0, 3);
+  }
   const choices = [...others, track].sort(() => Math.random() - .5);
 
   const container = document.getElementById('bt-answers');
@@ -1854,10 +1917,10 @@ function btShowResult() {
   const level = BT_LEVELS.find(l => btScore >= l.min && btScore <= l.max) || BT_LEVELS[0];
   document.getElementById('bt-r-emoji').textContent = level.emoji;
   document.getElementById('bt-r-score').textContent = btScore;
-  document.getElementById('bt-r-level').textContent = level.level;
+  document.getElementById('bt-r-level').textContent = level.level + ' · ' + BT_LEVEL_CFG[btLevel].emoji + ' ' + BT_LEVEL_CFG[btLevel].label;
   document.getElementById('bt-r-desc').textContent  = level.desc;
   document.getElementById('bt-result').classList.add('show');
-  lbSubmitScore('blind', btScore, 10, {});
+  lbSubmitScore(BT_LEVEL_CFG[btLevel].game, btScore, 10, {});
   document.getElementById('game-blind').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 </script>
@@ -3848,7 +3911,7 @@ function lbShowTab(tab, btn) {
   var titles = {
     global:'🌟 Classement Global', general:'🧠 Quiz Général', vraifaux:'❓ Vrai ou Faux',
     paroles:'🎤 Complète les paroles', chrono:'📅 Chrono des albums',
-    memory:'🃏 Memory', devine:'🔍 Devine le membre', chanson:'🎶 Devine la chanson', blind:'🎵 Blind Test', wordle:'🟩 Wordle BTS', taquin:'🧩 Taquin'
+    memory:'🃏 Memory', devine:'🔍 Devine le membre', chanson:'🎶 Devine la chanson', blind_easy:'🌱 Blind Test — Facile', blind:'🎧 Blind Test — Moyen', blind_hard:'🔥 Blind Test — Difficile', wordle:'🟩 Wordle BTS', taquin:'🧩 Taquin'
   };
   document.getElementById('lb-title').textContent = titles[tab] || tab;
   lbLoad(tab);
@@ -4150,7 +4213,8 @@ function sgShare() {
   /* ── Branchements ── */
   var origSubmit = window.lbSubmitScore;
   window.lbSubmitScore = function (game, score, max, extra) {
-    window.gamesOnResult(game, score, max, extra);
+    // Facile : pas de 💎 ni de défi du jour (trop simple) ; Difficile compte comme « Blind Test »
+    if (game !== 'blind_easy') window.gamesOnResult(game === 'blind_hard' ? 'blind' : game, score, max, extra);
     return origSubmit.apply(this, arguments);
   };
   // Blind Test : btShowResult appelle lui-même lbSubmitScore('blind', …) (classement + défi du jour)
@@ -4183,8 +4247,8 @@ function sgShare() {
   }
   window.btShare = function () {
     var lv = BT_LEVELS.find(function (l) { return btScore >= l.min && btScore <= l.max; }) || BT_LEVELS[0];
-    var go = function () { card('✦ BLIND TEST BTS ✦', lv.emoji, lv.level, btScore + ' / 10', 'blindtest-bts.png', 'Blind Test BTS',
-      "J'ai trouvé " + btScore + '/10 titres au Blind Test BTS sur Bangtan Atlas !'); };
+    var go = function () { card('✦ BLIND TEST BTS · ' + BT_LEVEL_CFG[btLevel].label.toUpperCase() + ' ✦', lv.emoji, lv.level, btScore + ' / 10', 'blindtest-bts.png', 'Blind Test BTS',
+      "J'ai trouvé " + btScore + '/10 titres au Blind Test BTS (niveau ' + BT_LEVEL_CFG[btLevel].label + ') sur Bangtan Atlas !'); };
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(go); else go();
   };
   window.atqShare = function () {
