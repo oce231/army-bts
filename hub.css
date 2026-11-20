@@ -151,3 +151,26 @@ html { touch-action: manipulation; }
 
 [data-theme="light"] .hub-card-status.available,
 [data-theme="light"] .hub-card[href]:not([href="#"]) .hub-card-status { color: #1c7a42; }
+
+/* ── Lounge : une seule grille, tout visible sans scroller ── */
+.hub-hero{min-height:24vh;padding:2rem 1.5rem}
+.hub-grid-all{grid-template-columns:repeat(2,1fr);padding:1.5rem 1rem 3rem}
+.hub-grid-all .hub-card-wide{grid-column:1/-1}
+.hub-grid-all .hub-card{padding:1.1rem 1rem}
+@media(min-width:900px){
+  .hub-grid-all{grid-template-columns:repeat(4,1fr);padding:2rem 1.5rem 4rem}
+}
+@media(max-width:420px){
+  .hub-grid-all .hub-card-desc{font-size:10.5px}
+  .hub-grid-all .hub-card-icon{font-size:26px;margin-bottom:.5rem}
+  .hub-grid-all .hub-card-title{font-size:17px}
+}
+.hub-card-status{color:var(--accent2,#8265ff)!important}
+[data-theme="light"] .hub-card-status{color:#5b3fc4!important}
+.hub-main{margin-left:0!important}
+@media(max-width:600px){
+  .hub-hero{min-height:0;padding:1.4rem 1.2rem}
+  .hub-title{margin-bottom:.4rem}
+  .hub-grid-all{gap:.8rem;padding-top:1rem}
+  .hub-grid-all .hub-card-wide .hub-card-desc{font-size:10.5px}
+}

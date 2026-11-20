@@ -3254,3 +3254,9 @@ body:has(#spotify-bar.visible) #dyk-card {
 #egg-music.show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
 #egg-music-embed iframe { border-radius: 12px; }
 #egg-music-note { text-align: center; font-size: 11px; color: rgba(255,255,255,.55); margin-top: 6px; font-family: 'Space Mono', monospace; }
+
+/* Mode clair : compteur de l'écran d'accueil lisible + pas de débordement mobile */
+[data-theme="light"] .intro-counter,
+[data-theme="light"] .intro-counter span { color: #5a3fd6; opacity: 1; }
+.intro-counter{padding:0 16px;box-sizing:border-box;text-align:center;overflow-wrap:anywhere}
+@media(max-width:480px){.intro-counter{letter-spacing:.06em;font-size:10.5px}}
