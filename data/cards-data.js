@@ -146,7 +146,7 @@
   function customLevels(key, slug) {
     const base = CUSTOM_ART[key] && CUSTOM_ART[key][slug];
     if (!base) return null;
-    return [1, 2, 3].map(n => 'Photo/Photocard/' + base + '-Niv' + n + '.png');
+    return [1, 2, 3].map(n => 'Photo/Photocard/' + base + '-Niv' + n + '.webp');
   }
 
   M.forEach(([slug, memberName, emoji, list]) => {
@@ -170,7 +170,7 @@
     [3, 'HYYH Pt.1', 'rare', 'Photo/The-most-beautiful-moment-in-live.jpg', '🌸'],
     [4, 'HYYH Pt.2', 'rare', 'Photo/The-most-beautiful-moment-in-live-2.jpg', '🌊'],
     [5, 'Young Forever', 'epic', 'Photo/Young-forever.jpg', '🌀'],
-    [6, 'Wings', 'legendary', 'Photo/Wings.png', '🪶'],
+    [6, 'Wings', 'legendary', 'Photo/Wings.webp', '🪶'],
     [7, 'You Never Walk Alone', 'epic', 'Photo/YNWA.jpg', '🍀'],
     [8, 'Love Yourself: Her', 'epic', 'Photo/Love-Yourself-Her.jpg', '💜'],
     [9, 'Love Yourself: Tear', 'epic', 'Photo/Love-Yourself-Tear.jpg', '🖤'],
@@ -178,7 +178,7 @@
     [11, 'Map of the Soul: Persona', 'epic', 'Photo/Map-of-the-soul-persona.jpg', '🗺️'],
     [12, 'Map of the Soul: 7', 'legendary', 'Photo/Map-of-the-soul-seven.jpg', '7️⃣'],
     [13, 'BE', 'epic', 'Photo/Be.jpg', '🍃'],
-    [14, 'Butter', 'legendary', 'Photo/Butter.png', '🧈'],
+    [14, 'Butter', 'legendary', 'Photo/Butter.webp', '🧈'],
     [15, 'Arirang', 'rare', 'Photo/Arirang.jpg', '아'],
   ];
   E.forEach(([idx, name, rarity, img, emoji]) => {
@@ -195,7 +195,7 @@
     ['hyyh1', 'The Most Beautiful Moment in Life, Pt.1', 'epic', 'Photo/The-most-beautiful-moment-in-live.jpg', '🌸', 3],
     ['hyyh2', 'The Most Beautiful Moment in Life, Pt.2', 'epic', 'Photo/The-most-beautiful-moment-in-live-2.jpg', '🌊', 4],
     ['young_forever', 'Young Forever', 'epic', 'Photo/Young-forever.jpg', '🌀', 5],
-    ['wings', 'Wings', 'legendary', 'Photo/Wings.png', '🪶', 6],
+    ['wings', 'Wings', 'legendary', 'Photo/Wings.webp', '🪶', 6],
     ['ynwa', 'You Never Walk Alone', 'rare', 'Photo/YNWA.jpg', '🍀', 7],
     ['lyher', 'Love Yourself: Her', 'epic', 'Photo/Love-Yourself-Her.jpg', '💜', 8],
     ['lytear', 'Love Yourself: Tear', 'legendary', 'Photo/Love-Yourself-Tear.jpg', '🖤', 9],
