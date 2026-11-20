@@ -748,3 +748,6 @@
 .bs-card:hover,.bs-card:focus-visible{border-color:#a78bfa}.bs-card img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px}.bs-vs{font-weight:800;opacity:.6}
 .bs-ranking{list-style:none;padding:0;margin:0 auto;max-width:360px;text-align:left}
 .bs-ranking li{display:flex;align-items:center;gap:10px;padding:6px 0}.bs-ranking img{width:44px;height:44px;border-radius:50%;object-fit:cover}.bs-ranking b{width:1.6em;opacity:.7}
+
+.hub-game-best{margin-top:4px;font-size:.7rem;font-weight:700;color:#a78bfa}
+[data-theme="light"] .hub-game-best{color:#5b3fc4}

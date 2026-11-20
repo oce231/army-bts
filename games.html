@@ -1190,6 +1190,27 @@ var GAMES_META = {
 };
 var _gamesCurGroup = 'quiz', _gamesCurGame = null;
 
+/* ── Progression locale (records + dernière catégorie), indépendante du compte ── */
+var GAMES_PROG_KEY = 'bts_games_progress';
+var GAMES_KEYS = { blind:['blind_easy','blind','blind_hard'] };
+function gamesProgLoad() { try { var o = JSON.parse(localStorage.getItem(GAMES_PROG_KEY) || 'null'); if (o && typeof o === 'object') return o; } catch (e) {} return { best:{}, plays:{}, lastGroup:'quiz' }; }
+function gamesProgSave(o) { try { localStorage.setItem(GAMES_PROG_KEY, JSON.stringify(o)); } catch (e) {} }
+function gamesProgBest(id) {
+  var p = gamesProgLoad(), keys = GAMES_KEYS[id] || [id], best = null, plays = 0;
+  keys.forEach(function (k) {
+    plays += (p.plays && p.plays[k]) || 0;
+    var b = p.best && p.best[k];
+    if (b && (!best || b.s / b.m > best.s / best.m)) best = b;
+  });
+  if (id === 'memory' || id === 'wordle' || id === 'taquin') best = null; // score peu parlant : on n'affiche que le nombre de parties
+  return best ? { s: best.s, m: best.m, plays: plays } : (plays ? { plays: plays } : null);
+}
+
+
+function _gamesBestHtml(id) {
+  var b = gamesProgBest(id); if (!b) return '';
+  return '<span class="hub-game-best">' + (b.m ? '🏅 Record : ' + b.s + '/' + b.m : '▶ ' + b.plays + ' partie' + (b.plays > 1 ? 's' : '')) + '</span>';
+}
 function _gamesRenderHub(grp) {
   var hub = document.getElementById('games-hub'); if (!hub) return;
   var html = '';
@@ -1199,7 +1220,7 @@ function _gamesRenderHub(grp) {
       (m.isNew ? '<span class="hub-game-new">NEW</span>' : '') +
       '<span class="hub-game-emoji">' + m.e + '</span>' +
       '<span class="hub-game-title">' + m.t + '</span>' +
-      '<span class="hub-game-desc">' + m.d + '</span></button>';
+      '<span class="hub-game-desc">' + m.d + '</span>' + _gamesBestHtml(id) + '</button>';
   });
   hub.innerHTML = html;
 }
@@ -1216,6 +1237,7 @@ function _gamesShowGroup(g) {
 function gamesHub(g) {
   if (_gamesCurGame === 'blind' && typeof btRestart === 'function') { try { btRestart(); } catch (e) {} }
   _gamesCurGame = null;
+  var _p = gamesProgLoad(); _p.lastGroup = g; gamesProgSave(_p);
   _gamesHideAll(); _gamesShowGroup(g); _gamesRenderHub(g);
   document.getElementById('games-hub').classList.remove('gq-hidden');
   document.getElementById('games-back').classList.add('gq-hidden');
@@ -1230,7 +1252,7 @@ window.gamesGroup = function (g) {
   gamesHub(g);
 };
 
-gamesHub('quiz');
+gamesHub((function () { var l = gamesProgLoad().lastGroup; return GAMES_GROUPS[l] && l !== 'classement' ? l : 'quiz'; })());
 
 window.gamesSwitch = function(game, btn) {
   document.querySelectorAll('.games-tab').forEach(t => t.classList.remove('active'));
@@ -4446,6 +4468,21 @@ function sgShare() {
   function $(i){return document.getElementById(i);}
   function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
   function submit(game,score,max){try{if(typeof lbSubmitScore==='function')lbSubmitScore(game,score,max,{});}catch(e){}}
+  // Enregistre records et nombre de parties en local, pour tous les jeux qui envoient un score
+  (function(){
+    var prev=window.lbSubmitScore;
+    window.lbSubmitScore=function(game,score,max,extra){
+      try{
+        if(max>0&&typeof gamesProgLoad==='function'){
+          var p=gamesProgLoad();p.best=p.best||{};p.plays=p.plays||{};
+          p.plays[game]=(p.plays[game]||0)+1;
+          var b=p.best[game];if(!b||score/max>b.s/b.m)p.best[game]={s:score,m:max};
+          gamesProgSave(p);
+        }
+      }catch(e){}
+      return prev?prev.apply(this,arguments):undefined;
+    };
+  })();
   function show(prefix,part){['intro','game','result'].forEach(function(p){$(prefix+'-'+p).style.display=(p===part)?'':'none';});}
   function setProg(id,i,n){$(id).style.width=(i/n*100)+'%';}
   function drawShare(lines,file,title,text){
