@@ -1728,7 +1728,7 @@ function showMediaPreview(loadingText, media) {
     content.innerHTML = `<span class="media-preview-loading">${loadingText}</span>`;
   } else if (media) {
     content.innerHTML = media.type === 'image'
-      ? `<img src="${media.url}" class="media-preview-thumb">`
+      ? `<img loading="lazy" decoding="async" src="${media.url}" class="media-preview-thumb">`
       : `<video src="${media.url}" class="media-preview-thumb" muted></video>`;
   }
 }

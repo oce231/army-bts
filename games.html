@@ -4552,7 +4552,7 @@ function sgShare() {
     bs.sorted=[all[0]];bs.todo=all.slice(1);bs.hist=[];bs.duels=0;bsNextInsert();show('bs','game');bsDraw();
   };
   function bsNextInsert(){bs.cur=bs.todo.shift();bs.lo=0;bs.hi=bs.sorted.length;bs.mid=Math.floor((bs.lo+bs.hi)/2);}
-  function bsCard(id,i){var m=BS_M[i];$(id).innerHTML='<img src="'+m.p+'" alt="'+m.n+'"><span>'+m.n+'</span>';}
+  function bsCard(id,i){var m=BS_M[i];$(id).innerHTML='<img loading="lazy" decoding="async" src="'+m.p+'" alt="'+m.n+'"><span>'+m.n+'</span>';}
   function bsDraw(){
     // a = membre inséré, b = membre de comparaison (ordre aléatoire d'affichage)
     bs.flip=Math.random()<.5;var a=bs.cur,b=bs.sorted[bs.mid];
@@ -4573,7 +4573,7 @@ function sgShare() {
   window.bsUndo=function(){if(!bs.hist.length)return;bsLoad(bs.hist.pop());show('bs','game');bsDraw();};
   function bsResult(){
     show('bs','result');var r=$('bs-ranking');r.innerHTML='';
-    bs.sorted.forEach(function(i,k){var li=document.createElement('li');li.innerHTML='<b>'+(k+1)+'</b><img src="'+BS_M[i].p+'" alt=""><span>'+BS_M[i].n+'</span>';r.appendChild(li);});
+    bs.sorted.forEach(function(i,k){var li=document.createElement('li');li.innerHTML='<b>'+(k+1)+'</b><img loading="lazy" decoding="async" src="'+BS_M[i].p+'" alt=""><span>'+BS_M[i].n+'</span>';r.appendChild(li);});
     $('bs-res-top').textContent='Ton bias : '+BS_M[bs.sorted[0]].n+' 💜 ('+bs.duels+' duels)';
   }
   window.bsRestart=function(){show('bs','intro');};

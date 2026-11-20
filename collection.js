@@ -623,7 +623,7 @@
       overlay.onclick = closeFullscreen;
       document.body.appendChild(overlay);
     }
-    overlay.innerHTML = '<img src="' + src + '" alt="' + card.name + '"><button class="coll-fullscreen-close" onclick="event.stopPropagation();CollectionSystem.closeFullscreen()">✕</button>';
+    overlay.innerHTML = '<img loading="lazy" decoding="async" src="' + src + '" alt="' + card.name + '"><button class="coll-fullscreen-close" onclick="event.stopPropagation();CollectionSystem.closeFullscreen()">✕</button>';
     overlay.classList.add('open');
   }
 
@@ -684,7 +684,7 @@
       const rarityGlow = (r.card.rarity === 'legendary') ? ' legendary-glow' : (r.card.rarity === 'epic' ? ' epic-glow' : '');
       html += '<div class="coll-flipcard' + rarityGlow + '" style="animation-delay:' + (animationsEnabled ? i * 0.2 : 0) + 's" onclick="CollectionSystem.flipRevealCard(this)">';
       html +=   '<div class="coll-flipcard-inner">';
-      html +=     '<div class="coll-flipcard-face coll-flipcard-back"><img src="' + CARD_BACK_IMG + '" alt=""></div>';
+      html +=     '<div class="coll-flipcard-face coll-flipcard-back"><img loading="lazy" decoding="async" src="' + CARD_BACK_IMG + '" alt=""></div>';
       html +=     '<div class="coll-flipcard-face coll-flipcard-front rarity-' + r.card.rarity + '">' + cardMediaHtml(r.card, { level: 1 }) + (r.error ? '<span class="coll-flipcard-error">⚠️ non sauvegardée</span>' : '') + '</div>';
       html +=   '</div>';
       html += '</div>';
