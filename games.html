@@ -72,22 +72,29 @@
 
   <div class="games-groups" id="games-groups" role="tablist">
     <button class="games-group active" data-group="quiz" onclick="gamesGroup('quiz')">🧠 Quiz</button>
-    <button class="games-group" data-group="jeux" onclick="gamesGroup('jeux')">🎮 Jeux</button>
+    <button class="games-group" data-group="musique" onclick="gamesGroup('musique')">🎵 Musique</button>
+    <button class="games-group" data-group="puzzle" onclick="gamesGroup('puzzle')">🧩 Puzzles</button>
+    <button class="games-group" data-group="toi" onclick="gamesGroup('toi')">✨ Pour toi</button>
     <button class="games-group" data-group="classement" onclick="gamesGroup('classement')">🏆 Classement</button>
   </div>
+  <div id="games-back" class="games-back gq-hidden"><button type="button" onclick="gamesBack()"><span>←</span> <span id="games-back-label">Tous les jeux</span></button></div>
+  <div id="games-hub" class="games-hub"></div>
   <div class="games-selector" id="games-selector">
     <button class="games-tab active" data-group="quiz" data-game="general" onclick="gamesSwitch('general', this)">🧠 Quiz Général</button>
     <button class="games-tab" data-group="quiz" data-game="vraifaux" onclick="gamesSwitch('vraifaux', this)">❓ Vrai ou Faux</button>
     <button class="games-tab" data-group="quiz" data-game="chrono" onclick="gamesSwitch('chrono', this)">📅 Chrono</button>
     <button class="games-tab" data-group="quiz" data-game="devine" onclick="gamesSwitch('devine', this)">🔍 Devine le membre</button>
-    <button class="games-tab" data-group="quiz" data-game="era" onclick="gamesSwitch('era', this)">✨ Quelle Era es-tu ?</button>
-    <button class="games-tab" data-group="quiz" data-game="armytype" onclick="gamesSwitch('armytype', this)">🌌 Quel type d'ARMY es-tu ?</button>
-    <button class="games-tab" data-group="jeux" data-game="blind" onclick="gamesSwitch('blind', this)">🎵 Blind Test</button>
-    <button class="games-tab" data-group="jeux" data-game="wordle" onclick="gamesSwitch('wordle', this)">🟩 Wordle</button>
-    <button class="games-tab" data-group="jeux" data-game="taquin" onclick="gamesSwitch('taquin', this)">🧩 Taquin</button>
-    <button class="games-tab" data-group="jeux" data-game="memory" onclick="gamesSwitch('memory', this)">🃏 Memory</button>
-    <button class="games-tab" data-group="jeux" data-game="chanson" onclick="gamesSwitch('chanson', this)">🎶 Devine la chanson</button>
-    <button class="games-tab" data-group="jeux" data-game="paroles" onclick="gamesSwitch('paroles', this)">🎤 Paroles</button>
+    <button class="games-tab" data-group="toi" data-game="era" onclick="gamesSwitch('era', this)">✨ Quelle Era es-tu ?</button>
+    <button class="games-tab" data-group="toi" data-game="armytype" onclick="gamesSwitch('armytype', this)">🌌 Quel type d'ARMY es-tu ?</button>
+    <button class="games-tab" data-group="musique" data-game="blind" onclick="gamesSwitch('blind', this)">🎵 Blind Test</button>
+    <button class="games-tab" data-group="puzzle" data-game="wordle" onclick="gamesSwitch('wordle', this)">🟩 Wordle</button>
+    <button class="games-tab" data-group="puzzle" data-game="taquin" onclick="gamesSwitch('taquin', this)">🧩 Taquin</button>
+    <button class="games-tab" data-group="puzzle" data-game="memory" onclick="gamesSwitch('memory', this)">🃏 Memory</button>
+    <button class="games-tab" data-group="musique" data-game="chanson" onclick="gamesSwitch('chanson', this)">🎶 Devine la chanson</button>
+    <button class="games-tab" data-group="musique" data-game="paroles" onclick="gamesSwitch('paroles', this)">🎤 Paroles</button>
+    <button class="games-tab" data-group="musique" data-game="album" onclick="gamesSwitch('album', this)">💿 Devine l'album</button>
+    <button class="games-tab" data-group="musique" data-game="emoji" onclick="gamesSwitch('emoji', this)">😎 Chansons en émojis</button>
+    <button class="games-tab" data-group="toi" data-game="bias" onclick="gamesSwitch('bias', this)">💜 Bias Sorter</button>
     <button class="games-tab" data-group="classement" data-game="classement" onclick="gamesSwitch('classement', this)">🏆 Classement</button>
   </div>
 
@@ -614,6 +621,105 @@
   </div>
 </div>
 
+<!-- ══════════════ DEVINE L'ALBUM ══════════════ -->
+<div class="gq-hidden" id="game-album" style="padding:1.5rem">
+  <div class="gq-card" style="max-width:560px;margin:0 auto;">
+    <div id="al-intro">
+      <div class="gq-intro-emoji">💿</div>
+      <div class="gq-intro-title">Devine l'album</div>
+      <p class="gq-intro-desc">Un titre s'affiche : de quel album (ou quelle période) vient-il ? 10 questions. On compte l'album d'origine de la chanson.</p>
+      <button class="gq-btn gq-btn-main" onclick="alStart()">Commencer — 10 questions</button>
+    </div>
+    <div id="al-game" style="display:none;">
+      <div class="gq-progress-wrap">
+        <div class="gq-progress-info"><span id="al-q-num">Question 1/10</span><span id="al-score-live">⭐ 0</span></div>
+        <div class="gq-progress-bar"><div class="gq-progress-fill" id="al-progress"></div></div>
+      </div>
+      <div class="gm-prompt"><div class="gm-prompt-small">De quel album vient…</div><div class="gm-prompt-big" id="al-title"></div></div>
+      <div id="al-choices" class="al-choices"></div>
+      <div id="al-feedback" class="gm-feedback" style="display:none;"></div>
+      <button class="gq-btn" id="al-next" onclick="alNext()" style="display:none;margin-top:.8rem;width:100%;">Question suivante →</button>
+    </div>
+    <div id="al-result" style="display:none;text-align:center;">
+      <span id="al-res-emoji" style="font-size:52px;display:block;margin-bottom:.8rem;"></span>
+      <div class="gq-result-score"><span id="al-res-score">0</span><span class="gq-result-max">/10</span></div>
+      <div id="al-res-level" class="gm-res-level"></div>
+      <p id="al-res-desc" class="gm-res-desc"></p>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <button class="gq-btn" onclick="alRestart()">🔄 Rejouer</button>
+        <button class="gq-btn gq-btn-share" onclick="alShare()">📸 Partager</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ CHANSONS EN ÉMOJIS ══════════════ -->
+<div class="gq-hidden" id="game-emoji" style="padding:1.5rem">
+  <div class="gq-card" style="max-width:560px;margin:0 auto;">
+    <div id="em-intro">
+      <div class="gq-intro-emoji">😎</div>
+      <div class="gq-intro-title">Chansons en émojis</div>
+      <p class="gq-intro-desc">Retrouve la chanson à partir d'émojis. Chaque manche commence avec peu d'émojis : tu peux en demander plus, mais tu gagnes moins de points (3, 2 ou 1).</p>
+      <button class="gq-btn gq-btn-main" onclick="emStart()">Commencer — 10 manches</button>
+    </div>
+    <div id="em-game" style="display:none;">
+      <div class="gq-progress-wrap">
+        <div class="gq-progress-info"><span id="em-q-num">Manche 1/10</span><span id="em-score-live">⭐ 0</span></div>
+        <div class="gq-progress-bar"><div class="gq-progress-fill" id="em-progress"></div></div>
+      </div>
+      <div class="gm-prompt"><div class="gm-emoji-clue" id="em-clue"></div></div>
+      <div id="em-clue-counter" class="gm-counter"></div>
+      <div id="em-choices" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem;"></div>
+      <button class="gq-btn" id="em-more" onclick="emMore()" style="display:none;">💡 Plus d'émojis</button>
+      <div id="em-feedback" class="gm-feedback" style="display:none;"></div>
+      <button class="gq-btn" id="em-next" onclick="emNext()" style="display:none;margin-top:.8rem;width:100%;">Manche suivante →</button>
+    </div>
+    <div id="em-result" style="display:none;text-align:center;">
+      <span id="em-res-emoji" style="font-size:52px;display:block;margin-bottom:.8rem;"></span>
+      <div class="gq-result-score"><span id="em-res-score">0</span><span class="gq-result-max">/30</span></div>
+      <div id="em-res-level" class="gm-res-level"></div>
+      <p id="em-res-desc" class="gm-res-desc"></p>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <button class="gq-btn" onclick="emRestart()">🔄 Rejouer</button>
+        <button class="gq-btn gq-btn-share" onclick="emShare()">📸 Partager</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ BIAS SORTER ══════════════ -->
+<div class="gq-hidden" id="game-bias" style="padding:1.5rem">
+  <div class="gq-card" style="max-width:560px;margin:0 auto;">
+    <div id="bs-intro">
+      <div class="gq-intro-emoji">💜</div>
+      <div class="gq-intro-title">Bias Sorter</div>
+      <p class="gq-intro-desc">Choisis ton préféré entre deux membres, duel après duel. Une dizaine de duels suffisent pour obtenir ton classement complet des 7. Pas de bonne réponse, pas de score : c'est juste toi.</p>
+      <button class="gq-btn gq-btn-main" onclick="bsStart()">Commencer</button>
+    </div>
+    <div id="bs-game" style="display:none;">
+      <div class="gq-progress-wrap">
+        <div class="gq-progress-info"><span id="bs-duel-num">Duel 1</span><span id="bs-remaining"></span></div>
+        <div class="gq-progress-bar"><div class="gq-progress-fill" id="bs-progress"></div></div>
+      </div>
+      <div class="bs-duel">
+        <button type="button" class="bs-card" id="bs-a" onclick="bsPick(0)"></button>
+        <div class="bs-vs">VS</div>
+        <button type="button" class="bs-card" id="bs-b" onclick="bsPick(1)"></button>
+      </div>
+      <div style="text-align:center;margin-top:1rem;"><button class="gq-btn" id="bs-undo" onclick="bsUndo()">↩ Annuler le dernier choix</button></div>
+    </div>
+    <div id="bs-result" style="display:none;text-align:center;">
+      <div class="gm-res-level" style="margin-bottom:.3rem;">Ton classement</div>
+      <p class="gm-res-desc" id="bs-res-top" style="margin-bottom:1rem;"></p>
+      <ol id="bs-ranking" class="bs-ranking"></ol>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:1.2rem;">
+        <button class="gq-btn" onclick="bsRestart()">🔄 Recommencer</button>
+        <button class="gq-btn gq-btn-share" onclick="bsShare()">📸 Partager</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ══════════════════════════════════════════
      WORDLE BTS
 ══════════════════════════════════════════ -->
@@ -717,20 +823,31 @@
     </div>
 
     <!-- Onglets par jeu -->
-    <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:1.2rem;" id="lb-tabs">
-      <button class="lb-tab active" onclick="lbShowTab('global',this)">🌟 Global</button>
-      <button class="lb-tab" onclick="lbShowTab('general',this)">🧠 Quiz</button>
-      <button class="lb-tab" onclick="lbShowTab('vraifaux',this)">❓ Vrai/Faux</button>
-      <button class="lb-tab" onclick="lbShowTab('paroles',this)">🎤 Paroles</button>
-      <button class="lb-tab" onclick="lbShowTab('chrono',this)">📅 Chrono</button>
-      <button class="lb-tab" onclick="lbShowTab('memory',this)">🃏 Memory</button>
-      <button class="lb-tab" onclick="lbShowTab('devine',this)">🔍 Devine</button>
-      <button class="lb-tab" onclick="lbShowTab('blind_easy',this)">🌱 Blind Test Facile</button>
-      <button class="lb-tab" onclick="lbShowTab('blind',this)">🎧 Blind Test Moyen</button>
-      <button class="lb-tab" onclick="lbShowTab('blind_hard',this)">🔥 Blind Test Difficile</button>
-      <button class="lb-tab" onclick="lbShowTab('chanson',this)">🎶 Chanson</button>
-      <button class="lb-tab" onclick="lbShowTab('wordle',this)">🟩 Wordle</button>
-      <button class="lb-tab" onclick="lbShowTab('taquin',this)">🧩 Taquin</button>
+    <div class="lb-select-wrap" id="lb-tabs">
+      <label for="lb-select" class="lb-select-label">Classement de</label>
+      <select id="lb-select" class="lb-select" onchange="lbShowTab(this.value)">
+        <option value="global">🌟 Global (tous les jeux)</option>
+        <optgroup label="🧠 Quiz">
+          <option value="general">🧠 Quiz Général</option>
+          <option value="vraifaux">❓ Vrai ou Faux</option>
+          <option value="chrono">📅 Chrono</option>
+          <option value="devine">🔍 Devine le membre</option>
+        </optgroup>
+        <optgroup label="🎵 Musique">
+          <option value="blind_easy">🌱 Blind Test — Facile</option>
+          <option value="blind">🎧 Blind Test — Moyen</option>
+          <option value="blind_hard">🔥 Blind Test — Difficile</option>
+          <option value="chanson">🎶 Devine la chanson</option>
+          <option value="album">💿 Devine l'album</option>
+          <option value="emoji">😎 Chansons en émojis</option>
+          <option value="paroles">🎤 Paroles</option>
+        </optgroup>
+        <optgroup label="🧩 Puzzles">
+          <option value="wordle">🟩 Wordle</option>
+          <option value="taquin">🧩 Taquin</option>
+          <option value="memory">🃏 Memory</option>
+        </optgroup>
+      </select>
     </div>
 
     <div id="lb-title" style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--text);margin-bottom:1rem;text-align:center;">🌟 Classement Global</div>
@@ -1052,23 +1169,68 @@ let _armyTypeGameStarted = false;
 let _blindGameStarted = false;
 
 var _gamesLastTab = {};
+var GAMES_ALL = ['general','era','blind','taquin','vraifaux','paroles','chrono','memory','devine','wordle','classement','armytype','chanson','album','emoji','bias'];
+var GAMES_GROUPS = { quiz:'Quiz', musique:'Musique', puzzle:'Puzzles', toi:'Pour toi', classement:'Classement' };
+var GAMES_META = {
+  general:  { g:'quiz',    e:'🧠', t:'Quiz Général',       d:'20 questions, 2 niveaux' },
+  vraifaux: { g:'quiz',    e:'❓', t:'Vrai ou Faux',       d:'Tranche vite !' },
+  chrono:   { g:'quiz',    e:'📅', t:'Chrono',             d:'Remets les albums dans l\'ordre' },
+  devine:   { g:'quiz',    e:'🔍', t:'Devine le membre',   d:'Trouve qui se cache derrière les indices' },
+  blind:    { g:'musique', e:'🎵', t:'Blind Test',         d:'Extraits de 30 s · 3 niveaux' },
+  chanson:  { g:'musique', e:'🎶', t:'Devine la chanson',  d:'Des indices qui se révèlent un par un' },
+  album:    { g:'musique', e:'💿', t:'Devine l\'album',    d:'De quel album vient ce titre ?', isNew:true },
+  emoji:    { g:'musique', e:'😎', t:'Chansons en émojis', d:'Retrouve le titre avec des émojis', isNew:true },
+  paroles:  { g:'musique', e:'🎤', t:'Paroles',            d:'Complète les paroles' },
+  wordle:   { g:'puzzle',  e:'🟩', t:'Wordle BTS',         d:'Le mot mystère en 6 essais' },
+  taquin:   { g:'puzzle',  e:'🧩', t:'Taquin',             d:'Reconstitue une photo' },
+  memory:   { g:'puzzle',  e:'🃏', t:'Memory',             d:'Retrouve les paires' },
+  era:      { g:'toi',     e:'✨', t:'Quelle Era es-tu ?', d:'Un quiz, une era' },
+  armytype: { g:'toi',     e:'🌌', t:'Type d\'ARMY',       d:'Quel type d\'ARMY es-tu ?' },
+  bias:     { g:'toi',     e:'💜', t:'Bias Sorter',        d:'Classe les 7 en duels', isNew:true }
+};
+var _gamesCurGroup = 'quiz', _gamesCurGame = null;
+
+function _gamesRenderHub(grp) {
+  var hub = document.getElementById('games-hub'); if (!hub) return;
+  var html = '';
+  Object.keys(GAMES_META).forEach(function (id) {
+    var m = GAMES_META[id]; if (m.g !== grp) return;
+    html += '<button type="button" class="hub-game-card" onclick="gamesOpen(\'' + id + '\')">' +
+      (m.isNew ? '<span class="hub-game-new">NEW</span>' : '') +
+      '<span class="hub-game-emoji">' + m.e + '</span>' +
+      '<span class="hub-game-title">' + m.t + '</span>' +
+      '<span class="hub-game-desc">' + m.d + '</span></button>';
+  });
+  hub.innerHTML = html;
+}
+function _gamesHideAll() {
+  GAMES_ALL.forEach(function (id) { var el = document.getElementById('game-' + id); if (el) el.classList.add('gq-hidden'); });
+  document.querySelectorAll('.games-tab').forEach(function (t) { t.classList.remove('active'); });
+}
 function _gamesShowGroup(g) {
+  _gamesCurGroup = g;
   document.querySelectorAll('.games-group').forEach(function(x){ x.classList.toggle('active', x.dataset.group === g); });
   document.querySelectorAll('.games-tab').forEach(function(t){ t.classList.toggle('gq-hidden', t.dataset.group !== g); });
-  // Le classement n'a qu'un seul onglet : on masque la 2e rangée
-  var sel = document.getElementById('games-selector');
-  if (sel) sel.classList.toggle('gq-hidden', g === 'classement');
 }
-window.gamesGroup = function(g) {
-  var cur = document.querySelector('.games-tab.active');
-  if (cur && cur.dataset.group === g) { _gamesShowGroup(g); return; }
-  var target = null;
-  if (_gamesLastTab[g]) target = document.querySelector('.games-tab[data-game="' + _gamesLastTab[g] + '"]');
-  if (!target) target = document.querySelector('.games-tab[data-group="' + g + '"]');
-  if (target) target.click();
+// Affiche la grille de jeux d'une catégorie
+function gamesHub(g) {
+  if (_gamesCurGame === 'blind' && typeof btRestart === 'function') { try { btRestart(); } catch (e) {} }
+  _gamesCurGame = null;
+  _gamesHideAll(); _gamesShowGroup(g); _gamesRenderHub(g);
+  document.getElementById('games-hub').classList.remove('gq-hidden');
+  document.getElementById('games-back').classList.add('gq-hidden');
+}
+window.gamesOpen = function (id) {
+  var tab = document.querySelector('.games-tab[data-game="' + id + '"]');
+  if (tab) tab.click();
+};
+window.gamesBack = function () { gamesHub(_gamesCurGroup); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+window.gamesGroup = function (g) {
+  if (g === 'classement') { gamesOpen('classement'); return; }
+  gamesHub(g);
 };
 
-_gamesShowGroup('quiz');
+gamesHub('quiz');
 
 window.gamesSwitch = function(game, btn) {
   document.querySelectorAll('.games-tab').forEach(t => t.classList.remove('active'));
@@ -1078,7 +1240,7 @@ window.gamesSwitch = function(game, btn) {
   document.getElementById('game-general').classList.toggle('gq-hidden', game !== 'general');
   document.getElementById('game-era').classList.toggle('gq-hidden', game !== 'era');
   document.getElementById('game-blind').classList.toggle('gq-hidden', game !== 'blind');
-  ['taquin','vraifaux','paroles','chrono','memory','devine','wordle','classement','armytype','chanson'].forEach(function(id) {
+  ['taquin','vraifaux','paroles','chrono','memory','devine','wordle','classement','armytype','chanson','album','emoji','bias'].forEach(function(id) {
     var el = document.getElementById('game-' + id);
     if (el) el.classList.toggle('gq-hidden', game !== id);
   });
@@ -1098,6 +1260,16 @@ window.gamesSwitch = function(game, btn) {
   if (game === 'classement') {
     if (typeof lbInitUI === 'function') lbInitUI();
     if (!window._lbLoaded) { window._lbLoaded = true; if (typeof lbLoad === 'function') lbLoad('global'); }
+  }
+
+  // Hub : on masque la grille, on affiche le bouton retour (sauf Classement)
+  _gamesCurGame = game;
+  document.getElementById('games-hub').classList.add('gq-hidden');
+  var back = document.getElementById('games-back');
+  if (game === 'classement') back.classList.add('gq-hidden');
+  else {
+    document.getElementById('games-back-label').textContent = (GAMES_GROUPS[_gamesCurGroup] || 'Jeux') + ' · tous les jeux';
+    back.classList.remove('gq-hidden');
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1967,7 +2139,7 @@ function btShowResult() {
 
   // Photos du site disponibles pour le taquin
   var TQ_SITE_PHOTOS = [
-    { label:'RM',       src:'Photo/RM.jpg' },
+    { label:'RM',       src:'Photo/Rm.jpg' },
     { label:'Jin',      src:'Photo/Jin.jpg' },
     { label:'Jimin',    src:'Photo/Jimin.jpg' },
     { label:'J-Hope',   src:'Photo/Jhope.jpg' },
@@ -3906,12 +4078,14 @@ function lbRenderGame(rows, game) {
 }
 
 function lbShowTab(tab, btn) {
-  document.querySelectorAll('.lb-tab').forEach(function(b){ b.classList.remove('active'); });
-  btn.classList.add('active');
+  var s = document.getElementById('lb-select'); if (s && s.value !== tab) s.value = tab;
   var titles = {
     global:'🌟 Classement Global', general:'🧠 Quiz Général', vraifaux:'❓ Vrai ou Faux',
     paroles:'🎤 Complète les paroles', chrono:'📅 Chrono des albums',
-    memory:'🃏 Memory', devine:'🔍 Devine le membre', chanson:'🎶 Devine la chanson', blind_easy:'🌱 Blind Test — Facile', blind:'🎧 Blind Test — Moyen', blind_hard:'🔥 Blind Test — Difficile', wordle:'🟩 Wordle BTS', taquin:'🧩 Taquin'
+    memory:'🃏 Memory', devine:'🔍 Devine le membre', chanson:'🎶 Devine la chanson',
+    album:'💿 Devine l\'album', emoji:'😎 Chansons en émojis',
+    blind_easy:'🌱 Blind Test — Facile', blind:'🎧 Blind Test — Moyen', blind_hard:'🔥 Blind Test — Difficile',
+    wordle:'🟩 Wordle', taquin:'🧩 Taquin'
   };
   document.getElementById('lb-title').textContent = titles[tab] || tab;
   lbLoad(tab);
@@ -4264,6 +4438,146 @@ function sgShare() {
       "J'ai résolu le Taquin BTS (" + stats + ') sur Bangtan Atlas !'); };
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(go); else go();
   };
+})();
+</script>
+<script>
+/* ══════ NOUVEAUX JEUX : Devine l'album · Chansons en émojis · Bias Sorter ══════ */
+(function(){
+  function $(i){return document.getElementById(i);}
+  function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  function submit(game,score,max){try{if(typeof lbSubmitScore==='function')lbSubmitScore(game,score,max,{});}catch(e){}}
+  function show(prefix,part){['intro','game','result'].forEach(function(p){$(prefix+'-'+p).style.display=(p===part)?'':'none';});}
+  function setProg(id,i,n){$(id).style.width=(i/n*100)+'%';}
+  function drawShare(lines,file,title,text){
+    var c=document.createElement('canvas');c.width=900;c.height=300+lines.length*70;var x=c.getContext('2d');
+    var g=x.createLinearGradient(0,0,900,c.height);g.addColorStop(0,'#1a0b3b');g.addColorStop(1,'#4c1d95');x.fillStyle=g;x.fillRect(0,0,900,c.height);
+    x.fillStyle='#fff';x.textAlign='center';x.font='bold 54px sans-serif';x.fillText(lines[0],450,110);
+    x.font='34px sans-serif';x.fillStyle='#ddd6fe';x.fillText(lines[1],450,175);
+    x.fillStyle='#fff';x.font='bold 40px sans-serif';x.textAlign='left';
+    for(var i=2;i<lines.length;i++)x.fillText(lines[i],150,250+(i-2)*70);
+    x.textAlign='center';x.font='26px sans-serif';x.fillStyle='#a78bfa';x.fillText('Bangtan Atlas · oce231.github.io/army-bts',450,c.height-30);
+    _shareCanvasImage(c,file,title,text);
+  }
+
+  /* ───────── Devine l'album ───────── */
+  var al={q:[],i:0,score:0,locked:false};
+  window.alStart=function(){
+    var tr=shuffle(BT_TRACKS).slice(0,10);
+    var eras=[];BT_TRACKS.forEach(function(t){if(eras.indexOf(t.era)<0)eras.push(t.era);});
+    al.q=tr.map(function(t){var w=shuffle(eras.filter(function(e){return e!==t.era;})).slice(0,3);return{title:t.title,era:t.era,ch:shuffle(w.concat([t.era]))};});
+    al.i=0;al.score=0;show('al','game');alShow();
+  };
+  function alShow(){
+    var q=al.q[al.i];al.locked=false;
+    $('al-q-num').textContent='Question '+(al.i+1)+'/10';$('al-score-live').textContent='⭐ '+al.score;setProg('al-progress',al.i,10);
+    $('al-title').textContent=q.title;$('al-feedback').style.display='none';$('al-next').style.display='none';
+    var box=$('al-choices');box.innerHTML='';
+    q.ch.forEach(function(e){var b=document.createElement('button');b.type='button';b.className='gm-choice';b.textContent=e;b.onclick=function(){alPick(b,e);};box.appendChild(b);});
+  }
+  function alPick(btn,e){
+    if(al.locked)return;al.locked=true;var q=al.q[al.i],ok=e===q.era;if(ok)al.score++;
+    Array.prototype.forEach.call($('al-choices').children,function(b){b.disabled=true;if(b.textContent===q.era)b.classList.add('ok');});
+    if(!ok)btn.classList.add('ko');
+    var f=$('al-feedback');f.textContent=ok?'✅ Bien joué !':'❌ C’était : '+q.era;f.style.display='';
+    $('al-score-live').textContent='⭐ '+al.score;$('al-next').style.display='';$('al-next').textContent=al.i===9?'Voir mon score →':'Question suivante →';
+  }
+  window.alNext=function(){
+    if(al.i<9){al.i++;alShow();return;}
+    show('al','result');setProg('al-progress',10,10);$('al-res-score').textContent=al.score;
+    var s=al.score,lv=s>=9?['👑','Archiviste ultime','Tu connais la discographie par cœur.']:s>=6?['💜','Vrai·e ARMY','Solide ! Quelques albums à réviser.']:s>=3?['🌱','En progression','Continue d’écouter les albums en entier.']:['🎧','Début de l’aventure','Direction la discographie !'];
+    $('al-res-emoji').textContent=lv[0];$('al-res-level').textContent=lv[1];$('al-res-desc').textContent=lv[2];submit('album',s,10);
+  };
+  window.alRestart=function(){show('al','intro');};
+  window.alShare=function(){drawShare(['Devine l’album','Mon score : '+al.score+'/10'],'devine-album.png','Devine l’album','J’ai fait '+al.score+'/10 à Devine l’album sur Bangtan Atlas !');};
+
+  /* ───────── Chansons en émojis ───────── */
+  var EM=[
+   ['Dynamite',['🧨','💥','🕺🌟','✨🎉🌞']],['Butter',['🧈','🧈😎','🧈😎🔥','🧈😎🎶💜']],
+   ['Spring Day',['🌸','🌸❄️','🌸❄️🚉','🌸❄️🚉💜']],['Fake Love',['🎭','🎭💔','🎭💔🌑','🎭💔🌑😢']],
+   ['Boy With Luv',['👦','👦💕','👦💕🦋','👦💕🦋🌎']],['Blood Sweat & Tears',['🩸','🩸💦','🩸💦😢','🩸💦😢🔥']],
+   ['Run',['🏃','🏃💨','🏃💨🔥','🏃💨🔥🌹']],['Life Goes On',['🌍','🌍🔄','🌍🔄🏠','🌍🔄🏠🕊️']],
+   ['Permission to Dance',['🙏','🙏💃','🙏💃🕺','🙏💃🕺🎉']],['Black Swan',['🦢','🦢🖤','🦢🖤🩰','🦢🖤🩰🌑']],
+   ['Mic Drop',['🎤','🎤⬇️','🎤⬇️💥','🎤⬇️💥👋']],['DNA',['🧬','🧬💞','🧬💞✨','🧬💞✨🌌']],
+   ['Euphoria',['😊','😊🌈','😊🌈🌟','😊🌈🌟🎆']],['Fire',['🔥','🔥🔥','🔥🔥🏃','🔥🔥🏃🚒']],
+   ['Save Me',['🛟','🛟🆘','🛟🆘🌊','🛟🆘🌊💜']],['Serendipity',['🍀','🍀🌿','🍀🌿💫','🍀🌿💫🌙']],
+   ['Stay',['🛑','🛑🧍','🛑🧍💞','🛑🧍💞🌃']],['Film out',['🎞️','🎞️🎬','🎞️🎬🚪','🎞️🎬🚪👋']],
+   ['Idol',['🏆','🏆🎤','🏆🎤🌟','🏆🎤🌟🙌']],['Telepathy',['🧠','🧠📡','🧠📡💭','🧠📡💭💜']],
+   ['Yet To Come',['⏳','⏳🚉','⏳🚉🌅','⏳🚉🌅💜']],['Ugh!',['😤','😤🗯️','😤🗯️🔥','😤🗯️🔥🎤']]
+  ];
+  // Seules les chansons de la liste servent de leurres
+  var em={q:[],i:0,score:0,step:0,locked:false};
+  window.emStart=function(){
+    var pick=shuffle(EM).slice(0,10),names=EM.map(function(x){return x[0];});
+    em.q=pick.map(function(x){return{name:x[0],clues:x[1],ch:shuffle(shuffle(names.filter(function(n){return n!==x[0];})).slice(0,3).concat([x[0]]))};});
+    em.i=0;em.score=0;show('em','game');emShow();
+  };
+  function emShow(){
+    var q=em.q[em.i];em.step=0;em.locked=false;
+    $('em-q-num').textContent='Manche '+(em.i+1)+'/10';$('em-score-live').textContent='⭐ '+em.score;setProg('em-progress',em.i,10);
+    $('em-feedback').style.display='none';$('em-next').style.display='none';
+    var box=$('em-choices');box.innerHTML='';
+    q.ch.forEach(function(n){var b=document.createElement('button');b.type='button';b.className='gm-choice';b.textContent=n;b.onclick=function(){emPick(b,n);};box.appendChild(b);});
+    emClue();
+  }
+  function emClue(){
+    var q=em.q[em.i];$('em-clue').textContent=q.clues[em.step];
+    $('em-clue-counter').textContent='Indice '+(em.step+1)+'/'+q.clues.length+' · '+(3-Math.min(em.step,2))+' pt'+(3-Math.min(em.step,2)>1?'s':'')+' en jeu';
+    $('em-more').style.display=(!em.locked&&em.step<q.clues.length-1)?'':'none';
+  }
+  window.emMore=function(){if(em.locked)return;em.step++;emClue();};
+  function emPick(btn,n){
+    if(em.locked)return;em.locked=true;var q=em.q[em.i],ok=n===q.name,pts=ok?Math.max(1,3-em.step):0;em.score+=pts;
+    Array.prototype.forEach.call($('em-choices').children,function(b){b.disabled=true;if(b.textContent===q.name)b.classList.add('ok');});
+    if(!ok)btn.classList.add('ko');
+    $('em-clue').textContent=q.clues[q.clues.length-1];$('em-more').style.display='none';
+    var f=$('em-feedback');f.textContent=ok?'✅ +'+pts+' pt'+(pts>1?'s':''):'❌ C’était : '+q.name;f.style.display='';
+    $('em-score-live').textContent='⭐ '+em.score;$('em-next').style.display='';$('em-next').textContent=em.i===9?'Voir mon score →':'Manche suivante →';
+  }
+  window.emNext=function(){
+    if(em.i<9){em.i++;emShow();return;}
+    show('em','result');setProg('em-progress',10,10);$('em-res-score').textContent=em.score;
+    var s=em.score,lv=s>=24?['👑','Traducteur·rice d’émojis','Tu lis les émojis comme un livre.']:s>=15?['💜','Bon œil','Beau score, continue !']:s>=8?['🌱','Pas mal','Les émojis n’ont plus de secret pour toi… presque.']:['🎧','À réviser','Réessaie, tu vas y arriver.'];
+    $('em-res-emoji').textContent=lv[0];$('em-res-level').textContent=lv[1];$('em-res-desc').textContent=lv[2];submit('emoji',s,30);
+  };
+  window.emRestart=function(){show('em','intro');};
+  window.emShare=function(){drawShare(['Chansons en émojis','Mon score : '+em.score+'/30'],'chansons-emojis.png','Chansons en émojis','J’ai fait '+em.score+'/30 aux Chansons en émojis sur Bangtan Atlas !');};
+
+  /* ───────── Bias Sorter (insertion binaire) ───────── */
+  var BS_M=[{n:'RM',p:'Photo/Rm.jpg'},{n:'Jin',p:'Photo/Jin.jpg'},{n:'Suga',p:'Photo/Suga.jpg'},{n:'J-Hope',p:'Photo/Jhope.jpg'},{n:'Jimin',p:'Photo/Jimin.jpg'},{n:'V',p:'Photo/V.jpg'},{n:'Jungkook',p:'Photo/Jk.cover.jpg'}];
+  var bs={sorted:[],todo:[],cur:null,lo:0,hi:0,mid:0,duels:0,hist:[]};
+  function bsSnap(){return JSON.stringify({s:bs.sorted,t:bs.todo,c:bs.cur,lo:bs.lo,hi:bs.hi,mid:bs.mid,d:bs.duels});}
+  function bsLoad(j){var o=JSON.parse(j);bs.sorted=o.s;bs.todo=o.t;bs.cur=o.c;bs.lo=o.lo;bs.hi=o.hi;bs.mid=o.mid;bs.duels=o.d;}
+  window.bsStart=function(){
+    var all=shuffle(BS_M.map(function(_,i){return i;}));
+    bs.sorted=[all[0]];bs.todo=all.slice(1);bs.hist=[];bs.duels=0;bsNextInsert();show('bs','game');bsDraw();
+  };
+  function bsNextInsert(){bs.cur=bs.todo.shift();bs.lo=0;bs.hi=bs.sorted.length;bs.mid=Math.floor((bs.lo+bs.hi)/2);}
+  function bsCard(id,i){var m=BS_M[i];$(id).innerHTML='<img src="'+m.p+'" alt="'+m.n+'"><span>'+m.n+'</span>';}
+  function bsDraw(){
+    // a = membre inséré, b = membre de comparaison (ordre aléatoire d'affichage)
+    bs.flip=Math.random()<.5;var a=bs.cur,b=bs.sorted[bs.mid];
+    bsCard('bs-a',bs.flip?b:a);bsCard('bs-b',bs.flip?a:b);
+    $('bs-duel-num').textContent='Duel '+(bs.duels+1);$('bs-remaining').textContent=(bs.todo.length+1)+' membre'+(bs.todo.length?'s':'')+' à placer';
+    setProg('bs-progress',BS_M.length-1-bs.todo.length-1,BS_M.length-1);$('bs-undo').style.display=bs.hist.length?'':'none';
+  }
+  window.bsPick=function(side){
+    bs.hist.push(bsSnap());
+    var preferCur=(side===0)===!bs.flip;   // vrai si le membre inséré est choisi
+    bs.duels++;
+    if(preferCur)bs.hi=bs.mid;else bs.lo=bs.mid+1;   // sorted[0] = préféré
+    if(bs.lo<bs.hi){bs.mid=Math.floor((bs.lo+bs.hi)/2);bsDraw();return;}
+    bs.sorted.splice(bs.lo,0,bs.cur);
+    if(bs.todo.length){bsNextInsert();bsDraw();return;}
+    bsResult();
+  };
+  window.bsUndo=function(){if(!bs.hist.length)return;bsLoad(bs.hist.pop());show('bs','game');bsDraw();};
+  function bsResult(){
+    show('bs','result');var r=$('bs-ranking');r.innerHTML='';
+    bs.sorted.forEach(function(i,k){var li=document.createElement('li');li.innerHTML='<b>'+(k+1)+'</b><img src="'+BS_M[i].p+'" alt=""><span>'+BS_M[i].n+'</span>';r.appendChild(li);});
+    $('bs-res-top').textContent='Ton bias : '+BS_M[bs.sorted[0]].n+' 💜 ('+bs.duels+' duels)';
+  }
+  window.bsRestart=function(){show('bs','intro');};
+  window.bsShare=function(){drawShare(['Mon Bias Sorter','Ton bias : '+BS_M[bs.sorted[0]].n].concat(bs.sorted.map(function(i,k){return (k+1)+'. '+BS_M[i].n;})),'bias-sorter.png','Mon Bias Sorter','Voici mon classement des 7 sur Bangtan Atlas !');};
 })();
 </script>
 </body>
